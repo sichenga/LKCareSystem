@@ -14,6 +14,11 @@ const router = createRouter({
         isHide: true
       },
       component: () => import('@/views/error/Error-404.vue')
+    },
+    {
+      path: '/home',
+      name: 'home',
+      component: () => import('@/views/home/HomeView.vue')
     }
   ]
 })
