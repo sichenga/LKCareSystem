@@ -16,9 +16,9 @@ const router = createRouter({
       component: () => import('@/views/error/Error-404.vue')
     },
     {
-      path: '/home',
-      name: 'home',
-      component: () => import('@/views/home/HomeView.vue')
+      path: '/dashboard',
+      name: 'dashboard',
+      component: () => import('@/views/dashboard/DashBoard.vue')
     }
   ]
 })
