@@ -18,11 +18,11 @@ import { reactive, defineProps, watch, ref, defineEmits } from 'vue'
 import type { PaginationConfig } from '@/Type/pagination'
 // const locale = zhCn
 const emit = defineEmits(['page', 'psize'])
-let layout = ref('total,  prev, pager, next,sizes, jumper')
+let layout = 'total,  prev, pager, next,sizes'
 let data = reactive<PaginationConfig>({
   page: 1,
   psize: 5,
-  total: 30
+  total: 0
 })
 const props = defineProps({
   page: {
