@@ -20,11 +20,31 @@ const router = createRouter({
       name: 'home',
       component: () => import('@/views/home/HomeView.vue')
     },
+
     {
-      path: '/ManagementView',
-      name: 'ManagementView',
-      component: () => import('@/views/account/ManagementView.vue')
+      path: '/dashboard',
+      name: 'dashboard',
+      component: () => import('@/views/dashboard/DashBoard.vue'),
+      children: [
+        {
+          path: 'ManagementView',
+          name: 'ManagementView',
+          component: () => import('@/views/account/ManagementView.vue')
+        },
+        {
+          path: 'RoleView',
+          name: 'RoleView',
+          component: () => import('@/views/account/RoleView.vue')
+        },
+        {
+          path: 'SettingsView',
+          name: 'SettingsView',
+          component: () => import('@/views/account/SettingsView.vue')
+        },
+        
+      ]
     }
+
   ]
 })
 
