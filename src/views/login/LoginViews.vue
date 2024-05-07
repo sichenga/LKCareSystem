@@ -26,8 +26,8 @@
                 </template>
               </el-input>
             </el-form-item>
-            <el-form-item prop="name">
-              <el-input v-model="ruleForm.name">
+            <el-form-item prop="pass">
+              <el-input v-model="ruleForm.pass">
                 <template #prefix>
                   <el-icon><Lock /></el-icon>
                 </template>
@@ -37,7 +37,12 @@
               <span>忘记密码?</span>
             </el-form-item>
             <el-form-item>
-              <el-button type="success" style="width: 100%; height: 45px">登录</el-button>
+              <el-button
+                type="success"
+                style="width: 100%; height: 45px"
+                @click="submitForm(ruleFormRef)"
+                >登录</el-button
+              >
             </el-form-item>
           </el-form>
         </div>
@@ -57,9 +62,21 @@ import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
 const formSize = ref<ComponentSize>('default')
 const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive<any>({
-  name: ''
+  name: '',
+  pass: ''
 })
-const rules = reactive<FormRules<any>>({})
+const rules = reactive<FormRules<any>>({
+  name: [{ required: true, message: '请输入账号', trigger: 'blur' }],
+  pass: [{ required: true, message: '请输入密码', trigger: 'blur' }]
+})
+// 登录
+const submitForm = async (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+  let valid = await formEl.validate()
+  if (valid) {
+    console.log(1111)
+  }
+}
 </script>
 <style lang="less" scoped>
 .el-container {
