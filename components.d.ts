@@ -26,6 +26,8 @@ declare module 'vue' {
     ElTable: typeof import('element-plus/es')['ElTable']
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
     LeftMenu: typeof import('./src/components/menu/LeftMenu.vue')['default']
+    MayPagination: typeof import('./src/components/pagination/MayPagination.vue')['default']
+    MayTable: typeof import('./src/components/table/MayTable.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TopMenu: typeof import('./src/components/menu/TopMenu.vue')['default']
