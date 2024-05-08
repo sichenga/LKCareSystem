@@ -95,7 +95,7 @@ const close = () => {
 // 删除
 const del = async () => {
   let res = await getMessageBox('是否确认删除该角色', '删除后将不可恢复')
-  console.log(1111, res)
+  console.log(11112, res)
   if (res) {
     ElMessage.success('删除成功')
   } else {

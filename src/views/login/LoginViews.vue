@@ -11,25 +11,23 @@
             <span>账号登录</span>
             <el-image style="width: 100px; height: 100px" :src="code" class="code" />
           </div>
-          <el-form
-            ref="ruleFormRef"
-            :model="ruleForm"
-            :rules="rules"
-            class="demo-ruleForm"
-            :size="formSize"
-            status-icon
-          >
+          <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" class="demo-ruleForm" :size="formSize"
+            status-icon>
             <el-form-item prop="name">
               <el-input v-model="ruleForm.name">
                 <template #prefix>
-                  <el-icon><User /></el-icon>
+                  <el-icon>
+                    <User />
+                  </el-icon>
                 </template>
               </el-input>
             </el-form-item>
             <el-form-item prop="pass">
               <el-input v-model="ruleForm.pass">
                 <template #prefix>
-                  <el-icon><Lock /></el-icon>
+                  <el-icon>
+                    <Lock />
+                  </el-icon>
                 </template>
               </el-input>
             </el-form-item>
@@ -37,12 +35,8 @@
               <span>忘记密码?</span>
             </el-form-item>
             <el-form-item>
-              <el-button
-                type="success"
-                style="width: 100%; height: 45px"
-                @click="submitForm(ruleFormRef)"
-                >登录</el-button
-              >
+              <el-button type="success" style="width: 100%; height: 45px"
+                @click="submitForm(ruleFormRef)">登录</el-button>
             </el-form-item>
           </el-form>
         </div>
@@ -83,6 +77,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   width: 100%;
   height: 100%;
 }
+
 .el-header {
   height: 100px;
   display: flex;
@@ -95,9 +90,11 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   justify-content: center;
   align-items: center;
   background-color: #eeeeee;
+
   .card {
     width: 80%;
     height: 550px;
+
     :deep(.el-card__body) {
       width: 100%;
       height: 100%;
@@ -105,18 +102,22 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       display: flex;
       align-items: center;
     }
+
     .right {
       width: 30%;
       height: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;
+
       .el-form {
         width: 80%;
+
         .el-input {
           height: 45px;
         }
       }
+
       .title {
         width: 100%;
         height: 100px;
@@ -124,11 +125,13 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         text-align: center;
         position: relative;
         margin-bottom: 20px;
+
         .code {
           position: absolute;
           right: 5px;
           top: 5px;
         }
+
         span {
           font-size: 20px;
           font-weight: bold;
@@ -145,10 +148,12 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   align-items: center;
   font-size: 16px;
 }
+
 .btn {
   :deep(.el-form-item__content) {
     width: 100%;
     flex-direction: row-reverse;
+
     span {
       // 变小手
       cursor: pointer;

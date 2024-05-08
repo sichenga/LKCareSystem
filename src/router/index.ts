@@ -56,10 +56,60 @@ const router = createRouter({
           component: () => import('@/views/food/ReceivedView.vue')
         },
         {
+          path: 'home',
+          name: 'HomeView',
+          component: () => import('@/views/home/HomeView.vue')
+        },
+        {
           path: 'affiliated',
           name: 'affiliated',
           component: () => import('@/views/affiliated/AffiliatedView.vue')
-        }
+        },
+        {
+          path: 'account',
+          name: 'Account',
+          component: () => import('@/views/account/AccountViews.vue')
+        },
+        {
+          path: 'role',
+          name: 'Role',
+          component: () => import('@/views/role/RoleViews.vue')
+        },
+        {
+          path: 'organization',
+          name: 'Organization',
+          component: () => import('@/views/organization/OrganizationViews.vue')
+        },
+        {
+          path:'organizationAdd',
+          name:'OrganizationAdd',
+          component:()=>import('@/views/organization/OrganizationAdd.vue')
+        },
+        {
+          path:'purchase',
+          name:'Purchase',
+          component:()=>import('@/views/purchase/PurchaseViews.vue')
+        },
+        {
+          path: 'teskboard',
+          name: 'Teskboard',
+          component: () => import('@/views/task/TeskboardView.vue')
+        },
+        {
+          path:'apply',
+          name:'Apply',
+          component:()=>import('@/views/purchase/ApplyViews.vue')
+        },
+        {
+          path:'examine',
+          name:'Examine',
+          component:()=>import('@/views/purchase/ExamineViews.vue')
+        },
+        {
+          path:'particulars',
+          name:'Particulars',
+          component:()=>import('@/views/purchase/ParticularsViews.vue')
+        },
       ]
     }
   ]
