@@ -16,11 +16,13 @@
     "axios": "^1.6.8",
     "echarts": "^5.5.0",
     "element-plus": "2.5",
+    "file-saver": "^2.0.5",
     "less": "^4.2.0",
     "pinia": "^2.1.7",
     "pinia-plugin-persistedstate": "^3.2.1",
     "vue": "^3.4.21",
-    "vue-router": "^4.3.0"
+    "vue-router": "^4.3.0",
+    "xlsx": "^0.17.0"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.8.0",

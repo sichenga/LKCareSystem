@@ -8,6 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AffDialog: typeof import('./src/components/dialog/AffDialog.vue')['default']
+    BedDialog: typeof import('./src/components/dialog/BedDialog.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElAvatar: typeof import('element-plus/es')['ElAvatar']
     ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb']
@@ -17,6 +18,7 @@ declare module 'vue' {
     ElCheckbox: typeof import('element-plus/es')['ElCheckbox']
     ElCheckboxGroup: typeof import('element-plus/es')['ElCheckboxGroup']
     ElContainer: typeof import('element-plus/es')['ElContainer']
+    ElDatePicker: typeof import('element-plus/es')['ElDatePicker']
     ElDescriptions: typeof import('element-plus/es')['ElDescriptions']
     ElDescriptionsItem: typeof import('element-plus/es')['ElDescriptionsItem']
     ElDialog: typeof import('element-plus/es')['ElDialog']
@@ -30,13 +32,18 @@ declare module 'vue' {
     ElOption: typeof import('element-plus/es')['ElOption']
     ElPagination: typeof import('element-plus/es')['ElPagination']
     ElSelect: typeof import('element-plus/es')['ElSelect']
+    ElStep: typeof import('element-plus/es')['ElStep']
+    ElSteps: typeof import('element-plus/es')['ElSteps']
     ElTable: typeof import('element-plus/es')['ElTable']
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
     LeftMenu: typeof import('./src/components/menu/LeftMenu.vue')['default']
+    LocationDialog: typeof import('./src/components/dialog/LocationDialog.vue')['default']
     MayPagination: typeof import('./src/components/pagination/MayPagination.vue')['default']
     MayTable: typeof import('./src/components/table/MayTable.vue')['default']
+    MayTimePicker: typeof import('./src/components/timepicker/MayTimePicker.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    TimePicker: typeof import('./src/components/timepicker/TimePicker.vue')['default']
     TopMenu: typeof import('./src/components/menu/TopMenu.vue')['default']
   }
 }
