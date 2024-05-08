@@ -17,7 +17,7 @@
       :label="item.label"
       :width="item.width"
     />
-    <el-table-column label="操作" width="180">
+    <el-table-column label="操作" width="260">
       <template v-slot="scope">
         <slot name="operate" :data="scope.row"></slot>
       </template>
