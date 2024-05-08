@@ -17,7 +17,7 @@
         <slot name="custom" :data="scope.row"></slot>
       </template>
     </el-table-column>
-    <el-table-column label="操作" width="260">
+    <el-table-column label="操作" width="260" >
       <template v-slot="scope">
         <slot name="operate" :data="scope.row"></slot>
       </template>

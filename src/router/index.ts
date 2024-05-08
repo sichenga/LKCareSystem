@@ -60,6 +60,11 @@ const router = createRouter({
           path: 'teskboard',
           name: 'Teskboard',
           component: () => import('@/views/task/TeskboardView.vue')
+        },
+        {
+          path:'taskinfo',
+          name:'Taskinfo',
+          component:()=>import('@/views/task/TaskInfo.vue')
         }
       ]
     }

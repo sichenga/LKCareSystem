@@ -34,19 +34,37 @@
         >
       </div>
       <!-- 展示 -->
-      <div class="tasklist">
-        
-      </div>
+    </div>
+    <div class="tasklist">
+      <el-card
+        class="itemtask"
+        v-for="(item, index) in data.teskdata"
+        :key="index"
+        @click="taskinfo"
+      >
+        <div class="title">
+          <span>{{ item.name }}</span>
+          <el-avatar :size="35" :src="circleUrl" />
+        </div>
+        <span class="state" :style="item.state === 2 ? 'color:#78f7f9' : 'color:red'">{{
+          item.statename
+        }}</span>
+        <span class="time">截至日期：2020-02-02：16：00</span>
+      </el-card>
     </div>
   </el-card>
 </template>
 <script lang="ts" setup>
 import { ref, reactive, onMounted } from 'vue'
+import Teskboard from '@/database/Teskboard.json'
+import { useRouter } from 'vue-router'
+const router = useRouter()
 const formInline = reactive({
   user: '',
   region: '',
   date: ''
 })
+const circleUrl = ref('https://s21.ax1x.com/2024/05/08/pkVm8qH.jpg')
 const istask = ref(0)
 const statelist = ref([
   { label: '未开始', value: '0' },
@@ -71,11 +89,27 @@ const tasklist = [
     num: 10
   }
 ]
-
+const data = reactive({
+  teskdata: [] as any
+})
 // 选择标签
 const change = (index: number) => {
   istask.value = index
 }
+// 数据
+const tesklist = () => {
+  setTimeout(() => {
+    data.teskdata = Teskboard
+    console.log(data.teskdata)
+  }, 500)
+}
+// 跳转详情
+const taskinfo = () => {
+  router.push('/dashboard/taskinfo')
+}
+onMounted(() => {
+  tesklist()
+})
 </script>
 <style lang="less" scoped>
 .taskoption {
@@ -97,9 +131,41 @@ const change = (index: number) => {
     cursor: pointer;
   }
 }
-.tasklist{
+.tasklist {
   width: 100%;
-
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  .itemtask {
+    width: 340px;
+    height: 170px;
+    margin-right: 15px;
+    margin-bottom: 15px;
+    background-color: #ececec;
+    // 变小手
+    cursor: pointer;
+    padding-bottom: 15px;
+    :deep(.el-card__body) {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 16px;
+    }
+    .state {
+      font-size: 14px;
+    }
+    .time {
+      font-size: 12px;
+      color: #ccc;
+    }
+  }
 }
 // 选择
 .select {
