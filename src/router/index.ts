@@ -25,6 +25,32 @@ const router = createRouter({
           name: 'HomeView',
           component: () => import('@/views/home/HomeView.vue')
         },
+        {
+          path:'affiliated',
+          name:'affiliated',
+          component:()=>import('@/views/affiliated/AffiliatedView.vue')
+        },
+        {
+          path:'account',
+          name:'Account',
+          component:()=>import('@/views/account/AccountViews.vue')
+        },
+        {
+          path:'role',
+          name:'Role',
+          component:()=>import('@/views/role/RoleViews.vue')
+        },
+        {
+          path:'organization',
+          name:'Organization',
+          component:()=>import('@/views/organization/OrganizationViews.vue')
+        },
+        {
+          path:'organizationAdd',
+          name:'OrganizationAdd',
+          component:()=>import('@/views/organization/OrganizationAdd.vue')
+        }
+        
       ]
     }
   ]
