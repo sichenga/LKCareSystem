@@ -1,7 +1,8 @@
 <template>
-  <!-- 食材管理 -->
+  <!-- 供应商管理 -->
   <div class="box">
-    <el-button type="primary">新增</el-button>
+    <el-button type="primary" @click="isdialog = true" >新增</el-button>
+    <SupplierDialog @close="close" v-if="isdialog"></SupplierDialog>
     <!-- 表格 -->
     <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
       <template #operate>
@@ -15,10 +16,14 @@
 </template>
 
 <script lang='ts' setup>
-import { reactive, onMounted, defineAsyncComponent } from 'vue'
+import { ref,reactive, onMounted, defineAsyncComponent } from 'vue'
+import { getMessageBox } from '@/utils/utils'
+import { ElMessage } from 'element-plus'
+import SupplierDialog from '@/components/dialog/SupplierDialog.vue'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
 import SupplierView from '@/database/SupplierView.json'
+const isdialog = ref(false)
 const data = reactive({
   tableData: [] as any,
   tableItem: [
@@ -49,16 +54,28 @@ const getlist = () => {
     data.tableData = SupplierView
   }, 1000)
 }
+// 关闭弹窗
+const close = () => {
+  isdialog.value = false
+}
 onMounted(() => {
   getlist()
 })
 // 编辑
 const handleEdit = ((id: any) => {
   console.log('编辑', id);
+  isdialog.value=true
 })
 // 删除
-const handleDelete = ((id: any) => {
+const handleDelete = (async(id: any) => {
   console.log('删除', id);
+    let res = await getMessageBox('是否确认删除该角色', '删除后将不可恢复')
+    console.log(11112, res)
+    if (res) {
+        ElMessage.success('删除成功')
+    } else {
+        ElMessage.info('取消删除')
+    }
 })
 </script>
 

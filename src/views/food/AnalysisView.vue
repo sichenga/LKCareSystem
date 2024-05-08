@@ -42,14 +42,20 @@
          </div>
       </div>
       <!-- 表格 -->
-      <MayTable :tableData="data.tableData" :tableItem="data.tableItem"></MayTable>
+      <MayTable :tableData="data.tableData" :tableItem="data.tableItem" :isoperate="false" ></MayTable>
    </div>
+   <!-- 返回 -->
+   <div class="back">
+        <el-button @click="back">返回</el-button>
+    </div>
 </template>
 
 <script lang='ts' setup>
 import { reactive, toRefs, ref, onMounted, defineAsyncComponent } from 'vue'
 import ECharts from "@/components/food/ECharts.vue"
 import AnalysisView from '@/database/Analysas.json'
+import { useRouter } from 'vue-router'
+const router = useRouter();
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const formInline = reactive({
    region: '',
@@ -87,7 +93,9 @@ const getlist = () => {
 onMounted(() => {
    getlist()
 })
-
+const back=(()=>{
+   router.push("/dashboard/food")
+})
 </script>
 
 <style scoped lang="less">
@@ -137,6 +145,14 @@ onMounted(() => {
          line-height: 115px;
       }
    }
+}
+.back {
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 50px;
 }
 </style>
 
