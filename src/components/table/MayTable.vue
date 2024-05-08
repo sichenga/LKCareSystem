@@ -1,14 +1,9 @@
 <template>
-  <el-table
-    :data="props.tableData"
-    border
-    style="width: 100%"
-    :header-cell-style="{
-      background: '#f9f9f9',
-      color: '#000000',
-      height: '50px'
-    }"
-  >
+  <el-table :data="props.tableData" border style="width: 100%" :header-cell-style="{
+    background: '#f9f9f9',
+    color: '#000000',
+    height: '50px'
+  }">
     <el-table-column type="selection" width="55" v-if="isMultiple" />
     <el-table-column
       v-for="(item, index) in props.tableItem"
@@ -17,13 +12,11 @@
       :label="item.label"
       :width="item.width"
     />
-    
-    <el-table-column>
+    <el-table-column :label="props.label">
       <template v-slot="scope">
-        <slot name="operate" :data="scope.row"></slot>
+        <slot name="custom" :data="scope.row"></slot>
       </template>
     </el-table-column>
-
     <el-table-column label="操作" width="260">
       <template v-slot="scope">
         <slot name="operate" :data="scope.row"></slot>
@@ -51,6 +44,10 @@ const props = defineProps({
   },
   // 标识
   identifier: {
+    type: String,
+    default: ''
+  },
+  label: {
     type: String,
     default: ''
   }
