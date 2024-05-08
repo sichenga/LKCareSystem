@@ -65,7 +65,22 @@ const router = createRouter({
           path: 'teskboard',
           name: 'Teskboard',
           component: () => import('@/views/task/TeskboardView.vue')
-        }
+        },
+        {
+          path:'apply',
+          name:'Apply',
+          component:()=>import('@/views/purchase/ApplyViews.vue')
+        },
+        {
+          path:'examine',
+          name:'Examine',
+          component:()=>import('@/views/purchase/ExamineViews.vue')
+        },
+        {
+          path:'particulars',
+          name:'Particulars',
+          component:()=>import('@/views/purchase/ParticularsViews.vue')
+        },
       ]
     }
   ]
