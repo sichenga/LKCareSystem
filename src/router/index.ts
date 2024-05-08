@@ -38,8 +38,8 @@ const router = createRouter({
           component: () => import('@/views/account/ManagementView.vue')
         },
         {
-          path: 'Role',
-          name: 'Role',
+          path: 'RoleView',
+          name: 'RoleView',
           component: () => import('@/views/account/RoleView.vue')
         },
         {
@@ -51,6 +51,11 @@ const router = createRouter({
           path: 'Bed',
           name: 'Bed',
           component: () => import('@/views/examine/BedView.vue')
+        },
+        {
+          path: 'Details',
+          name: 'Details',
+          component: () => import('@/views/examine/DetailsView.vue')
         },
         {
           path:'affiliated',

@@ -33,7 +33,7 @@
         <!-- 表格 -->
         <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
             <template #operate>
-                <el-button type="primary" text>审批</el-button>
+                <el-button type="primary" text @click="approve">审批</el-button>
                 <el-button type="primary" text>详情</el-button>
             </template>
         </MayTable>
@@ -46,6 +46,8 @@ import { reactive, defineAsyncComponent, onMounted } from 'vue'
 import BedView from '@/database/BedView.json'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
+import { useRouter } from 'vue-router';
+const router = useRouter();
 const formInline = reactive({
     oldname: '',
     idcard: '',
@@ -96,6 +98,12 @@ const data = reactive({
 
     ]
 })
+//跳转
+const approve = () => {
+    router.push({
+        path: '/dashboard/Details'
+    })
+}
 const getlist = () => {
     setTimeout(() => {
         data.tableData = BedView
