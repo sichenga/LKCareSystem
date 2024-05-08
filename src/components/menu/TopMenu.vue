@@ -1,7 +1,10 @@
 <template>
   <div class="top">
     <div class="left">
-      <el-icon @click="change"><Fold /></el-icon>
+      <el-icon @click="change">
+        <Fold v-if="!apperStore.statechange" />
+        <Expand v-else />
+      </el-icon>
       <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
       </el-breadcrumb>
@@ -21,7 +24,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, onMounted } from 'vue'
-import { Fold, SwitchButton } from '@element-plus/icons-vue'
+import { Fold, SwitchButton, Expand } from '@element-plus/icons-vue'
 import { useApperStore } from '@/stores'
 const apperStore = useApperStore()
 // 头像

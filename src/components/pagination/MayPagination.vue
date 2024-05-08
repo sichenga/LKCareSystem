@@ -6,7 +6,7 @@
       :page-sizes="[5, 10, 15, 20]"
       :small="false"
       :background="true"
-      :layout="layout"
+      :layout="'total,  prev, pager, next,jumper,sizes'"
       :total="data.total"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
@@ -18,7 +18,7 @@ import { reactive, defineProps, watch, ref, defineEmits } from 'vue'
 import type { PaginationConfig } from '@/Type/pagination'
 // const locale = zhCn
 const emit = defineEmits(['page', 'psize'])
-let layout = 'total,  prev, pager, next,sizes'
+// let layout = 'total,  prev, pager, next,sizes'
 let data = reactive<PaginationConfig>({
   page: 1,
   psize: 5,

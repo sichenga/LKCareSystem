@@ -5,12 +5,15 @@ export const useApperStore = defineStore(
   () => {
     // 菜单状态切换
     const statechange = ref(false)
+    // 菜单改变样式
+    const statestyle = ref('')
     // 菜单状态切换
     const menuStatechange = () => {
       statechange.value = !statechange.value
     }
     return {
       statechange,
+      statestyle,
       menuStatechange
     }
   },
