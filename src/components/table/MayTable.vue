@@ -17,7 +17,7 @@
       :label="item.label"
       :width="item.width"
     />
-    <el-table-column label="操作" width="180">
+    <el-table-column label="操作" width="240">
       <template v-slot="scope">
         <slot name="operate" :data="scope.row"></slot>
       </template>
@@ -25,7 +25,7 @@
   </el-table>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, defineProps } from 'vue'
+import {  defineProps } from 'vue'
 import type { PropType } from 'vue'
 import type { TableItem } from '@/Type/table'
 const props = defineProps({

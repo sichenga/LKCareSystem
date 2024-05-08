@@ -32,13 +32,18 @@ const router = createRouter({
         },
         {
           path: 'Analysis',
-          name: 'AnalysisView',
+          name: 'Analysis',
           component: () => import('@/views/food/AnalysisView.vue')
         },
         {
           path: 'supplier',
-          name: 'SupplierView',
+          name: 'Supplier',
           component: () => import('@/views/food/SupplierView.vue')
+        },
+        {
+          path: 'purchasing',
+          name: 'Purchasing',
+          component: () => import('@/views/food/PurchasingView.vue')
         },
         {
           path: 'affiliated',

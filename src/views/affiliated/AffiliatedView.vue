@@ -28,7 +28,7 @@
   </el-card>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
+import {  reactive, onMounted, defineAsyncComponent } from 'vue'
 import AffiliatedView from '@/database/AffiliatedView.json'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
