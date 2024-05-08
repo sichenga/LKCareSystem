@@ -20,12 +20,41 @@ const router = createRouter({
       name: 'home',
       component: () => import('@/views/home/HomeView.vue')
     },
-
     {
       path: '/dashboard',
       name: 'dashboard',
       component: () => import('@/views/dashboard/DashBoard.vue'),
       children: [
+        {
+          path: 'food',
+          name: 'food',
+          component: () => import('@/views/food/FoodView.vue')
+        },
+        {
+          path: 'Analysis',
+          name: 'Analysis',
+          component: () => import('@/views/food/AnalysisView.vue')
+        },
+        {
+          path: 'supplier',
+          name: 'Supplier',
+          component: () => import('@/views/food/SupplierView.vue')
+        },
+        {
+          path: 'purchasing',
+          name: 'Purchasing',
+          component: () => import('@/views/food/PurchasingView.vue')
+        },
+        {
+          path: 'receiving',
+          name: 'receiving',
+          component: () => import('@/views/food/ReceivingView.vue')
+        },
+        {
+          path: 'received',
+          name: 'received',
+          component: () => import('@/views/food/ReceivedView.vue')
+        },
         {
           path: 'home',
           name: 'HomeView',
