@@ -12,12 +12,14 @@
       :label="item.label"
       :width="item.width"
     />
-    <el-table-column :label="props.label">
+    <!-- 是否有input框 -->
+    <el-table-column :label="props.label" v-if="props.label">
       <template v-slot="scope">
         <slot name="custom" :data="scope.row"></slot>
       </template>
     </el-table-column>
-    <el-table-column label="操作" width="260" >
+    
+    <el-table-column label="操作" width="330" v-if="props.isoperate">
       <template v-slot="scope">
         <slot name="operate" :data="scope.row"></slot>
       </template>
@@ -50,6 +52,10 @@ const props = defineProps({
   label: {
     type: String,
     default: ''
+  },
+  isoperate:{
+    type: Boolean,
+    default: true
   }
 })
 </script>

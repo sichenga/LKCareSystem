@@ -52,9 +52,14 @@ const router = createRouter({
           component: () => import('@/views/organization/OrganizationViews.vue')
         },
         {
-          path: 'organizationAdd',
-          name: 'OrganizationAdd',
-          component: () => import('@/views/organization/OrganizationAdd.vue')
+          path:'organizationAdd',
+          name:'OrganizationAdd',
+          component:()=>import('@/views/organization/OrganizationAdd.vue')
+        },
+        {
+          path:'purchase',
+          name:'Purchase',
+          component:()=>import('@/views/purchase/PurchaseViews.vue')
         },
         {
           path: 'teskboard',
@@ -62,10 +67,20 @@ const router = createRouter({
           component: () => import('@/views/task/TeskboardView.vue')
         },
         {
-          path:'taskinfo',
-          name:'Taskinfo',
-          component:()=>import('@/views/task/TaskInfo.vue')
-        }
+          path:'apply',
+          name:'Apply',
+          component:()=>import('@/views/purchase/ApplyViews.vue')
+        },
+        {
+          path:'examine',
+          name:'Examine',
+          component:()=>import('@/views/purchase/ExamineViews.vue')
+        },
+        {
+          path:'particulars',
+          name:'Particulars',
+          component:()=>import('@/views/purchase/ParticularsViews.vue')
+        },
       ]
     }
   ]
