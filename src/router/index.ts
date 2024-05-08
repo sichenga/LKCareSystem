@@ -20,21 +20,76 @@ const router = createRouter({
       name: 'home',
       component: () => import('@/views/home/HomeView.vue')
     },
-
     {
       path: '/dashboard',
       name: 'dashboard',
       component: () => import('@/views/dashboard/DashBoard.vue'),
       children: [
         {
+          path: 'food',
+          name: 'food',
+          component: () => import('@/views/food/FoodView.vue')
+        },
+        {
+          path: 'Analysis',
+          name: 'Analysis',
+          component: () => import('@/views/food/AnalysisView.vue')
+        },
+        {
+          path: 'supplier',
+          name: 'Supplier',
+          component: () => import('@/views/food/SupplierView.vue')
+        },
+        {
+          path: 'purchasing',
+          name: 'Purchasing',
+          component: () => import('@/views/food/PurchasingView.vue')
+        },
+        {
+          path: 'receiving',
+          name: 'receiving',
+          component: () => import('@/views/food/ReceivingView.vue')
+        },
+        {
+          path: 'received',
+          name: 'received',
+          component: () => import('@/views/food/ReceivedView.vue')
+        },
+        {
           path: 'home',
           name: 'HomeView',
           component: () => import('@/views/home/HomeView.vue')
         },
         {
-          path: 'affiliated',
-          name: 'affiliated',
-          component: () => import('@/views/affiliated/AffiliatedView.vue')
+
+          path: 'Management',
+          name: 'Management',
+          component: () => import('@/views/account/ManagementView.vue')
+        },
+        {
+          path: 'RoleView',
+          name: 'RoleView',
+          component: () => import('@/views/account/RoleView.vue')
+        },
+        {
+          path: 'Settings',
+          name: 'Settings',
+          component: () => import('@/views/account/SettingsView.vue')
+        },
+        {
+          path: 'Bed',
+          name: 'Bed',
+          component: () => import('@/views/examine/BedView.vue')
+        },
+        {
+          path: 'Details',
+          name: 'Details',
+          component: () => import('@/views/examine/DetailsView.vue')
+        },
+        {
+          path:'affiliated',
+          name:'affiliated',
+          component:()=>import('@/views/affiliated/AffiliatedView.vue')
         },
         {
           path: 'account',
