@@ -17,6 +17,13 @@
       :label="item.label"
       :width="item.width"
     />
+    
+    <el-table-column>
+      <template v-slot="scope">
+        <slot name="operate" :data="scope.row"></slot>
+      </template>
+    </el-table-column>
+
     <el-table-column label="操作" width="260">
       <template v-slot="scope">
         <slot name="operate" :data="scope.row"></slot>

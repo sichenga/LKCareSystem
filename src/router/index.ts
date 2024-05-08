@@ -49,7 +49,12 @@ const router = createRouter({
           path:'organizationAdd',
           name:'OrganizationAdd',
           component:()=>import('@/views/organization/OrganizationAdd.vue')
-        }
+        },
+        {
+          path:'purchase',
+          name:'Purchase',
+          component:()=>import('@/views/purchase/PurchaseViews.vue')
+        },
         
       ]
     }

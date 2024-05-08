@@ -34,6 +34,7 @@ declare module 'vue' {
     LeftMenu: typeof import('./src/components/menu/LeftMenu.vue')['default']
     MayPagination: typeof import('./src/components/pagination/MayPagination.vue')['default']
     MayTable: typeof import('./src/components/table/MayTable.vue')['default']
+    PurchaseTable: typeof import('./src/components/table/PurchaseTable.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TopMenu: typeof import('./src/components/menu/TopMenu.vue')['default']
