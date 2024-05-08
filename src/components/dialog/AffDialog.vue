@@ -1,15 +1,7 @@
 <template>
   <el-dialog v-model="dialogVisible" title="新增机构" width="500" @close="close">
-    <el-form
-      ref="ruleFormRef"
-      style="max-width: 600px"
-      :model="ruleForm"
-      :rules="rules"
-      label-width="auto"
-      class="demo-ruleForm"
-      :size="formSize"
-      status-icon
-    >
+    <el-form ref="ruleFormRef" style="max-width: 600px" :model="ruleForm" :rules="rules" label-width="auto"
+      class="demo-ruleForm" :size="formSize" status-icon>
       <el-form-item label="机构名称：" prop="name">
         <el-input v-model="ruleForm.name" />
       </el-form-item>

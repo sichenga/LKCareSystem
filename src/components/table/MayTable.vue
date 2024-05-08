@@ -1,14 +1,9 @@
 <template>
-  <el-table
-    :data="props.tableData"
-    border
-    style="width: 100%"
-    :header-cell-style="{
-      background: '#f9f9f9',
-      color: '#000000',
-      height: '50px'
-    }"
-  >
+  <el-table :data="props.tableData" border style="width: 100%" :header-cell-style="{
+    background: '#f9f9f9',
+    color: '#000000',
+    height: '50px'
+  }">
     <el-table-column type="selection" width="55" v-if="isMultiple" />
     <el-table-column
       v-for="(item, index) in props.tableItem"
