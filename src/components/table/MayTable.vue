@@ -5,9 +5,21 @@
     height: '50px'
   }">
     <el-table-column type="selection" width="55" v-if="isMultiple" />
-    <el-table-column v-for="(item, index) in props.tableItem" :key="index" :prop="item.prop" :label="item.label"
-      :width="item.width" />
-    <el-table-column label="操作" width="180">
+    <el-table-column
+      v-for="(item, index) in props.tableItem"
+      :key="index"
+      :prop="item.prop"
+      :label="item.label"
+      :width="item.width"
+    />
+    <!-- 是否有input框 -->
+    <el-table-column :label="props.label" v-if="props.label">
+      <template v-slot="scope">
+        <slot name="custom" :data="scope.row"></slot>
+      </template>
+    </el-table-column>
+    
+    <el-table-column label="操作" width="330" v-if="props.isoperate">
       <template v-slot="scope">
         <slot name="operate" :data="scope.row"></slot>
       </template>
@@ -36,6 +48,14 @@ const props = defineProps({
   identifier: {
     type: String,
     default: ''
+  },
+  label: {
+    type: String,
+    default: ''
+  },
+  isoperate:{
+    type: Boolean,
+    default: true
   }
 })
 </script>
