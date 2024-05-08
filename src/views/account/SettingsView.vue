@@ -12,22 +12,22 @@
 
 
         </div>
-        <el-form ref="ruleFormRef" style="max-width: 600px" :model="ruleForm" label-width="auto" class="demo-ruleForm"
+        <el-form ref="ruleFormRef" :model="ruleForm" label-width="auto" class="demo-ruleForm"
             :size="formSize" status-icon>
             <el-form-item label="姓名">
                 <el-input class="custom-input" v-model="ruleForm.name" />
             </el-form-item>
             <el-form-item label="手机号">
-                <el-input class="custom-input" v-model="ruleForm.tel" />
+                <el-input class="custom-inputtel" v-model="ruleForm.tel" />
             </el-form-item>
             <el-form-item label="账号">
                 <el-input class="custom-input" v-model="ruleForm.account" />
             </el-form-item>
             <el-form-item label="密码">
-                <el-input class="custom-input" v-model="ruleForm.pass" /> <span style="color: #409EFF;">修改密码</span>
+                <el-input class="custom-pass" v-model="ruleForm.pass" /> <span style="color:#75a5ea ; font-size: 12px;">修改密码</span>
             </el-form-item>
             <el-form-item label="所属角色">
-                <el-input class="custom-input" v-model="ruleForm.role" />
+                <el-input class="custom-inputrole" v-model="ruleForm.role" />
             </el-form-item>
 
 
@@ -77,7 +77,7 @@ const ruleForm = reactive<RuleForm>({
     .header {
         width: 50px;
         height: 50px;
-        margin-left: 10px;
+        margin-left: 20px;
         border-radius: 50%;
 
         img {
@@ -100,25 +100,40 @@ const ruleForm = reactive<RuleForm>({
     margin-top: 20px !important;
     margin-bottom: 20px !important;
 }
+:deep(.el-input__wrapper) {
+    box-shadow: 0 0 0 0px var(--el-input-border-color, var(--el-border-color)) inset;
+    cursor: default;
 
-
-.el-input {
-    width: 200px !important;
+    .el-input__inner {
+        cursor: default !important;
+    }
 }
-
-// :deep(.el-input__wrapper) {
-//     box-shadow: 0 0 0 0px var(--el-input-border-color, var(--el-border-color)) inset;
-//     cursor: default;
-
-//     .el-input__inner {
-//         cursor: default !important;
-//     }
-// }
 
 :deep .custom-input .el-input__inner {
     color: #c3c3c3;
 }
+
+:deep .custom-inputtel .el-input__inner {
+    color: #c3c3c3;
+}
+
+:deep .custom-inputrole .el-input__inner {
+    color: #c3c3c3;
+}
 :deep .asterisk-left .el-form-item__label-wrap {
     margin-left: 0 !important;
+}
+:deep .custom-pass .el-input__inner {
+    color: #c3c3c3;
+}
+.custom-inputtel {
+    margin-left: 10px;
+}
+.custom-input {
+    margin-left: 25px;
+}
+.custom-pass {
+    width: 100px !important;
+    margin-left: 25px;
 }
 </style>

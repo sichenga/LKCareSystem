@@ -1,7 +1,10 @@
 <template>
   <div class="top">
     <div class="left">
-      <el-icon><Fold /></el-icon>
+      <el-icon @click="change">
+        <Fold v-if="!apperStore.statechange" />
+        <Expand v-else />
+      </el-icon>
       <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
       </el-breadcrumb>
@@ -21,9 +24,16 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, onMounted } from 'vue'
-import { Fold, SwitchButton } from '@element-plus/icons-vue'
+import { Fold, SwitchButton, Expand } from '@element-plus/icons-vue'
+import { useApperStore } from '@/stores'
+const apperStore = useApperStore()
 // 头像
 const circleUrl = ref('https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png')
+// 左侧菜单状态切换
+const change = () => {
+  apperStore.menuStatechange()
+  console.log(1111, apperStore.statechange)
+}
 </script>
 <style lang="less" scoped>
 .top {
@@ -73,5 +83,7 @@ const circleUrl = ref('https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726
 }
 .el-icon {
   font-size: 20px;
+  // 变小手
+  cursor: pointer;
 }
 </style>
