@@ -27,6 +27,7 @@ const router = createRouter({
       component: () => import('@/views/dashboard/DashBoard.vue'),
       children: [
         {
+
           path: 'ManagementView',
           name: 'ManagementView',
           component: () => import('@/views/account/ManagementView.vue')
@@ -42,6 +43,11 @@ const router = createRouter({
           component: () => import('@/views/account/SettingsView.vue')
         },
         
+        {
+          path:'affiliated',
+          name:'affiliated',
+          component:()=>import('@/views/affiliated/AffiliatedView.vue')
+        }
       ]
     }
 

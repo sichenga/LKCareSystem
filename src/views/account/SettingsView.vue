@@ -1,52 +1,124 @@
 <template>
     <el-card style="max-width: 100%">
         <div class="headbox">
-            <!-- <span>头像</span><el-avatar :size="45" :src="circleUrl" /> -->
-            <div class="head">
-                头像
-            </div>
-            <div class="header">
-                <el-avatar :size="45" :src="circleUrl" />
-            </div>
-            <div class="replece">
-                更换头像
-            </div>
+            <el-form-item label="头像">
+                <div class="header">
+                    <img src="../../assets/image/1000.jpg" alt="">
+                </div>
+                <div class="replece">
+                    更换头像
+                </div>
+            </el-form-item>
+
+
         </div>
+        <el-form ref="ruleFormRef" style="max-width: 600px" :model="ruleForm" label-width="auto" class="demo-ruleForm"
+            :size="formSize" status-icon>
+            <el-form-item label="姓名">
+                <el-input class="custom-input" v-model="ruleForm.name" />
+            </el-form-item>
+            <el-form-item label="手机号">
+                <el-input class="custom-input" v-model="ruleForm.tel" />
+            </el-form-item>
+            <el-form-item label="账号">
+                <el-input class="custom-input" v-model="ruleForm.account" />
+            </el-form-item>
+            <el-form-item label="密码">
+                <el-input class="custom-input" v-model="ruleForm.pass" /> <span style="color: #409EFF;">修改密码</span>
+            </el-form-item>
+            <el-form-item label="所属角色">
+                <el-input class="custom-input" v-model="ruleForm.role" />
+            </el-form-item>
+
+
+        </el-form>
     </el-card>
 </template>
 
 <script lang="ts" setup>
-import { reactive, toRefs } from 'vue'
-const state = reactive({
-    circleUrl:
-        'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-    squareUrl:
-        'https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png',
-    sizeList: ['small', '', 'large'] as const,
+import { reactive, ref, toRefs } from 'vue'
+import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
+
+interface RuleForm {
+    name: string,
+    tel:string,
+    account:string,
+    pass:string,
+    role:string
+    
+}
+
+const formSize = ref<ComponentSize>('default')
+const ruleFormRef = ref<FormInstance>()
+const ruleForm = reactive<RuleForm>({
+    name: '张三',
+    tel :'17768089870',
+    account:'zhangsan',
+    pass:'123456',
+    role:'机构管理员'
 })
 
-const { circleUrl } = toRefs(state)
+
+
+
 </script>
 
 <style lang="less" scoped>
 .headbox {
     width: 300px;
     height: 50px;
-    background-color: aqua;
     display: flex;
-    .head {
-        line-height: 50px;
-        font-size: 12px;
+    margin-top: 30px;
+    // .head {
+    //     line-height: 50px;
+    //     font-size: 12px;
+    // }
+
+    .header {
+        width: 50px;
+        height: 50px;
+        margin-left: 10px;
+        border-radius: 50%;
+
+        img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
     }
-    .el-avatar {
-        margin-left: 30px;
-    }
+
     .replece {
-        color:#75a5ea ;
+        color: #75a5ea;
         line-height: 50px;
         font-size: 12px;
         padding-left: 30px;
+
     }
 }
 
+.el-form {
+    margin-top: 20px !important;
+    margin-bottom: 20px !important;
+}
+
+
+.el-input {
+    width: 200px !important;
+}
+
+// :deep(.el-input__wrapper) {
+//     box-shadow: 0 0 0 0px var(--el-input-border-color, var(--el-border-color)) inset;
+//     cursor: default;
+
+//     .el-input__inner {
+//         cursor: default !important;
+//     }
+// }
+
+:deep .custom-input .el-input__inner {
+    color: #c3c3c3;
+}
+:deep .asterisk-left .el-form-item__label-wrap {
+    margin-left: 0 !important;
+}
 </style>

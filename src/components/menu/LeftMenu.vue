@@ -7,11 +7,11 @@ import { ref, reactive, onMounted } from 'vue'
 <style lang="less" scoped>
 .title {
   width: 100%;
-  height: 50px;
+  height: 60px;
   background-color: blue;
   font-size: 18px;
   text-align: center;
-  line-height: 50px;
+  line-height: 60px;
   color: #fff;
 }
 </style>
