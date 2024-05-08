@@ -36,8 +36,8 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref, toRefs } from 'vue'
-import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
+import { reactive, ref,  } from 'vue'
+import type { ComponentSize, FormInstance,  } from 'element-plus'
 
 interface RuleForm {
     name: string,

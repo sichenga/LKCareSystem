@@ -61,9 +61,30 @@ const router = createRouter({
           component: () => import('@/views/home/HomeView.vue')
         },
         {
-          path: 'affiliated',
-          name: 'affiliated',
-          component: () => import('@/views/affiliated/AffiliatedView.vue')
+
+          path: 'Management',
+          name: 'Management',
+          component: () => import('@/views/account/ManagementView.vue')
+        },
+        {
+          path: 'Role',
+          name: 'Role',
+          component: () => import('@/views/account/RoleView.vue')
+        },
+        {
+          path: 'Settings',
+          name: 'Settings',
+          component: () => import('@/views/account/SettingsView.vue')
+        },
+        {
+          path: 'Bed',
+          name: 'Bed',
+          component: () => import('@/views/examine/BedView.vue')
+        },
+        {
+          path:'affiliated',
+          name:'affiliated',
+          component:()=>import('@/views/affiliated/AffiliatedView.vue')
         },
         {
           path: 'account',
