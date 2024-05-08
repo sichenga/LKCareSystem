@@ -4,32 +4,36 @@
       <el-form-item label="机构名称：">
         <el-input v-model="formInline.user" placeholder="请输入" clearable />
       </el-form-item>
-      <el-form-item label="管理姓名">
+      <el-form-item label="管理姓名：">
         <el-input v-model="formInline.user" placeholder="请输入" clearable />
       </el-form-item>
       <el-form-item>
         <el-button type="primary">查询</el-button>
-        <el-button>新增</el-button>
+        <el-button>查询</el-button>
       </el-form-item>
     </el-form>
   </el-card>
   <el-card style="margin-top: 15px">
     <div style="margin: 10px 0">
-      <el-button type="primary">查询</el-button>
+      <el-button type="primary" @click="isdialog = true">新增</el-button>
+      <AffDialog @close="close" v-if="isdialog"></AffDialog>
     </div>
     <!-- 表格 -->
     <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
       <template #operate>
         <el-button type="primary" text>修改</el-button>
-        <el-button type="primary" text>删除</el-button>
+        <el-button type="primary" text @click="del">删除</el-button>
       </template>
     </MayTable>
     <Pagination :total="50"></Pagination>
   </el-card>
 </template>
 <script lang="ts" setup>
-import {  reactive, onMounted, defineAsyncComponent } from 'vue'
+import {  ref,reactive, onMounted, defineAsyncComponent } from 'vue'
 import AffiliatedView from '@/database/AffiliatedView.json'
+import AffDialog from '@/components/dialog/AffDialog.vue'
+import { getMessageBox } from '@/utils/utils'
+import { ElMessage } from 'element-plus'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
 const formInline = reactive({
@@ -37,6 +41,7 @@ const formInline = reactive({
   region: '',
   date: ''
 })
+const isdialog = ref(false)
 const data = reactive({
   tableData: [] as any,
   tableItem: [
@@ -82,6 +87,20 @@ const getlist = () => {
   setTimeout(() => {
     data.tableData = AffiliatedView
   }, 1000)
+}
+// 关闭弹窗
+const close = () => {
+  isdialog.value = false
+}
+// 删除
+const del = async () => {
+  let res = await getMessageBox('是否确认删除该角色', '删除后将不可恢复')
+  console.log(1111, res)
+  if (res) {
+    ElMessage.success('删除成功')
+  } else {
+    ElMessage.info('取消删除')
+  }
 }
 onMounted(() => {
   getlist()

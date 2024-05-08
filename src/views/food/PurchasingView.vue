@@ -31,8 +31,8 @@
         <!-- 表格 -->
         <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
             <template #operate>
-                <el-button type="primary" size="small" link @click="handleEdit">编辑</el-button>
-                <el-button type="primary" size="small" link @click="handleDelete">删除</el-button>
+                <el-button type="primary" size="small" link @click="deliver">发货</el-button>
+                <el-button type="primary" size="small" link @click="details">查看详情</el-button>
             </template>
         </MayTable>
         <!-- 分页 -->
@@ -42,6 +42,8 @@
 
 <script lang='ts' setup>
 import { reactive, toRefs, ref, onMounted, defineAsyncComponent } from 'vue'
+import { useRouter } from 'vue-router'
+const router = useRouter();
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
 import PurchasingView from '@/database/PurchasingView.json'
@@ -86,13 +88,14 @@ const getlist = () => {
 onMounted(() => {
     getlist()
 })
-// 编辑
-const handleEdit = ((id: any) => {
-    console.log('编辑', id);
+// 发货
+const deliver = (() => {
+    console.log('发货');
 })
-// 删除
-const handleDelete = ((id: any) => {
-    console.log('删除', id);
+// 查看详情
+const details = (() => {
+    console.log('查看详情');
+    router.push("/dashboard/receiving")
 })
 const formInline = reactive({
     user: '',

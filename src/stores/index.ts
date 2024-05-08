@@ -7,3 +7,4 @@ export default pinia
 
 // 导出所有store
 export * from './mobule/user'
+export * from './mobule/appearance'
