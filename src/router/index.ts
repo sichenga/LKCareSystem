@@ -116,9 +116,9 @@ const router = createRouter({
           component: () => import('@/views/basic/nurse/ConfigurationView.vue')
         },
         {
-          path:'affiliated',
-          name:'affiliated',
-          component:()=>import('@/views/affiliated/AffiliatedView.vue')
+          path: 'affiliated',
+          name: 'affiliated',
+          component: () => import('@/views/affiliated/AffiliatedView.vue')
         },
         {
           path: 'account',
@@ -275,14 +275,34 @@ const router = createRouter({
           component: () => import('@/views/elderlycare/nursemanage/BedreplaceView.vue')
         },
         {
-          path: 'examine',
-          name: 'Examine',
-          component: () => import('@/views/elderlycare/examine/ExamineView.vue')
+          path: 'nurexamine',
+          name: 'NurExamine',
+          component: () => import('@/views/elderlycare/nursemanage/ExamineView.vue')
         },
         {
           path: 'gooutapply',
           name: 'Gooutapply',
           component: () => import('@/views/elderlycare/gooutmanage/GooutapplyView.vue')
+        },
+        {
+          path: 'addgoout',
+          name: 'Addgoout',
+          component: () => import('@/views/elderlycare/gooutmanage/AddGoout.vue')
+        },
+        {
+          path: 'goexamine',
+          name: 'GoNurExamine',
+          component: () => import('@/views/elderlycare/gooutmanage/ExamineView.vue')
+        },
+        {
+          path: 'gooutregister',
+          name: 'Gooutregister',
+          component: () => import('@/views/elderlycare/gooutmanage/GooutregisterView.vue')
+        },
+        {
+          path: 'activity',
+          name: 'Activity',
+          component: () => import('@/views/elderlycare/activity/ActivityView.vue')
         }
       ]
     }
