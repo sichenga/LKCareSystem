@@ -81,6 +81,36 @@ const router = createRouter({
           name:'Particulars',
           component:()=>import('@/views/purchase/ParticularsViews.vue')
         },
+        {
+          path:'potential',
+          name:'Potential',
+          component:()=>import('@/views/bazaar/PotentialViews.vue')
+        },
+        {
+          path:'newly',
+          name:'Newly',
+          component:()=>import('@/views/bazaar/NewlyViews.vue')
+        },
+        {
+          path:'consult',
+          name:'Consult',
+          component:()=>import('@/views/bazaar/ConsultViews.vue')
+        },
+        {
+          path:'returnLeg',
+          name:'ReturnLeg',
+          component:()=>import('@/views/bazaar/ReturnLegViews.vue')
+        },
+        {
+          path:'particulars',
+          name:'Particulars',
+          component:()=>import('@/views/bazaar/ParticularsVIews.vue')
+        },
+        {
+          path:'administration',
+          name:'Administration',
+          component:()=>import('@/views/bazaar/outjoin/old/AdministrationViews.vue')
+        },
       ]
     }
   ]

@@ -11,7 +11,9 @@
       :prop="item.prop"
       :label="item.label"
       :width="item.width"
-    />
+    >
+
+    </el-table-column>
     <!-- 是否有input框 -->
     <el-table-column :label="props.label" v-if="props.label">
       <template v-slot="scope">

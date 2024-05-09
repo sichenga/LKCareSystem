@@ -9,7 +9,7 @@
       </el-form-item>
       <el-form-item>
         <el-button type="primary">查询</el-button>
-        <el-button>查询</el-button>
+        <el-button>重置</el-button>
       </el-form-item>
     </el-form>
   </el-card>
