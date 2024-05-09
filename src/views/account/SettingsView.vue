@@ -1,4 +1,5 @@
 <template>
+    <!-- 账号设置 -->
     <el-card style="max-width: 100%">
         <div class="headbox">
             <el-form-item label="头像">
@@ -9,11 +10,9 @@
                     更换头像
                 </div>
             </el-form-item>
-
-
         </div>
-        <el-form ref="ruleFormRef" :model="ruleForm" label-width="auto" class="demo-ruleForm"
-            :size="formSize" status-icon>
+        <el-form ref="ruleFormRef" :model="ruleForm" label-width="auto" class="demo-ruleForm" :size="formSize" style="width: 300px;"
+            status-icon>
             <el-form-item label="姓名">
                 <el-input class="custom-input" v-model="ruleForm.name" />
             </el-form-item>
@@ -24,7 +23,9 @@
                 <el-input class="custom-input" v-model="ruleForm.account" />
             </el-form-item>
             <el-form-item label="密码">
-                <el-input class="custom-pass" v-model="ruleForm.pass" /> <span style="color:#75a5ea ; font-size: 12px;">修改密码</span>
+                <el-input class="custom-pass" v-model="ruleForm.pass" /> <span
+                    style="color:#75a5ea ; font-size: 12px; padding-left: 20px;" @click="isdialog = true">修改密码</span>
+                    <PassDialog @close="close" v-if="isdialog"></PassDialog>
             </el-form-item>
             <el-form-item label="所属角色">
                 <el-input class="custom-inputrole" v-model="ruleForm.role" />
@@ -36,29 +37,33 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref, toRefs } from 'vue'
-import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
-
+import { reactive, ref, } from 'vue'
+import type { ComponentSize, FormInstance, } from 'element-plus'
+import PassDialog from '@/components/dialog/PassDialog.vue';
 interface RuleForm {
     name: string,
-    tel:string,
-    account:string,
-    pass:string,
-    role:string
-    
+    tel: string,
+    account: string,
+    pass: string,
+    role: string
+
 }
 
 const formSize = ref<ComponentSize>('default')
 const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive<RuleForm>({
     name: '张三',
-    tel :'17768089870',
-    account:'zhangsan',
-    pass:'123456',
-    role:'机构管理员'
+    tel: '17768089870',
+    account: 'zhangsan',
+    pass: '123456',
+    role: '机构管理员'
 })
 
-
+//弹出框
+const isdialog = ref(false)
+const close = () => {
+  isdialog.value = false
+}
 
 
 </script>
@@ -100,14 +105,8 @@ const ruleForm = reactive<RuleForm>({
     margin-top: 20px !important;
     margin-bottom: 20px !important;
 }
-:deep(.el-input__wrapper) {
-    box-shadow: 0 0 0 0px var(--el-input-border-color, var(--el-border-color)) inset;
-    cursor: default;
 
-    .el-input__inner {
-        cursor: default !important;
-    }
-}
+
 
 :deep .custom-input .el-input__inner {
     color: #c3c3c3;
@@ -120,20 +119,30 @@ const ruleForm = reactive<RuleForm>({
 :deep .custom-inputrole .el-input__inner {
     color: #c3c3c3;
 }
+
 :deep .asterisk-left .el-form-item__label-wrap {
     margin-left: 0 !important;
 }
+
 :deep .custom-pass .el-input__inner {
     color: #c3c3c3;
 }
+
 .custom-inputtel {
     margin-left: 10px;
 }
+
 .custom-input {
     margin-left: 25px;
 }
+
 .custom-pass {
     width: 100px !important;
     margin-left: 25px;
 }
+.is-error {
+    margin-bottom: 20px;
+}  
+
+
 </style>

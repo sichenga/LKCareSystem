@@ -5,31 +5,33 @@
     height: '50px'
   }">
     <el-table-column type="selection" width="55" v-if="isMultiple" />
-    <el-table-column
-      v-for="(item, index) in props.tableItem"
-      :key="index"
-      :prop="item.prop"
-      :label="item.label"
-      :width="item.width"
-    >
-
+    <el-table-column v-for="(item, index) in props.tableItem" :key="index" :prop="item.prop" :label="item.label"
+      :width="item.width">
+       <template v-if="item.prop=='image'&&props.identifier==='Workers'" v-slot="{row}">
+        <el-image style="width: 50px; height: 50px" :src="row.image"  />    
+      </template>
+      <template v-else-if="props.identifier=='administration'&&item.prop=='image'" v-slot="{row}">
+        <el-image style="width: 50px; height: 50px" :src=row.image fit="cover" />
+      </template>
     </el-table-column>
+
     <!-- 是否有input框 -->
     <el-table-column :label="props.label" v-if="props.label">
       <template v-slot="scope">
         <slot name="custom" :data="scope.row"></slot>
       </template>
     </el-table-column>
-    
-    <el-table-column label="操作" width="330" v-if="props.isoperate">
+
+    <el-table-column label="操作" width="330"  v-if="props.isoperate">
       <template v-slot="scope">
         <slot name="operate" :data="scope.row"></slot>
       </template>
     </el-table-column>
+
   </el-table>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, defineProps } from 'vue'
+import { defineProps } from 'vue'
 import type { PropType } from 'vue'
 import type { TableItem } from '@/Type/table'
 const props = defineProps({
@@ -55,7 +57,7 @@ const props = defineProps({
     type: String,
     default: ''
   },
-  isoperate:{
+  isoperate: {
     type: Boolean,
     default: true
   }
