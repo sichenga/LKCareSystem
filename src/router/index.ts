@@ -116,6 +116,21 @@ const router = createRouter({
           component: () => import('@/views/basic/nurse/ConfigurationView.vue')
         },
         {
+          path: 'Industry',
+          name: 'Industry',
+          component: () => import('@/views/basic/nurse/IndustryView.vue')
+        },
+        {
+          path: 'Floor',
+          name: 'Floor',
+          component: () => import('@/views/basic/FloorView.vue')
+        },
+        {
+          path: 'Room',
+          name: 'Room',
+          component: () => import('@/views/basic/RoomView.vue')
+        },
+        {
           path:'affiliated',
           name:'affiliated',
           component:()=>import('@/views/affiliated/AffiliatedView.vue')

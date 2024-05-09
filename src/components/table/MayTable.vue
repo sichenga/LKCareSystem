@@ -20,7 +20,7 @@
       </template>
     </el-table-column>
 
-    <el-table-column label="操作"  v-if="props.isoperate">
+    <el-table-column label="操作"  v-if="props.isoperate" style="width: 330px;">
       <template v-slot="scope">
         <slot name="operate" :data="scope.row"></slot>
       </template>
