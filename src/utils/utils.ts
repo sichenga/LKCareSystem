@@ -1,7 +1,7 @@
 import { h } from 'vue'
 import { ElMessageBox } from 'element-plus'
-// 消息提示框
-export const getMessageBox = async (text: string, texttwo: string, title: string = '删除确认') => {
+
+export const getMessageBox = async (text: string, texttwo: string, title: string = '删除') => {
   try {
     return await ElMessageBox({
       title,

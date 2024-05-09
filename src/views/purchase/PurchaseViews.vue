@@ -19,10 +19,8 @@
     <div class="title-image">
       <div>
         合计：采购品种数9，采购总成本：1000.00
-
       </div>
       <div class="image">
-        
         <el-form :model="form" label-width="auto" style="max-width: 600px">
           <el-form-item label="期望到货日期">
             <el-select v-model="form.region" placeholder="请选择">
@@ -33,18 +31,19 @@
     </div>
   </el-card>
   <div class="button-body">
-    <el-button class="btn-body">返回</el-button>
-    <el-button type="primary" class="btn-body">保存</el-button>
-    <el-button type="primary" class="primary">保存并提交</el-button>
+    <el-button class="btn-body" @click="back">返回</el-button>
+    <el-button type="primary" class="btn-body" @click="confirm">保存</el-button>
+    <el-button type="primary" class="primary" @click="save">保存并提交</el-button>
   </div>
 </template>
 <script lang="ts" setup>
 import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
 import AffiliatedView from '@/database/AffiliatedView.json'
+import {useRouter} from 'vue-router'
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
-
+const router = useRouter()
 const form = reactive({
 
   region: '',
@@ -91,7 +90,7 @@ const getlist = () => {
 }
 
 const del =async () => {
-  let res =await getMessageBox('是否确认删除该食材', '删除后将不可恢复')
+  let res =await getMessageBox('是否确认删除该采购申请', '删除后将不可恢复')
  
   if(res){
     ElMessage.success('删除成功')
@@ -100,6 +99,15 @@ const del =async () => {
   }
   
 }
+const back = () =>{
+  router.push('/dashboard/apply')
+}
+const confirm = ()=>{
+    router.push('/dashboard/apply')
+}
+const save = ()=>{
+  router.push('/dashboard/examine')
+} 
 onMounted(() => {
   getlist()
 })

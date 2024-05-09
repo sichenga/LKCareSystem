@@ -1,17 +1,11 @@
 <template>
-    <el-dialog v-model="dialogVisible" title="新增/编辑护理服务" width="500" @close="close">
+    <el-dialog v-model="dialogVisible" title="添加护理等级" width="500" @close="close">
         <el-form ref="ruleFormRef" style="max-width: 600px" :model="ruleForm" :rules="rules" label-width="auto"
             class="demo-ruleForm" :size="formSize" status-icon>
-            <el-form-item label="服务名称" prop="name">
+            <el-form-item label="等级名称" prop="name">
                 <el-input v-model="ruleForm.name" />
             </el-form-item>
-            <el-form-item label="关联表单">
-                <el-select v-model="ruleForm.region" placeholder="请选择">
-                    <el-option label="Zone one" value="shanghai" />
-                    <el-option label="Zone two" value="beijing" />
-                </el-select>
-            </el-form-item>
-            <el-form-item label="服务描述" prop="desc">
+            <el-form-item label="等级描述">
                 <el-input v-model="ruleForm.desc" type="textarea" />
             </el-form-item>
         </el-form>
@@ -30,15 +24,13 @@ import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
 
 interface RuleForm {
   name: string
-  region: string
   desc: string
 }
 
 const formSize = ref<ComponentSize>('default')
 const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive<RuleForm>({
-  name: 'Hello',
-  region: '',
+  name: '',
   desc: '',
 })
 
@@ -48,16 +40,8 @@ const rules = reactive<FormRules<RuleForm>>({
   name: [
     { required: true, message: 'Please input Activity name', trigger: 'blur' },
   ],
-  region: [
-    {
-      required: true,
-      message: 'Please select Activity zone',
-      trigger: 'change',
-    },
-  ],
-  desc: [
-    { required: true, message: 'Please input activity form', trigger: 'blur' },
-  ],
+ 
+  
 })
 
 

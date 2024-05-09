@@ -1,12 +1,13 @@
 <template>
     <!-- 护理服务 -->
   <el-card style="max-width: 100%">
-    <el-button type="primary"  @click="isdialog = true">新增服务</el-button>
+    <el-button type="primary"  @click="isdialog = true">新增护理项目</el-button>
         <ServeDialog @close="close" v-if="isdialog"></ServeDialog>
         <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
             <template #operate>
                 <el-button type="primary" text >编辑</el-button>
                 <el-button type="primary" text @click="del">删除</el-button>
+                <el-button type="primary" text >配置服务</el-button>
             </template>
         </MayTable>
   </el-card>
@@ -16,6 +17,7 @@ import { ref,reactive,defineAsyncComponent,onMounted } from 'vue'
 import ServeView from '@/database/ServeView.json'
 import ServeDialog from '@/components/dialog/ServeDialog.vue';
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
+
 
 const data = reactive({
     tableData: [] as any,

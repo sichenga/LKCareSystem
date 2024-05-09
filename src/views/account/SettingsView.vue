@@ -1,4 +1,5 @@
 <template>
+    <!-- 账号设置 -->
     <el-card style="max-width: 100%">
         <div class="headbox">
             <el-form-item label="头像">

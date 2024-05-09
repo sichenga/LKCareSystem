@@ -1,27 +1,19 @@
 <template>
   <el-card>
     <el-form :inline="true" :model="formInline" class="demo-form-inline">
-      <el-form-item label="老人姓名：">
+      <el-form-item label="发布人：">
         <el-input v-model="formInline.user" placeholder="请输入" clearable />
       </el-form-item>
-      <el-form-item label="审批状态：">
-        <el-select
-          v-model="formInline.region"
-          placeholder="请选择"
-          size="large"
-          style="width: 240px"
-        >
-          <el-option
-            v-for="item in data.statelist"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
-        </el-select>
+      <el-form-item label="发布时间：">
+        <el-input v-model="formInline.user" placeholder="请输入" clearable />
       </el-form-item>
-      <el-form-item label="创建时间：">
-        <TimePicker></TimePicker>
+      <el-form-item label="类型：">
+        <el-input v-model="formInline.user" placeholder="请输入" clearable />
       </el-form-item>
+      <el-form-item label="状态：">
+        <el-input v-model="formInline.user" placeholder="请输入" clearable />
+      </el-form-item>
+      
       <el-form-item>
         <el-button type="primary">查询</el-button>
         <el-button>重置</el-button>
@@ -30,28 +22,27 @@
   </el-card>
   <el-card style="margin-top: 15px">
     <div style="margin: 10px 0">
-      <el-button type="primary" @click="add">新增外出</el-button>
+      <el-button type="primary" @click="isdialog = true">新增</el-button>
       <AffDialog @close="close" v-if="isdialog"></AffDialog>
     </div>
     <!-- 表格 -->
     <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
       <template #operate>
-        <el-button type="primary" text>编辑</el-button>
-        <el-button type="primary" text>查看详情</el-button>
+        <el-button type="primary" text>修改</el-button>
+        <el-button type="primary" text @click="del">删除</el-button>
       </template>
     </MayTable>
     <Pagination :total="50"></Pagination>
   </el-card>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
+import {  ref,reactive, onMounted, defineAsyncComponent } from 'vue'
 import AffiliatedView from '@/database/AffiliatedView.json'
 import AffDialog from '@/components/dialog/AffDialog.vue'
-import { useRouter } from 'vue-router'
-const router = useRouter()
+import { getMessageBox } from '@/utils/utils'
+import { ElMessage } from 'element-plus'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
-const TimePicker = defineAsyncComponent(() => import('@/components/timepicker/MayTimePicker.vue'))
 const formInline = reactive({
   user: '',
   region: '',
@@ -67,30 +58,37 @@ const data = reactive({
     },
     {
       prop: 'name',
-      label: '老人姓名'
+      label: '机构名称'
     },
     {
       prop: 'address',
-      label: '床位号'
+      label: '区域'
     },
     {
       prop: 'manager',
-      label: '陪同人员姓名'
+      label: '管理员姓名'
     },
     {
       prop: 'phone',
-      label: '陪同人员手机号'
+      label: '联系电话'
     },
     {
       prop: 'username',
-      label: '外出时间'
+      label: '管理员账号'
     },
     {
       prop: 'userpass',
-      label: '审批状态'
+      label: '管理员密码'
+    },
+    {
+      prop: 'creator',
+      label: '创建人'
+    },
+    {
+      prop: 'addtime',
+      label: '创建时间'
     }
-  ],
-  statelist: [] as any
+  ]
 })
 const getlist = () => {
   setTimeout(() => {
@@ -101,12 +99,16 @@ const getlist = () => {
 const close = () => {
   isdialog.value = false
 }
-
-// 新增外出
-const add = () => {
-  router.push('/dashboard/addgoout')
+// 删除
+const del = async () => {
+  let res = await getMessageBox('是否确认删除该角色', '删除后将不可恢复')
+  console.log(11112, res)
+  if (res) {
+    ElMessage.success('删除成功')
+  } else {
+    ElMessage.info('取消删除')
+  }
 }
-
 onMounted(() => {
   getlist()
 })
