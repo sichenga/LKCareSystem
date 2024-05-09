@@ -1,12 +1,18 @@
 <template>
-    <!-- 入院费用核定管理 -->
+    <!--  护工薪资管理 -->
     <!-- 查询 -->
     <el-card>
         <el-form :inline="true" :model="formInline" class="demo-form-inline">
-            <el-form-item label="老人姓名：">
+            <el-form-item label="护工姓名：">
                 <el-input v-model="formInline.user" placeholder="请输入" clearable />
             </el-form-item>
-            <el-form-item label="状态：">
+            <el-form-item label="联系方式:">
+                <el-input v-model="formInline.user" placeholder="请输入" clearable />
+            </el-form-item>
+            <el-form-item label="身份证号：">
+                <el-input v-model="formInline.user" placeholder="请输入" clearable />
+            </el-form-item>
+            <el-form-item label="统计月份：">
                 <el-select v-model="formInline.region" placeholder="请选择" clearable>
                     <el-option label="Zone one" value="shanghai" />
                     <el-option label="Zone two" value="beijing" />
@@ -20,27 +26,27 @@
     </el-card>
     <el-card class="table">
         <!-- 表格 -->
-        <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
+        <MayTable :tableData="data.tableData" :tableItem="data.tableItem" :identifier="identifier">
             <template #operate>
-                <el-button type="primary" size="small" link @click="pay">缴费结算</el-button>
-                <el-button type="primary" size="small" link @click="detail">查看明细</el-button>
+                <el-button type="primary" size="small" link @click="detail">薪资明细</el-button>
             </template>
         </MayTable>
         <!-- 分页 -->
         <Pagination :total="50"></Pagination>
-        <!-- 缴费结算 -->
-        <AdmissionDialog @close="close" v-if="isdialog"></AdmissionDialog>
+        <!-- 标记已结算 -->
+        <WelfareDialog @close="close" v-if="isdialog"></WelfareDialog>
     </el-card>
 </template>
 
 <script lang='ts' setup>
 import { reactive, toRefs, ref, onMounted, defineAsyncComponent } from 'vue'
 import { useRouter } from 'vue-router'
-import AdmissionDialog from "@/components/dialog/AdmissionDialog.vue"
+import WelfareDialog from "@/components/dialog/WelfareDialog.vue"
 const router = useRouter();
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
-import AdmissionView from '@/database/AdmissionView.json'
+import NursingView from '@/database/NursingView.json'
+const identifier = 'Workers'
 const isdialog = ref(false)
 const data = reactive({
     tableData: [] as any,
@@ -50,67 +56,30 @@ const data = reactive({
             label: '序号'
         },
         {
-            prop: 'old',
-            label: '老人'
+            prop: 'image',
+            label: '头像'
         },
         {
-            prop: 'sex',
-            label: '性别'
+            prop: 'name',
+            label: '姓名'
         },
         {
-            prop: 'age',
-            label: '年龄'
+            prop: 'contact',
+            label: '联系方式'
         },
         {
-            prop: 'bed',
-            label: '床位'
+            prop: 'ibnumber',
+            label: '身份证号'
         },
         {
-            prop: 'check',
-            label: '入住日期'
-        },
-        {
-            prop: 'days',
-            label: '核定天数'
-        },
-        {
-            prop: 'cash',
-            label: '押金'
-        },
-        {
-            prop: 'agency',
-            label: '一次性代办费',
-            width: "140"
-        },
-        {
-            prop: 'bunk',
-            label: '床位费'
-        },
-        {
-            prop: 'nursing',
-            label: '护理费'
-        },
-        {
-            prop: 'board',
-            label: '膳食费'
-        },
-        {
-            prop: 'deduction',
-            label: '定金抵扣'
-        },
-        {
-            prop: 'summation',
-            label: '合计'
-        },
-        {
-            prop: 'state',
-            label: '状态'
-        },
+            prop: 'statistics',
+            label: '薪资统计'
+        }
     ]
 })
 const getlist = () => {
     setTimeout(() => {
-        data.tableData = AdmissionView
+        data.tableData = NursingView
     }, 1000)
 }
 // 关闭弹窗
@@ -120,16 +89,10 @@ const close = () => {
 onMounted(() => {
     getlist()
 })
-// 缴费结算 
-const pay = (() => {
-    console.log('缴费结算 ');
-    isdialog.value = true
-})
-//  查看明细
+//薪资明细
 const detail = (() => {
-    console.log('查看明细');
-    isdialog.value = true
-    // router.push("/dashboard/receiving")
+    console.log('薪资明细 ');
+    router.push("/dashboard/detail")
 })
 const formInline = reactive({
     user: '',

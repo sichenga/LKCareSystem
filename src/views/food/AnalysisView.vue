@@ -94,7 +94,7 @@ onMounted(() => {
    getlist()
 })
 const back=(()=>{
-   router.push("/dashboard/food")
+   router.go(-1)
 })
 </script>
 
