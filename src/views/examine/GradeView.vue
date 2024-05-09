@@ -16,11 +16,9 @@
             </el-form-item>
             <el-form-item label="审批状态:">
                 <el-select v-model="formInline.status" placeholder="请选择" clearable>
-                    <el-option label="待提交" value="0" />
-                    <el-option label="待审批" value="1" />
-                    <el-option label="待上传合同" value="2" />
-                    <el-option label="审批拒绝" value="3" />
-                    <el-option label="已完成" value="4" />
+                    <el-option label="待审批" value="0" />
+                    <el-option label="审批拒绝" value="1" />
+                    <el-option label="审批通过" value="2" />
                 </el-select>
             </el-form-item>
             <el-form-item>
@@ -43,7 +41,7 @@
 
 <script lang="ts" setup>
 import { reactive, defineAsyncComponent, onMounted } from 'vue'
-import BedView from '@/database/BedView.json'
+import GradeView from '@/database/GradeView.json'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
 import { useRouter } from 'vue-router';
@@ -63,6 +61,14 @@ const data = reactive({
             label: '序号'
         },
         {
+            prop: 'bed',
+            label: '床位'
+        },
+        {
+            prop: 'room',
+            label: '房间'
+        },
+        {
             prop: 'oldname',
             label: '老人姓名'
         },
@@ -75,27 +81,25 @@ const data = reactive({
             label: '身份证号'
         },
         {
-            prop: 'Originalbed',
-            label: '原床位'
+            prop: 'raw',
+            label: '原护理等级'
         },
         {
-            prop: 'Changebed',
-            label: '变更床位'
+            prop: 'now',
+            label: '现护理等级'
         },
         {
             prop: 'proposer',
             label: '申请人'
         },
         {
-            prop: 'applicationdate',
+            prop: 'application',
             label: '申请日期'
         },
         {
-            prop: 'approvalstatus',
+            prop: 'status',
             label: '审批状态'
         },
-
-
     ]
 })
 //跳转
@@ -111,7 +115,7 @@ const details = () => {
 }
 const getlist = () => {
     setTimeout(() => {
-        data.tableData = BedView
+        data.tableData = GradeView
     }, 1000)
 }
 onMounted(() => {

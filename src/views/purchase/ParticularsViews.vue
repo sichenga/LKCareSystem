@@ -43,15 +43,16 @@
         </div>
     </el-card>
     <div class="button-body">
-        <el-button class="btn-body">返回</el-button>
+        <el-button class="btn-body" @click="router.push('/dashboard/apply')">返回</el-button>
     </div>
     
 </template>
 <script lang="ts" setup>
 import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
 import AffiliatedView from '@/database/AffiliatedView.json'
+import {useRouter} from 'vue-router'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
-
+const router = useRouter()
 
 const data = reactive({
     tableData: [] as any,

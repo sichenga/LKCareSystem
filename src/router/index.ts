@@ -81,9 +81,39 @@ const router = createRouter({
           component: () => import('@/views/examine/BedView.vue')
         },
         {
-          path: 'Details',
-          name: 'Details',
-          component: () => import('@/views/examine/DetailsView.vue')
+          path: 'Goout',
+          name: 'Goout',
+          component: () => import('@/views/examine/GooutView.vue')
+        },
+        {
+          path: 'Grade',
+          name: 'Grade',
+          component: () => import('@/views/examine/GradeView.vue')
+        },
+        {
+          path: 'Workers',
+          name: 'Workers',
+          component: () => import('@/views/basic/nurse/WorkersView.vue')
+        },
+        {
+          path: 'Serve',
+          name: 'Serve',
+          component: () => import('@/views/basic/nurse/ServeView.vue')
+        },
+        {
+          path: 'Addedlevel',
+          name: 'Addedlevel',
+          component: () => import('@/views/basic/nurse/AddedlevelView.vue')
+        },
+        {
+          path: 'Project',
+          name: 'Project',
+          component: () => import('@/views/basic/nurse/ProjectView.vue')
+        },
+        {
+          path: 'Configuration',
+          name: 'Configuration',
+          component: () => import('@/views/basic/nurse/ConfigurationView.vue')
         },
         {
           path: 'affiliated',
@@ -134,6 +164,76 @@ const router = createRouter({
           path: 'examine',
           name: 'Examine',
           component: () => import('@/views/purchase/ExamineViews.vue')
+        },
+        {
+          path:'potential',
+          name:'Potential',
+          component:()=>import('@/views/bazaar/PotentialViews.vue')
+        },
+        {
+          path:'newly',
+          name:'Newly',
+          component:()=>import('@/views/bazaar/NewlyViews.vue')
+        },
+        {
+          path:'consult',
+          name:'Consult',
+          component:()=>import('@/views/bazaar/ConsultViews.vue')
+        },
+        {
+          path:'returnLeg',
+          name:'ReturnLeg',
+          component:()=>import('@/views/bazaar/ReturnLegViews.vue')
+        },
+        {
+          path:'particulars',
+          name:'Particulars',
+          component:()=>import('@/views/bazaar/ParticularsVIews.vue')
+        },
+        {
+          path:'administration',
+          name:'Administration',
+          component:()=>import('@/views/bazaar/outjoin/old/AdministrationViews.vue')
+        },
+      {
+          path:'collection',
+          name:'CollectionView',
+          component:()=>import('@/views/financial/business/CollectionView.vue')
+        },
+        {
+          path:'paid',
+          name:'paid',
+          component:()=>import('@/views/financial/business/PaidView.vue')
+        },
+        {
+          path:'fees',
+          name:'FeesView',
+          component:()=>import('@/views/financial/business/FeesView.vue')
+        },
+        {
+          path:'admission',
+          name:'AdmissionView',
+          component:()=>import('@/views/financial/business/AdmissionView.vue')
+        },
+        {
+          path:'hospital',
+          name:'hospital',
+          component:()=>import('@/views/financial/business/HospitalView.vue')
+        },
+        {
+          path:'welfare',
+          name:'WelfareView',
+          component:()=>import('@/views/financial/operation/WelfareView.vue')
+        },
+        {
+          path:'detail',
+          name:'DetailView',
+          component:()=>import('@/views/financial/operation/DetailView.vue')
+        },
+        {
+          path:'section',
+          name:'SectionView',
+          component:()=>import('@/views/personnel/management/SectionView.vue')
         },
         {
           path: 'particulars',
