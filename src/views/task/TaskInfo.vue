@@ -37,6 +37,14 @@
   <!-- 老人信息 -->
   <el-card>
     <div class="title">老人信息</div>
+    <el-steps direction="vertical" space="80px" style="margin-top: 20px">
+      <el-step>
+        <template #description>
+          <div>10-20 15:00</div>
+          <div>系统创建并分配了晨起的任务给您</div>
+        </template>
+      </el-step>
+    </el-steps>
   </el-card>
 </template>
 <script lang="ts" setup>

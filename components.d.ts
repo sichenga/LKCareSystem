@@ -8,6 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AffDialog: typeof import('./src/components/dialog/AffDialog.vue')['default']
+    BedDialog: typeof import('./src/components/dialog/BedDialog.vue')['default']
     ECharts: typeof import('./src/components/food/ECharts.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElAvatar: typeof import('element-plus/es')['ElAvatar']
@@ -15,7 +16,6 @@ declare module 'vue' {
     ElBreadcrumbItem: typeof import('element-plus/es')['ElBreadcrumbItem']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCard: typeof import('element-plus/es')['ElCard']
-    ElCheckbox: typeof import('element-plus/es')['ElCheckbox']
     ElCheckboxGroup: typeof import('element-plus/es')['ElCheckboxGroup']
     ElContainer: typeof import('element-plus/es')['ElContainer']
     ElDialog: typeof import('element-plus/es')['ElDialog']
@@ -35,9 +35,11 @@ declare module 'vue' {
     ElTree: typeof import('element-plus/es')['ElTree']
     FoodDialog: typeof import('./src/components/dialog/FoodDialog.vue')['default']
     LeftMenu: typeof import('./src/components/menu/LeftMenu.vue')['default']
+    LocationDialog: typeof import('./src/components/dialog/LocationDialog.vue')['default']
     ManagementDialog: typeof import('./src/components/dialog/ManagementDialog.vue')['default']
     MayPagination: typeof import('./src/components/pagination/MayPagination.vue')['default']
     MayTable: typeof import('./src/components/table/MayTable.vue')['default']
+    MayTimePicker: typeof import('./src/components/timepicker/MayTimePicker.vue')['default']
     PassDialog: typeof import('./src/components/dialog/PassDialog.vue')['default']
     PriceDialog: typeof import('./src/components/dialog/PriceDialog.vue')['default']
     RoleDialog: typeof import('./src/components/dialog/RoleDialog.vue')['default']
