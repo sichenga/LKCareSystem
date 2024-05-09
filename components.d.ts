@@ -7,6 +7,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AddedlevelDialog: typeof import('./src/components/dialog/AddedlevelDialog.vue')['default']
     AffDialog: typeof import('./src/components/dialog/AffDialog.vue')['default']
     BedDialog: typeof import('./src/components/dialog/BedDialog.vue')['default']
     ECharts: typeof import('./src/components/food/ECharts.vue')['default']
@@ -16,6 +17,7 @@ declare module 'vue' {
     ElBreadcrumbItem: typeof import('element-plus/es')['ElBreadcrumbItem']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCard: typeof import('element-plus/es')['ElCard']
+    ElCheckbox: typeof import('element-plus/es')['ElCheckbox']
     ElCheckboxGroup: typeof import('element-plus/es')['ElCheckboxGroup']
     ElContainer: typeof import('element-plus/es')['ElContainer']
     ElDialog: typeof import('element-plus/es')['ElDialog']
@@ -42,6 +44,7 @@ declare module 'vue' {
     MayTimePicker: typeof import('./src/components/timepicker/MayTimePicker.vue')['default']
     PassDialog: typeof import('./src/components/dialog/PassDialog.vue')['default']
     PriceDialog: typeof import('./src/components/dialog/PriceDialog.vue')['default']
+    ProjectDialog: typeof import('./src/components/dialog/ProjectDialog.vue')['default']
     RoleDialog: typeof import('./src/components/dialog/RoleDialog.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

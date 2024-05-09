@@ -102,6 +102,21 @@ const router = createRouter({
           component: () => import('@/views/basic/nurse/ServeView.vue')
         },
         {
+          path: 'Addedlevel',
+          name: 'Addedlevel',
+          component: () => import('@/views/basic/nurse/AddedlevelView.vue')
+        },
+        {
+          path: 'Project',
+          name: 'Project',
+          component: () => import('@/views/basic/nurse/ProjectView.vue')
+        },
+        {
+          path: 'Configuration',
+          name: 'Configuration',
+          component: () => import('@/views/basic/nurse/ConfigurationView.vue')
+        },
+        {
           path:'affiliated',
           name:'affiliated',
           component:()=>import('@/views/affiliated/AffiliatedView.vue')
