@@ -22,7 +22,7 @@
             </div>
         </div>
         <!-- 表格 -->
-        <MayTable :tableData="data.tableData" :tableItem="data.tableItem"></MayTable>
+        <MayTable :tableData="data.tableData" :tableItem="data.tableItem" :isoperate="false"></MayTable>
         <!--到货凭证  -->
         <div class="goods">到货凭证</div>
         <div class="demo-image" style="margin-top: 20px;">

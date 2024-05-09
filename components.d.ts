@@ -7,7 +7,9 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AdmissionDialog: typeof import('./src/components/dialog/AdmissionDialog.vue')['default']
     AffDialog: typeof import('./src/components/dialog/AffDialog.vue')['default']
+    CollectionDialog: typeof import('./src/components/dialog/CollectionDialog.vue')['default']
     ECharts: typeof import('./src/components/food/ECharts.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElAvatar: typeof import('element-plus/es')['ElAvatar']
@@ -15,10 +17,10 @@ declare module 'vue' {
     ElBreadcrumbItem: typeof import('element-plus/es')['ElBreadcrumbItem']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCard: typeof import('element-plus/es')['ElCard']
-    ElCheckbox: typeof import('element-plus/es')['ElCheckbox']
     ElCheckboxGroup: typeof import('element-plus/es')['ElCheckboxGroup']
     ElContainer: typeof import('element-plus/es')['ElContainer']
     ElDialog: typeof import('element-plus/es')['ElDialog']
+    ElFooter: typeof import('element-plus/es')['ElFooter']
     ElForm: typeof import('element-plus/es')['ElForm']
     ElFormItem: typeof import('element-plus/es')['ElFormItem']
     ElHeader: typeof import('element-plus/es')['ElHeader']
@@ -28,11 +30,15 @@ declare module 'vue' {
     ElMain: typeof import('element-plus/es')['ElMain']
     ElOption: typeof import('element-plus/es')['ElOption']
     ElPagination: typeof import('element-plus/es')['ElPagination']
+    ElProgress: typeof import('element-plus/es')['ElProgress']
+    ElRadio: typeof import('element-plus/es')['ElRadio']
+    ElRadioGroup: typeof import('element-plus/es')['ElRadioGroup']
     ElSelect: typeof import('element-plus/es')['ElSelect']
     ElTable: typeof import('element-plus/es')['ElTable']
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
     ElTree: typeof import('element-plus/es')['ElTree']
     FoodDialog: typeof import('./src/components/dialog/FoodDialog.vue')['default']
+    HospitalDialog: typeof import('./src/components/dialog/HospitalDialog.vue')['default']
     LeftMenu: typeof import('./src/components/menu/LeftMenu.vue')['default']
     ManagementDialog: typeof import('./src/components/dialog/ManagementDialog.vue')['default']
     MayPagination: typeof import('./src/components/pagination/MayPagination.vue')['default']
@@ -43,5 +49,6 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     SupplierDialog: typeof import('./src/components/dialog/SupplierDialog.vue')['default']
     TopMenu: typeof import('./src/components/menu/TopMenu.vue')['default']
+    WelfareDialog: typeof import('./src/components/dialog/WelfareDialog.vue')['default']
   }
 }

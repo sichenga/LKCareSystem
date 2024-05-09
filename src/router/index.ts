@@ -136,6 +136,46 @@ const router = createRouter({
           name:'Particulars',
           component:()=>import('@/views/purchase/ParticularsViews.vue')
         },
+        {
+          path:'collection',
+          name:'CollectionView',
+          component:()=>import('@/views/financial/business/CollectionView.vue')
+        },
+        {
+          path:'paid',
+          name:'paid',
+          component:()=>import('@/views/financial/business/PaidView.vue')
+        },
+        {
+          path:'fees',
+          name:'FeesView',
+          component:()=>import('@/views/financial/business/FeesView.vue')
+        },
+        {
+          path:'admission',
+          name:'AdmissionView',
+          component:()=>import('@/views/financial/business/AdmissionView.vue')
+        },
+        {
+          path:'hospital',
+          name:'hospital',
+          component:()=>import('@/views/financial/business/HospitalView.vue')
+        },
+        {
+          path:'welfare',
+          name:'WelfareView',
+          component:()=>import('@/views/financial/operation/WelfareView.vue')
+        },
+        {
+          path:'detail',
+          name:'DetailView',
+          component:()=>import('@/views/financial/operation/DetailView.vue')
+        },
+        {
+          path:'section',
+          name:'SectionView',
+          component:()=>import('@/views/personnel/management/SectionView.vue')
+        },
       ]
     }
   ]
