@@ -22,7 +22,7 @@
             </div>
         </div>
         <!-- 表格 -->
-        <MayTable :tableData="data.tableData" :tableItem="data.tableItem"></MayTable>
+        <MayTable :tableData="data.tableData" :tableItem="data.tableItem" :isoperate="false"></MayTable>
     </el-card>
     <!-- 返回 -->'
     <div class="back">

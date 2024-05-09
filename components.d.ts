@@ -8,8 +8,10 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AddedlevelDialog: typeof import('./src/components/dialog/AddedlevelDialog.vue')['default']
+    AdmissionDialog: typeof import('./src/components/dialog/AdmissionDialog.vue')['default']
     AffDialog: typeof import('./src/components/dialog/AffDialog.vue')['default']
     BedDialog: typeof import('./src/components/dialog/BedDialog.vue')['default']
+    CollectionDialog: typeof import('./src/components/dialog/CollectionDialog.vue')['default']
     ECharts: typeof import('./src/components/food/ECharts.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElAvatar: typeof import('element-plus/es')['ElAvatar']
@@ -36,6 +38,7 @@ declare module 'vue' {
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
     ElTree: typeof import('element-plus/es')['ElTree']
     FoodDialog: typeof import('./src/components/dialog/FoodDialog.vue')['default']
+    HospitalDialog: typeof import('./src/components/dialog/HospitalDialog.vue')['default']
     LeftMenu: typeof import('./src/components/menu/LeftMenu.vue')['default']
     LocationDialog: typeof import('./src/components/dialog/LocationDialog.vue')['default']
     ManagementDialog: typeof import('./src/components/dialog/ManagementDialog.vue')['default']
@@ -51,6 +54,7 @@ declare module 'vue' {
     ServeDialog: typeof import('./src/components/dialog/ServeDialog.vue')['default']
     SupplierDialog: typeof import('./src/components/dialog/SupplierDialog.vue')['default']
     TopMenu: typeof import('./src/components/menu/TopMenu.vue')['default']
+    WelfareDialog: typeof import('./src/components/dialog/WelfareDialog.vue')['default']
     WorkersDialog: typeof import('./src/components/dialog/WorkersDialog.vue')['default']
   }
 }

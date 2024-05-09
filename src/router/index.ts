@@ -61,7 +61,6 @@ const router = createRouter({
           component: () => import('@/views/home/HomeView.vue')
         },
         {
-
           path: 'Management',
           name: 'Management',
           component: () => import('@/views/account/ManagementView.vue')
@@ -165,6 +164,46 @@ const router = createRouter({
           path: 'examine',
           name: 'Examine',
           component: () => import('@/views/purchase/ExamineViews.vue')
+        },
+        {
+          path:'collection',
+          name:'CollectionView',
+          component:()=>import('@/views/financial/business/CollectionView.vue')
+        },
+        {
+          path:'paid',
+          name:'paid',
+          component:()=>import('@/views/financial/business/PaidView.vue')
+        },
+        {
+          path:'fees',
+          name:'FeesView',
+          component:()=>import('@/views/financial/business/FeesView.vue')
+        },
+        {
+          path:'admission',
+          name:'AdmissionView',
+          component:()=>import('@/views/financial/business/AdmissionView.vue')
+        },
+        {
+          path:'hospital',
+          name:'hospital',
+          component:()=>import('@/views/financial/business/HospitalView.vue')
+        },
+        {
+          path:'welfare',
+          name:'WelfareView',
+          component:()=>import('@/views/financial/operation/WelfareView.vue')
+        },
+        {
+          path:'detail',
+          name:'DetailView',
+          component:()=>import('@/views/financial/operation/DetailView.vue')
+        },
+        {
+          path:'section',
+          name:'SectionView',
+          component:()=>import('@/views/personnel/management/SectionView.vue')
         },
         {
           path: 'particulars',
