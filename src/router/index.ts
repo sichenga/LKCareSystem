@@ -186,11 +186,6 @@ const router = createRouter({
           component:()=>import('@/views/financial/operation/DetailView.vue')
         },
         {
-          path:'section',
-          name:'SectionView',
-          component:()=>import('@/views/personnel/management/SectionView.vue')
-        },
-        {
           path: 'particulars',
           name: 'Particulars',
           component: () => import('@/views/purchase/ParticularsViews.vue')
@@ -229,7 +224,43 @@ const router = createRouter({
           path: 'gooutapply',
           name: 'Gooutapply',
           component: () => import('@/views/elderlycare/gooutmanage/GooutapplyView.vue')
-        }
+        },
+        {
+          path: 'nursing',
+          name: 'NursingView',
+          component: () => import('@/views/personnel/pay/NursingView.vue')
+        },
+        {
+          path: 'task',
+          name: 'TaskView',
+          component: () => import('@/views/personnel/pay/TaskView.vue')
+        },
+        {
+          path:'section',
+          name:'SectionView',
+          component:()=>import('@/views/personnel/management/SectionView.vue')
+        },
+        {
+          path:'post',
+          name:'PostVive',
+          component:()=>import('@/views/personnel/management/PostVive.vue')
+        },
+        
+        {
+          path:'addpost',//
+          name:'AddPostVive',
+          component:()=>import('@/views/personnel/management/AddPostVive.vue')
+        },
+        {
+          path:'staff',
+          name:'StaffView',
+          component:()=>import('@/views/personnel/management/StaffView.vue')
+        },
+        {
+          path:'compilestaff',
+          name:'CompilestaffView',
+          component:()=>import('@/views/personnel/management/CompilestaffView.vue')
+        },
       ]
     }
   ]

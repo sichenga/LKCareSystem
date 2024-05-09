@@ -1,9 +1,9 @@
 <template>
-    <!-- 薪资福利结算 -->
+    <!-- 员工管理 -->
     <!-- 查询 -->
     <el-card>
         <el-form :inline="true" :model="formInline" class="demo-form-inline">
-            <el-form-item label="护工姓名：">
+            <el-form-item label="员工姓名：">
                 <el-input v-model="formInline.user" placeholder="请输入" clearable />
             </el-form-item>
             <el-form-item label="联系方式:">
@@ -12,13 +12,19 @@
             <el-form-item label="身份证号：">
                 <el-input v-model="formInline.user" placeholder="请输入" clearable />
             </el-form-item>
-            <el-form-item label="统计月份：">
+            <el-form-item label="所属部门：">
                 <el-select v-model="formInline.region" placeholder="请选择" clearable>
                     <el-option label="Zone one" value="shanghai" />
                     <el-option label="Zone two" value="beijing" />
                 </el-select>
             </el-form-item>
-            <el-form-item label="结算状态：">
+            <el-form-item label="所属岗位：">
+                <el-select v-model="formInline.region" placeholder="请选择" clearable>
+                    <el-option label="Zone one" value="shanghai" />
+                    <el-option label="Zone two" value="beijing" />
+                </el-select>
+            </el-form-item>
+            <el-form-item label="状态：">
                 <el-select v-model="formInline.region" placeholder="请选择" clearable>
                     <el-option label="Zone one" value="shanghai" />
                     <el-option label="Zone two" value="beijing" />
@@ -31,34 +37,37 @@
         </el-form>
     </el-card>
     <el-card class="table">
-        <el-button type="primary" style="margin-bottom: 30px;">标记已结算</el-button>
+        <el-button style="margin-bottom: 20px;" type="primary" @click="add">新增</el-button>
         <!-- 表格 -->
-        <MayTable :isMultiple="true" :tableData="data.tableData" :tableItem="data.tableItem" :identifier="identifier">
+        <MayTable :tableData="data.tableData" :tableItem="data.tableItem" :identifier="identifier">
             <template #operate>
-                <el-button type="primary" size="small" link @click="detail">薪资明细</el-button>
-                <el-button type="primary" size="small" link @click="settled">标记已结算</el-button>
+                <el-button type="primary" size="small" link @click="handleEdit">编辑</el-button>
+                <el-button type="primary" size="small" link @click="enable">禁用</el-button>
+                <el-button type="primary" size="small" link @click="handleDelete">删除</el-button>
             </template>
         </MayTable>
         <!-- 分页 -->
         <Pagination :total="50"></Pagination>
-        <!-- 标记已结算 -->
-        <WelfareDialog @close="close" v-if="isdialog"></WelfareDialog>
     </el-card>
 </template>
 
 <script lang='ts' setup>
 import { reactive, toRefs, ref, onMounted, defineAsyncComponent } from 'vue'
 import { useRouter } from 'vue-router'
-import WelfareDialog from "@/components/dialog/WelfareDialog.vue"
+import { getMessageBox } from '@/utils/utils'
+import { ElMessage } from 'element-plus'
 const router = useRouter();
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
-import WelfareView from '@/database/WelfareView.json'
-const identifier='Workers'
-const isdialog = ref(false)
+import StaffView from '@/database/StaffView.json'
+const identifier = 'Workers'
 const data = reactive({
     tableData: [] as any,
     tableItem: [
+        {
+            prop: 'id',
+            label: '序号'
+        },
         {
             prop: 'image',
             label: '头像'
@@ -68,44 +77,78 @@ const data = reactive({
             label: '姓名'
         },
         {
-            prop: 'contact',
-            label: '联系方式'
-        },
-        {
             prop: 'ibnumber',
             label: '身份证号'
         },
         {
-            prop: 'payroll',
-            label: '薪资合计'
+            prop: 'department',
+            label: '所属部门'
         },
         {
-            prop: 'settled',
-            label: '待结算薪资'
+            prop: 'station',
+            label: '所属岗位'
+        },
+        {
+            prop: 'account',
+            label: '账号'
+        },
+        {
+            prop: 'password',
+            label: '密码'
+        },
+        {
+            prop: 'creator',
+            label: '创建人',
+        },
+        {
+            prop: 'creation',
+            label: '创建日期',
+        },
+        {
+            prop: 'state',
+            label: '状态'
         }
     ]
 })
 const getlist = () => {
     setTimeout(() => {
-        data.tableData = WelfareView
+        data.tableData = StaffView
     }, 1000)
-}
-// 关闭弹窗
-const close = () => {
-    isdialog.value = false
 }
 onMounted(() => {
     getlist()
 })
-//薪资明细
-const detail = (() => {
-    console.log('薪资明细 ');
-    router.push("/dashboard/detail")
+// 添加
+const add=(()=>{
+    router.push("/dashboard/compilestaff")
 })
-//标记已结算
-const settled = (() => {
-    console.log('标记已结算');
-    isdialog.value = true
+// 编辑
+const handleEdit = ((id: any) => {
+    console.log('编辑', id);
+    router.push("/dashboard/compilestaff")
+})
+//  禁用
+const enable=(async()=>{
+    console.log('禁用');
+    let res = await getMessageBox('是否确认禁用该员工', '禁用后该员工将不可正常使用系统功能')
+    console.log(11112, res)
+    if (res) {
+        ElMessage.success('删除成功')
+    } else {
+        ElMessage.info('取消删除')
+    }
+})
+
+// 删除
+const handleDelete = (async (id: any) => {
+    console.log('删除', id);
+    let res = await getMessageBox('是否确认删除该员工', '删除后将不可恢复')
+    console.log(11112, res)
+    if (res) {
+        ElMessage.success('删除成功')
+    } else {
+        ElMessage.info('取消删除')
+    }
 })
 const formInline = reactive({
     user: '',
