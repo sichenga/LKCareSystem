@@ -195,6 +195,15 @@ const router = createRouter({
           name:'Administration',
           component:()=>import('@/views/bazaar/outjoin/old/AdministrationViews.vue')
         },
+        {
+          path:'addold',
+          name:'Addold',
+          component:()=>import('@/views/bazaar/outjoin/old/AddoldViews.vue')
+        },
+
+
+        
+
       {
           path:'collection',
           name:'CollectionView',
