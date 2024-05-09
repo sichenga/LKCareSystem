@@ -7,6 +7,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    ActDialog: typeof import('./src/components/dialog/ActDialog.vue')['default']
     AffDialog: typeof import('./src/components/dialog/AffDialog.vue')['default']
     BedDialog: typeof import('./src/components/dialog/BedDialog.vue')['default']
     ECharts: typeof import('./src/components/food/ECharts.vue')['default']
@@ -33,18 +34,25 @@ declare module 'vue' {
     ElSteps: typeof import('element-plus/es')['ElSteps']
     ElTable: typeof import('element-plus/es')['ElTable']
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
+    ElTimeline: typeof import('element-plus/es')['ElTimeline']
+    ElTimelineItem: typeof import('element-plus/es')['ElTimelineItem']
     FoodDialog: typeof import('./src/components/dialog/FoodDialog.vue')['default']
     LeftMenu: typeof import('./src/components/menu/LeftMenu.vue')['default']
     LocationDialog: typeof import('./src/components/dialog/LocationDialog.vue')['default']
     ManagementDialog: typeof import('./src/components/dialog/ManagementDialog.vue')['default']
+    MassUpload: typeof import('./src/components/upload/MassUpload.vue')['default']
+    MayDateTimePicker: typeof import('./src/components/timepicker/MayDateTimePicker.vue')['default']
     MayPagination: typeof import('./src/components/pagination/MayPagination.vue')['default']
     MayTable: typeof import('./src/components/table/MayTable.vue')['default']
     MayTimePicker: typeof import('./src/components/timepicker/MayTimePicker.vue')['default']
     PriceDialog: typeof import('./src/components/dialog/PriceDialog.vue')['default']
+    RegDialog: typeof import('./src/components/dialog/RegDialog.vue')['default']
     RoleDialog: typeof import('./src/components/dialog/RoleDialog.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SupplierDialog: typeof import('./src/components/dialog/SupplierDialog.vue')['default']
     TopMenu: typeof import('./src/components/menu/TopMenu.vue')['default']
+    UploadPictures: typeof import('./src/components/upload/UploadPictures.vue')['default']
+    UploadVideo: typeof import('./src/components/upload/UploadVideo.vue')['default']
   }
 }
