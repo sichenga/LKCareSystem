@@ -6,7 +6,12 @@
   }">
     <el-table-column type="selection" width="55" v-if="isMultiple" />
     <el-table-column v-for="(item, index) in props.tableItem" :key="index" :prop="item.prop" :label="item.label"
-      :width="item.width" />
+      :width="item.width">
+       <template v-if="item.prop=='image'&&props.identifier==='Workers'" v-slot="{row}">
+        <el-image style="width: 50px; height: 50px" :src="row.image"  />
+      </template>
+
+    </el-table-column>
 
     <!-- 是否有input框 -->
     <el-table-column :label="props.label" v-if="props.label">
@@ -15,7 +20,7 @@
       </template>
     </el-table-column>
 
-    <el-table-column label="操作" width="330" v-if="props.isoperate">
+    <el-table-column label="操作" width="200" v-if="props.isoperate">
       <template v-slot="scope">
         <slot name="operate" :data="scope.row"></slot>
       </template>

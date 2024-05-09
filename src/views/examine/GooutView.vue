@@ -1,26 +1,22 @@
 <template>
-    <!-- 床位更换申请审批 -->
-    <el-card style="max-width: 100%">
+   <el-card style="max-width: 100%">
         <el-form :inline="true" :model="formInline" class="demo-form-inline">
             <el-form-item label="老人姓名:">
                 <el-input v-model="formInline.oldname" placeholder="请输入老人姓名" clearable />
-            </el-form-item>
-            <el-form-item label="身份证号码:">
-                <el-input v-model="formInline.idcard" placeholder="请输入身份证号码" clearable />
-            </el-form-item>
-            <el-form-item label="性别:">
-                <el-select v-model="formInline.sex" placeholder="请选择" clearable>
-                    <el-option label="男" value="0" />
-                    <el-option label="女" value="1" />
-                </el-select>
             </el-form-item>
             <el-form-item label="审批状态:">
                 <el-select v-model="formInline.status" placeholder="请选择" clearable>
                     <el-option label="待提交" value="0" />
                     <el-option label="待审批" value="1" />
-                    <el-option label="待上传合同" value="2" />
+                    <el-option label="审批拒绝" value="2" />
+                </el-select>
+            </el-form-item>
+            <el-form-item label="创建时间:">
+                <el-select v-model="formInline.creation" placeholder="请选择" clearable>
+                    <el-option label="待提交" value="0" />
+                    <el-option label="待审批" value="1" />
+                    <el-option label="审批通过" value="2" />
                     <el-option label="审批拒绝" value="3" />
-                    <el-option label="已完成" value="4" />
                 </el-select>
             </el-form-item>
             <el-form-item>
@@ -31,8 +27,8 @@
     </el-card>
     <el-card style="max-width: 100%" class="card">
         <!-- 表格 -->
-        <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
-            <template #operate>
+        <MayTable :tableData="data.tableData" :tableItem="data.tableItem" >
+            <template #operate >
                 <el-button type="primary" text @click="approve">审批</el-button>
                 <el-button type="primary" text @click="details">详情</el-button>
             </template>
@@ -43,16 +39,15 @@
 
 <script lang="ts" setup>
 import { reactive, defineAsyncComponent, onMounted } from 'vue'
-import BedView from '@/database/BedView.json'
+import GooutView from '@/database/GooutView.json'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
 import { useRouter } from 'vue-router';
 const router = useRouter();
 const formInline = reactive({
     oldname: '',
-    idcard: '',
-    sex: '',
-    status: ''
+    status: '',
+    creation:''
 })
 
 const data = reactive({
@@ -60,38 +55,41 @@ const data = reactive({
     tableItem: [
         {
             prop: 'id',
-            label: '序号'
+            label: '序号',
+            width:'60'
         },
         {
             prop: 'oldname',
             label: '老人姓名'
         },
         {
-            prop: 'sex',
-            label: '性别'
+            prop: 'bednumber',
+            label: '床位号'
         },
         {
-            prop: 'idcard',
-            label: '身份证号'
+            prop: 'accompany',
+            label: '陪同人员姓名'
         },
         {
-            prop: 'Originalbed',
-            label: '原床位'
+            prop: 'tel',
+            label: '陪同人员手机号'
+          
         },
         {
-            prop: 'Changebed',
-            label: '变更床位'
+            prop: 'timeout',
+            label: '外出时间',
+            width:'200'
         },
         {
-            prop: 'proposer',
-            label: '申请人'
+            prop: 'founder',
+            label: '创建人'
         },
         {
-            prop: 'applicationdate',
-            label: '申请日期'
+            prop: 'creationtime',
+            label: '创建时间'
         },
         {
-            prop: 'approvalstatus',
+            prop: 'status',
             label: '审批状态'
         },
 
@@ -111,7 +109,7 @@ const details = () => {
 }
 const getlist = () => {
     setTimeout(() => {
-        data.tableData = BedView
+        data.tableData = GooutView
     }, 1000)
 }
 onMounted(() => {
@@ -121,11 +119,11 @@ onMounted(() => {
 
 <style lang="less" scoped>
 .demo-form-inline .el-input {
-    --el-input-width: 180px;
+    --el-input-width: 200px;
 }
 
 .demo-form-inline .el-select {
-    --el-select-width: 180px;
+    --el-select-width: 200px;
 }
 .card {
     margin-top: 20px;

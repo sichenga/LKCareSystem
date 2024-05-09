@@ -82,9 +82,24 @@ const router = createRouter({
           component: () => import('@/views/examine/BedView.vue')
         },
         {
-          path: 'Details',
-          name: 'Details',
-          component: () => import('@/views/examine/DetailsView.vue')
+          path: 'Goout',
+          name: 'Goout',
+          component: () => import('@/views/examine/GooutView.vue')
+        },
+        {
+          path: 'Grade',
+          name: 'Grade',
+          component: () => import('@/views/examine/GradeView.vue')
+        },
+        {
+          path: 'Workers',
+          name: 'Workers',
+          component: () => import('@/views/basic/nurse/WorkersView.vue')
+        },
+        {
+          path: 'Serve',
+          name: 'Serve',
+          component: () => import('@/views/basic/nurse/ServeView.vue')
         },
         {
           path:'affiliated',

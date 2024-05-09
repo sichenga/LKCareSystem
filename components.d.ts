@@ -19,6 +19,7 @@ declare module 'vue' {
     ElCheckboxGroup: typeof import('element-plus/es')['ElCheckboxGroup']
     ElContainer: typeof import('element-plus/es')['ElContainer']
     ElDialog: typeof import('element-plus/es')['ElDialog']
+    ElFooter: typeof import('element-plus/es')['ElFooter']
     ElForm: typeof import('element-plus/es')['ElForm']
     ElFormItem: typeof import('element-plus/es')['ElFormItem']
     ElHeader: typeof import('element-plus/es')['ElHeader']
@@ -37,11 +38,14 @@ declare module 'vue' {
     ManagementDialog: typeof import('./src/components/dialog/ManagementDialog.vue')['default']
     MayPagination: typeof import('./src/components/pagination/MayPagination.vue')['default']
     MayTable: typeof import('./src/components/table/MayTable.vue')['default']
+    PassDialog: typeof import('./src/components/dialog/PassDialog.vue')['default']
     PriceDialog: typeof import('./src/components/dialog/PriceDialog.vue')['default']
     RoleDialog: typeof import('./src/components/dialog/RoleDialog.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    ServeDialog: typeof import('./src/components/dialog/ServeDialog.vue')['default']
     SupplierDialog: typeof import('./src/components/dialog/SupplierDialog.vue')['default']
     TopMenu: typeof import('./src/components/menu/TopMenu.vue')['default']
+    WorkersDialog: typeof import('./src/components/dialog/WorkersDialog.vue')['default']
   }
 }
