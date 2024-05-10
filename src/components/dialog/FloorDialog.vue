@@ -1,12 +1,9 @@
 <template>
-    <el-dialog v-model="dialogVisible" title="添加护理等级" width="500" @close="close">
-        <el-form ref="ruleFormRef" style="max-width: 600px" :model="ruleForm" :rules="rules" label-width="auto"
+    <el-dialog v-model="dialogVisible" title="新增楼层" width="500" @close="close">
+        <el-form ref="ruleFormRef" style="max-width: 400px" :model="ruleForm" :rules="rules" label-width="auto"
             class="demo-ruleForm" :size="formSize" status-icon>
-            <el-form-item label="项目名称" prop="name">
-                <el-input v-model="ruleForm.name" />
-            </el-form-item>
-            <el-form-item label="等级描述">
-                <el-input v-model="ruleForm.desc" type="textarea" />
+            <el-form-item label="楼层号" prop="name">
+                <el-input v-model="ruleForm.name" placeholder="请输入楼层号"/>
             </el-form-item>
         </el-form>
         <template #footer>

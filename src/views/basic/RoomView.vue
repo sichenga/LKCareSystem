@@ -1,26 +1,27 @@
 <template>
-    <!-- 护理服务 -->
+    <!-- 房间管理 -->
     <el-card style="max-width: 100%">
-        <el-button type="primary" @click="isdialog = true">新增护理项目</el-button>
-        <ProjectDialog @close="close" v-if="isdialog"></ProjectDialog>
+        <el-button type="primary" @click="isdialog = true">新增房间</el-button>
+        <RoomDialog @close="close" v-if="isdialog"></RoomDialog>
         <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
             <template #operate>
                 <el-button type="primary" text>编辑</el-button>
                 <el-button type="primary" text @click="del">删除</el-button>
-                <el-button type="primary" text @click="serve">配置服务</el-button>
             </template>
         </MayTable>
+        <Pagination :total="50"></Pagination>
     </el-card>
 </template>
+
 <script lang="ts" setup>
 import { ref, reactive, defineAsyncComponent, onMounted } from 'vue'
-import ProjectView from '@/database/ProjectView.json'
-import ProjectDialog from '@/components/dialog/ProjectDialog.vue';
+import RoomView from '@/database/RoomView.json'
+import RoomDialog from '@/components/dialog/RoomDialog.vue';
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
-import { useRouter } from 'vue-router';
-const router = useRouter();
+const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
 
 const data = reactive({
+
     tableData: [] as any,
     tableItem: [
         {
@@ -28,31 +29,38 @@ const data = reactive({
             label: '序号',
             width: '60'
         },
-        {
-            prop: 'project',
-            label: '护理项目',
-            width: '100'
 
+        {
+            prop: 'rooms',
+            label: '房间号'
         },
         {
-            prop: 'shape',
-            label: '任务形式'
+            prop: 'floor',
+            label: '楼层'
         },
         {
-            prop: 'frequency',
-            label: '执行频次'
+            prop: 'bed',
+            label: '床位数'
         },
         {
-            prop: 'describe',
-            label: '项目描述'
+            prop: 'checkin',
+            label: '入住老人'
         },
 
-
+        {
+            prop: 'addtime',
+            label: '创建人'
+        },
+        {
+            prop: 'founder',
+            label: '创建人'
+        }
     ]
 })
+
 const getlist = () => {
     setTimeout(() => {
-        data.tableData = ProjectView
+        data.tableData = RoomView
     }, 1000)
 }
 onMounted(() => {
@@ -67,17 +75,13 @@ const close = () => {
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
 const del = async () => {
-    let res = await getMessageBox('是否确认删除该服务', '删除后将不可恢复')
+    let res = await getMessageBox('是否确认删除该房间', '删除后将不可恢复')
     console.log(1111, res)
     if (res) {
         ElMessage.success('删除成功')
     } else {
         ElMessage.info('取消删除')
     }
-}
-//配置服务跳转页面
-const serve = () => {
-    router.push('Industry')
 }
 </script>
 
