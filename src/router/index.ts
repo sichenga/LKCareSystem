@@ -355,6 +355,16 @@ const router = createRouter({
           path: 'AddRegisterInfo',
           name: 'AddRegisterInfo',
           component: () => import('@/views/medicalcare/AddRegisterInfo.vue')
+        },
+        {
+          path: 'project',
+          name: 'Project',
+          component: () => import('@/views/medicalcare/ProjectView.vue')
+        },
+        {
+          path: 'getregisterinfo',
+          name: 'GetRegisterInfo',
+          component: () => import('@/views/medicalcare/GetRegisterInfo.vue')
         }
       ]
     }

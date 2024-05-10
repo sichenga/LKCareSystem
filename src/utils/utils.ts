@@ -1,6 +1,6 @@
 import { h } from 'vue'
 import { ElMessageBox } from 'element-plus'
-
+// 封装element-plus的messagebox
 export const getMessageBox = async (text: string, texttwo: string, title: string = '删除') => {
   try {
     return await ElMessageBox({
@@ -16,4 +16,19 @@ export const getMessageBox = async (text: string, texttwo: string, title: string
   } catch {
     return false
   }
+}
+
+// 递归生成树形结构数据
+export function TreeData(data: Array<RouterItem>, pid: number = 0) {
+  const tree: Array<RouterItem> = []
+  data.forEach((node) => {
+    if (node.pid === pid) {
+      const children = TreeData(data, node.id)
+      if (children.length) {
+        node.children = children
+      }
+      tree.push(node)
+    }
+  })
+  return tree
 }
