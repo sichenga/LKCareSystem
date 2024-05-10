@@ -1,15 +1,7 @@
 <template>
   <el-dialog v-model="dialogVisible" title="新增/编辑床位变更申请" width="500" @close="close">
-    <el-form
-      ref="ruleFormRef"
-      style="max-width: 600px"
-      :model="ruleForm"
-      :rules="rules"
-      label-width="auto"
-      class="demo-ruleForm"
-      :size="formSize"
-      status-icon
-    >
+    <el-form ref="ruleFormRef" style="max-width: 600px" :model="ruleForm" :rules="rules" label-width="auto"
+      class="demo-ruleForm" :size="formSize" status-icon>
       <el-form-item label="老人：" prop="name">
         <el-select v-model="ruleForm.oldman" placeholder="请选择" style="width: 300px">
           <el-option v-for="item in oldmanlist" :key="item" :label="item" :value="item" />
@@ -24,13 +16,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="变更原因：" prop="name">
-        <el-input
-          v-model="ruleForm.name"
-          style="width: 300px"
-          :rows="2"
-          type="textarea"
-          placeholder="Please input"
-        />
+        <el-input v-model="ruleForm.name" style="width: 300px" :rows="2" type="textarea" placeholder="Please input" />
       </el-form-item>
     </el-form>
     <template #footer>

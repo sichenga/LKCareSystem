@@ -1,16 +1,7 @@
 <template>
-  <el-upload
-    v-model:file-list="fileList"
-    class="upload-demo"
-    :headers="headers"
-    :action="action"
-    multiple
-    :on-success="handleSuccess"
-    :on-remove="handleRemove"
-    :before-remove="beforeRemove"
-    :limit="limit"
-    :on-exceed="handleExceed"
-  >
+  <el-upload v-model:file-list="fileList" class="upload-demo" :headers="headers" :action="action" multiple
+    :on-success="handleSuccess" :on-remove="handleRemove" :before-remove="beforeRemove" :limit="limit"
+    :on-exceed="handleExceed">
     <el-button type="primary">上传视频</el-button>
   </el-upload>
 </template>
@@ -76,8 +67,7 @@ const handleSuccess: UploadProps['onPreview'] = (uploadFile: any) => {
 
 const handleExceed: UploadProps['onExceed'] = (files: any, uploadFiles: any) => {
   ElMessage.warning(
-    `The limit is 3, you selected ${files.length} files this time, add up to ${
-      files.length + uploadFiles.length
+    `The limit is 3, you selected ${files.length} files this time, add up to ${files.length + uploadFiles.length
     } totally`
   )
 }

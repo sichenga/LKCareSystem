@@ -8,11 +8,16 @@
     <el-table-column v-for="(item, index) in props.tableItem" :key="index" :prop="item.prop" :label="item.label"
       :width="item.width">
       <template v-if="item.prop == 'image' && props.identifier === 'Workers'" v-slot="{ row }">
+<<<<<<< HEAD
+        <el-image style="width: 50px; height: 50px" :src="row.image" /> <span></span>
+=======
         <el-image style="width: 50px; height: 50px" :src="row.image" />
       </template>
       <template v-else-if="props.identifier=='administration'&&item.prop=='image'" v-slot="{row}">
         <el-image style="width: 50px; height: 50px" :src=row.image fit="cover" />
+>>>>>>> 065bab607188fec05391e9a3f915e75d1843887d
       </template>
+
     </el-table-column>
 
     <!-- 是否有input框 -->
@@ -22,7 +27,11 @@
       </template>
     </el-table-column>
 
+<<<<<<< HEAD
+    <el-table-column label="操作" v-if="props.isoperate" width="330">
+=======
     <el-table-column label="操作" width="330" v-if="props.isoperate">
+>>>>>>> 065bab607188fec05391e9a3f915e75d1843887d
       <template v-slot="scope">
         <slot name="operate" :data="scope.row"></slot>
       </template>
