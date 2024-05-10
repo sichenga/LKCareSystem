@@ -213,74 +213,80 @@ const router = createRouter({
           component: () => import('@/views/purchase/ExamineViews.vue')
         },
         {
-          path:'potential',
-          name:'Potential',
-          component:()=>import('@/views/bazaar/PotentialViews.vue')
+          path: 'potential',
+          name: 'Potential',
+          component: () => import('@/views/bazaar/PotentialViews.vue')
         },
         {
-          path:'newly',
-          name:'Newly',
-          component:()=>import('@/views/bazaar/NewlyViews.vue')
+          path: 'newly',
+          name: 'Newly',
+          component: () => import('@/views/bazaar/NewlyViews.vue')
         },
         {
-          path:'consult',
-          name:'Consult',
-          component:()=>import('@/views/bazaar/ConsultViews.vue')
+          path: 'consult',
+          name: 'Consult',
+          component: () => import('@/views/bazaar/ConsultViews.vue')
         },
         {
-          path:'returnLeg',
-          name:'ReturnLeg',
-          component:()=>import('@/views/bazaar/ReturnLegViews.vue')
+          path: 'returnLeg',
+          name: 'ReturnLeg',
+          component: () => import('@/views/bazaar/ReturnLegViews.vue')
         },
         {
-          path:'particulars',
-          name:'Particulars',
-          component:()=>import('@/views/bazaar/ParticularsVIews.vue')
+          path: 'particulars',
+          name: 'Particulars',
+          component: () => import('@/views/bazaar/ParticularsVIews.vue')
         },
         {
-          path:'administration',
-          name:'Administration',
-          component:()=>import('@/views/bazaar/outjoin/old/AdministrationViews.vue')
-        },
-      {
-          path:'collection',
-          name:'CollectionView',
-          component:()=>import('@/views/financial/business/CollectionView.vue')
+          path: 'administration',
+          name: 'Administration',
+          component: () => import('@/views/bazaar/outjoin/old/AdministrationViews.vue')
         },
         {
-          path:'paid',
-          name:'paid',
-          component:()=>import('@/views/financial/business/PaidView.vue')
+          path: 'addold',
+          name: 'Addold',
+          component: () => import('@/views/bazaar/outjoin/old/AddoldViews.vue')
+        },
+
+        {
+          path: 'collection',
+          name: 'CollectionView',
+          component: () => import('@/views/financial/business/CollectionView.vue')
         },
         {
-          path:'fees',
-          name:'FeesView',
-          component:()=>import('@/views/financial/business/FeesView.vue')
+          path: 'paid',
+          name: 'paid',
+          component: () => import('@/views/financial/business/PaidView.vue')
         },
         {
-          path:'admission',
-          name:'AdmissionView',
-          component:()=>import('@/views/financial/business/AdmissionView.vue')
+          path: 'fees',
+          name: 'FeesView',
+          component: () => import('@/views/financial/business/FeesView.vue')
         },
         {
-          path:'hospital',
-          name:'hospital',
-          component:()=>import('@/views/financial/business/HospitalView.vue')
+          path: 'admission',
+          name: 'AdmissionView',
+          component: () => import('@/views/financial/business/AdmissionView.vue')
         },
         {
-          path:'welfare',
-          name:'WelfareView',
-          component:()=>import('@/views/financial/operation/WelfareView.vue')
+          path: 'hospital',
+          name: 'hospital',
+          component: () => import('@/views/financial/business/HospitalView.vue')
         },
         {
-          path:'detail',
-          name:'DetailView',
-          component:()=>import('@/views/financial/operation/DetailView.vue')
+          path: 'welfare',
+          name: 'WelfareView',
+          component: () => import('@/views/financial/operation/WelfareView.vue')
         },
         {
-          path:'section',
-          name:'SectionView',
-          component:()=>import('@/views/personnel/management/SectionView.vue')
+          path: 'detail',
+          name: 'DetailView',
+          component: () => import('@/views/financial/operation/DetailView.vue')
+        },
+        {
+          path: 'section',
+          name: 'SectionView',
+          component: () => import('@/views/personnel/management/SectionView.vue')
         },
         {
           path: 'particulars',
@@ -323,6 +329,41 @@ const router = createRouter({
           component: () => import('@/views/elderlycare/gooutmanage/GooutapplyView.vue')
         },
         {
+          path: 'nursing',
+          name: 'NursingView',
+          component: () => import('@/views/personnel/pay/NursingView.vue')
+        },
+        {
+          path: 'task',
+          name: 'TaskView',
+          component: () => import('@/views/personnel/pay/TaskView.vue')
+        },
+        {
+          path: 'section',
+          name: 'SectionView',
+          component: () => import('@/views/personnel/management/SectionView.vue')
+        },
+        {
+          path: 'post',
+          name: 'PostVive',
+          component: () => import('@/views/personnel/management/PostVive.vue')
+        },
+        {
+          path: 'addpost',
+          name: 'AddPostVive',
+          component: () => import('@/views/personnel/management/AddPostVive.vue')
+        },
+        {
+          path: 'staff',
+          name: 'StaffView',
+          component: () => import('@/views/personnel/management/StaffView.vue')
+        },
+        {
+          path: 'compilestaff',
+          name: 'CompilestaffView',
+          component: () => import('@/views/personnel/management/CompilestaffView.vue')
+        },
+        {
           path: 'addgoout',
           name: 'Addgoout',
           component: () => import('@/views/elderlycare/gooutmanage/AddGoout.vue')
@@ -341,6 +382,26 @@ const router = createRouter({
           path: 'activity',
           name: 'Activity',
           component: () => import('@/views/elderlycare/activity/ActivityView.vue')
+        },
+        {
+          path: 'washclothes',
+          name: 'Washclothes',
+          component: () => import('@/views/elderlycare/washclothes/WashclothesView.vue')
+        },
+        {
+          path: 'register',
+          name: 'RegisterView',
+          component: () => import('@/views/medicalcare/RegisterView.vue')
+        },
+        {
+          path: 'registerinfo',
+          name: 'RegisterInfo',
+          component: () => import('@/views/medicalcare/RegisterInfo.vue')
+        },
+        {
+          path: 'AddRegisterInfo',
+          name: 'AddRegisterInfo',
+          component: () => import('@/views/medicalcare/AddRegisterInfo.vue')
         }
       ]
     }

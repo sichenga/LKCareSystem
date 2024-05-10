@@ -69,7 +69,7 @@ const handleEdit = ((id: any) => {
 // 删除
 const handleDelete = (async(id: any) => {
   console.log('删除', id);
-    let res = await getMessageBox('是否确认删除该角色', '删除后将不可恢复')
+    let res = await getMessageBox('是否确认删除该供应商', '删除后将不可恢复')
     console.log(11112, res)
     if (res) {
         ElMessage.success('删除成功')

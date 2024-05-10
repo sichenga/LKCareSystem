@@ -10,6 +10,7 @@ declare module 'vue' {
     ActDialog: typeof import('./src/components/dialog/ActDialog.vue')['default']
     AddConsult: typeof import('./src/components/dialog/consult/AddConsult.vue')['default']
     AddedlevelDialog: typeof import('./src/components/dialog/AddedlevelDialog.vue')['default']
+    AddRegInfoDialog: typeof import('./src/components/dialog/AddRegInfoDialog.vue')['default']
     AddRelation: typeof import('./src/components/dialog/AddRelation.vue')['default']
     AdmissionDialog: typeof import('./src/components/dialog/AdmissionDialog.vue')['default']
     AffDialog: typeof import('./src/components/dialog/AffDialog.vue')['default']
@@ -45,7 +46,6 @@ declare module 'vue' {
     ElTimeline: typeof import('element-plus/es')['ElTimeline']
     ElTimelineItem: typeof import('element-plus/es')['ElTimelineItem']
     ElTree: typeof import('element-plus/es')['ElTree']
-    ElUpload: typeof import('element-plus/es')['ElUpload']
     FloorDialog: typeof import('./src/components/dialog/FloorDialog.vue')['default']
     FoodDialog: typeof import('./src/components/dialog/FoodDialog.vue')['default']
     HospitalDialog: typeof import('./src/components/dialog/HospitalDialog.vue')['default']
@@ -73,6 +73,7 @@ declare module 'vue' {
     TopMenu: typeof import('./src/components/menu/TopMenu.vue')['default']
     UploadPictures: typeof import('./src/components/upload/UploadPictures.vue')['default']
     UploadVideo: typeof import('./src/components/upload/UploadVideo.vue')['default']
+    WashparticularsDialog: typeof import('./src/components/dialog/WashparticularsDialog.vue')['default']
     WelfareDialog: typeof import('./src/components/dialog/WelfareDialog.vue')['default']
     WorkersDialog: typeof import('./src/components/dialog/WorkersDialog.vue')['default']
   }

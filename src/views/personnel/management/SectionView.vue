@@ -7,6 +7,6 @@ import { reactive,toRefs,ref,onMounted} from 'vue'
 
 </script>
 
-<style scoped>
+<style scoped lang="less">
 
 </style>

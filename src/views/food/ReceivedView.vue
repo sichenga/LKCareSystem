@@ -101,7 +101,7 @@ onMounted(() => {
 
 // 返回
 const back = (() => {
-    router.push("/dashboard/purchasing")
+    router.go(-1)
 })
 </script>
 
