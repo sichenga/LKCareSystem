@@ -200,7 +200,11 @@ const router = createRouter({
           name:'Addold',
           component:()=>import('@/views/bazaar/outjoin/old/AddoldViews.vue')
         },
-
+        {
+          path:'record',
+          name:'Record',
+          component:()=>import('@/views/bazaar/outjoin/old/RecordViews.vue')
+        },
 
         
 
