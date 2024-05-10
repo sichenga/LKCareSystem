@@ -75,7 +75,8 @@ const form = reactive({
 
 // 返回
 const back=(()=>{
-   router.push("/dashboard/collection")
+   // router.push("/dashboard/collection")
+   router.go(-1)
 })
 </script>
 

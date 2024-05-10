@@ -128,6 +128,7 @@ const pay = (() => {
 //  查看明细
 const detail = (() => {
     console.log('查看明细');
+    isdialog.value = true
     // router.push("/dashboard/receiving")
 })
 const formInline = reactive({

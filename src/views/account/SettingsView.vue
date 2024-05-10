@@ -11,8 +11,8 @@
                 </div>
             </el-form-item>
         </div>
-        <el-form ref="ruleFormRef" :model="ruleForm" label-width="auto" class="demo-ruleForm" :size="formSize" style="width: 300px;"
-            status-icon>
+        <el-form ref="ruleFormRef" :model="ruleForm" label-width="auto" class="demo-ruleForm" :size="formSize"
+            style="width: 300px;" status-icon>
             <el-form-item label="姓名">
                 <el-input class="custom-input" v-model="ruleForm.name" />
             </el-form-item>
@@ -25,13 +25,11 @@
             <el-form-item label="密码">
                 <el-input class="custom-pass" v-model="ruleForm.pass" /> <span
                     style="color:#75a5ea ; font-size: 12px; padding-left: 20px;" @click="isdialog = true">修改密码</span>
-                    <PassDialog @close="close" v-if="isdialog"></PassDialog>
+                <PassDialog @close="close" v-if="isdialog"></PassDialog>
             </el-form-item>
             <el-form-item label="所属角色">
                 <el-input class="custom-inputrole" v-model="ruleForm.role" />
             </el-form-item>
-
-
         </el-form>
     </el-card>
 </template>
@@ -62,7 +60,7 @@ const ruleForm = reactive<RuleForm>({
 //弹出框
 const isdialog = ref(false)
 const close = () => {
-  isdialog.value = false
+    isdialog.value = false
 }
 
 
@@ -140,9 +138,8 @@ const close = () => {
     width: 100px !important;
     margin-left: 25px;
 }
+
 .is-error {
     margin-bottom: 20px;
-}  
-
-
+}
 </style>

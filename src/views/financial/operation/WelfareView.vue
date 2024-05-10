@@ -33,7 +33,7 @@
     <el-card class="table">
         <el-button type="primary" style="margin-bottom: 30px;">标记已结算</el-button>
         <!-- 表格 -->
-        <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
+        <MayTable :isMultiple="true" :tableData="data.tableData" :tableItem="data.tableItem" :identifier="identifier">
             <template #operate>
                 <el-button type="primary" size="small" link @click="detail">薪资明细</el-button>
                 <el-button type="primary" size="small" link @click="settled">标记已结算</el-button>
@@ -54,12 +54,13 @@ const router = useRouter();
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
 import WelfareView from '@/database/WelfareView.json'
+const identifier='Workers'
 const isdialog = ref(false)
 const data = reactive({
     tableData: [] as any,
     tableItem: [
         {
-            prop: 'photo',
+            prop: 'image',
             label: '头像'
         },
         {

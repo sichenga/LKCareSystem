@@ -65,7 +65,7 @@ onMounted(() => {
 })
 // 返回
 const back = (() => {
-    router.push("/dashboard/welfare")
+    router.go(-1)
 })
 </script>
 
