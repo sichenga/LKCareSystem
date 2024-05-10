@@ -19,9 +19,9 @@ export const getMessageBox = async (text: string, texttwo: string, title: string
 }
 
 // 递归生成树形结构数据
-export function TreeData(data: Array<RouterItem>, pid: number = 0) {
-  const tree: Array<RouterItem> = []
-  data.forEach((node) => {
+export function TreeData<T>(data: Array<T>, pid: number = 0) {
+  const tree: Array<T> = []
+  data.forEach((node: any) => {
     if (node.pid === pid) {
       const children = TreeData(data, node.id)
       if (children.length) {
