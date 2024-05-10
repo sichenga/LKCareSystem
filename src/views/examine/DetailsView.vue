@@ -9,17 +9,24 @@
                 <div class="oldinfo">
                     <el-form :inline="true" label-position="left" label-width="auto" class="demo-form-inline"
                         style="width: 60%">
-                        <el-form-item label="头像：">
-                            <el-avatar :size="20" :src="circleUrl" />
-                        </el-form-item>
-                        <el-form-item label="身份证号："> 293923019912 </el-form-item>
-                        <el-form-item label="房间号："> 1楼501室 </el-form-item>
-                        <el-form-item label="姓名：" class="gray"> 张武 </el-form-item>
-                        <el-form-item label="联系电话："> 1882783923 </el-form-item>
-                        <el-form-item label="床位号："> 501-1 </el-form-item>
-                        <el-form-item label="性别：" class="gray"> 男 </el-form-item>
-                        <el-form-item label="家庭地址："> 上海市普陀区1000号 </el-form-item>
-
+                        <div class="box">
+                            <div class="r1">
+                                <el-form-item label="头像：">
+                                    <el-avatar :size="20" :src="circleUrl" />
+                                </el-form-item>
+                                <el-form-item label="姓名：" class="gray"> 张武 </el-form-item>
+                                <el-form-item label="性别：" class="gray"> 男 </el-form-item>
+                            </div>
+                            <div class="r2">
+                                <el-form-item label="身份证号："> 293923019912 </el-form-item>
+                                <el-form-item label="联系电话："> 1882783923 </el-form-item>
+                                <el-form-item label="家庭地址："> 上海市普陀区1000号 </el-form-item>
+                            </div>
+                            <div class="r3">
+                                <el-form-item label="房间号："> 1楼501室 </el-form-item>
+                                <el-form-item label="床位号："> 501-1 </el-form-item>
+                            </div>
+                        </div>
 
                     </el-form>
                 </div>
@@ -67,7 +74,7 @@
             <el-step title="Step 3" />
         </el-steps>
         <el-form-item class="btn">
-            <el-button type="primary" >审批通过</el-button>
+            <el-button type="primary">审批通过</el-button>
             <el-button>审批拒绝</el-button>
             <el-button>返回</el-button>
         </el-form-item>
@@ -105,7 +112,7 @@ const circleUrl = ref('https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726
 
 .demo-form-inline {
     .el-form-item {
-        width: 30%;
+        
     }
 }
 
@@ -153,9 +160,15 @@ const circleUrl = ref('https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726
         padding: 0;
     }
 }
+
 .btn {
     width: 300px;
     height: 80px;
     margin: 0 auto;
+}
+
+.box {
+    display: flex;
+
 }
 </style>
