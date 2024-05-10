@@ -91,6 +91,11 @@ const router = createRouter({
           component: () => import('@/views/examine/GradeView.vue')
         },
         {
+          path: 'Details',
+          name: 'Details',
+          component: () => import('@/views/examine/DetailsView.vue')
+        },
+        {
           path: 'Workers',
           name: 'Workers',
           component: () => import('@/views/basic/nurse/WorkersView.vue')
@@ -116,6 +121,7 @@ const router = createRouter({
           component: () => import('@/views/basic/nurse/ConfigurationView.vue')
         },
         {
+
           path: 'Industry',
           name: 'Industry',
           component: () => import('@/views/basic/nurse/IndustryView.vue')
@@ -129,6 +135,32 @@ const router = createRouter({
           path: 'Room',
           name: 'Room',
           component: () => import('@/views/basic/RoomView.vue')
+        },
+        {
+          path: 'Berth',
+          name: 'Berth',
+          component: () => import('@/views/basic/BerthView.vue')
+        },
+        {
+          path: 'Approve',
+          name: 'Approve',
+          component: () => import('@/views/basic/ApproveView.vue')
+        },
+        {
+          path: 'Deploy',
+          name: 'Deploy',
+          component: () => import('@/views/basic/DeployView.vue')
+        },
+        {
+          path: 'Manage',
+          name: 'Manage',
+          component: () => import('@/views/basic/ManageView.vue')
+        },
+        
+        {
+          path: 'Security',
+          name: 'Security',
+          component: () => import('@/views/basic/SecurityView.vue')
         },
         {
           path:'affiliated',
@@ -181,6 +213,36 @@ const router = createRouter({
           component: () => import('@/views/purchase/ExamineViews.vue')
         },
         {
+          path:'potential',
+          name:'Potential',
+          component:()=>import('@/views/bazaar/PotentialViews.vue')
+        },
+        {
+          path:'newly',
+          name:'Newly',
+          component:()=>import('@/views/bazaar/NewlyViews.vue')
+        },
+        {
+          path:'consult',
+          name:'Consult',
+          component:()=>import('@/views/bazaar/ConsultViews.vue')
+        },
+        {
+          path:'returnLeg',
+          name:'ReturnLeg',
+          component:()=>import('@/views/bazaar/ReturnLegViews.vue')
+        },
+        {
+          path:'particulars',
+          name:'Particulars',
+          component:()=>import('@/views/bazaar/ParticularsVIews.vue')
+        },
+        {
+          path:'administration',
+          name:'Administration',
+          component:()=>import('@/views/bazaar/outjoin/old/AdministrationViews.vue')
+        },
+      {
           path:'collection',
           name:'CollectionView',
           component:()=>import('@/views/financial/business/CollectionView.vue')
@@ -251,14 +313,34 @@ const router = createRouter({
           component: () => import('@/views/elderlycare/nursemanage/BedreplaceView.vue')
         },
         {
-          path: 'examine',
-          name: 'Examine',
-          component: () => import('@/views/elderlycare/examine/ExamineView.vue')
+          path: 'nurexamine',
+          name: 'NurExamine',
+          component: () => import('@/views/elderlycare/nursemanage/ExamineView.vue')
         },
         {
           path: 'gooutapply',
           name: 'Gooutapply',
           component: () => import('@/views/elderlycare/gooutmanage/GooutapplyView.vue')
+        },
+        {
+          path: 'addgoout',
+          name: 'Addgoout',
+          component: () => import('@/views/elderlycare/gooutmanage/AddGoout.vue')
+        },
+        {
+          path: 'goexamine',
+          name: 'GoNurExamine',
+          component: () => import('@/views/elderlycare/gooutmanage/ExamineView.vue')
+        },
+        {
+          path: 'gooutregister',
+          name: 'Gooutregister',
+          component: () => import('@/views/elderlycare/gooutmanage/GooutregisterView.vue')
+        },
+        {
+          path: 'activity',
+          name: 'Activity',
+          component: () => import('@/views/elderlycare/activity/ActivityView.vue')
         }
       ]
     }

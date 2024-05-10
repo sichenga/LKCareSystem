@@ -38,16 +38,18 @@
         </div>
     </el-card>
     <div class="button-body">
-        <el-button class="btn-body">返回</el-button>
-        <el-button type="primary" class="primary">确定验收</el-button>
+        <el-button class="btn-body" @click="goback">返回</el-button>
+        <el-button type="primary" class="primary" @click="confirm">确定验收</el-button>
     </div>
 </template>
 <script lang="ts" setup>
 import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
+import {useRouter} from 'vue-router'
 import AffiliatedView from '@/database/AffiliatedView.json'
-const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
-const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
 
+const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
+
+const router = useRouter()
 const data = reactive({
     tableData: [] as any,
     tableItem: [
@@ -90,6 +92,13 @@ const getlist = () => {
     setTimeout(() => {
         data.tableData = AffiliatedView
     }, 1000)
+}
+
+const confirm = ()=>{
+    router.push('/dashboard/purchase')
+}
+const goback=()=>{
+    router.push('/dashboard/apply')
 }
 onMounted(() => {
     getlist()

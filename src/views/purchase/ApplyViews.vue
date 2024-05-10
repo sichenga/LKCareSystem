@@ -8,9 +8,10 @@
       <!-- 表格 -->
       <MayTable :tableData="data.tableData" :tableItem="data.tableItem" >
         <template #operate>
-            <el-button type="primary" text>编辑</el-button>
+          <!-- <el-button type="primary" text @click="del">删除</el-button> -->
+            <el-button type="primary" text @click="reteor.push('/dashboard/purchase')">编辑</el-button>
           <el-button type="primary" text @click="reteor.push('/dashboard/examine')">收获验货</el-button>
-          <el-button type="primary" text>查看详情</el-button>
+          <el-button type="primary" text @click="reteor.push('/dashboard/particulars')">查看详情</el-button>
         </template>
       </MayTable>
       <Pagination :total="50"></Pagination>
@@ -20,6 +21,8 @@
   import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
   import { useRouter}from 'vue-router'
   import AffiliatedView from '@/database/AffiliatedView.json'
+  import { getMessageBox } from '@/utils/utils'
+import { ElMessage } from 'element-plus'
   const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
   const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
   const reteor = useRouter()
@@ -59,6 +62,16 @@
       data.tableData = AffiliatedView
     }, 1000)
   }
+  const del =async () => {
+  let res =await getMessageBox('是否确认删除该采购申请', '删除后将不可恢复')
+ 
+  if(res){
+    ElMessage.success('删除成功')
+  }else{
+    ElMessage.info('取消删除')
+  }
+  
+}
   const sond = () => {
     reteor.push("/dashboard/purchase")
   }

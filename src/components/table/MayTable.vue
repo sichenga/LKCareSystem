@@ -7,8 +7,8 @@
     <el-table-column type="selection" width="55" v-if="isMultiple" />
     <el-table-column v-for="(item, index) in props.tableItem" :key="index" :prop="item.prop" :label="item.label"
       :width="item.width">
-       <template v-if="item.prop=='image'&&props.identifier==='Workers'" v-slot="{row}">
-        <el-image style="width: 50px; height: 50px" :src="row.image"  />
+      <template v-if="item.prop == 'image' && props.identifier === 'Workers'" v-slot="{ row }">
+        <el-image style="width: 50px; height: 50px" :src="row.image" /> <span></span>
       </template>
 
     </el-table-column>
@@ -20,7 +20,7 @@
       </template>
     </el-table-column>
 
-    <el-table-column label="操作"  v-if="props.isoperate" style="width: 330px;">
+    <el-table-column label="操作" v-if="props.isoperate" width="330">
       <template v-slot="scope">
         <slot name="operate" :data="scope.row"></slot>
       </template>

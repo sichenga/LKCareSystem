@@ -8,7 +8,6 @@
     editable
     :size="props.size"
     @change="handleChange"
-    
   />
 </template>
 <script lang="ts" setup>
