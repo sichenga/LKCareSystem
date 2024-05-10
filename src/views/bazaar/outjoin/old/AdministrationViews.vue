@@ -27,7 +27,7 @@
     </el-card>
     <el-card style="margin-top: 15px">
         <div style="margin: 10px 0">
-            <el-button type="primary">新增老人</el-button>
+            <el-button type="primary" @click="add">新增老人</el-button>
 
         </div>
         <!-- 表格 -->
@@ -46,9 +46,10 @@
 <script lang="ts" setup>
 import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
 import AffiliatedView from '@/database/AffiliatedView.json'
-
+import {useRouter} from 'vue-router'
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
+const router = useRouter()
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
 const formInline = reactive({
@@ -99,13 +100,16 @@ const getlist = () => {
 
 // 删除
 const del = async () => {
-    let res = await getMessageBox('是否确认删除该角色', '删除后将不可恢复')
+    let res = await getMessageBox('是否删除老人？', '删除后将不可恢复')
     console.log(11112, res)
     if (res) {
         ElMessage.success('删除成功')
     } else {
         ElMessage.info('取消删除')
     }
+}
+const add = ()=>{
+    router.push('/dashboard/addold')
 }
 onMounted(() => {
     getlist()
