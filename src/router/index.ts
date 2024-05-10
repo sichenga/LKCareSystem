@@ -287,7 +287,7 @@ const router = createRouter({
           component: () => import('@/views/personnel/pay/TaskView.vue')
         },
         {
-          path: 'section',
+          path: 'section', //
           name: 'SectionView',
           component: () => import('@/views/personnel/management/SectionView.vue')
         },
@@ -297,7 +297,7 @@ const router = createRouter({
           component: () => import('@/views/personnel/management/PostVive.vue')
         },
         {
-          path: 'addpost',
+          path: 'addpost', 
           name: 'AddPostVive',
           component: () => import('@/views/personnel/management/AddPostVive.vue')
         },

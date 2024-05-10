@@ -7,7 +7,8 @@
                 <el-input v-model="ruleForm.name" placeholder="请输入" />
             </el-form-item>
             <el-form-item label="权限配置:" prop="name">
-                
+                <el-tree style="max-width: 600px " :data="data.tableData" show-checkbox node-key="id" :expand-on-click-node="false"
+               :props="{ label: 'name' }" ref="treeRef" />
             </el-form-item>
         </el-form>
     </div>
@@ -17,7 +18,6 @@
             确定
         </el-button>
     </div>
-
 </template>
 
 <script lang='ts' setup>
@@ -25,6 +25,18 @@ import { reactive, toRefs, ref, onMounted } from 'vue'
 import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
 import { useRouter } from 'vue-router'
 const router = useRouter();
+import AddPostVive from '@/database/AddPostVive.json'
+const data = reactive({
+    tableData: [] as any,
+})
+const getlist = () => {
+    setTimeout(() => {
+        data.tableData = AddPostVive
+    }, 1000)
+}
+onMounted(() => {
+    getlist()
+})
 interface RuleForm {
     name: string
     region: string
@@ -64,31 +76,6 @@ const resetForm = (formEl: FormInstance | undefined) => {
     if (!formEl) return
     formEl.resetFields()
 }
-// 上传
-import { ElMessage } from 'element-plus'
-import { Plus } from '@element-plus/icons-vue'
-
-import type { UploadProps } from 'element-plus'
-
-const imageUrl = ref('')
-
-const handleAvatarSuccess: UploadProps['onSuccess'] = (
-    response,
-    uploadFile
-) => {
-    imageUrl.value = URL.createObjectURL(uploadFile.raw!)
-}
-
-const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
-    if (rawFile.type !== 'image/jpeg') {
-        ElMessage.error('Avatar picture must be JPG format!')
-        return false
-    } else if (rawFile.size / 1024 / 1024 > 2) {
-        ElMessage.error('Avatar picture size can not exceed 2MB!')
-        return false
-    }
-    return true
-}
 </script>
 
 <style scoped lang="less">
@@ -110,28 +97,5 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
     width: 178px;
     height: 178px;
     display: block;
-}
-</style>
-
-<style>
-.avatar-uploader .el-upload {
-    border: 1px dashed var(--el-border-color);
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    transition: var(--el-transition-duration-fast);
-}
-
-.avatar-uploader .el-upload:hover {
-    border-color: var(--el-color-primary);
-}
-
-.el-icon.avatar-uploader-icon {
-    font-size: 28px;
-    color: #8c939d;
-    width: 50px;
-    height: 50px;
-    text-align: center;
 }
 </style>
