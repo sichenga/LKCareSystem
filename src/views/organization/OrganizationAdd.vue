@@ -1,5 +1,5 @@
 <template>
-    <div class="section">
+    <el-card style="max-width: 100%">
         <div class="title">
             <div class="title-text">
                 <span>▋</span>
@@ -94,7 +94,7 @@
                 </el-form-item>
             </el-form>
         </div>
-    </div>
+    </el-card>
 </template>
 <script lang="ts" setup>
 import { ref, reactive, toRefs, onMounted } from 'vue'
@@ -158,7 +158,8 @@ const rules = reactive<FormRules<any>>({
 .el-form-item:nth-child(n+4) {
     margin-top: 20px;
 }
-.button{
+
+.button {
     width: 92px;
     height: 40px;
 }
