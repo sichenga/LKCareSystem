@@ -1,21 +1,16 @@
 <template>
   <div class="pagination">
-
-    <el-pagination v-model:current-page="data.page" v-model:page-size="data.psize" :page-sizes="[5, 10, 15, 20]"
-      :small="false" :background="true" layout :total="data.total" @size-change="handleSizeChange"
-      @current-change="handleCurrentChange" />
-
     <el-pagination v-model:current-page="data.page" v-model:page-size="data.psize" :page-sizes="[5, 10, 15, 20]"
       :small="false" :background="true" :layout="'total,  prev, pager, next,jumper,sizes'" :total="data.total"
       @size-change="handleSizeChange" @current-change="handleCurrentChange" />
   </div>
 </template>
 <script lang="ts" setup>
-import { reactive, defineProps, watch, ref, defineEmits } from 'vue'
+import { reactive, defineProps, watch, defineEmits } from 'vue'
 import type { PaginationConfig } from '@/Type/pagination'
-// const locale = zhCn
+
 const emit = defineEmits(['page', 'psize'])
-// let layout = 'total,  prev, pager, next,sizes'
+
 let data = reactive<PaginationConfig>({
   page: 1,
   psize: 5,
@@ -39,7 +34,6 @@ const props = defineProps({
 watch(
   props,
   (newval) => {
-    console.log('watch', newval)
     if (newval) {
       data.page = newval.page
       data.psize = newval.psize
@@ -49,11 +43,11 @@ watch(
   { immediate: true }
 )
 const handleSizeChange = (val: number) => {
-  console.log(`${val} items per page`)
+
   emit('psize', val)
 }
 const handleCurrentChange = (val: number) => {
-  console.log(`current page: ${val}`)
+
   emit('page', val)
 }
 </script>
