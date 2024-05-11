@@ -1,30 +1,33 @@
 <template>
   <!-- 供应商管理 -->
   <div class="box">
-    <el-button type="primary" @click="isdialog = true" >新增</el-button>
-    <SupplierDialog @close="close" v-if="isdialog"></SupplierDialog>
+    <el-button type="primary" @click="onAdd">新增</el-button>
     <!-- 表格 -->
     <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
-      <template #operate>
-        <el-button type="primary" size="small" link @click="handleEdit">编辑</el-button>
-        <el-button type="primary" size="small" link @click="handleDelete">删除</el-button>
+      <template #operate="scope">
+        <el-button type="primary" size="small" link @click="handleEdit(scope.data.id)">编辑</el-button>
+        <el-button type="primary" size="small" link @click="handleDelete(scope.data.id)">删除</el-button>
       </template>
     </MayTable>
     <!-- 分页 -->
-    <Pagination :total="50"></Pagination>
+    <Pagination @page="page" @psize="psize" :total="data.total" :page="params.page" :psize="params.pageSize"></Pagination>
+    <!-- 弹出框 -->
+    <SupplierDialog @close="close" :id="editId" v-if="isdialog"></SupplierDialog>
   </div>
 </template>
 
 <script lang='ts' setup>
-import { ref,reactive, onMounted, defineAsyncComponent } from 'vue'
+import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
 import SupplierDialog from '@/components/dialog/SupplierDialog.vue'
+import { SupplierList, Supplierdelete } from "@/service/food/food"
+import type { Supplier } from "@/service/food/type"
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
-import SupplierView from '@/database/SupplierView.json'
-const isdialog = ref(false)
+
 const data = reactive({
+  total: undefined,
   tableData: [] as any,
   tableItem: [
     {
@@ -32,50 +35,83 @@ const data = reactive({
       label: '序号'
     },
     {
-      prop: 'supplier',
+      prop: 'name',
       label: '供应商名称'
     },
     {
-      prop: 'supplied',
+      prop: 'foodCounts',
       label: '供给食材数'
     },
     {
-      prop: 'linkman',
+      prop: 'linkMan',
       label: '联系人'
     },
     {
-      prop: 'phone',
+      prop: 'mobile',
       label: '联系电话'
     },
   ]
 })
-const getlist = () => {
-  setTimeout(() => {
-    data.tableData = SupplierView
-  }, 1000)
-}
+const params = reactive<Supplier>({
+  pageSize: 5,
+  page: 1,
+});
+const getlist = (async () => {
+  const res: any = await SupplierList(params).catch(() => { })
+  console.log("供应商列表", res);
+  if (res.code == 10000) {
+    data.tableData = res.data.list
+    data.total = res.data.counts
+  }
+})
 // 关闭弹窗
-const close = () => {
+const isdialog = ref(false)
+const close = (val: boolean) => {
   isdialog.value = false
+  if (val) {
+    params.page = 1
+    getlist()
+  }
 }
+// 分页
+const page=((val:number)=>{
+  params.page=val
+  getlist()
+})
+const psize=((val:number)=>{
+  params.pageSize=val
+  getlist()
+})
 onMounted(() => {
   getlist()
 })
 // 编辑
+const editId = ref(0);
 const handleEdit = ((id: any) => {
-  console.log('编辑', id);
-  isdialog.value=true
+  isdialog.value = true
+  editId.value = id
+})
+// 新增
+const onAdd = (() => {
+  editId.value = 0;
+  isdialog.value = true;
 })
 // 删除
-const handleDelete = (async(id: any) => {
+const handleDelete = (async (id: any) => {
   console.log('删除', id);
-    let res = await getMessageBox('是否确认删除该供应商', '删除后将不可恢复')
-    console.log(11112, res)
-    if (res) {
-        ElMessage.success('删除成功')
+  let res = await getMessageBox('是否确认删除该供应商', '删除后将不可恢复')
+  if (res) {
+    const res: any = await Supplierdelete(id).catch(() => { })
+    if (res.code == 10000) {
+      ElMessage.success('删除成功')
+      getlist()
     } else {
-        ElMessage.info('取消删除')
+      ElMessage.error(res.msg)
     }
+
+  } else {
+    ElMessage.info('取消删除')
+  }
 })
 </script>
 

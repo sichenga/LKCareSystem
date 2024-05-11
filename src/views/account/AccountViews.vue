@@ -2,16 +2,22 @@
   <el-card style="margin-top: 15px">
     <div style="margin: 10px 0">
       <el-button type="primary" @click="add">新增</el-button>
-      <AddAccountDialog v-if="isdialog" @close="close"></AddAccountDialog>
+      <AddAccountDialog v-if="isdialog" @close="close" :editid="editid"></AddAccountDialog>
     </div>
     <!-- 表格 -->
     <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
       <template #operate="{ data }">
-        <el-button type="primary" text>编辑</el-button>
+        <el-button type="primary" text @click="edit(data.id)">编辑</el-button>
         <el-button type="primary" text @click="del(data.id)">删除</el-button>
       </template>
     </MayTable>
-    <Pagination :total="50"></Pagination>
+    <Pagination
+      :total="total"
+      :page="form.page"
+      :psize="form.pageSize"
+      @page="getpage"
+      @psize="getpsize"
+    ></Pagination>
   </el-card>
 </template>
 <script lang="ts" setup>
@@ -25,6 +31,8 @@ const Pagination = defineAsyncComponent(() => import('@/components/pagination/Ma
 const AddAccountDialog = defineAsyncComponent(
   () => import('@/components/dialog/AddAccountDialog.vue')
 )
+const total = ref(0)
+const editid = ref(0)
 const data = reactive({
   tableData: [] as any,
   tableItem: [
@@ -64,6 +72,7 @@ const getlist = async () => {
   let res: any = await accountlist(form).catch(() => {})
   console.log('账号管理', res)
   if (res?.code == 10000) {
+    total.value = res.data.counts
     data.tableData = res.data.list
   }
 }
@@ -72,7 +81,12 @@ const getlist = async () => {
 const add = () => {
   isdialog.value = true
 }
-
+// 编辑
+const edit = (id: number) => {
+  console.log(id)
+  editid.value = id
+  isdialog.value = true
+}
 // 关闭弹框
 const close = (val: boolean) => {
   if (val) {
@@ -96,6 +110,16 @@ const del = async (id: number) => {
     ElMessage.info('取消删除')
   }
 }
+// 分页
+const getpage = (val: number) => {
+  form.page = val
+  getlist()
+}
+const getpsize = (val: number) => {
+  form.pageSize = val
+  getlist()
+}
+
 onMounted(() => {
   getlist()
 })

@@ -23,7 +23,12 @@
       <template #operate>
         <el-button type="primary" text>进入系统</el-button>
         <el-button type="primary" text>修改</el-button>
+
         <el-button type="primary" text @click="del">删除</el-button>
+
+        <el-button type="primary" text>删除</el-button>
+        <el-button type="primary" text @click="SondAdd">修改</el-button>
+
       </template>
     </MayTable>
     <Pagination :total="data.total" @page="page" @psize="psize" :page="params.page" :pszie="params.page"></Pagination>
@@ -32,6 +37,7 @@
 <script lang="ts" setup>
 import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
 import { useRouter } from 'vue-router'
+
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
 import type { companylistParams } from '@/service/Organization/type'
@@ -40,6 +46,9 @@ import { useUserStore } from '@/stores'
 import organizationDialog from '@/components/dialog/organizationDialog.vue';
 const userStore = useUserStore()
 const isdialog = ref(false)
+
+import AffiliatedView from '@/database/AffiliatedView.json'
+
 const router = useRouter()
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
@@ -90,6 +99,7 @@ const close = (val: boolean) => {
     getcompanylist()
   }
 }
+
 const SondAdd = () => {
 
   switch (userStore.model.type) {
@@ -114,6 +124,7 @@ const del = async () => {
   else {
     ElMessage.info('取消删除')
   }
+
 }
 //定义页数
 const params = reactive<companylistParams>({
@@ -137,6 +148,7 @@ const getcompanylist = async () => {
     data.tableData = res.data.list
     data.total = res.data.counts
   }
+
 
 }
 
