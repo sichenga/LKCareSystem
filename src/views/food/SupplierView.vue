@@ -6,11 +6,11 @@
     <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
       <template #operate="scope">
         <el-button type="primary" size="small" link @click="handleEdit(scope.data.id)">编辑</el-button>
-        <el-button type="primary" size="small" link @click="handleDelete">删除</el-button>
+        <el-button type="primary" size="small" link @click="handleDelete(scope.data.id)">删除</el-button>
       </template>
     </MayTable>
     <!-- 分页 -->
-    <Pagination :total="data.total" :page="params.page" :psize="params.pageSize"></Pagination>
+    <Pagination @page="page" @psize="psize" :total="data.total" :page="params.page" :psize="params.pageSize"></Pagination>
     <!-- 弹出框 -->
     <SupplierDialog @close="close" :id="editId" v-if="isdialog"></SupplierDialog>
   </div>
@@ -21,7 +21,7 @@ import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
 import SupplierDialog from '@/components/dialog/SupplierDialog.vue'
-import { SupplierList } from "@/service/food/food"
+import { SupplierList, Supplierdelete } from "@/service/food/food"
 import type { Supplier } from "@/service/food/type"
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
@@ -57,7 +57,7 @@ const params = reactive<Supplier>({
   page: 1,
 });
 const getlist = (async () => {
-  const res: any = await SupplierList(params).catch(()=>{})
+  const res: any = await SupplierList(params).catch(() => { })
   console.log("供应商列表", res);
   if (res.code == 10000) {
     data.tableData = res.data.list
@@ -73,6 +73,15 @@ const close = (val: boolean) => {
     getlist()
   }
 }
+// 分页
+const page=((val:number)=>{
+  params.page=val
+  getlist()
+})
+const psize=((val:number)=>{
+  params.pageSize=val
+  getlist()
+})
 onMounted(() => {
   getlist()
 })
@@ -91,9 +100,15 @@ const onAdd = (() => {
 const handleDelete = (async (id: any) => {
   console.log('删除', id);
   let res = await getMessageBox('是否确认删除该供应商', '删除后将不可恢复')
-  console.log(11112, res)
   if (res) {
-    ElMessage.success('删除成功')
+    const res: any = await Supplierdelete(id).catch(() => { })
+    if (res.code == 10000) {
+      ElMessage.success('删除成功')
+      getlist()
+    } else {
+      ElMessage.error(res.msg)
+    }
+
   } else {
     ElMessage.info('取消删除')
   }
