@@ -1,67 +1,93 @@
 <template>
 
-    <el-card style="margin-top: 15px">
-      <div style="margin: 10px 0">
-        <el-button type="primary">新增</el-button>
-      </div>
-      <!-- 表格 -->
-      <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
-        <template #operate>
-          <el-button type="primary" text>编辑</el-button>
-          <el-button type="primary" text>删除</el-button>
-        </template>
-      </MayTable>
-      <Pagination :total="50"></Pagination>
-    </el-card>
-  </template>
-  <script lang="ts" setup>
-  import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
-  import AffiliatedView from '@/database/AffiliatedView.json'
-  const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
-  const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
-  
-  const data = reactive({
-    tableData: [] as any,
-    tableItem: [
-      {
-        prop: 'id',
-        label: '序号'
-      },
-      {
-        prop: 'name',
-        label: '角色名称'
-      },
-      {
-        prop: 'address',
-        label: '关联账号数'
-      },
-  
-      {
-        prop: 'creator',
-        label: '创建人'
-      },
-      {
-        prop: 'addtime',
-        label: '创建时间'
-      }
-    ]
-  })
-  const getlist = () => {
-    setTimeout(() => {
-      data.tableData = AffiliatedView
-    }, 1000)
+  <el-card style="margin-top: 15px">
+    <div style="margin: 10px 0">
+      <el-button type="primary">新增</el-button>
+    </div>
+    <!-- 表格 -->
+    <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
+      <template #operate="{data}">
+        <el-button type="primary" text>编辑</el-button>
+        <el-button type="primary" text @click="del(data.id)">删除</el-button>
+      </template>
+    </MayTable>
+    <Pagination :total="counts"></Pagination>
+  </el-card>
+</template>
+<script lang="ts" setup>
+import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
+import {getMessageBox} from '@/utils/utils'
+import { RoleList,DelList } from '@/service/role/RoleApi'
+import { ElMessage } from 'element-plus'
+const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
+const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
+const counts = ref(0)
+const params = reactive({
+  page: 1,
+  pageSize: 10,
+})
+
+const data = reactive({
+  tableData: [] as any,
+  tableItem: [
+    {
+      prop: 'id',
+      label: '序号'
+    },
+    {
+      prop: 'name',
+      label: '角色名称'
+    },
+    {
+      prop: 'accountCounts',
+      label: '关联账号数'
+    },
+
+    {
+      prop: 'addAccountName',
+      label: '创建人'
+    },
+    {
+      prop: 'addTime',
+      label: '创建时间'
+    }
+  ]
+})
+//角色列表
+const getData = async () => {
+  let res: any = await RoleList(params).catch(() => { })
+  if (res.code == 10000) {
+    data.tableData = res.data.list
+    counts.value=res.data.counts
   }
-  onMounted(() => {
-    getlist()
-  })
-  </script>
-  <style lang="less" scoped>
-  .el-input {
-    height: 40px;
-  }
-  .el-button {
-    height: 40px;
-    line-height: 40px;
-  }
-  </style>
-  
+}
+//删除角色
+const del = async(id:number)=>{
+    const res =await getMessageBox('确定删除该角色吗?', '删除后不可恢复')
+    if(res){
+        let sun:any =await DelList(id)
+        if(sun.code==10000){
+          getData()
+          ElMessage.success('删除成功')
+        }
+    }else{
+      ElMessage.info('取消删除')
+    }
+    
+}
+
+onMounted(() => {
+  getData()
+
+})
+</script>
+<style lang="less" scoped>
+.el-input {
+  height: 40px;
+}
+
+.el-button {
+  height: 40px;
+  line-height: 40px;
+}
+</style>

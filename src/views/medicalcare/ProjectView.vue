@@ -1,5 +1,6 @@
 <template>
   <el-card>
+
     <el-form :inline="true" :model="formInline" class="demo-form-inline">
       <el-form-item label="老人：">
         <el-input v-model="formInline.user" placeholder="请输入" clearable />
@@ -14,7 +15,7 @@
     <!-- 表格 -->
     <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
       <template #operate>
-        <el-button type="primary" text>用药计划设置</el-button>
+        <el-button type="primary" text @click="projectinfo">用药计划设置</el-button>
       </template>
     </MayTable>
     <Pagination :total="50"></Pagination>
@@ -25,8 +26,11 @@ import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
 import AffiliatedView from '@/database/AffiliatedView.json'
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
+import { useRouter } from 'vue-router'
+const router = useRouter()
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
+
 const formInline = reactive({
   user: '',
   region: '',
@@ -77,6 +81,11 @@ const getlist = () => {
   setTimeout(() => {
     data.tableData = AffiliatedView
   }, 1000)
+}
+
+// 用药计划设置
+const projectinfo = () => {
+  router.push('/dashboard/projectinfo')
 }
 
 // 删除

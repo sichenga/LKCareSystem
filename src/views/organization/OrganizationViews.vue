@@ -4,7 +4,11 @@
       <el-form-item label="机构名称：">
         <el-input v-model="formInline.user" placeholder="请输入" clearable />
       </el-form-item>
+<<<<<<< HEAD
       <el-form-item label="管理姓名">
+=======
+      <el-form-item label="管理员姓名：">
+>>>>>>> 6b52d463720f09bacf16e1473e62bb23ba8dab7c
         <el-input v-model="formInline.user" placeholder="请输入" clearable />
       </el-form-item>
       <el-form-item>
@@ -21,8 +25,13 @@
     <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
       <template #operate>
         <el-button type="primary" text>进入系统</el-button>
+<<<<<<< HEAD
         <el-button type="primary" text>修改</el-button>
         <el-button type="primary" text>删除</el-button>
+=======
+        <el-button type="primary" text @click="SondAdd">修改</el-button>
+        <el-button type="primary" text @click="del">删除</el-button>
+>>>>>>> 6b52d463720f09bacf16e1473e62bb23ba8dab7c
       </template>
     </MayTable>
     <Pagination :total="50"></Pagination>
@@ -32,6 +41,11 @@
 import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
 import { useRouter } from 'vue-router'
 import AffiliatedView from '@/database/AffiliatedView.json'
+<<<<<<< HEAD
+=======
+import { getMessageBox } from '@/utils/utils'
+import { ElMessage } from 'element-plus'
+>>>>>>> 6b52d463720f09bacf16e1473e62bb23ba8dab7c
 const router = useRouter()
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
@@ -78,6 +92,7 @@ const getlist = () => {
     data.tableData = AffiliatedView
   }, 1000)
 }
+<<<<<<< HEAD
 
 const SondAdd = () => {
   router.push('/dashboard/organizationadd')
@@ -92,6 +107,32 @@ onMounted(() => {
   height: 40px;
 }
 
+=======
+
+const SondAdd = () => {
+  router.push('/dashboard/organizationadd')
+}
+
+const del = async() => {
+  let res = await getMessageBox('是否确认删除该机构', '删除后将不可恢复')
+  console.log(11112, res)
+  if (res) {
+    ElMessage.success('删除成功')
+  } else {
+    ElMessage.info('取消删除')
+  }
+
+}
+onMounted(() => {
+  getlist()
+})
+</script>
+<style lang="less" scoped>
+.el-input {
+  height: 40px;
+}
+
+>>>>>>> 6b52d463720f09bacf16e1473e62bb23ba8dab7c
 .el-button {
   height: 40px;
   line-height: 40px;

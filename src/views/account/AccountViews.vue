@@ -1,74 +1,111 @@
 <template>
+  <el-card style="margin-top: 15px">
+    <div style="margin: 10px 0">
+      <el-button type="primary" @click="add">新增</el-button>
+      <AddAccountDialog v-if="isdialog" @close="close"></AddAccountDialog>
+    </div>
+    <!-- 表格 -->
+    <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
+      <template #operate="{ data }">
+        <el-button type="primary" text>编辑</el-button>
+        <el-button type="primary" text @click="del(data.id)">删除</el-button>
+      </template>
+    </MayTable>
+    <Pagination :total="50"></Pagination>
+  </el-card>
+</template>
+<script lang="ts" setup>
+import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
+import { accountlist, accountdel } from '@/service/account/AccountApi'
+import { getMessageBox } from '@/utils/utils'
+import { ElMessage } from 'element-plus'
+import type { AccountList } from '@/service/account/AccountType'
+const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
+const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
+const AddAccountDialog = defineAsyncComponent(
+  () => import('@/components/dialog/AddAccountDialog.vue')
+)
+const data = reactive({
+  tableData: [] as any,
+  tableItem: [
+    {
+      prop: 'id',
+      label: '序号'
+    },
+    {
+      prop: 'name',
+      label: '姓名'
+    },
+    {
+      prop: 'mobile',
+      label: '手机号'
+    },
+    {
+      prop: 'username',
+      label: '账号'
+    },
+    {
+      prop: 'pwd',
+      label: '密码'
+    },
+    {
+      prop: 'roleIds',
+      label: '所属角色'
+    }
+  ]
+})
+const form = reactive<AccountList>({
+  page: 1,
+  pageSize: 5
+})
+const isdialog = ref(false)
+// 获取列表
+const getlist = async () => {
+  let res: any = await accountlist(form).catch(() => {})
+  console.log('账号管理', res)
+  if (res?.code == 10000) {
+    data.tableData = res.data.list
+  }
+}
 
-    <el-card style="margin-top: 15px">
-      <div style="margin: 10px 0">
-        <el-button type="primary">新增</el-button>
-      </div>
-      <!-- 表格 -->
-      <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
-        <template #operate>
-          <el-button type="primary" text>编辑</el-button>
-          <el-button type="primary" text>删除</el-button>
-        </template>
-      </MayTable>
-      <Pagination :total="50"></Pagination>
-    </el-card>
-  </template>
-  <script lang="ts" setup>
-  import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
-  import AffiliatedView from '@/database/AffiliatedView.json'
-  const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
-  const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
-  
-  const data = reactive({
-    tableData: [] as any,
-    tableItem: [
-      {
-        prop: 'id',
-        label: '序号'
-      },
-      {
-        prop: 'name',
-        label: '姓名'
-      },
-      {
-        prop: 'address',
-        label: '手机号'
-      },
-      {
-        prop: 'manager',
-        label: '密码'
-      },
-      {
-        prop: 'phone',
-        label: '所属角色'
-      },
-      {
-        prop: 'creator',
-        label: '创建人'
-      },
-      {
-        prop: 'addtime',
-        label: '创建时间'
-      }
-    ]
-  })
-  const getlist = () => {
-    setTimeout(() => {
-      data.tableData = AffiliatedView
-    }, 1000)
-  }
-  onMounted(() => {
+// 新增
+const add = () => {
+  isdialog.value = true
+}
+
+// 关闭弹框
+const close = (val: boolean) => {
+  if (val) {
     getlist()
-  })
-  </script>
-  <style lang="less" scoped>
-  .el-input {
-    height: 40px;
   }
-  .el-button {
-    height: 40px;
-    line-height: 40px;
+  isdialog.value = false
+}
+// 删除
+const del = async (id: number) => {
+  let res = await getMessageBox('是否确认删除该角色', '删除后将不可恢复')
+  console.log(11112, id)
+  if (res) {
+    let res: any = await accountdel(id).catch(() => {})
+    if (res?.code == 10000) {
+      ElMessage.success('删除成功')
+      getlist()
+    } else {
+      ElMessage.error(res.msg)
+    }
+  } else {
+    ElMessage.info('取消删除')
   }
-  </style>
-  
+}
+onMounted(() => {
+  getlist()
+})
+</script>
+<style lang="less" scoped>
+.el-input {
+  height: 40px;
+}
+.el-button {
+  height: 40px;
+  line-height: 40px;
+}
+</style>

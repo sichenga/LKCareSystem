@@ -3,7 +3,7 @@
     :on-success="handleSuccess" :on-remove="handleRemove" list-type="picture">
     <el-button type="primary">上传图片</el-button>
     <template #tip>
-      <div class="el-upload__tip" v-if="istip">可以上传{{ $props.limit }}张图片</div>
+      <div class="el-upload__tip" v-if="istip">可以上传{{ props.limit }}张图片</div>
     </template>
   </el-upload>
 </template>

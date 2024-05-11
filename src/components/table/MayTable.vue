@@ -12,10 +12,21 @@
 
         <el-image style="width: 50px; height: 50px" :src="row.image" />
       </template>
+      
       <template v-else-if="props.identifier=='administration'&&item.prop=='image'" v-slot="{row}">
+<<<<<<< HEAD
         <el-image style="width: 50px; height: 50px" :src=row.image fit="cover" />
 
+=======
+        <el-image style="width: 80px; height: 80px" :src=row.image fit="cover" />
+>>>>>>> 6b52d463720f09bacf16e1473e62bb23ba8dab7c
       </template>
+      
+      <!-- 出入院管理>老人管理>新增>健康信息 -->
+      <template v-else-if="props.identifier=='oldphysical'&&item.prop=='image'" v-slot="{row}">
+        <el-image v-for="item in row.image" :key="item" style="width:  40px; height: 40px" :src=item fit="cover" />
+      </template>
+
     </el-table-column>
 
     <!-- 是否有input框 -->
