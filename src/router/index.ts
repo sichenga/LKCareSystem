@@ -117,7 +117,6 @@ const router = createRouter({
           component: () => import('@/views/basic/nurse/ConfigurationView.vue')
         },
         {
-
           path: 'Industry',
           name: 'Industry',
           component: () => import('@/views/basic/nurse/IndustryView.vue')
@@ -152,16 +151,16 @@ const router = createRouter({
           name: 'Manage',
           component: () => import('@/views/basic/ManageView.vue')
         },
-        
+
         {
           path: 'Security',
           name: 'Security',
           component: () => import('@/views/basic/SecurityView.vue')
         },
         {
-          path:'affiliated',
-          name:'affiliated',
-          component:()=>import('@/views/affiliated/AffiliatedView.vue')
+          path: 'affiliated',
+          name: 'affiliated',
+          component: () => import('@/views/affiliated/AffiliatedView.vue')
         },
         {
           path: 'account',
@@ -350,7 +349,7 @@ const router = createRouter({
           component: () => import('@/views/personnel/management/PostVive.vue')
         },
         {
-          path: 'addpost', 
+          path: 'addpost',
           name: 'AddPostVive',
           component: () => import('@/views/personnel/management/AddPostVive.vue')
         },
@@ -413,6 +412,11 @@ const router = createRouter({
           path: 'getregisterinfo',
           name: 'GetRegisterInfo',
           component: () => import('@/views/medicalcare/GetRegisterInfo.vue')
+        },
+        {
+          path: 'projectinfo',
+          name: 'ProjectInfo',
+          component: () => import('@/views/medicalcare/ProjectInfo.vue')
         }
       ]
     }
