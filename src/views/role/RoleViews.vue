@@ -2,7 +2,7 @@
 
   <el-card style="margin-top: 15px">
     <div style="margin: 10px 0">
-      <el-button type="primary">新增</el-button>
+      <el-button type="primary" @click="addRole">新增</el-button>
     </div>
     <!-- 表格 -->
     <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
@@ -19,8 +19,10 @@ import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
 import {getMessageBox} from '@/utils/utils'
 import { RoleList,DelList } from '@/service/role/RoleApi'
 import { ElMessage } from 'element-plus'
+import {useRouter} from 'vue-router'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
+const router = useRouter()
 const counts = ref(0)
 const params = reactive({
   page: 1,
@@ -74,6 +76,10 @@ const del = async(id:number)=>{
       ElMessage.info('取消删除')
     }
     
+}
+//编辑
+const addRole = ()=>{
+  router.push('/dashboard/roledialog')
 }
 
 onMounted(() => {
