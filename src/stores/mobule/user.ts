@@ -12,7 +12,7 @@ export const useUserStore = defineStore(
     const model = ref({})
     // 登录
     const Login = async (data: LoginType) => {
-      const res: any = await login(data)
+      const res: any = await login(data).catch(()=>{})
       console.log('登录', res)
       if (res.code === 10000) {
         token.value = res.data.token

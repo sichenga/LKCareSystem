@@ -1,4 +1,5 @@
 <template>
+    <!-- 床位更换申请审批 /  详情 -->
     <el-card style="max-width: 100%">
         <div class="title">
             <span><span style="color: #00b1ff">▋</span>老人信息</span>
@@ -74,8 +75,10 @@
             <el-step title="Step 3" />
         </el-steps>
         <el-form-item class="btn">
-            <el-button type="primary">审批通过</el-button>
-            <el-button>审批拒绝</el-button>
+            <el-button type="primary" @click="isdialog = true">审批通过</el-button>
+            <DetailsDialog @close="close" v-if="isdialog"></DetailsDialog>
+            <el-button @click="refuse=true">审批拒绝</el-button>
+            <RefuseDialog @close="closes" v-if="isdialog"></RefuseDialog>
             <el-button>返回</el-button>
         </el-form-item>
 
@@ -84,6 +87,8 @@
 <script lang="ts" setup>
 import { ref, reactive, onMounted } from 'vue'
 import { Edit, Picture, UploadFilled } from '@element-plus/icons-vue'
+import DetailsDialog from '@/components/dialog/DetailsDialog.vue';
+import RefuseDialog from '@/components/dialog/RefuseDialog.vue';
 const form = reactive({
     name: '',
     region: '',
@@ -95,6 +100,17 @@ const form = reactive({
     desc: ''
 })
 const circleUrl = ref('https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png')
+
+//审批通过
+const isdialog = ref(false)
+const close = () => {
+    isdialog.value = false
+}
+//审批拒绝
+const refuse = ref(false)
+const closes = () => {
+    refuse.value = false
+}
 </script>
 <style lang="less" scoped>
 .title {
@@ -111,9 +127,7 @@ const circleUrl = ref('https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726
 }
 
 .demo-form-inline {
-    .el-form-item {
-        
-    }
+    .el-form-item {}
 }
 
 .gray {
@@ -169,6 +183,10 @@ const circleUrl = ref('https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726
 
 .box {
     display: flex;
-
+}
+:deep .el-upload--picture-card  {
+    width: 100px;
+    height: 100px;
+    margin-top: 20px
 }
 </style>

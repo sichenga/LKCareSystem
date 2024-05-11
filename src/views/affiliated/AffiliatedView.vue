@@ -7,7 +7,7 @@
       <el-form-item label="管理姓名：">
         <el-input v-model="formInline.user" placeholder="请输入" clearable />
       </el-form-item>
-      
+
       <el-form-item>
         <el-button type="primary">查询</el-button>
         <el-button>重置</el-button>
@@ -30,7 +30,7 @@
   </el-card>
 </template>
 <script lang="ts" setup>
-import {  ref,reactive, onMounted, defineAsyncComponent } from 'vue'
+import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
 import AffiliatedView from '@/database/AffiliatedView.json'
 import AffDialog from '@/components/dialog/AffDialog.vue'
 import { getMessageBox } from '@/utils/utils'
