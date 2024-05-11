@@ -23,51 +23,14 @@
 
     </el-card>
     <el-card style="margin-top: 15px">
-        <!-- 表格 -->
-        <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
-            <template #operate>
-                <el-button type="primary" text>上传文件</el-button>
-                <el-button type="primary" text>下载</el-button>
-            </template>
-        </MayTable>
-        <Pagination :total="50"></Pagination>
+    
     </el-card>
+
 </template>
 <script lang="ts" setup>
 import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
-import AffiliatedView from '@/database/AffiliatedView.json'
-
-const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
-const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
-const data = reactive({
-    tableData: [] as any,
-    tableItem: [
-        {
-            prop: 'id',
-            label: '序号',
-
-        },
-        {
-            prop: 'name',
-            label: '文件名'
-        },
-        {
-            prop: 'address',
-            label: '文件'
-        },
-    ]
-})
-const getlist = () => {
-    setTimeout(() => {
-        data.tableData = AffiliatedView
-    }, 1000)
-}
 
 
-
-onMounted(() => {
-    getlist()
-})
 </script>
 <style lang="less" scoped>
 .el-input {
@@ -78,7 +41,6 @@ onMounted(() => {
     height: 40px;
     line-height: 40px;
 }
-
 .el-form--inline .el-form-item {
     width: 270px;
 }
@@ -98,4 +60,5 @@ onMounted(() => {
     }
 
 }
+
 </style>
