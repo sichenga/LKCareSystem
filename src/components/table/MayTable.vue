@@ -14,12 +14,11 @@
       </template>
       
       <template v-else-if="props.identifier=='administration'&&item.prop=='image'" v-slot="{row}">
-<<<<<<< HEAD
+
         <el-image style="width: 50px; height: 50px" :src=row.image fit="cover" />
 
-=======
         <el-image style="width: 80px; height: 80px" :src=row.image fit="cover" />
->>>>>>> 6b52d463720f09bacf16e1473e62bb23ba8dab7c
+
       </template>
       
       <!-- 出入院管理>老人管理>新增>健康信息 -->

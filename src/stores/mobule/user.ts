@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import { login } from '@/service/admin/AdminApi'
+import type { Model } from '@/Type/pinia/user'
 import type { Login as LoginType } from '@/service/admin/AdminType'
 export const useUserStore = defineStore(
   'user',
@@ -9,7 +10,19 @@ export const useUserStore = defineStore(
     // token
     const token = ref('')
     // 用户信息
-    const model = ref({})
+    const model = ref<Model>({
+      "id": 0,
+      "companyId": 0,
+      "level": 0,
+      "staffId": 0,
+      "name": "",
+      "pwd": null,
+      "type": 0,
+      "enable": 0,
+      "mobile": "",
+      "username": "",
+      "roleIds": null
+  })
     // 登录
     const Login = async (data: LoginType) => {
       const res: any = await login(data).catch(()=>{})

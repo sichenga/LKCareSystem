@@ -1,10 +1,5 @@
 <template>
   <div class="pagination">
-
-    <el-pagination v-model:current-page="data.page" v-model:page-size="data.psize" :page-sizes="[5, 10, 15, 20]"
-      :small="false" :background="true" layout :total="data.total" @size-change="handleSizeChange"
-      @current-change="handleCurrentChange" />
-
     <el-pagination v-model:current-page="data.page" v-model:page-size="data.psize" :page-sizes="[5, 10, 15, 20]"
       :small="false" :background="true" :layout="'total,  prev, pager, next,jumper,sizes'" :total="data.total"
       @size-change="handleSizeChange" @current-change="handleCurrentChange" />
