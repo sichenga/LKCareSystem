@@ -1,15 +1,36 @@
 <template>
+  <!-- 床位更换 -->
   <el-card>
     <el-form :inline="true" :model="formInline" class="demo-form-inline">
       <el-form-item label="老人姓名：">
         <el-input v-model="formInline.user" placeholder="请输入" clearable />
       </el-form-item>
+      <el-form-item label="身份证号码：">
+        <el-input v-model="formInline.user" placeholder="请输入" clearable />
+      </el-form-item>
+      <el-form-item label="性别：">
+        <el-select
+          v-model="formInline.sex"
+          clearable
+          placeholder="请选择"
+          style="width: 240px"
+          size="large"
+        >
+          <el-option
+            v-for="item in sexlist"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>
+      </el-form-item>
       <el-form-item label="审批状态：">
         <el-select
-          v-model="formInline.region"
+          v-model="formInline.state"
+          clearable
           placeholder="请选择"
-          size="large"
           style="width: 240px"
+          size="large"
         >
           <el-option
             v-for="item in data.statelist"
@@ -19,9 +40,7 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="创建时间：">
-        <TimePicker></TimePicker>
-      </el-form-item>
+
       <el-form-item>
         <el-button type="primary">查询</el-button>
         <el-button>重置</el-button>
@@ -30,8 +49,8 @@
   </el-card>
   <el-card style="margin-top: 15px">
     <div style="margin: 10px 0">
-      <el-button type="primary" @click="add">新增外出</el-button>
-      <AffDialog @close="close" v-if="isdialog"></AffDialog>
+      <el-button type="primary" @click="isdialog = true">新增床位更换申请</el-button>
+      <BedDialog v-if="isdialog" @close="close"></BedDialog>
     </div>
     <!-- 表格 -->
     <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
@@ -46,17 +65,22 @@
 <script lang="ts" setup>
 import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
 import AffiliatedView from '@/database/AffiliatedView.json'
-import AffDialog from '@/components/dialog/AffDialog.vue'
-import { useRouter } from 'vue-router'
-const router = useRouter()
+import { getMessageBox } from '@/utils/utils'
+import { ElMessage } from 'element-plus'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
-const TimePicker = defineAsyncComponent(() => import('@/components/timepicker/MayTimePicker.vue'))
+const BedDialog = defineAsyncComponent(() => import('@/components/dialog/BedDialog.vue'))
 const formInline = reactive({
   user: '',
   region: '',
-  date: ''
+  date: '',
+  sex: '',
+  state: ''
 })
+const sexlist = [
+  { label: '男', value: '男' },
+  { label: '女', value: '女' }
+]
 const isdialog = ref(false)
 const data = reactive({
   tableData: [] as any,
@@ -71,26 +95,38 @@ const data = reactive({
     },
     {
       prop: 'address',
-      label: '床位号'
+      label: '性别'
     },
     {
       prop: 'manager',
-      label: '陪同人员姓名'
+      label: '身份证号'
     },
     {
       prop: 'phone',
-      label: '陪同人员手机号'
+      label: '原床位'
     },
     {
       prop: 'username',
-      label: '外出时间'
+      label: '变更后床位'
     },
     {
       prop: 'userpass',
-      label: '审批状态'
+      label: '申请人'
+    },
+    {
+      prop: 'creator',
+      label: '申请日期'
+    },
+    {
+      prop: 'addtime',
+      label: '状态'
     }
   ],
-  statelist: [] as any
+  statelist: [
+    { label: '待审核', value: '待审核' },
+    { label: '已通过', value: '已通过' },
+    { label: '已拒绝', value: '已拒绝' }
+  ]
 })
 const getlist = () => {
   setTimeout(() => {
@@ -101,12 +137,16 @@ const getlist = () => {
 const close = () => {
   isdialog.value = false
 }
-
-// 新增外出
-const add = () => {
-  router.push('/dashboard/addgoout')
+// 删除
+const del = async () => {
+  let res = await getMessageBox('是否确认删除该角色', '删除后将不可恢复')
+  console.log(11112, res)
+  if (res) {
+    ElMessage.success('删除成功')
+  } else {
+    ElMessage.info('取消删除')
+  }
 }
-
 onMounted(() => {
   getlist()
 })

@@ -76,11 +76,11 @@ const router = createRouter({
           name: 'Bed',
           component: () => import('@/views/examine/BedView.vue')
         },
-        {
-          path: 'Goout',
-          name: 'Goout',
-          component: () => import('@/views/examine/GooutView.vue')
-        },
+        // {
+        //   path: 'Goout',
+        //   name: 'Goout',
+        //   component: () => import('@/views/examine/GooutView.vue')
+        // },
         {
           path: 'Grade',
           name: 'Grade',
@@ -193,16 +193,6 @@ const router = createRouter({
           component: () => import('@/views/purchase/PurchaseViews.vue')
         },
         {
-          path: 'teskboard',
-          name: 'Teskboard',
-          component: () => import('@/views/task/TeskboardView.vue')
-        },
-        {
-          path: 'taskinfo',
-          name: 'Taskinfo',
-          component: () => import('@/views/task/TaskInfo.vue')
-        },
-        {
           path: 'apply',
           name: 'Apply',
           component: () => import('@/views/purchase/ApplyViews.vue')
@@ -289,44 +279,79 @@ const router = createRouter({
           component: () => import('@/views/personnel/management/SectionView.vue')
         },
         {
-          path: 'particulars',
+          path: 'particulars1',
           name: 'Particulars',
           component: () => import('@/views/purchase/ParticularsViews.vue')
         },
         {
-          path: 'teskonnect',
-          name: 'Teskonnect',
-          component: () => import('@/views/task/TeskconnectView.vue')
+          path: 'Record',//交接记录
+          name: 'RecordView',
+          component: () => import('@/views/task/RecordView.vue')
         },
         {
-          path: 'connectInfo',
+          path: 'connectInfo',//交接明细
           name: 'ConnectInfo',
           component: () => import('@/views/task/ConnectInfo.vue')
         },
         {
-          path: 'nightmanage',
-          name: 'NightmanageView',
-          component: () => import('@/views/elderlycare/nursemanage/NightmanageView.vue')
+          path: 'Spectaculars',//任务看板
+          name: 'Spectaculars',
+          component: () => import('@/views/task/SpectacularsView.vue')
         },
         {
-          path: 'locationManage',
-          name: 'LocationManage',
-          component: () => import('@/views/elderlycare/nursemanage/LocationManage.vue')
+          path: 'particulars',//任务详情
+          name: 'particularsView',
+          component: () => import('@/views/task/particularsView.vue')
         },
         {
-          path: 'bedreplace',
-          name: 'Bedreplace',
-          component: () => import('@/views/elderlycare/nursemanage/BedreplaceView.vue')
+          path: 'addgoout', //新增外出
+          name: 'Addgoout',
+          component: () => import('@/views/elderlycare/AddGoout.vue')
         },
         {
-          path: 'nurexamine',
+          path: 'goexamine',// 外出申请/详情
+          name: 'GoNurExamine',
+          component: () => import('@/views/elderlycare/ExamineView.vue')
+        },
+        {
+          path: 'ApplyFor',//外出登记
+          name: 'ApplyForView',
+          component: () => import('@/views/elderlycare/ApplyForView.vue')
+        },
+        {
+          path: 'Activity',//院内活动
+          name: 'ActivityView',
+          component: () => import('@/views/elderlycare/ActivityView.vue')
+        },
+        {
+          path: 'Laundry',//洗衣错衣
+          name: 'LaundryView',
+          component: () => import('@/views/elderlycare/LaundryView.vue')
+        },
+        {
+          path: 'NightWatch',//夜巡管理
+          name: 'NightWatchView',
+          component: () => import('@/views/elderlycare/NightWatchView.vue')
+        },
+        {
+          path: 'Address',//地址管理
+          name: 'AddressView',
+          component: () => import('@/views/elderlycare/AddressView.vue')
+        },
+        {
+          path: 'Exchange',//床位更换
+          name: 'ExchangeView',
+          component: () => import('@/views/elderlycare/ExchangeView.vue')
+        },
+        {
+          path: 'nurexamine', //外出申请/详情
           name: 'NurExamine',
           component: () => import('@/views/elderlycare/nursemanage/ExamineView.vue')
         },
         {
-          path: 'gooutapply',
-          name: 'Gooutapply',
-          component: () => import('@/views/elderlycare/gooutmanage/GooutapplyView.vue')
+          path: 'Goout',//外出申请
+          name: 'GooutView',
+          component: () => import('@/views/elderlycare/GooutView.vue')
         },
         {
           path: 'nursing',
@@ -363,31 +388,7 @@ const router = createRouter({
           name: 'CompilestaffView',
           component: () => import('@/views/personnel/management/CompilestaffView.vue')
         },
-        {
-          path: 'addgoout',
-          name: 'Addgoout',
-          component: () => import('@/views/elderlycare/gooutmanage/AddGoout.vue')
-        },
-        {
-          path: 'goexamine',
-          name: 'GoNurExamine',
-          component: () => import('@/views/elderlycare/gooutmanage/ExamineView.vue')
-        },
-        {
-          path: 'gooutregister',
-          name: 'Gooutregister',
-          component: () => import('@/views/elderlycare/gooutmanage/GooutregisterView.vue')
-        },
-        {
-          path: 'activity',
-          name: 'Activity',
-          component: () => import('@/views/elderlycare/activity/ActivityView.vue')
-        },
-        {
-          path: 'washclothes',
-          name: 'Washclothes',
-          component: () => import('@/views/elderlycare/washclothes/WashclothesView.vue')
-        },
+   
         {
           path: 'register',
           name: 'RegisterView',

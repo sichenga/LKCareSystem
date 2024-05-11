@@ -1,4 +1,5 @@
 <template>
+  <!-- 新增外出 -->
   <el-card>
     <el-form
       ref="ruleFormRef"
@@ -86,7 +87,7 @@ const data = reactive({
 })
 // 取消提交
 const cancel = () => {
-  router.push('/dashboard/gooutapply')
+  router.push('/dashboard/Goout')
 }
 // 提交表单
 const add = () => {

@@ -1,4 +1,5 @@
 <template>
+  <!-- 交接明细 -->
   <el-card>
     <el-form :inline="true" :model="formInline" class="demo-form-inline">
       <el-form-item label="接收状态：">

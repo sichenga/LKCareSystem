@@ -1,36 +1,26 @@
 <template>
+  <!--外出登记  -->
   <el-card>
+    <RegDialog v-if="isdialog" @close="close"></RegDialog>
     <el-form :inline="true" :model="formInline" class="demo-form-inline">
       <el-form-item label="老人姓名：">
         <el-input v-model="formInline.user" placeholder="请输入" clearable />
       </el-form-item>
-      <el-form-item label="身份证号码：">
-        <el-input v-model="formInline.user" placeholder="请输入" clearable />
+      <el-form-item label="登记时间：">
+        <TimePicker></TimePicker>
       </el-form-item>
-      <el-form-item label="性别：">
-        <el-select
-          v-model="formInline.sex"
-          clearable
-          placeholder="请选择"
-          style="width: 240px"
-          size="large"
-        >
+      <el-form-item label="登记人：">
+        <el-select v-model="formInline.user" placeholder="请选择" size="large" style="width: 240px">
           <el-option
-            v-for="item in sexlist"
+            v-for="item in data.reglist"
             :key="item.value"
             :label="item.label"
             :value="item.value"
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="审批状态：">
-        <el-select
-          v-model="formInline.state"
-          clearable
-          placeholder="请选择"
-          style="width: 240px"
-          size="large"
-        >
+      <el-form-item label="状态：">
+        <el-select v-model="formInline.user" placeholder="请选择" size="large" style="width: 240px">
           <el-option
             v-for="item in data.statelist"
             :key="item.value"
@@ -47,15 +37,12 @@
     </el-form>
   </el-card>
   <el-card style="margin-top: 15px">
-    <div style="margin: 10px 0">
-      <el-button type="primary" @click="isdialog = true">新增床位更换申请</el-button>
-      <BedDialog v-if="isdialog" @close="close"></BedDialog>
-    </div>
     <!-- 表格 -->
     <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
       <template #operate>
-        <el-button type="primary" text>编辑</el-button>
-        <el-button type="primary" text>查看详情</el-button>
+        <el-button type="primary" text @click="isdialog = true">延期</el-button>
+
+        <el-button type="primary" text @click="getinfo">查看详情</el-button>
       </template>
     </MayTable>
     <Pagination :total="50"></Pagination>
@@ -64,23 +51,30 @@
 <script lang="ts" setup>
 import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
 import AffiliatedView from '@/database/AffiliatedView.json'
-import { getMessageBox } from '@/utils/utils'
-import { ElMessage } from 'element-plus'
+import { useRouter } from 'vue-router'
+const router = useRouter()
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
-const BedDialog = defineAsyncComponent(() => import('@/components/dialog/BedDialog.vue'))
+const TimePicker = defineAsyncComponent(() => import('@/components/timepicker/MayTimePicker.vue'))
+const RegDialog = defineAsyncComponent(() => import('@/components/dialog/RegDialog.vue'))
 const formInline = reactive({
   user: '',
   region: '',
-  date: '',
-  sex: '',
-  state: ''
+  date: ''
 })
-const sexlist = [
-  { label: '男', value: '男' },
-  { label: '女', value: '女' }
-]
 const isdialog = ref(false)
+// 关闭弹窗
+const close = () => {
+  isdialog.value = false
+}
+
+// 详情
+const getinfo = () => {
+  router.push({
+    path: '/dashboard/goexamine'
+  })
+}
+
 const data = reactive({
   tableData: [] as any,
   tableItem: [
@@ -90,62 +84,42 @@ const data = reactive({
     },
     {
       prop: 'name',
-      label: '老人姓名'
+      label: '老人名称'
     },
     {
       prop: 'address',
-      label: '性别'
+      label: '床位号'
     },
     {
       prop: 'manager',
-      label: '身份证号'
+      label: '外出授权日期'
     },
     {
       prop: 'phone',
-      label: '原床位'
+      label: '登记人'
     },
     {
       prop: 'username',
-      label: '变更后床位'
+      label: '登记时间'
     },
     {
       prop: 'userpass',
-      label: '申请人'
+      label: '预计返回日期'
     },
     {
       prop: 'creator',
-      label: '申请日期'
-    },
-    {
-      prop: 'addtime',
       label: '状态'
     }
   ],
-  statelist: [
-    { label: '待审核', value: '待审核' },
-    { label: '已通过', value: '已通过' },
-    { label: '已拒绝', value: '已拒绝' }
-  ]
+  reglist: [] as any,
+  statelist: [] as any
 })
 const getlist = () => {
   setTimeout(() => {
     data.tableData = AffiliatedView
   }, 1000)
 }
-// 关闭弹窗
-const close = () => {
-  isdialog.value = false
-}
-// 删除
-const del = async () => {
-  let res = await getMessageBox('是否确认删除该角色', '删除后将不可恢复')
-  console.log(11112, res)
-  if (res) {
-    ElMessage.success('删除成功')
-  } else {
-    ElMessage.info('取消删除')
-  }
-}
+
 onMounted(() => {
   getlist()
 })

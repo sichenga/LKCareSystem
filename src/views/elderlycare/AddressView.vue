@@ -1,4 +1,5 @@
 <template>
+  <!-- 地址管理 -->
   <LocationDialog v-if="isdialog" @close="close"></LocationDialog>
   <el-card style="margin-top: 15px">
     <div style="margin: 10px 0">

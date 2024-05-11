@@ -1,4 +1,5 @@
 <template>
+  <!--  外出申请  /   详情 -->
   <el-card style="max-width: 100%">
     <div class="title">
       <span><span style="color: #00b1ff">▋</span>老人信息</span>
