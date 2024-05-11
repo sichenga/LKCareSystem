@@ -1,18 +1,18 @@
 <template>
   <!-- 供应商管理 -->
   <div class="box">
-    <el-button type="primary" @click="isdialog = true">新增</el-button>
+    <el-button type="primary" @click="onAdd">新增</el-button>
     <!-- 表格 -->
     <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
-      <template #operate>
-        <el-button type="primary" size="small" link @click="handleEdit">编辑</el-button>
+      <template #operate="scope">
+        <el-button type="primary" size="small" link @click="handleEdit(scope.data.id)">编辑</el-button>
         <el-button type="primary" size="small" link @click="handleDelete">删除</el-button>
       </template>
     </MayTable>
     <!-- 分页 -->
     <Pagination :total="data.total" :page="params.page" :psize="params.pageSize"></Pagination>
     <!-- 弹出框 -->
-    <SupplierDialog @close="close" v-if="isdialog"></SupplierDialog>
+    <SupplierDialog @close="close" :id="editId" v-if="isdialog"></SupplierDialog>
   </div>
 </template>
 
@@ -61,7 +61,7 @@ const getlist = (async () => {
   console.log("供应商列表", res);
   if (res.code == 10000) {
     data.tableData = res.data.list
-    data.total=res.data.counts
+    data.total = res.data.counts
   }
 })
 // 关闭弹窗
@@ -77,9 +77,16 @@ onMounted(() => {
   getlist()
 })
 // 编辑
+const editId = ref(0);
 const handleEdit = ((id: any) => {
   console.log('编辑', id);
   isdialog.value = true
+  editId.value = id
+})
+// 新增
+const onAdd = (() => {
+  editId.value = 0;
+  isdialog.value = true;
 })
 // 删除
 const handleDelete = (async (id: any) => {
