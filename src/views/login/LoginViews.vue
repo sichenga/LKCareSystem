@@ -11,10 +11,16 @@
             <span>账号登录</span>
             <el-image style="width: 100px; height: 100px" :src="code" class="code" />
           </div>
-          <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" class="demo-ruleForm" :size="formSize"
-            status-icon>
-            <el-form-item prop="name">
-              <el-input v-model="ruleForm.name">
+          <el-form
+            ref="ruleFormRef"
+            :model="ruleForm"
+            :rules="rules"
+            class="demo-ruleForm"
+            :size="formSize"
+            status-icon
+          >
+            <el-form-item prop="username">
+              <el-input v-model="ruleForm.username">
                 <template #prefix>
                   <el-icon>
                     <User />
@@ -22,8 +28,8 @@
                 </template>
               </el-input>
             </el-form-item>
-            <el-form-item prop="pass">
-              <el-input v-model="ruleForm.pass">
+            <el-form-item prop="pwd">
+              <el-input v-model="ruleForm.pwd">
                 <template #prefix>
                   <el-icon>
                     <Lock />
@@ -35,8 +41,12 @@
               <span>忘记密码?</span>
             </el-form-item>
             <el-form-item>
-              <el-button type="success" style="width: 100%; height: 45px"
-                @click="submitForm(ruleFormRef)">登录</el-button>
+              <el-button
+                type="success"
+                style="width: 100%; height: 45px"
+                @click="submitForm(ruleFormRef)"
+                >登录</el-button
+              >
             </el-form-item>
           </el-form>
         </div>
@@ -52,23 +62,26 @@ import { ref, reactive } from 'vue'
 import { User, Lock } from '@element-plus/icons-vue'
 import { logo, loginback, code } from '@/utils/images'
 import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
-
+import type { Login } from '@/service/admin/AdminType'
+import { useUserStore } from '@/stores'
+const userStore = useUserStore()
 const formSize = ref<ComponentSize>('default')
 const ruleFormRef = ref<FormInstance>()
-const ruleForm = reactive<any>({
-  name: '',
-  pass: ''
+const ruleForm = reactive<Login>({
+  username: '',
+  pwd: ''
 })
-const rules = reactive<FormRules<any>>({
-  name: [{ required: true, message: '请输入账号', trigger: 'blur' }],
-  pass: [{ required: true, message: '请输入密码', trigger: 'blur' }]
+const rules = reactive<FormRules<Login>>({
+  username: [{ required: true, message: '请输入账号', trigger: 'blur' }],
+  pwd: [{ required: true, message: '请输入密码', trigger: 'blur' }]
 })
 // 登录
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   let valid = await formEl.validate()
   if (valid) {
-    console.log(1111)
+    // 登录接口
+    await userStore.Login(ruleForm)
   }
 }
 </script>

@@ -9,8 +9,13 @@
       :width="item.width">
       <template v-if="item.prop == 'image' && props.identifier === 'Workers'" v-slot="{ row }">
         <el-image style="width: 50px; height: 50px" :src="row.image" /> <span></span>
-      </template>
 
+        <el-image style="width: 50px; height: 50px" :src="row.image" />
+      </template>
+      <template v-else-if="props.identifier=='administration'&&item.prop=='image'" v-slot="{row}">
+        <el-image style="width: 50px; height: 50px" :src=row.image fit="cover" />
+
+      </template>
     </el-table-column>
 
     <!-- 是否有input框 -->
