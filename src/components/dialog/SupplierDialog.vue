@@ -1,5 +1,5 @@
 <template>
-    <el-dialog v-model="dialogVisible" title="新增/编辑供应商" width="500" @close="close">
+    <el-dialog v-model="dialogVisible" :title="ruleForm.id == 0 ? '新增供应商' : '修改供应商'" width="500" @close="close">
         <el-form ref="ruleFormRef" style="max-width: 600px" :model="ruleForm" :rules="rules" label-width="auto"
             class="demo-ruleForm" :size="formSize" status-icon>
             <el-form-item label="供应商名称:" prop="name">
@@ -21,15 +21,16 @@
     </el-dialog>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, defineEmits, onMounted } from 'vue'
+import { ref, reactive, defineEmits, onMounted, defineProps } from 'vue'
 import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
-import { SupplierAdd } from "@/service/food/food"
+import { SupplierAdd, Supplierget, SupplierUpdate } from "@/service/food/food"
 import { ElMessage } from 'element-plus'
 import type { Supplieradd } from "@/service/food/type"
+const props = defineProps(['id'])
 const formSize = ref<ComponentSize>('default')
 const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive<Supplieradd>({
-    id: 0,
+    id: props.id,
     name: '',
     linkMan: '',
     mobile: "",
@@ -50,20 +51,38 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     if (!formEl) return
     await formEl.validate(async (valid, fields) => {
         if (valid) {
-            const res: any = await SupplierAdd(ruleForm)
-            console.log(res);
-            if (res.code === 10000) {
-                ruleFormRef.value && ruleFormRef.value.resetFields();
-                ElMessage({
-                    message: res.msg,
-                    type: 'success',
-                })
-                emit("close", true)
+            if (ruleForm.id == 0) {
+                const res: any = await SupplierAdd(ruleForm).catch(()=>{})
+                console.log(res);
+                if (res.code === 10000) {
+                    ruleFormRef.value && ruleFormRef.value.resetFields();
+                    ElMessage({
+                        message: res.msg,
+                        type: 'success',
+                    })
+                    emit("close", true)
+                } else {
+                    ElMessage({
+                        message: '添加失败',
+                        type: 'error',
+                    })
+                }
             } else {
-                ElMessage({
-                    message: '添加失败',
-                    type: 'error',
-                })
+                const res: any = await SupplierUpdate(ruleForm).catch(()=>{})
+                console.log("修改", res);
+                if (res.code === 10000) {
+                    ruleFormRef.value && ruleFormRef.value.resetFields();
+                    ElMessage({
+                        message: res.msg,
+                        type: 'success',
+                    })
+                    emit("close", true)
+                } else {
+                    ElMessage({
+                        message: '添加失败',
+                        type: 'error',
+                    })
+                }
             }
         } else {
             console.log('error submit!', fields)
@@ -71,7 +90,18 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     })
 }
 
+// 单条数据
+const getModel = (async () => {
+    if (ruleForm.id) {
+        const res: any = await Supplierget(ruleForm.id)
+        console.log("单条数据", res);
+        Object.assign(ruleForm, res.data)
+    }
+})
 
+onMounted(() => {
+    getModel()
+})
 
 
 const dialogVisible = ref(true)

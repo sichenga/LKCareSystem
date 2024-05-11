@@ -1,4 +1,4 @@
-import { get, post } from '@/utils/request'
+import { get, post,put } from '@/utils/request'
 import type { Supplier, Supplieradd } from './type'
 
 // 供应商列表
@@ -12,4 +12,9 @@ export const SupplierAdd = (data: Supplieradd) => {
 // 根据id获取供应商信息
 export const Supplierget = (id: number) => {
   return get(`/api/supplier/get/${id}`)
+}
+
+// 修改供应商
+export const SupplierUpdate = (data: Supplieradd) => {
+  return put('/api/supplier/update', data)
 }

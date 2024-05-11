@@ -57,7 +57,7 @@ const params = reactive<Supplier>({
   page: 1,
 });
 const getlist = (async () => {
-  const res: any = await SupplierList(params)
+  const res: any = await SupplierList(params).catch(()=>{})
   console.log("供应商列表", res);
   if (res.code == 10000) {
     data.tableData = res.data.list
@@ -79,7 +79,6 @@ onMounted(() => {
 // 编辑
 const editId = ref(0);
 const handleEdit = ((id: any) => {
-  console.log('编辑', id);
   isdialog.value = true
   editId.value = id
 })
