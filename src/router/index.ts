@@ -65,11 +65,7 @@ const router = createRouter({
           name: 'Management',
           component: () => import('@/views/account/ManagementView.vue')
         },
-        {
-          path: 'RoleView',
-          name: 'RoleView',
-          component: () => import('@/views/account/RoleView.vue')
-        },
+
         {
           path: 'Settings',
           name: 'Settings',
@@ -175,6 +171,11 @@ const router = createRouter({
           path: 'role',
           name: 'Role',
           component: () => import('@/views/role/RoleViews.vue')
+        },
+        {
+          path: 'roledialog',
+          name: 'RoleDialog',
+          component: () => import('@/views/role/RoleDialog.vue')
         },
         {
           path: 'organization',

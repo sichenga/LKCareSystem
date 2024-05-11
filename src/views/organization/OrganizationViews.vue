@@ -4,7 +4,7 @@
       <el-form-item label="机构名称：">
         <el-input v-model="formInline.user" placeholder="请输入" clearable />
       </el-form-item>
-      <el-form-item label="管理员姓名：">
+      <el-form-item label="管理姓名">
         <el-input v-model="formInline.user" placeholder="请输入" clearable />
       </el-form-item>
       <el-form-item>
@@ -21,8 +21,9 @@
     <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
       <template #operate>
         <el-button type="primary" text>进入系统</el-button>
+        <el-button type="primary" text>修改</el-button>
+        <el-button type="primary" text>删除</el-button>
         <el-button type="primary" text @click="SondAdd">修改</el-button>
-        <el-button type="primary" text @click="del">删除</el-button>
       </template>
     </MayTable>
     <Pagination :total="50"></Pagination>
@@ -84,22 +85,25 @@ const getlist = () => {
 const SondAdd = () => {
   router.push('/dashboard/organizationadd')
 }
-
-const del = async() => {
+const del = async () => {
   let res = await getMessageBox('是否确认删除该机构', '删除后将不可恢复')
   console.log(11112, res)
   if (res) {
     ElMessage.success('删除成功')
-  } else {
+  }
+  else {
     ElMessage.info('取消删除')
   }
-
 }
 onMounted(() => {
   getlist()
 })
 </script>
 <style lang="less" scoped>
+.el-input {
+  height: 40px;
+}
+
 .el-input {
   height: 40px;
 }

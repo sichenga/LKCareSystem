@@ -9,13 +9,12 @@
       :width="item.width">
       <template v-if="item.prop == 'image' && props.identifier === 'Workers'" v-slot="{ row }">
         <el-image style="width: 50px; height: 50px" :src="row.image" /> <span></span>
-        <el-image style="width: 50px; height: 50px" :src="row.image" />
       </template>
-      
+
       <template v-else-if="props.identifier=='administration'&&item.prop=='image'" v-slot="{row}">
-        <el-image style="width: 80px; height: 80px" :src=row.image fit="cover" />
+        <el-image style="width: 50px; height: 50px" :src=row.image fit="cover" />
       </template>
-      
+
       <!-- 出入院管理>老人管理>新增>健康信息 -->
       <template v-else-if="props.identifier=='oldphysical'&&item.prop=='image'" v-slot="{row}">
         <el-image v-for="item in row.image" :key="item" style="width:  40px; height: 40px" :src=item fit="cover" />
@@ -36,13 +35,6 @@
       </template>
     </el-table-column>
 
-    <!-- input -->
-    <el-table-column label="奖励积分" v-if="props.input">
-      <template v-slot="scope">
-        <slot name="custom" :data="scope.row"></slot>
-        <input type="text">
-      </template>
-    </el-table-column>
   </el-table>
 </template>
 <script lang="ts" setup>
@@ -75,11 +67,6 @@ const props = defineProps({
   isoperate: {
     type: Boolean,
     default: true
-  },
-  // 是否有input
-  input: {
-    type: Boolean,
-    default: false
   }
 })
 </script>
