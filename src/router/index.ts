@@ -247,6 +247,96 @@ const router = createRouter({
           name: 'Addold',
           component: () => import('@/views/bazaar/outjoin/old/AddoldViews.vue')
         },
+        {
+          path: 'record',
+          name: 'Record',
+          component: () => import('@/views/bazaar/outjoin/old/RecordViews.vue')
+        },
+        {
+          path: 'arrange',
+          name: 'Arrange',
+          component: () => import('@/views/bazaar/outjoin/old/Arrangeviews.vue')
+        },
+        {
+          path: 'plan',
+          name: 'Plan',
+          component: () => import('@/views/bazaar/outjoin/old/PlanViews.vue')
+        },
+        {
+          path: 'resreve',
+          name: 'Resreve',
+          component: () => import('@/views/bazaar/outjoin/reserve/ResreveViews.vue')
+        },
+        {
+          path: 'place',
+          name: 'Place',
+          component: () => import('@/views/bazaar/outjoin/reserve/PlaceViews.vue')
+        },
+        {
+          path: 'reserveparticulars',
+          name: 'ReserveParticulars',
+          component: () => import('@/views/bazaar/outjoin/reserve/ParticularsViews.vue')
+        },
+        {
+          path: 'enter',
+          name: 'Enter',
+          component: () => import('@/views/bazaar/outjoin/enter/EnterViews.vue')
+        },
+        {
+          path: 'order',
+          name: 'Order',
+          component: () => import('@/views/bazaar/outjoin/enter/OrderViews.vue')
+        },
+        {
+          path: 'enterdetails',
+          name: 'EnterDetails',
+          component: () => import('@/views/bazaar/outjoin/enter/DetailsViews.vue')
+        },
+        {
+          path: 'sond',
+          name: 'Sond',
+          component: () => import('@/views/bazaar/outjoin/sond/SondViews.vue')
+        },
+        {
+          path: 'alteration',
+          name: 'Alteration',
+          component: () => import('@/views/bazaar/outjoin/alteration/AlterationViews.vue')
+        },
+        {
+          path: 'approval',
+          name: 'Approval',
+          component: () => import('@/views/bazaar/outjoin/alteration/ApprovalViews.vue')
+        },
+        {
+          path: 'cooperative',
+          name: 'Cooperative',
+          component: () => import('@/views/bazaar/relation/CooperativeView.vue')
+        },
+        {
+          path: 'referrer',
+          name: 'Referrer',
+          component: () => import('@/views/bazaar/relation/ReferrerViews.vue')
+        },
+        {
+          path: 'wardRoundInfo',
+          name: 'WardRoundInfo',
+          component: () => import('@/views/bazaar/serve/WardRoundInfoViews.vue')
+        },
+        {
+          path: 'wardRound',
+          name: 'WardRound',
+          component: () => import('@/views/bazaar/serve/WardRoundViews.vue')
+        },
+        {
+          path: 'complaint',
+          name: 'Complaint',
+          component: () => import('@/views/bazaar/serve/ComplaintViews.vue')
+        },
+        {
+          path: 'complaintInfo',
+          name: 'ComplaintInfo',
+          component: () => import('@/views/bazaar/serve/ComplaintInfoViews.vue')
+        },
 
         {
           path: 'collection',
@@ -417,7 +507,37 @@ const router = createRouter({
           path: 'projectinfo',
           name: 'ProjectInfo',
           component: () => import('@/views/medicalcare/ProjectInfo.vue')
-        }
+        },
+        {
+          path: 'record',
+          name: 'Record',
+          component: () => import('@/views/medicalcare/RecordViews.vue')
+        },
+        {
+          path: 'recordAdmin',
+          name: 'RecordAdmin',
+          component: () => import('@/views/medicalcare/RecordAdminViews.vue')
+        },
+        {
+          path: 'medicalInfo',
+          name: 'MedicalInfo',
+          component: () => import('@/views/medicalcare/MedicalInfoViews.vue')
+        },
+        {
+          path: 'doctor',
+          name: 'Doctor',
+          component: () => import('@/views/medicalcare/DoctorViews.vue')
+        },
+        {
+          path: 'doctorinfo',
+          name: 'Doctorinfo',
+          component: () => import('@/views/medicalcare/DoctorinfoViews.vue')
+        },
+        {
+          path: 'nurse',
+          name: 'Nurse',
+          component: () => import('@/views/medicalcare/NurseViews.vue')
+        },
       ]
     }
   ]

@@ -6,33 +6,35 @@
         </el-form-item>
         <el-form-item label="权限配置" prop="menuIds">
             <el-tree ref="treeRef" style="max-width: 600px" :data="data" show-checkbox :default-expand-all="false"
-                node-key="id" highlight-current :props="defaultProps" />
+                node-key="id" :default-expanded-keys="ArrData" :default-checked-keys="ArrData" :props="defaultProps" />
         </el-form-item>
     </el-form>
     <div class="dialog-footer">
-        <el-button>取消</el-button>
+        <el-button @click="closeDialog">取消</el-button>
         <el-button type="primary" @click="addlist"> 确定 </el-button>
     </div>
 </template>
 <script lang="ts" setup>
 import { ref, reactive, onMounted } from 'vue'
-import type { ComponentSize, FormInstance, FormRules,ElTree } from 'element-plus'
+import type { ComponentSize, FormInstance, FormRules, ElTree } from 'element-plus'
+import { ElMessage } from 'element-plus'
 import { convertToTree } from '@/utils/treeUtils'
-import { getList,Addroles } from '@/service/role/RoleApi'
+import { getList, Addroles, Rolesget } from '@/service/role/RoleApi'
+import { useRouter, useRoute } from 'vue-router'
 const treeRef = ref<InstanceType<typeof ElTree>>()
-interface RuleForm {
-    name: string
-    menuIds: string[]
-}
+const router = useRouter()
+const route = useRoute()
 
 const formSize = ref<ComponentSize>('default')
 const ruleFormRef = ref<FormInstance>()
-const ruleForm = reactive<RuleForm>({
+const ruleForm = reactive<any>({
     name: '',
     menuIds: []
 })
 
-const rules = reactive<FormRules<RuleForm>>({
+const ArrData: any = ref([])
+
+const rules = reactive<FormRules<any>>({
     name: [
         { required: true, message: '姓名不能为空', trigger: 'blur' },
     ],
@@ -52,9 +54,9 @@ const defaultProps = {
 }
 
 const data: any = ref([])
+
 const getlist = async () => {
     let res: any = await getList().catch(() => { })
-    console.log(res);
     if (res.code == 10000) {
         data.value = convertToTree(res.data.list)
 
@@ -62,15 +64,50 @@ const getlist = async () => {
 }
 
 
-const addlist =async ()=>{
-//    let res =await Addroles(ruleForm)
-    console.log(treeRef);
-    console.log(treeRef.value?.getCheckedKeys());
+const addlist = async () => {
+    if (treeRef.value?.getCheckedKeys()) {
+        ruleForm.menuIds = treeRef.value?.getCheckedKeys()
+    }
+    let res: any = await Addroles(ruleForm).catch(() => { })
+    if (res.code == 10000) {
+        let id = Number(route.query.id)
+        if (id) {
+            ElMessage.success('修改成功')
+        } else {
+            ElMessage.success('添加成功')
+        }
+        router.push('/dashboard/role')
+    }
 
 }
 
+//编辑
+const edit = async () => {
+
+    let id = Number(route.query.id)
+    if (id >= 0) {
+        let res: any = await Rolesget(id).catch(() => { })
+        if (res.code === 10000) {
+            Object.assign(ruleForm, res.data)
+            if (res.data.menuIds == null) {
+                ArrData.value = []
+            } else {
+                ArrData.value = res.data.menuIds
+
+            }
+        }
+    }
+
+}
+
+const closeDialog = () => {
+    router.push('/dashboard/role')
+}
+
 onMounted(() => {
-    getlist()
+
+    getlist() //权限
+    edit()  //编辑
 })
 </script>
 <style lang="less" scoped>
