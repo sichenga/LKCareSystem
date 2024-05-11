@@ -170,11 +170,11 @@ const router = createRouter({
           name: 'BranchCompanyView',
           component: () => import('@/views/organization/BranchCompanyView.vue')
         },
-        // {
-        //   path: 'organizationAdd',//新增分机构
-        //   name: 'OrganizationAdd',
-        //   component: () => import('@/views/organization/organizationAdd.vue')
-        // },
+        {
+          path: 'organizationAdd',//新增分机构
+          name: 'OrganizationAdd',
+          component: () => import('@/views/organization/OrganizationAdd.vue')
+        },
         {
           path: 'Client',//潜在客户
           name: 'ClientView',
