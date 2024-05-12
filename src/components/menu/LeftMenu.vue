@@ -1,34 +1,29 @@
 <template>
+  <i class="iconfont " style="background-color: aliceblue;"></i>
   <div class="title">
     <span v-if="!apperStore.statechange">{{ istype }}</span>
     <el-image v-else style="width: 80px; height: 50px" :src="url" />
   </div>
-  <el-menu
-    default-active="2"
-    class="el-menu-vertical-demo"
-    :collapse="apperStore.statechange"
-    :collapse-transition="false"
-    background-color="#333333"
-    text-color="#ccc"
-    active-text-color="#fff"
-    router
-  >
+  <el-menu default-active="2" class="el-menu-vertical-demo" :collapse="apperStore.statechange"
+    :collapse-transition="false" background-color="#333333" text-color="#ccc" active-text-color="#fff" router>
     <el-menu-item index="/dashboard" v-if="userStore.model.type !== 3">
-      <el-icon><House /></el-icon>
+      <el-icon>
+        <i class="iconfont icon"></i>
+        <House />
+      </el-icon>
       <template #title>首页</template>
     </el-menu-item>
     <el-sub-menu :index="index + ''" v-for="(item, index) in leftmenu" :key="index">
       <template #title>
-        <el-icon><location /></el-icon>
+        <i :class="{iconfont:true,[item.icon]:true}"></i>
         <span>{{ item.name }}</span>
       </template>
       <el-menu-item-group>
-        <el-menu-item
-          v-for="(chym, chindex) in item.children"
-          :key="chindex + ''"
-          :index="chym.url"
-          >{{ chym.name }}</el-menu-item
-        >
+        <el-menu-item v-for="(chym, chindex) in item.children" :key="chindex + ''" :index="chym.url">
+            <i :class="{iconfont:true,[chym.icon]:true}"></i>
+          {{ chym.name }}
+        
+        </el-menu-item>
       </el-menu-item-group>
     </el-sub-menu>
   </el-menu>
@@ -70,6 +65,7 @@ const istype = computed(() => {
 })
 </script>
 <style lang="less" scoped>
+@import url('@/assets/leftMenu_icon/iconfont.css');
 .title {
   width: 100%;
   height: 60px;
@@ -78,17 +74,22 @@ const istype = computed(() => {
   text-align: center;
   line-height: 60px;
   color: #fff;
+
   span {
     font-weight: bold;
   }
 }
+
 .el-menu--collapse {
   width: 93px;
   animation: hide 0.2s linear !important;
+
   :deep(.el-sub-menu__title) {
     justify-content: center;
   }
 }
+
+
 @keyframes hide {
   from {
     width: 180px;
@@ -101,14 +102,21 @@ const istype = computed(() => {
     filter: blur(5px);
   }
 }
+
 .el-menu {
   width: 100%;
   border-right: none;
 }
+
 :deep(.el-menu-tooltip__trigger) {
   justify-content: center;
 }
+
 :deep(.el-menu-item-group__title) {
   padding: 0 !important;
+}
+
+.iconfont{
+  margin-right: 5px;
 }
 </style>
