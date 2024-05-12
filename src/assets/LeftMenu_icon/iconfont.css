@@ -1,9 +1,9 @@
+/* 在线链接服务仅供平台体验和调试使用，平台不承诺服务的稳定性，企业客户需下载字体包自行发布使用并做好备份。 */
 @font-face {
-  font-family: "iconfont";
-  /* Project id 4543128 */
-  src: url('iconfont.woff2?t=1715494726398') format('woff2'),
-    url('iconfont.woff?t=1715494726398') format('woff'),
-    url('iconfont.ttf?t=1715494726398') format('truetype');
+  font-family: 'iconfont';  /* Project id 4543128 */
+  src: url('//at.alicdn.com/t/c/font_4543128_wegqfw9qqgc.woff2?t=1715507018555') format('woff2'),
+       url('//at.alicdn.com/t/c/font_4543128_wegqfw9qqgc.woff?t=1715507018555') format('woff'),
+       url('//at.alicdn.com/t/c/font_4543128_wegqfw9qqgc.ttf?t=1715507018555') format('truetype');
 }
 
 .iconfont {
@@ -12,6 +12,74 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-post:before {
+  content: "\e6a4";
+}
+
+.icon-addfenjigou:before {
+  content: "\e6a2";
+}
+
+.icon-fenjigoulist:before {
+  content: "\ec6b";
+}
+
+.icon-fenjigou:before {
+  content: "\e643";
+}
+
+.icon-supplier:before {
+  content: "\e632";
+}
+
+.icon-jiage:before {
+  content: "\e607";
+}
+
+.icon-meals:before {
+  content: "\e623";
+}
+
+.icon-shicai:before {
+  content: "\e60a";
+}
+
+.icon-purchase:before {
+  content: "\e63c";
+}
+
+.icon-zhanghao:before {
+  content: "\e606";
+}
+
+.icon-role:before {
+  content: "\e665";
+}
+
+.icon-addrole:before {
+  content: "\e951";
+}
+
+.icon-editrole:before {
+  content: "\e722";
+}
+
+.icon-set:before {
+  content: "\e666";
+}
+
+.icon-jigoulist:before {
+  content: "\e80a";
+}
+
+.icon-jigou:before {
+  content: "\e68f";
+}
+
+.icon-account-copy:before {
+  content: "\ec84";
 }
 
 .icon-account:before {
@@ -38,7 +106,7 @@
   content: "\e767";
 }
 
-.icon-floor:before {
+.iocn-floor:before {
   content: "\e768";
 }
 
@@ -66,7 +134,7 @@
   content: "\e6b2";
 }
 
-.icon-toapproval:before {
+.incn-toapproval:before {
   content: "\e6c2";
 }
 
@@ -138,7 +206,7 @@
   content: "\e603";
 }
 
-.icon-tohospital:before {
+.incon-tohospital:before {
   content: "\e638";
 }
 
@@ -237,3 +305,4 @@
 .icon-task:before {
   content: "\e626";
 }
+
