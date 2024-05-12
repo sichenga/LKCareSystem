@@ -3,26 +3,32 @@
     <el-card>
         <!-- 详情 -->
         <div class="details">
-            <div class="left">
-                <div class="l">
-                    <div>创建时间：</div>
-                    <div>申请人：</div>
-                    <div>品种数：</div>
-                    <div>实际采购成本：</div>
-                </div>
-                <div class="r">
-                    <div>2020-02-02 15：00</div>
-                    <div>张三</div>
-                    <div>10</div>
-                    <div>10000.00</div>
-                </div>
-            </div>
+            <el-form label-width="auto">
+                <el-form-item label="创建时间：">
+                    {{ data.Dataget.receiveTime }}
+                </el-form-item>
+                <el-form-item label="申请人：">
+                    {{ data.Dataget.addAccountName }}
+                </el-form-item>
+                <el-form-item label="品种数：">
+                    {{ data.Dataget.counts }}
+                </el-form-item>
+                <el-form-item label="实际采购成本：">
+                    <!-- {{ data.Dataget.receiveTime }} -->
+                </el-form-item>
+            </el-form>
             <div class="right">
-                <h2>待收货</h2>
+                <h2>{{ data.Dataget.state }}</h2>
             </div>
         </div>
         <!-- 表格 -->
         <MayTable :tableData="data.tableData" :tableItem="data.tableItem" :isoperate="false"></MayTable>
+        <div class="goods">到货凭证</div>
+        <div class="demo-image" style="margin-top: 20px;">
+            <div v-for="fit in fits" :key="fit" class="block">
+                <el-image style="width: 50px; height: 50px" :src="url" fit="fill" />
+            </div>
+        </div>
     </el-card>
     <!-- 返回 -->'
     <div class="back">
@@ -33,19 +39,29 @@
 
 <script lang='ts' setup>
 import { reactive, toRefs, ref, onMounted, defineAsyncComponent } from 'vue'
+import { purchaseFoodslist, Purchaseget,purchase } from "@/service/food/food"
+import type { ImageProps } from 'element-plus'
 import { useRouter } from 'vue-router'
 const router = useRouter();
+import { useRoute } from 'vue-router';
+const route = useRoute();
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
-import ReceivingView from '@/database/ReceivingView.json'
+const fits = [
+    'fill',
+] as ImageProps['fit'][]
+const url =
+    'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'
 const data = reactive({
+    id: "" as any,
     tableData: [] as any,
+    Dataget: [] as any,
     tableItem: [
         {
             prop: 'id',
             label: '序号'
         },
         {
-            prop: 'material',
+            prop: 'foodName',
             label: '物料名称'
         },
         {
@@ -53,64 +69,81 @@ const data = reactive({
             label: '单位'
         },
         {
-            prop: 'supplier',
+            prop: 'supplierName',
             label: '供应商'
         },
         {
-            prop: 'trade',
+            prop: 'wholePrice',
             label: '批发价'
         },
         {
-            prop: 'retail',
+            prop: 'purchasePrice',
             label: '零售价'
         },
         {
-            prop: 'purchase',
+            prop: 'sellPrice',
             label: '采购价'
         },
         {
-            prop: 'amount',
+            prop: 'purchaseCounts',
             label: '采购数量'
         },
         {
-            prop: 'arrived',
+            prop: 'receiveCounts',
             label: '实际到货数量'
         },
     ]
 })
-const getlist = () => {
-    setTimeout(() => {
-        data.tableData = ReceivingView
-    }, 1000)
-}
+
+// 获取采购物品列表
+// const getlist = (async () => {
+//     data.id = route.query.id
+//     const res: any = await purchaseFoodslist(data.id)
+//     console.log("获取采购物品列表", res);
+//     if (res.code == 10000) {
+//         data.tableData = res.data.list
+//     }
+// })
+// // 单条采购申请信息
+// const getData = (async () => {
+//     const res: any = await Purchaseget(data.id)
+//     console.log("单条采购申请信息", res);
+//     if (res.code == 10000) {
+//         data.Dataget = res.data
+//     }
+// })
+
+// 收货验收
+const getlist=(async()=>{
+    const res=await  purchase()
+    console.log('收货验收',res);
+    
+})
 onMounted(() => {
     getlist()
+
 })
 
 // 返回
-const back=(()=>{
+const back = (() => {
     router.go(-1)
 })
 </script>
 
 <style scoped lang="less">
 .details {
-    height: 100px;
+    height: 160px;
     display: flex;
     justify-content: space-between;
     margin-bottom: 40px;
 
-    .left {
-        display: flex;
-
-        .l {
-            margin-right: 30px;
-        }
-    }
-
     .right {
         line-height: 100px;
     }
+}
+
+.goods {
+    margin-top: 30px;
 }
 
 .back {

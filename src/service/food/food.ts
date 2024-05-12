@@ -1,5 +1,5 @@
 import { get, post, put, del } from '@/utils/request'
-import type { Supplier, Supplieradd } from './type'
+import type { Supplier, Supplieradd, Purchase } from './type'
 
 // 供应商列表
 export const SupplierList = (params: Supplier) => {
@@ -22,4 +22,23 @@ export const SupplierUpdate = (data: Supplieradd) => {
 // 删除供应商
 export const Supplierdelete = (id: number) => {
   return del(`/api/supplier/delete/${id}`)
+}
+
+// 采购申请列表
+export const PurchaseList = (params: Purchase) => {
+  return get('/api/purchase/list', params)
+}
+
+// 单条采购申请信息
+export const Purchaseget = (id: number) => {
+  return get(`/api/purchase/get/${id}`)
+}
+
+// 获取采购物品列表
+export const purchaseFoodslist = (id: number) => {
+  return get(`/api/purchaseFoods/list/${id}`)
+}
+// 收货验收
+export const purchase = () => {
+  return put('/api/purchase/check')
 }

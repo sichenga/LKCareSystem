@@ -47,11 +47,6 @@ const router = createRouter({
           component: () => import('@/views/food/PurchaseDetailView.vue')
         },
         {
-          path: 'received', //采购详情 已验收
-          name: 'received',
-          component: () => import('@/views/food/ReceivedView.vue')
-        },
-        {
           path: 'home',
           name: 'HomeView',
           component: () => import('@/views/home/HomeView.vue')
