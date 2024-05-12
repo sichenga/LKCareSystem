@@ -1,6 +1,6 @@
 <template>
   <div class="title">
-    <span v-if="!apperStore.statechange">机构中心端</span>
+    <span v-if="!apperStore.statechange">{{ istype }}</span>
     <el-image v-else style="width: 80px; height: 50px" :src="url" />
   </div>
   <el-menu
@@ -11,38 +11,63 @@
     background-color="#333333"
     text-color="#ccc"
     active-text-color="#fff"
-    @open="handleOpen"
-    @close="handleClose"
+    router
   >
-    <el-menu-item index="1">
+    <el-menu-item index="/dashboard" v-if="userStore.model.type !== 3">
       <el-icon><House /></el-icon>
       <template #title>首页</template>
     </el-menu-item>
-    <el-sub-menu index="1">
+    <el-sub-menu :index="index + ''" v-for="(item, index) in leftmenu" :key="index">
       <template #title>
         <el-icon><location /></el-icon>
-        <span>Navigator One</span>
+        <span>{{ item.name }}</span>
       </template>
       <el-menu-item-group>
-        <el-menu-item index="1-1">item one</el-menu-item>
-        <el-menu-item index="1-2">item two</el-menu-item>
+        <el-menu-item
+          v-for="(chym, chindex) in item.children"
+          :key="chindex + ''"
+          :index="chym.url"
+          >{{ chym.name }}</el-menu-item
+        >
       </el-menu-item-group>
     </el-sub-menu>
   </el-menu>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, computed } from 'vue'
 import { Menu as IconMenu, Location, House } from '@element-plus/icons-vue'
+import type { Permission } from '@/Type/pinia/user'
+import { homelogin } from '@/utils/images'
 import { useApperStore, useUserStore } from '@/stores'
 const userStore = useUserStore()
 const apperStore = useApperStore()
-const url = 'https://s21.ax1x.com/2024/05/07/pkEqS4P.png'
-const handleOpen = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath)
+const url = homelogin
+const leftmenu = ref<Array<Permission>>([])
+// 左侧菜单
+const getmenu = () => {
+  let menu: Array<Permission> = userStore.auth
+  console.log(menu)
+  leftmenu.value = menu.map((item: any) => {
+    return {
+      ...item,
+      children: item.children.filter((fil: any) => fil.isButton === 0 && fil.url)
+    }
+  })
 }
-const handleClose = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath)
-}
+onMounted(() => {
+  getmenu()
+})
+
+// 判断登录端
+const istype = computed(() => {
+  if (userStore.model.type == 1) {
+    return '运营端'
+  } else if (userStore.model.type == 2) {
+    return '机构中心端'
+  } else {
+    return '机构端'
+  }
+})
 </script>
 <style lang="less" scoped>
 .title {
@@ -77,10 +102,12 @@ const handleClose = (key: string, keyPath: string[]) => {
   }
 }
 .el-menu {
-  width: 180px;
+  width: 100%;
   border-right: none;
 }
-
+:deep(.el-menu-tooltip__trigger) {
+  justify-content: center;
+}
 :deep(.el-menu-item-group__title) {
   padding: 0 !important;
 }

@@ -4,7 +4,7 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/',
+      path: '/login',
       name: 'login',
       component: () => import('../views/login/LoginViews.vue')
     },
@@ -15,43 +15,39 @@ const router = createRouter({
       },
       component: () => import('@/views/error/Error-404.vue')
     },
+
     {
-      path: '/home',
-      name: 'home',
-      component: () => import('@/views/home/HomeView.vue')
-    },
-    {
-      path: '/dashboard',
+      path: '/',
       name: 'dashboard',
       component: () => import('@/views/dashboard/DashBoard.vue'),
       children: [
         {
-          path: 'Food',//食材管理
+          path: 'Food', //食材管理
           name: 'FoodView',
           component: () => import('@/views/food/FoodView.vue')
         },
         {
-          path: 'Price',//价格分析
+          path: 'Price', //价格分析
           name: 'PriceView',
           component: () => import('@/views/food/PriceView.vue')
         },
         {
-          path: 'Supplier',//供应商管理
+          path: 'Supplier', //供应商管理
           name: 'SupplierView',
           component: () => import('@/views/food/SupplierView.vue')
         },
         {
-          path: 'Purchase',//采购申请
+          path: 'Purchase', //采购申请
           name: 'PurchaseView',
           component: () => import('@/views/food/PurchaseView.vue')
         },
         {
-          path: 'PurchaseDetail',//采购详情
+          path: 'PurchaseDetail', //采购详情
           name: 'PurchaseDetailView',
           component: () => import('@/views/food/PurchaseDetailView.vue')
         },
         {
-          path: 'received',//采购详情 已验收
+          path: 'received', //采购详情 已验收
           name: 'received',
           component: () => import('@/views/food/ReceivedView.vue')
         },
@@ -61,92 +57,92 @@ const router = createRouter({
           component: () => import('@/views/home/HomeView.vue')
         },
         {
-          path: 'AccountSet',//账号设置
+          path: 'AccountSet', //账号设置
           name: 'AccountSetView',
           component: () => import('@/views/account/AccountSetView.vue')
         },
         {
-          path: 'AccountView2',//账号管理
+          path: 'AccountView2', //账号管理
           name: 'AccountView2',
           component: () => import('@/views/account/AccountView.vue')
         },
         {
-          path: 'Role44',//角色管理
+          path: 'Role44', //角色管理
           name: 'Role44',
           component: () => import('@/views/account/RoleView.vue')
         },
         {
-          path: 'CareWorker',//护工设置
+          path: 'CareWorker', //护工设置
           name: 'CareWorkerView',
           component: () => import('@/views/basic/CareWorkerView.vue')
         },
         {
-          path: 'NursingWorker',//护理服务
+          path: 'NursingWorker', //护理服务
           name: 'NursingWorkerView',
           component: () => import('@/views/basic/NursingWorkerView.vue')
         },
         {
-          path: 'NursingGrade',//护理等级
+          path: 'NursingGrade', //护理等级
           name: 'NursingGradeView',
           component: () => import('@/views/basic/NursingGradeView.vue')
         },
         {
-          path: 'NursingItem',//护理项目
+          path: 'NursingItem', //护理项目
           name: 'NursingItemView',
           component: () => import('@/views/basic/NursingItemView.vue')
         },
         {
-          path: 'Account',//账号设置
+          path: 'Account', //账号设置
           name: 'AccountView',
           component: () => import('@/views/basic/AccountView.vue')
         },
         {
-          path: 'NursingGradeScheme',//配置护理方案
+          path: 'NursingGradeScheme', //配置护理方案
           name: 'NursingGradeSchemeView',
           component: () => import('@/views/basic/NursingGradeSchemeView.vue')
         },
         {
-          path: 'NursingItemScheme',//配置护理项目
+          path: 'NursingItemScheme', //配置护理项目
           name: 'NursingItemSchemeView',
           component: () => import('@/views/basic/NursingItemSchemeView.vue')
         },
         {
-          path: 'Floor',//楼层管理
+          path: 'Floor', //楼层管理
           name: 'FloorView',
           component: () => import('@/views/basic/FloorView.vue')
         },
         {
-          path: 'Room',//房间管理
+          path: 'Room', //房间管理
           name: 'RoomView',
           component: () => import('@/views/basic/RoomView.vue')
         },
         {
-          path: 'Bed',// 床位管理
+          path: 'Bed', // 床位管理
           name: 'BedView',
           component: () => import('@/views/basic/BedView.vue')
         },
         {
-          path: 'Accraditation',//审批设置
+          path: 'Accraditation', //审批设置
           name: 'AccraditationView',
           component: () => import('@/views/basic/AccraditationView.vue')
         },
         {
-          path: 'ConfigAccraditation',//配置审批流
+          path: 'ConfigAccraditation', //配置审批流
           name: 'ConfigAccraditationView',
           component: () => import('@/views/basic/ConfigAccraditationView.vue')
         },
         {
-          path: 'HouseType',//房型管理
+          path: 'HouseType', //房型管理
           name: 'HouseTypeView',
           component: () => import('@/views/basic/HouseTypeView.vue')
         },
         {
-          path: 'Form',//表单组件
+          path: 'Form', //表单组件
           name: 'FormView',
           component: () => import('@/views/basic/FormView.vue')
         },
         {
-          path: 'AddForm',//增加表单
+          path: 'AddForm', //增加表单
           name: 'AddFormView',
           component: () => import('@/views/basic/AddFormView.vue')
         },
@@ -156,47 +152,47 @@ const router = createRouter({
           component: () => import('@/views/affiliated/AffiliatedView.vue')
         },
         {
-          path: 'Role',//角色管理
+          path: 'Role', //角色管理
           name: 'RoleView',
           component: () => import('@/views/role/RoleView.vue')
         },
         {
-          path: 'AddRole',//新增角色
+          path: 'AddRole', //新增角色
           name: 'AddRoleView',
           component: () => import('@/views/role/AddRoleView.vue')
         },
         {
-          path: 'BranchCompany',//分机构列表
+          path: 'BranchCompany', //分机构列表
           name: 'BranchCompanyView',
           component: () => import('@/views/organization/BranchCompanyView.vue')
         },
         {
-          path: 'organizationAdd',//新增分机构
+          path: 'organizationAdd', //新增分机构
           name: 'OrganizationAdd',
           component: () => import('@/views/organization/OrganizationAdd.vue')
         },
         {
-          path: 'Client',//潜在客户
+          path: 'Client', //潜在客户
           name: 'ClientView',
           component: () => import('@/views/bazaar/ClientView.vue')
         },
         {
-          path: 'AddClient',//新增潜在客户
+          path: 'AddClient', //新增潜在客户
           name: 'AddClientView',
           component: () => import('@/views/bazaar/AddClientView.vue')
         },
         {
-          path: 'NewsRegister',//资讯登记
+          path: 'NewsRegister', //资讯登记
           name: 'NewsRegisterView',
           component: () => import('@/views/bazaar/NewsRegisterView.vue')
         },
         {
-          path: 'Callback',//回访记录
+          path: 'Callback', //回访记录
           name: 'CallbackView',
           component: () => import('@/views/bazaar/CallbackView.vue')
         },
         {
-          path: 'ClientInfoView',//潜在客户详情
+          path: 'ClientInfoView', //潜在客户详情
           name: 'ClientInfoView',
           component: () => import('@/views/bazaar/ClientInfoView.vue')
         },
@@ -206,102 +202,102 @@ const router = createRouter({
           component: () => import('@/views/bazaar/ParticularsVIews.vue')
         },
         {
-          path: 'OldyView',//老人管理
+          path: 'OldyView', //老人管理
           name: 'OldyView',
           component: () => import('@/views/bazaar/OldyView.vue')
         },
         {
-          path: 'AddOldy',//新增老人
+          path: 'AddOldy', //新增老人
           name: 'AddOldyView',
           component: () => import('@/views/bazaar/AddOldyView.vue')
         },
         {
-          path: 'Archive',//档案管理
+          path: 'Archive', //档案管理
           name: 'ArchiveView',
           component: () => import('@/views/bazaar/ArchiveView.vue')
         },
         {
-          path: 'Workforce',//排班管理
+          path: 'Workforce', //排班管理
           name: 'WorkforceView',
           component: () => import('@/views/bazaar/WorkforceView.vue')
         },
         {
-          path: 'Plan',//排班管理
+          path: 'Plan', //排班管理
           name: 'PlanView',
           component: () => import('@/views/bazaar/PlanView.vue')
         },
         {
-          path: 'Reserve',//预定登记
+          path: 'Reserve', //预定登记
           name: 'ReserveView',
           component: () => import('@/views/bazaar/ReserveView.vue')
         },
         {
-          path: 'AddReserve',//新增预定
+          path: 'AddReserve', //新增预定
           name: 'AddReserveView',
           component: () => import('@/views/bazaar/AddReserveView.vue')
         },
         {
-          path: 'ReserveInfo',//预定详情
+          path: 'ReserveInfo', //预定详情
           name: 'ReserveInfoView',
           component: () => import('@/views/bazaar/ReserveInfoView.vue')
         },
         {
-          path: 'Hospitalized',//入院管理
+          path: 'Hospitalized', //入院管理
           name: 'HospitalizedView',
           component: () => import('@/views/bazaar/HospitalizedView.vue')
         },
         {
-          path: 'Orders',//下单
+          path: 'Orders', //下单
           name: 'OrdersView',
           component: () => import('@/views/bazaar/OrdersView.vue')
         },
         {
-          path: 'HospitalizedInfo',//入院详情
+          path: 'HospitalizedInfo', //入院详情
           name: 'HospitalizedInfoView',
           component: () => import('@/views/bazaar/HospitalizedInfoView.vue')
         },
         {
-          path: 'ToHospital',//出院管理
+          path: 'ToHospital', //出院管理
           name: 'ToHospitalView',
           component: () => import('@/views/bazaar/ToHospitalView.vue')
         },
         {
-          path: 'Pflegestufe',//护理等级变更
+          path: 'Pflegestufe', //护理等级变更
           name: 'PflegestufeView',
           component: () => import('@/views/bazaar/PflegestufeView.vue')
         },
         {
-          path: 'PflegestufeInfo',//护理等级变更详情
+          path: 'PflegestufeInfo', //护理等级变更详情
           name: 'PflegestufeInfoView',
           component: () => import('@/views/bazaar/PflegestufeInfoView.vue')
         },
         {
-          path: 'Referrer',//推荐人管理
+          path: 'Referrer', //推荐人管理
           name: 'ReferrerView',
           component: () => import('@/views/bazaar/ReferrerView.vue')
         },
         {
-          path: 'Cooperative',//合作组织管理
+          path: 'Cooperative', //合作组织管理
           name: 'CooperativeView',
           component: () => import('@/views/bazaar/CooperativeView.vue')
         },
         {
-          path: 'WardRound',//行政查房
+          path: 'WardRound', //行政查房
           name: 'WardRoundView',
           component: () => import('@/views/bazaar/WardRoundView.vue')
         },
         {
-          path: 'WardRoundInfo',//行政查房详情
+          path: 'WardRoundInfo', //行政查房详情
           name: 'WardRoundInfoView',
           component: () => import('@/views/bazaar/WardRoundInfoView.vue')
         },
         {
-          path: 'Complaint',//投诉建议
+          path: 'Complaint', //投诉建议
           name: 'ComplaintView',
           component: () => import('@/views/bazaar/ComplaintView.vue')
         },
         {
-          path: 'ComplaintInfo',//投诉建议详情
+          path: 'ComplaintInfo', //投诉建议详情
           name: 'ComplaintInfoView',
           component: () => import('@/views/bazaar/ComplaintInfoView.vue')
         },
@@ -316,12 +312,12 @@ const router = createRouter({
           component: () => import('@/views/examine/PflApprovalView.vue')
         },
         {
-          path: 'ToApproval',//外出申请审批
+          path: 'ToApproval', //外出申请审批
           name: 'ToApprovalView',
           component: () => import('@/views/examine/ToApprovalView.vue')
         },
         {
-          path: 'Details',//床位更换申请审批  /   详情
+          path: 'Details', //床位更换申请审批  /   详情
           name: 'Details',
           component: () => import('@/views/examine/DetailsView.vue')
         },
