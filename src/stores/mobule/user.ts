@@ -6,9 +6,11 @@ import { TreeData } from '@/utils/utils'
 import { getListForUser } from '@/service/account/AccountApi'
 import type { Model } from '@/Type/pinia/user'
 import type { Login as LoginType } from '@/service/admin/AdminType'
+import { useRouter } from 'vue-router'
 export const useUserStore = defineStore(
   'user',
   () => {
+    const router = useRouter()
     // token
     const token = ref('')
     // 用户信息
@@ -37,6 +39,7 @@ export const useUserStore = defineStore(
         model.value = res.data.model
         ElMessage.success('登录成功')
         await getUserAuth()
+        router.push('/')
       } else {
         ElMessage.error(res.msg)
       }

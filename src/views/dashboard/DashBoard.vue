@@ -1,7 +1,9 @@
 <template>
   <el-container>
     <el-aside :class="{ shrink: apperStore.statechange, unfold: !apperStore.statechange }">
-      <LeftMenu></LeftMenu>
+      <el-scrollbar height="100%">
+        <LeftMenu></LeftMenu>
+      </el-scrollbar>
     </el-aside>
     <el-container>
       <el-header><TopMenu></TopMenu></el-header>
@@ -52,13 +54,13 @@ import TopMenu from '@/components/menu/TopMenu.vue'
 
 // 展开
 .unfold {
-  width: 180px;
+  width: 230px;
   animation: show 0.2s linear !important;
 }
 
 @keyframes hide {
   from {
-    width: 180px;
+    width: 230px;
 
     filter: blur(3px);
   }
@@ -78,7 +80,7 @@ import TopMenu from '@/components/menu/TopMenu.vue'
   }
 
   to {
-    width: 180px;
+    width: 230px;
     filter: blur(5px);
     // width: 6.7vw;
   }
