@@ -11,23 +11,21 @@
         <el-image style="width: 50px; height: 50px" :src="row.image" /> <span></span>
       </template>
 
-      <template v-else-if="props.identifier=='administration'&&item.prop=='image'" v-slot="{row}">
+      <template v-else-if="props.identifier == 'administration' && item.prop == 'image'" v-slot="{ row }">
+        <el-image style="width: 50px; height: 50px" :src="row.image" fit="cover" />
 
+        <el-image style="width: 80px; height: 80px" :src="row.image" fit="cover" />
 
-        <el-image style="width: 50px; height: 50px" :src=row.image fit="cover" />
-
-        <el-image style="width: 80px; height: 80px" :src=row.image fit="cover" />
-
-
-        <el-image style="width: 50px; height: 50px" :src=row.image fit="cover" />
-
+        <el-image style="width: 50px; height: 50px" :src="row.image" fit="cover" />
       </template>
 
       <!-- 出入院管理>老人管理>新增>健康信息 -->
-      <template v-else-if="props.identifier=='oldphysical'&&item.prop=='image'" v-slot="{row}">
-        <el-image v-for="item in row.image" :key="item" style="width:  40px; height: 40px" :src=item fit="cover" />
+      <template v-else-if="props.identifier == 'oldphysical' && item.prop == 'image'" v-slot="{ row }">
+        <el-image v-for="item in row.image" :key="item" style="width: 40px; height: 40px" :src="item" fit="cover" />
       </template>
-
+      <template v-else-if="item.prop === 'updateTime'" v-slot="{ row }">
+        <span>{{ moment(row.updateTime).format('YYYY-MM-DD') }}</span>
+      </template>
     </el-table-column>
 
     <!-- 是否有input框 -->
@@ -42,13 +40,17 @@
         <slot name="operate" :data="scope.row"></slot>
       </template>
     </el-table-column>
-
+    <!-- 奖励积分 -->
+    <el-table-column label="奖励积分" v-if="props.input">
+        <input type="text">
+    </el-table-column>
   </el-table>
 </template>
 <script lang="ts" setup>
 import { defineProps } from 'vue'
 import type { PropType } from 'vue'
 import type { TableItem } from '@/Type/table'
+
 const props = defineProps({
   tableData: {
     type: Array,
@@ -75,6 +77,10 @@ const props = defineProps({
   isoperate: {
     type: Boolean,
     default: true
+  },
+  input: {
+    type: Boolean,
+    default: false
   }
 })
 </script>

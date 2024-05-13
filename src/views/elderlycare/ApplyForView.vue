@@ -71,7 +71,7 @@ const close = () => {
 // 详情
 const getinfo = () => {
   router.push({
-    path: '/dashboard/goexamine'
+    path: '/goexamine'
   })
 }
 

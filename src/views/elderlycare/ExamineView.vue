@@ -77,7 +77,7 @@
         </template>
       </el-timeline-item>
     </el-timeline>
-    <el-button style="margin: 0 auto; display: block">返回</el-button>
+    <el-button style="margin: 0 auto; display: block" @click="but">返回</el-button>
   </el-card>
 </template>
 <script lang="ts" setup>
@@ -108,6 +108,10 @@ const activities = [
   }
 ]
 const circleUrl = ref('https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png')
+// 返回
+const but = () => {
+  window.history.go(-1)
+}
 </script>
 <style lang="less" scoped>
 .title {

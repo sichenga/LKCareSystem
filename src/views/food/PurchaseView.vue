@@ -1,29 +1,31 @@
-<template>
+w<template>
     <!-- 采购申请 -->
     <!-- 查询 -->
     <el-card>
-        <el-form :inline="true" :model="formInline" class="demo-form-inline">
+        <el-form :inline="true" :model="params" class="demo-form-inline">
             <el-form-item label="机构名称：">
-                <el-select v-model="formInline.region" placeholder="请选择" clearable>
-                    <el-option label="Zone one" value="shanghai" />
-                    <el-option label="Zone two" value="beijing" />
+                <el-select v-model="params.companyId" placeholder="请选择" clearable>
+                    <el-option v-for="(item, index) in data.companyId" :key="index" :label="item.name"
+                        :value="item.id" />
                 </el-select>
             </el-form-item>
             <el-form-item label="期望到货日期：">
-                <el-select v-model="formInline.region" placeholder="请选择" clearable>
-                    <el-option label="Zone one" value="shanghai" />
-                    <el-option label="Zone two" value="beijing" />
-                </el-select>
+                <!-- <el-select v-model="params.beginDate" placeholder="请选择" clearable>
+                    <el-option label="2024-05 " value="2024-05" />
+                </el-select> -->
+                <!-- <el-date-picker v-model="params.beginDate" type="date" format="YYYY-MM-DD HH:mm:ss" placeholder="请选择"
+                   value-format="yyyy-MM-dd HH:mm:ss">
+                </el-date-picker> -->
             </el-form-item>
             <el-form-item label="状态：">
-                <el-select v-model="formInline.region" placeholder="请选择" clearable>
-                    <el-option label="Zone one" value="shanghai" />
-                    <el-option label="Zone two" value="beijing" />
+                <el-select v-model="params.state" placeholder="请选择" clearable>
+                    <el-option label="已经发货" value="已经发货" />
+                    <el-option label="未发货" value="未发货" />
                 </el-select>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="onSubmit">查询</el-button>
-                <el-button>重置</el-button>
+                <el-button @click="onReset">重置</el-button>
             </el-form-item>
         </el-form>
     </el-card>
@@ -36,18 +38,23 @@
             </template>
         </MayTable>
         <!-- 分页 -->
-        <Pagination :total="50"></Pagination>
+        <Pagination @page="page" @psize="psize" :total="data.total" :page="params.page" :psize="params.pageSize">
+        </Pagination>
     </el-card>
 </template>
 
 <script lang='ts' setup>
 import { reactive, toRefs, ref, onMounted, defineAsyncComponent } from 'vue'
 import { useRouter } from 'vue-router'
+import { PurchaseList } from "@/service/food/FoodApi"
+import type { Purchase } from "@/service/food/FoodType"
+import { companylist } from "@/service/Organization/Organization"
 const router = useRouter();
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
-import PurchasingView from '@/database/PurchasingView.json'
 const data = reactive({
+    companyId: [] as any,
+    total: undefined,
     tableData: [] as any,
     tableItem: [
         {
@@ -55,23 +62,23 @@ const data = reactive({
             label: '序号'
         },
         {
-            prop: 'creation',
+            prop: 'addTime',
             label: '创建时间'
         },
         {
-            prop: 'applicant',
+            prop: 'addAccountName',
             label: '申请人'
         },
         {
-            prop: 'organization',
+            prop: 'companyName',
             label: '机构名称'
         },
         {
-            prop: 'species',
+            prop: 'counts',
             label: '品种数'
         },
         {
-            prop: 'arrival',
+            prop: 'receiveTime',
             label: '期望到货日期'
         },
         {
@@ -80,13 +87,34 @@ const data = reactive({
         },
     ]
 })
-const getlist = () => {
-    setTimeout(() => {
-        data.tableData = PurchasingView
-    }, 1000)
-}
+const params = reactive<Purchase>({
+    pageSize: 5,
+    page: 1,
+    companyId: "",
+    state: "",
+    beginDate: "",
+    endDate: "",
+});
+// 采购申请列表
+const getlist = (async () => {
+    const res: any = await PurchaseList(params).catch(() => { })
+    console.log("采购申请列表", res);
+    if (res.code == 10000) {
+        data.tableData = res.data.list
+        data.total = res.data.counts
+    }
+})
+// 机构名称
+const getdata = (async () => {
+    const res: any = await companylist({ page: 1, pageSize: 100 })
+    console.log("机构名称", res);
+    if (res.code == 10000) {
+        data.companyId = res.data.list
+    }
+})
 onMounted(() => {
     getlist()
+    getdata()
 })
 // 发货
 const deliver = (() => {
@@ -94,18 +122,27 @@ const deliver = (() => {
 })
 // 查看详情
 const details = (() => {
-    console.log('查看详情');
-    router.push("/dashboard/receiving")
+    console.log('查看详情', );
+    router.push(`/PurchaseDetail`);
 })
-const formInline = reactive({
-    user: '',
-    region: '',
-    date: '',
+// 
+const onReset = (() => {
+    // if (!formEl) return
+    // formEl.resetFields()
 })
 
 const onSubmit = () => {
-    console.log('submit!')
+    getlist()
 }
+// 分页
+const page = ((val: number) => {
+    params.page = val
+    getlist()
+})
+const psize = ((val: number) => {
+    params.pageSize = val
+    getlist()
+})
 </script>
 
 

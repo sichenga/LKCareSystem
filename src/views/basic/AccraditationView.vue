@@ -33,7 +33,7 @@ const data = reactive({
         },
         {
             prop: 'updated',
-            label: '关联房间数'
+            label: '更新日期'
         },
       
     ]
