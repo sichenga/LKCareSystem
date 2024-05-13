@@ -33,31 +33,19 @@
 import { ref, reactive, defineEmits, defineProps, watch } from 'vue'
 import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
 import { ElMessage } from 'element-plus'
-import { foodpriceadd, foodpricelist, foodpriceupdate } from '@/service/food/FoodApi'
+import { foodpriceadd, foodpriceupdate } from '@/service/food/FoodApi'
 import moment from 'moment'
 import type { AddFoodPrice } from '@/service/food/FoodType'
 const props = defineProps({
   priceid: {
     type: Number,
     default: 0
+  },
+  pricedata: {
+    type: Object,
+    default: () => {}
   }
 })
-
-watch(
-  () => props.priceid,
-  async (newval) => {
-    if (newval) {
-      console.log(newval)
-
-      let res: any = await foodpricelist(newval)
-      console.log('编辑', res)
-      if (res?.code === 10000 && res?.data.list.length > 0) {
-        Object.assign(ruleForm, res.data.list[0])
-      }
-    }
-  },
-  { immediate: true }
-)
 
 const formSize = ref<ComponentSize>('default')
 const ruleFormRef = ref<FormInstance>()
@@ -93,17 +81,24 @@ const rules = reactive<FormRules<AddFoodPrice>>({
   ]
 })
 
+const dialogVisible = ref(true)
+const emit = defineEmits(['close'])
+const close = (close: boolean = false) => {
+  emit('close', close)
+}
+
 // 提交表单
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   const valid = await formEl.validate()
   if (valid) {
     let res: any
-    if (!ruleForm.id) {
+    if (!props.pricedata) {
       res = await foodpriceadd(ruleForm)
     } else {
       res = await foodpriceupdate(ruleForm)
     }
+
     console.log(res)
     if (res?.code === 10000) {
       ElMessage.success('添加成功')
@@ -112,11 +107,16 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   }
 }
 
-const dialogVisible = ref(true)
-const emit = defineEmits(['close'])
-const close = (close: boolean = false) => {
-  emit('close', close)
-}
+// 数据回显
+watch(
+  () => props.pricedata,
+  (newval) => {
+    if (newval) {
+      Object.assign(ruleForm, newval)
+    }
+  },
+  { deep: true, immediate: true }
+)
 </script>
 <style lang="less" scoped>
 .el-input {

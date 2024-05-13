@@ -11,7 +11,9 @@
         <el-button type="primary" size="small" link @click="priceUpdate(data.id)"
           >价格更新</el-button
         >
-        <el-button type="primary" size="small" link @click="priceAnalysis">价格分析</el-button>
+        <el-button type="primary" size="small" link @click="priceAnalysis(data.id)"
+          >价格分析</el-button
+        >
       </template>
     </MayTable>
     <!-- 分页 -->
@@ -20,7 +22,7 @@
       :page="params.page"
       :psize="params.pageSize"
       @page="getpage"
-      @psize="getpsize"
+      @psize="getpsize" 
     ></Pagination>
     <!-- 价格更新 -->
     <PriceDialog @close="close" v-if="isprice" :priceid="priceid"></PriceDialog>
@@ -135,13 +137,13 @@ const priceUpdate = (id: number) => {
   priceid.value = id
   isprice.value = true
 }
-// 价格更新
-const priceAnalysis = (id: any) => {
+// 价格分析
+const priceAnalysis = (id: number) => {
   console.log('价格分析', id)
   router.push({
     path: '/Price',
     query: {
-      id: id
+      id
     }
   })
 }

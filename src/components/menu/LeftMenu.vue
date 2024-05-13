@@ -13,7 +13,7 @@
     active-text-color="#fff"
     router
   >
-    <el-menu-item index="/dashboard" v-if="userStore.model.type !== 3">
+    <el-menu-item index="/" v-if="userStore.model.type !== 3">
       <el-icon>
         <i class="iconfont icon"></i>
         <House />
@@ -29,7 +29,7 @@
         <el-menu-item
           v-for="(chym, chindex) in item.children"
           :key="chindex + ''"
-          :index="chym.url"
+          :index="`/${item.url}/${chym.url}`"
         >
           <i :class="{ iconfont: true, [chym.icon]: true }"></i>
           {{ chym.name }}

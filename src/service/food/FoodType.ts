@@ -33,3 +33,16 @@ export interface SelectSupplier {
   id: number
   name: string
 }
+
+// 食材详情
+export interface FoodDetail {
+  id: number
+  name: string
+  unit: string
+  supplierId: number
+  wholePrice: number
+  sellPrice: number
+  purchasePrice: number
+  updateTime: string
+  supplierName: string
+}

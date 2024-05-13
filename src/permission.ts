@@ -5,8 +5,22 @@ import { AddMenu } from '@/utils/common'
 router.beforeEach((to) => {
   const userStore = useUserStore()
   if (userStore.token) {
-    AddMenu()
-    return true
+    console.log(router.getRoutes())
+
+    const menu = AddMenu()
+    console.log('菜单', menu)
+    if (router.getRoutes().length <= 3) {
+      console.log(222222221)
+      const rou = {
+        path: '/',
+        name: 'dashboard',
+        component: () => import('./views/dashboard/DashBoard.vue'),
+        children: menu
+      }
+      router.addRoute(rou)
+      return to.fullPath
+    }
+    // return true
   } else {
     console.log(1)
     if (to.path == '/login') {

@@ -1,40 +1,86 @@
 <template>
-    <!-- 为 ECharts 准备一个定义了宽高的 DOM -->
-    <div ref="chartContainer" style="width: 90%; height: 460px ;"></div>
+  <!-- 为 ECharts 准备一个定义了宽高的 DOM -->
+  <div ref="chartContainer" style="width: 90%; height: 460px"></div>
 </template>
 
-<script lang='ts' setup>
-import { reactive, toRefs, ref, onMounted } from 'vue'
-import * as echarts from 'echarts';
-let chartContainer = ref(null);
-let myChart: echarts.ECharts | null = null;
+<script lang="ts" setup>
+import { reactive, toRefs, ref, onMounted, defineProps, watch } from 'vue'
+import * as echarts from 'echarts'
+const props = defineProps({
+  sellPricelist: {
+    type: Array,
+    default: () => []
+  },
+  wholePricelist: {
+    type: Array,
+    default: () => []
+  },
+  purchasePricelist: {
+    type: Array,
+    default: () => []
+  },
+  timelist: {
+    type: Array,
+    default: () => []
+  }
+})
+
+let chartContainer = ref(null)
+const isechaets = ref(true)
+let myChart: echarts.ECharts | null = null
 const initChart = () => {
-    if (chartContainer.value) {
-        myChart = echarts.init(chartContainer.value);
-        const option: echarts.EChartsOption = {
-            xAxis: {
-                type: 'category',
-                data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-            },
-            yAxis: {
-                type: 'value',
-            },
-            series: [
-                {
-                    data: [820, 932, 901, 934, 1290, 1330, 1320],
-                    type: 'line',
-                    smooth: true,
-                },
-            ],
-        };
-        myChart?.setOption(option);
+  if (chartContainer.value) {
+    if (isechaets.value === true) {
+      myChart = echarts.init(chartContainer.value)
     }
-};
+    const option: echarts.EChartsOption = {
+      xAxis: {
+        type: 'category',
+        data: props.timelist as Array<string>
+      },
+      yAxis: {
+        type: 'value'
+      },
+      series: [
+        {
+          data: props.sellPricelist as Array<string>,
+          type: 'line',
+          smooth: true
+        },
+        {
+          data: props.wholePricelist as Array<string>,
+          type: 'line',
+          smooth: true
+        },
+        {
+          data: props.purchasePricelist as Array<string>,
+          type: 'line',
+          smooth: true
+        }
+      ]
+    }
+    myChart?.setOption(option)
+  }
+}
 
+watch(
+  props,
+  (newval) => {
+    if (newval) {
+      console.log(1111222)
+      initChart()
+    }
+  },
+  { deep: true }
+)
 onMounted(() => {
-    initChart(); // 在组件挂载后初始化图表
-});
+  initChart()
+  isechaets.value = false
+})
 
+defineExpose({
+  initChart
+})
 </script>
 
 <style scoped></style>
