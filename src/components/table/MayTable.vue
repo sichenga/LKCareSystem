@@ -68,7 +68,7 @@
 import { defineProps } from 'vue'
 import type { PropType } from 'vue'
 import type { TableItem } from '@/Type/table'
-import moment from 'moment'
+
 const props = defineProps({
   tableData: {
     type: Array,
