@@ -27,8 +27,10 @@
           v-for="(chym, chindex) in item.children"
           :key="chindex + ''"
           :index="chym.url"
-          >{{ chym.name }}</el-menu-item
         >
+          <!-- <i :class="{ iconfont: true, [chym.icon]: true }"></i> -->
+          {{ chym.name }}
+        </el-menu-item>
       </el-menu-item-group>
     </el-sub-menu>
   </el-menu>

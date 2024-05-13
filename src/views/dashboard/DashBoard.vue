@@ -8,7 +8,9 @@
     <el-container>
       <el-header><TopMenu></TopMenu></el-header>
       <el-main>
-        <RouterView></RouterView>
+        <el-scrollbar height="100%">
+          <RouterView></RouterView>
+        </el-scrollbar>
       </el-main>
     </el-container>
   </el-container>
@@ -43,7 +45,10 @@ import TopMenu from '@/components/menu/TopMenu.vue'
   align-items: center;
 }
 .el-main {
+  width: 100%;
+  height: 100%;
   background-color: #eef2fa;
+  overflow: hidden;
 }
 
 // 收缩
