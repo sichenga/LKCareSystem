@@ -1,4 +1,5 @@
 <template>
+    <!-- 新增分机构 -->
     <el-card style="max-width: 100%">
         <div class="title">
             <div class="title-text">
@@ -6,19 +7,18 @@
                 基础信息
             </div>
             <div class="title-btn">
-                <el-button>取消</el-button>
+                <el-button @click="cancel">取消</el-button>
                 <el-button type="primary" @click="save(ruleFormRef)">保存</el-button>
             </div>
         </div>
         <div class="form-size">
-            <el-form    ref="ruleFormRef" :inline="true" :rules="rules" label-position="top" :model="params" class="demo-form-inline">
+            <el-form ref="ruleFormRef" :inline="true" :rules="rules" label-position="top" :model="params"
+                class="demo-form-inline">
                 <el-form-item label="机构名称:" prop="name">
                     <el-input v-model="params.name" placeholder="请输入" clearable />
                 </el-form-item>
                 <el-form-item label="地址:" prop="address">
-                    <el-select v-model="params.address" placeholder="请选择" clearable>
-
-                    </el-select>
+                    <el-input v-model="params.address" placeholder="请输入" clearable />
                 </el-form-item>
                 <el-form-item label="对外服务电话:" prop="telephone">
                     <el-input v-model="params.telephone" placeholder="请输入" clearable />
@@ -36,9 +36,10 @@
                     <el-input v-model="params.adminPwd" placeholder="请输入" clearable />
                 </el-form-item>
                 <el-form-item label="开业时间:" prop="startTime">
-                    <el-select v-model="params.startTime" placeholder="请选择" clearable>
-
-                    </el-select>
+                    <!-- <el-select v-model="params.startTime" placeholder="请选择" clearable>
+                        <el-option label="0" value="8点" />
+                    </el-select> -->
+                    <MayTimePicker v-model="params.startTime"></MayTimePicker>
                 </el-form-item>
             </el-form>
         </div>
@@ -61,22 +62,22 @@
             <el-form :inline="true" :rules="rules" label-position="right" :model="params" class="demo-form-inline">
                 <el-form-item label="卫生许可证：">
                     <el-radio-group v-model="params.license">
-                        <el-radio value="1">是</el-radio>
-                        <el-radio value="0">否</el-radio>
+                        <el-radio v-model="params.license" label="1">是</el-radio>
+                        <el-radio v-model="params.license" label="0">否</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="是否具备医疗定点资格：">
                     <el-radio-group v-model="params.medicalPoint">
-                        <el-radio value="1">是</el-radio>
-                        <el-radio value="0">否</el-radio>
+                        <el-radio  v-model="params.medicalPoint" label="1">是</el-radio>
+                        <el-radio   v-model="params.medicalPoint" label="0">否</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="房屋性质：">
                     <el-radio-group v-model="params.house">
-                        <el-radio value="0">自有产权</el-radio>
-                        <el-radio value="1">租赁</el-radio>
-                        <el-radio value="2">合作使用</el-radio>
-                        <el-radio value="3">其他</el-radio>
+                        <el-radio v-model="params.house" label="0">自有产权</el-radio>
+                        <el-radio v-model="params.house" label="1">租赁</el-radio>
+                        <el-radio v-model="params.house" label="2">合作使用</el-radio>
+                        <el-radio v-model="params.house" label="3">其他</el-radio>
                     </el-radio-group>
                 </el-form-item>
             </el-form>
@@ -98,8 +99,12 @@
 <script lang="ts" setup>
 import { ref, reactive, toRefs, onMounted } from 'vue'
 import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
-import {companyadd} from '@/service/Organization/Organization'
-import type {companyaddParams} from '@/service/Organization/type'
+import { companyadd,companyget } from '@/service/Organization/Organization'
+import type { companyaddParams } from '@/service/Organization/type'
+import MayTimePicker from '@/components/timepicker/MayTimePicker.vue'
+import { useRouter } from 'vue-router'
+import { ElMessage } from 'element-plus'
+const router = useRouter()
 const ruleFormRef = ref<FormInstance>()
 const formInline = reactive({
     user: '',
@@ -109,18 +114,18 @@ const formInline = reactive({
 })
 const params = reactive<companyaddParams>({
     id: null,
-    name:'',
+    name: '',
     address: '',
-    telephone:'',
-    adminName:'',
-    adminMobile:'',
-    adminUserName:'',
-    adminPwd:'',
-    startTime:'',
-    legalPerson:'',//法人
-    mobile:'',//法人联系号码
-    creditCode:'',//统一社会信用代码
-    license:null,//卫生许可证
+    telephone: '',
+    adminName: '',
+    adminMobile: '',
+    adminUserName: '',
+    adminPwd: '',
+    startTime: '',
+    legalPerson: '',//法人
+    mobile: '',//法人联系号码
+    creditCode: '',//统一社会信用代码
+    license: null,//卫生许可证
     medicalPoint: null, //医疗点
     house: null //房屋性质
 
@@ -154,15 +159,65 @@ const rules = reactive<FormRules<companyaddParams>>({
 })
 //保存
 const save = async (formEl: FormInstance | undefined) => {
-  if (!formEl) return
-  await formEl.validate((valid, fields) => {
-    if (valid) {
-      console.log('submit!')
-    } else {
-      console.log('error submit!', fields)
-    }
-  })
+    if (!formEl) return
+    await formEl.validate(async (valid, fields) => {
+        if (valid) {
+            if (params.id == 0) {
+                const res: any = await companyadd(params).catch(()=>{})
+                console.log(res);
+                if (res.code === 10000) {
+                    ruleFormRef.value && ruleFormRef.value.resetFields();
+                    ElMessage({
+                        message: res.msg,
+                        type: 'success',
+                    })
+                    
+                } else {
+                    ElMessage({
+                        message: '添加失败',
+                        type: 'error',
+                    })
+                }
+            } else {
+                const res: any = await companyadd(params).catch(()=>{})
+                console.log("修改", res);
+                if (res.code === 10000) {
+                    ruleFormRef.value && ruleFormRef.value.resetFields();
+                    ElMessage({
+                        message: res.msg,
+                        type: 'success',
+                    })
+                 
+                } else {
+                    ElMessage({
+                        message: '添加失败',
+                        type: 'error',
+                    })
+                }
+            }
+        } else {
+            console.log('error submit!', fields)
+        }
+    })
 }
+//取消
+const cancel = () => {
+    router.push({
+        path: 'organization'
+    })
+}
+//单条数据
+const getcompanyget = (async () => {
+    if (params.id) {
+        const res: any = await companyget(params.id)
+        console.log("单条数据", res);
+        Object.assign(params)
+    }
+})
+
+onMounted(() => {
+    getcompanyget()
+})
 </script>
 <style lang="less" scoped>
 .section {

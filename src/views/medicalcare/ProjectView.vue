@@ -1,6 +1,6 @@
 <template>
+  <!-- 用药计划 -->
   <el-card>
-
     <el-form :inline="true" :model="formInline" class="demo-form-inline">
       <el-form-item label="老人：">
         <el-input v-model="formInline.user" placeholder="请输入" clearable />

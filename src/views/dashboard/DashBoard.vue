@@ -1,12 +1,16 @@
 <template>
   <el-container>
     <el-aside :class="{ shrink: apperStore.statechange, unfold: !apperStore.statechange }">
-      <LeftMenu></LeftMenu>
+      <el-scrollbar height="100%">
+        <LeftMenu></LeftMenu>
+      </el-scrollbar>
     </el-aside>
     <el-container>
       <el-header><TopMenu></TopMenu></el-header>
       <el-main>
-        <RouterView></RouterView>
+        <el-scrollbar height="100%">
+          <RouterView></RouterView>
+        </el-scrollbar>
       </el-main>
     </el-container>
   </el-container>
@@ -25,6 +29,9 @@ import TopMenu from '@/components/menu/TopMenu.vue'
   height: 100%;
 }
 .el-aside {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
   background-color: #333333;
   transition: width 0.15s;
   -webkit-transition: width 0.15s;
@@ -38,44 +45,47 @@ import TopMenu from '@/components/menu/TopMenu.vue'
   align-items: center;
 }
 .el-main {
+  width: 100%;
+  height: 100%;
   background-color: #eef2fa;
+  overflow: hidden;
 }
 
 // 收缩
 .shrink {
-  width: 80px;
+  width: 90px;
   animation: hide 0.2s linear !important;
 }
 
 // 展开
 .unfold {
-  width: 160px;
+  width: 230px;
   animation: show 0.2s linear !important;
 }
 
 @keyframes hide {
   from {
-    width: 160px;
+    width: 230px;
 
     filter: blur(3px);
   }
 
   to {
     // width: 2.5vw;
-    width: 60px;
+    width: 90px;
     filter: blur(5px);
   }
 }
 
 @keyframes show {
   from {
-    width: 60px;
+    width: 90px;
     filter: blur(3px);
     // width: 2.5vw;
   }
 
   to {
-    width: 160px;
+    width: 230px;
     filter: blur(5px);
     // width: 6.7vw;
   }

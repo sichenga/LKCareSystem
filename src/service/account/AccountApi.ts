@@ -14,7 +14,9 @@ const rolelistForAccount = (id: number) => get(`/api/role/listForAccount/${id}`)
 const accountdel = (id: number) => del(`/api/account/delete/${id}`)
 // 角色列表 /api/role/list
 const rolelist = (params?: RoleList) => get('/api/role/list', params)
-//
+// 获取登录用户权限 /api/menu/getListForUser
+const getListForUser = () => get('/api/menu/getListForUser')
+
 export {
   accountlist,
   accountadd,
@@ -22,5 +24,6 @@ export {
   accountinfo,
   rolelist,
   rolelistForAccount,
-  accountupdate
+  accountupdate,
+  getListForUser
 }
