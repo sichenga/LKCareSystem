@@ -162,12 +162,12 @@ const router = createRouter({
           component: () => import('@/views/role/AddRoleView.vue')
         },
         {
-          path: 'BranchCompany', //分机构列表
+          path: 'Company', //分机构列表
           name: 'BranchCompanyView',
           component: () => import('@/views/organization/BranchCompanyView.vue')
         },
         {
-          path: 'organizationAdd', //新增分机构
+          path: 'organizationadd', //新增分机构
           name: 'OrganizationAdd',
           component: () => import('@/views/organization/OrganizationAdd.vue')
         },

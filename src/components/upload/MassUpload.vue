@@ -1,14 +1,7 @@
 <template>
-  <el-upload
-    v-model:file-list="fileList"
-    :limit="props.limit"
-    :action="action"
-    :headers="headers"
-    list-type="picture-card"
-    :on-preview="handlePictureCardPreview"
-    :on-remove="handleRemove"
-    :on-success="handleSuccess"
-  >
+  <el-upload v-model:file-list="fileList" :limit="props.limit" :action="action" :headers="headers"
+    list-type="picture-card" :on-preview="handlePictureCardPreview" :on-remove="handleRemove"
+    :on-success="handleSuccess">
     <el-icon>
       <Plus />
     </el-icon>
@@ -16,7 +9,7 @@
       <div class="el-upload__tip">(可上传{{ props.limit }}张图片)</div>
     </template>
   </el-upload>
-  <el-dialog v-model="dialogVisible">
+  <el-dialog v-model="dialogVisible" v-if="props.delete">
     <img w-full :src="dialogImageUrl" alt="Preview Image" />
   </el-dialog>
 </template>
@@ -83,7 +76,7 @@ const handleSuccess: UploadProps['onSuccess'] = (uploadFile: any) => {
 
 const handlePictureCardPreview: UploadProps['onPreview'] = (uploadFile: any) => {
   dialogImageUrl.value = uploadFile.url!
-  dialogVisible.value = true
+  dialogVisible.value = false
 }
 </script>
 <style lang="less" scoped></style>
