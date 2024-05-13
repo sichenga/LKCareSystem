@@ -46,8 +46,8 @@ w<template>
 <script lang='ts' setup>
 import { reactive, toRefs, ref, onMounted, defineAsyncComponent } from 'vue'
 import { useRouter } from 'vue-router'
-import { PurchaseList } from "@/service/food/food"
-import type { Purchase } from "@/service/food/type"
+import { PurchaseList } from "@/service/food/FoodApi"
+import type { Purchase } from "@/service/food/FoodType"
 import { companylist } from "@/service/Organization/Organization"
 const router = useRouter();
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))

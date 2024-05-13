@@ -39,7 +39,7 @@
 
 <script lang='ts' setup>
 import { reactive, toRefs, ref, onMounted, defineAsyncComponent } from 'vue'
-import { purchaseFoodslist, Purchaseget,purchase } from "@/service/food/food"
+import { purchaseFoodslist, Purchaseget, purchase } from "@/service/food/FoodApi"
 import type { ImageProps } from 'element-plus'
 import { useRouter } from 'vue-router'
 const router = useRouter();
@@ -114,10 +114,10 @@ const data = reactive({
 // })
 
 // 收货验收
-const getlist=(async()=>{
-    const res=await  purchase()
-    console.log('收货验收',res);
-    
+const getlist = (async () => {
+    const res = await purchase()
+    console.log('收货验收', res);
+
 })
 onMounted(() => {
     getlist()
