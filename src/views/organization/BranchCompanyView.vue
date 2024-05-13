@@ -97,7 +97,7 @@ const editId = ref(0);
 const SondAdd = () => {
   switch (userStore.model.type) {
     case 1:
-      router.push('/dashboard/organizationadd')
+      router.push('/organizationadd')
       break;
     case 2:
       isdialog.value = true
