@@ -38,7 +38,7 @@
     <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
       <template #operate>
         <el-button type="primary" text>编辑</el-button>
-        <el-button type="primary" text>查看详情</el-button>
+        <el-button type="primary" text @click="btn">查看详情</el-button>
       </template>
     </MayTable>
     <Pagination :total="50"></Pagination>
@@ -105,7 +105,11 @@ const close = () => {
 
 // 新增外出
 const add = () => {
-  router.push('/addgoout')
+  router.push('/add')
+}
+// 详情
+const btn = () => {
+  router.push('/nurexamine')
 }
 
 onMounted(() => {

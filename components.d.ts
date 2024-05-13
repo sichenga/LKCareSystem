@@ -58,7 +58,6 @@ declare module 'vue' {
     ElTabs: typeof import('element-plus/es')['ElTabs']
     ElTimeline: typeof import('element-plus/es')['ElTimeline']
     ElTimelineItem: typeof import('element-plus/es')['ElTimelineItem']
-    ElTree: typeof import('element-plus/es')['ElTree']
     FloorDialog: typeof import('./src/components/dialog/FloorDialog.vue')['default']
     FoodDialog: typeof import('./src/components/dialog/FoodDialog.vue')['default']
     HospitalDialog: typeof import('./src/components/dialog/HospitalDialog.vue')['default']
