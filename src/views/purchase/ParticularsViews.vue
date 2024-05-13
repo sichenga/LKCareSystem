@@ -5,23 +5,23 @@
             <div class="body-size">
             <div>
                 <div>创建时间：</div>
-                <div>2020-02-02 15：00</div>
+                <div>{{ data.TatleData.addTime}}</div>
             </div>
             <div>
                 <div>申请人：</div>
-                <div>张三</div>
+                <div>{{data.TatleData.addAccountName}}</div>
             </div>
             <div>
                 <div>品种数：</div>
-                <div>10</div>
+                <div>{{data.TatleData.counts}}</div>
             </div>
             <div>
                 <div>实际采购成本：</div>
-                <div>10000.00</div>
+                <div>{{data.TatleData.addAccountId}}</div>
             </div>
         </div>
             <div class="size-ok">
-                已提交
+                {{data.TatleData.state}}
             </div>
         </div>
        
@@ -45,64 +45,78 @@
     <div class="button-body">
         <el-button class="btn-body" @click="router.push('/dashboard/apply')">返回</el-button>
     </div>
-    
 </template>
 <script lang="ts" setup>
 import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
-import AffiliatedView from '@/database/AffiliatedView.json'
-import {useRouter} from 'vue-router'
+import {useRouter,useRoute} from 'vue-router'
+import {getPurchase,getpurchaseFoods} from '@/service/purchase/purchase'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const router = useRouter()
+const route = useRoute()
+console.log(route.query.id);
 
 const data = reactive({
     tableData: [] as any,
+    TatleData: [] as any,
     tableItem: [
         {
             prop: 'id',
             label: '序号'
         },
         {
-            prop: 'name',
+            prop: 'foodName',
             label: '物料名称'
         },
         {
-            prop: 'address',
+            prop: 'unit',
             label: '单位'
         },
         {
-            prop: 'manager',
+            prop: 'supplierName',
             label: '供应商'
         },
         {
-            prop: 'phone',
+            prop: 'sellPrice',
             label: '批发价'
         },
         {
-            prop: 'creator',
+            prop: 'purchasePrice',
             label: '零售价'
         },
         {
-            prop: 'addtime',
+            prop: 'purchaseId',
             label: '采购价'
         },
         {
-            prop: 'creator',
+            prop: 'purchaseCounts',
             label: '采购数量'
         },
         {
-            prop: 'creator',
+            prop: 'purchaseCounts',
             label: '采购实际数量'
         },
     ]
 })
+
 const isshou = ref(false)
-const getlist = () => {
-    setTimeout(() => {
-        data.tableData = AffiliatedView
-    }, 1000)
+const getlist =async () => {
+    let id = Number(route.query.id)
+    let res:any = await getPurchase(id)
+    if(res.code==10000){
+        data.TatleData=res.data
+    }
 }
-onMounted(() => {
-    getlist()
+const getData = async ()=>{
+    let id = Number(route.query.id)
+    let res:any = await getpurchaseFoods(id)
+    console.log(res);
+    if(res.code==10000){
+        data.tableData=res.data.list
+    }
+}
+onMounted(async() => {
+   await getlist()
+   await getData()
 })
 </script>
 <style lang="less" scoped>
@@ -126,7 +140,7 @@ onMounted(() => {
     font-size: 14px;
     margin: 20px 0 20px 10px;
     div{
-        width: 240px;
+        width: 300px;
         display: flex;
   
         justify-content:space-between;

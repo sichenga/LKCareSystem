@@ -3,15 +3,14 @@
     <el-card style="margin-top: 15px">
       <div style="margin: 10px 0">
         <el-button type="primary" @click="sond">创建采购申请</el-button>
-  
       </div>
       <!-- 表格 -->
       <MayTable :tableData="data.tableData" :tableItem="data.tableItem" >
-        <template #operate>
-          <!-- <el-button type="primary" text @click="del">删除</el-button> -->
+        <template #operate="{data}">
+          <el-button type="primary" text @click="del">删除</el-button>
             <el-button type="primary" text @click="reteor.push('/dashboard/purchase')">编辑</el-button>
           <el-button type="primary" text @click="reteor.push('/dashboard/examine')">收获验货</el-button>
-          <el-button type="primary" text @click="reteor.push('/dashboard/particulars')">查看详情</el-button>
+          <el-button type="primary" text @click="examine(data.id)">查看详情</el-button>
         </template>
       </MayTable>
       <Pagination :total="50"></Pagination>
@@ -20,9 +19,10 @@
   <script lang="ts" setup>
   import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
   import { useRouter}from 'vue-router'
-  import AffiliatedView from '@/database/AffiliatedView.json'
   import { getMessageBox } from '@/utils/utils'
-import { ElMessage } from 'element-plus'
+  import { ElMessage } from 'element-plus'  
+  import {getPurchaseList} from '@/service/purchase/purchase'
+  import type {IUser} from '@/service/purchase/type'
   const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
   const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
   const reteor = useRouter()
@@ -34,33 +34,40 @@ import { ElMessage } from 'element-plus'
         label: '序号'
       },
       {
-        prop: 'addtime',
+        prop: 'receiveTime',
         label: '创建时间'
       },
       {
-        prop: 'name',
-        label: '机构名称'
+        prop: 'addAccountName',
+        label: '申请人'
       },
    
       {
-        prop: 'manager',
+        prop: 'foods',
         label: '品种'
       },
       {
-        prop: 'phone',
+        prop: 'addAccountId',
         label: '实际采购成本'
       },
       {
-        prop: 'username',
+        prop: 'state',
         label: '状态'
       },
 
     ]
   })
-  const getlist = () => {
-    setTimeout(() => {
-      data.tableData = AffiliatedView
-    }, 1000)
+  const params = ref<IUser>({
+    page: 1,
+    pageSize: 10
+  })
+  const getlist = async() => {
+    let res:any = await getPurchaseList(params.value)
+    console.log(33,res);
+    if(res.code==10000){
+      data.tableData = res.data.list
+    }
+
   }
   const del =async () => {
   let res =await getMessageBox('是否确认删除该采购申请', '删除后将不可恢复')
@@ -73,7 +80,16 @@ import { ElMessage } from 'element-plus'
   
 }
   const sond = () => {
-    reteor.push("/dashboard/purchase")
+    reteor.push("/AddPurchase")
+  }
+
+  const examine = (id:any) => {
+    reteor.push({
+      path:'/particulars1',
+      query:{
+        id:id
+      }
+    })
   }
   onMounted(() => {
     getlist()

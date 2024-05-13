@@ -163,7 +163,6 @@ const router = createRouter({
         },
         {
           path: 'BranchCompany', //分机构列表
-
           name: 'BranchCompanyView',
           component: () => import('@/views/organization/BranchCompanyView.vue')
         },
