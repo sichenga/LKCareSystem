@@ -137,11 +137,6 @@ const router = createRouter({
           component: () => import('@/views/basic/AddFormView.vue')
         },
         {
-          path: 'affiliated',
-          name: 'affiliated',
-          component: () => import('@/views/affiliated/AffiliatedView.vue')
-        },
-        {
           path: 'Role', //角色管理
           name: 'RoleView',
           component: () => import('@/views/role/RoleView.vue')
@@ -297,9 +292,9 @@ const router = createRouter({
           component: () => import('@/views/bazaar/ComplaintInfoView.vue')
         },
         {
-          path: 'BedApproval', //床位更换申请审批
-          name: 'BedApprovalView',
-          component: () => import('@/views/examine/BedApprovalView.vue')
+          path: 'Examine', //床位更换申请审批
+          name: 'ExamineView',
+          component: () => import('@/views/care/ExamineView.vue')
         },
         {
           path: 'PflApproval', //护理等级变更审批
@@ -477,9 +472,9 @@ const router = createRouter({
           component: () => import('@/views/personnel/TaskRewardView.vue')
         },
         {
-          path: 'Register', //用药登记
-          name: 'RegisterView',
-          component: () => import('@/views/medicalcare/RegisterView.vue')
+          path: 'medicinelogs', //用药登记
+          name: 'medicinelogsView',
+          component: () => import('@/views/medicalcare/medicinelogsView.vue')
         },
         {
           path: 'Registerinfo', //用药登记详情
@@ -492,9 +487,9 @@ const router = createRouter({
           component: () => import('@/views/medicalcare/AddRegisterinfoView.vue')
         },
         {
-          path: 'Project', //用药计划
-          name: 'ProjectView',
-          component: () => import('@/views/medicalcare/ProjectView.vue')
+          path: 'medicineplan', //用药计划
+          name: 'medicineplanView',
+          component: () => import('@/views/medicalcare/medicineplanView.vue')
         },
         {
           path: 'getregisterinfo', /// 用药登记详情 / 新增用药登记

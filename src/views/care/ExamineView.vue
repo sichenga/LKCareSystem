@@ -1,5 +1,5 @@
 <template>
-  <!-- 外出申请/详情 -->
+  <!-- 床位更换申请审批 -->
   <el-card style="max-width: 100%">
     <div class="title">
       <span><span style="color: #00b1ff">▋</span>老人信息</span>
@@ -62,7 +62,7 @@
       <span><span style="color: #00b1ff">▋</span>日志</span>
     </div>
 
-    <!-- <el-steps direction="vertical" class="stp">
+    <el-steps direction="vertical" class="stp">
       <el-step>
         <template #icon>
           <el-avatar :size="24" :src="circleUrl" />
@@ -74,19 +74,7 @@
       </el-step>
       <el-step title="Step 2" />
       <el-step title="Step 3" />
-    </el-steps> -->
-    <el-timeline style="max-width: 600px; margin-top: 30px">
-      <el-timeline-item
-        v-for="(activity, index) in activities"
-        :key="index"
-        :timestamp="activity.timestamp"
-      >
-        {{ activity.content }}
-        <template #dot>
-          <el-avatar :size="24" :src="circleUrl" />
-        </template>
-      </el-timeline-item>
-    </el-timeline>
+    </el-steps>
     <el-button style="margin: 0 auto; display: block">返回</el-button>
   </el-card>
 </template>
@@ -103,20 +91,6 @@ const form = reactive({
   resource: '',
   desc: ''
 })
-const activities = [
-  {
-    content: 'Event start',
-    timestamp: '2018-04-15'
-  },
-  {
-    content: 'Approved',
-    timestamp: '2018-04-13'
-  },
-  {
-    content: 'Success',
-    timestamp: '2018-04-11'
-  }
-]
 const circleUrl = ref('https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png')
 </script>
 <style lang="less" scoped>
@@ -170,8 +144,5 @@ const circleUrl = ref('https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726
   :deep(.el-step__title) {
     padding: 0;
   }
-}
-:deep(.el-timeline-item__tail) {
-  left: 10px;
 }
 </style>
