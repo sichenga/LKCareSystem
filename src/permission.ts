@@ -8,7 +8,6 @@ router.beforeEach((to) => {
     AddMenu()
     return true
   } else {
-    console.log(1)
     if (to.path == '/login') {
       return true
     } else {

@@ -16,7 +16,7 @@
             </div>
             <div>
                 <div>实际采购成本：</div>
-                <div>10000.00</div>
+                <div>10000.0055</div>
             </div>
         </div>
         <!-- 表格 -->
@@ -24,7 +24,6 @@
             <template #custom="data">
                 <el-input v-model="data.data.creators" style="width: 130px"></el-input>
             </template>
-
         </MayTable>
         <div class="title-image">
             <div>
@@ -37,6 +36,7 @@
           </div>
         </div>
     </el-card>
+   
     <div class="button-body">
         <el-button class="btn-body" @click="goback">返回</el-button>
         <el-button type="primary" class="primary" @click="confirm">确定验收</el-button>

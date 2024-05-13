@@ -106,7 +106,7 @@ const tesklist = () => {
 }
 // 跳转详情
 const taskinfo = () => {
-  router.push('/dashboard/taskinfo')
+  router.push('/details')
 }
 onMounted(() => {
   tesklist()
