@@ -1,5 +1,5 @@
 <template>
-    <el-dialog v-model="dialogVisible" title="新增机构" width="500" @close="close">
+    <el-dialog v-model="dialogVisible" :title="params.id == 0 ? '新增机构' : '编辑机构'" width="500" @close="close">
         <el-form ref="ruleFormRef" style="max-width: 400px" :model="params" :rules="rules" label-width="auto"
             class="demo-ruleForm" :size="formSize" status-icon>
             <el-form-item label="机构名称" prop="name">
@@ -31,17 +31,17 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from 'vue'
+import { reactive, ref,onMounted } from 'vue'
 import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
-import { companyadd } from '@/service/Organization/Organization'
+import { companyadd,companyget } from '@/service/Organization/Organization'
 import type { companyaddParams } from '@/service/Organization/type'
-import router from '@/router';
-
+import { ElMessage } from 'element-plus'
+const props = defineProps(['id'])
 
 const formSize = ref<ComponentSize>('default')
 const ruleFormRef = ref<FormInstance>()
 const params = reactive<companyaddParams>({
-    id: null,
+    id:props.id,
     name: '',
     address: '',
     telephone: null,
@@ -86,24 +86,60 @@ const close = (close: boolean = false) => {
     emit('close', close)
 }
 const submit = async (formEl: FormInstance | undefined) => {
-
     if (!formEl) return
-
     await formEl.validate(async (valid, fields) => {
-        const res:any = await companyadd(params)
-        console.log(res);
         if (valid) {
-            if(res.code===10000){
-                emit('close', true)
-               
+            if (params.id == 0) {
+                const res: any = await companyadd(params).catch(()=>{})
+                console.log(res);
+                if (res.code === 10000) {
+                    ruleFormRef.value && ruleFormRef.value.resetFields();
+                    ElMessage({
+                        message: res.msg,
+                        type: 'success',
+                    })
+                    emit("close", true)
+                } else {
+                    ElMessage({
+                        message: '添加失败',
+                        type: 'error',
+                    })
+                }
+            } else {
+                const res: any = await companyadd(params).catch(()=>{})
+                console.log("修改", res);
+                if (res.code === 10000) {
+                    ruleFormRef.value && ruleFormRef.value.resetFields();
+                    ElMessage({
+                        message: res.msg,
+                        type: 'success',
+                    })
+                    emit("close", true)
+                } else {
+                    ElMessage({
+                        message: '添加失败',
+                        type: 'error',
+                    })
+                }
             }
-           
-            console.log('submit!')
         } else {
             console.log('error submit!', fields)
         }
     })
 }
+
+const getcompanyget = (async () => {
+    if (params.id) {
+        const res: any = await companyget(params.id)
+        console.log("单条数据", res);
+        Object.assign(params, res.data)
+    }
+})
+
+onMounted(() => {
+    getcompanyget()
+})
+
 </script>
 
 <style lang="less" scoped></style>

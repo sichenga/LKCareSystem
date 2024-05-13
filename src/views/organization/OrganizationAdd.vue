@@ -99,10 +99,11 @@
 <script lang="ts" setup>
 import { ref, reactive, toRefs, onMounted } from 'vue'
 import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
-import { companyadd } from '@/service/Organization/Organization'
+import { companyadd,companyget } from '@/service/Organization/Organization'
 import type { companyaddParams } from '@/service/Organization/type'
 import MayTimePicker from '@/components/timepicker/MayTimePicker.vue'
 import { useRouter } from 'vue-router'
+import { ElMessage } from 'element-plus'
 const router = useRouter()
 const ruleFormRef = ref<FormInstance>()
 const formInline = reactive({
@@ -160,9 +161,40 @@ const rules = reactive<FormRules<companyaddParams>>({
 const save = async (formEl: FormInstance | undefined) => {
     if (!formEl) return
     await formEl.validate(async (valid, fields) => {
-        const res = await companyadd(params)
         if (valid) {
-            console.log('添加机构', res)
+            if (params.id == 0) {
+                const res: any = await companyadd(params).catch(()=>{})
+                console.log(res);
+                if (res.code === 10000) {
+                    ruleFormRef.value && ruleFormRef.value.resetFields();
+                    ElMessage({
+                        message: res.msg,
+                        type: 'success',
+                    })
+                    
+                } else {
+                    ElMessage({
+                        message: '添加失败',
+                        type: 'error',
+                    })
+                }
+            } else {
+                const res: any = await companyadd(params).catch(()=>{})
+                console.log("修改", res);
+                if (res.code === 10000) {
+                    ruleFormRef.value && ruleFormRef.value.resetFields();
+                    ElMessage({
+                        message: res.msg,
+                        type: 'success',
+                    })
+                 
+                } else {
+                    ElMessage({
+                        message: '添加失败',
+                        type: 'error',
+                    })
+                }
+            }
         } else {
             console.log('error submit!', fields)
         }
@@ -174,6 +206,18 @@ const cancel = () => {
         path: 'organization'
     })
 }
+//单条数据
+const getcompanyget = (async () => {
+    if (params.id) {
+        const res: any = await companyget(params.id)
+        console.log("单条数据", res);
+        Object.assign(params)
+    }
+})
+
+onMounted(() => {
+    getcompanyget()
+})
 </script>
 <style lang="less" scoped>
 .section {

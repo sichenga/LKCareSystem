@@ -14,12 +14,15 @@
     router
   >
     <el-menu-item index="/dashboard" v-if="userStore.model.type !== 3">
-      <el-icon><House /></el-icon>
+      <el-icon>
+        <i class="iconfont icon"></i>
+        <House />
+      </el-icon>
       <template #title>首页</template>
     </el-menu-item>
     <el-sub-menu :index="index + ''" v-for="(item, index) in leftmenu" :key="index">
       <template #title>
-        <el-icon><location /></el-icon>
+        <i :class="{ iconfont: true, [item.icon]: true }"></i>
         <span>{{ item.name }}</span>
       </template>
       <el-menu-item-group>
@@ -28,7 +31,7 @@
           :key="chindex + ''"
           :index="chym.url"
         >
-          <!-- <i :class="{ iconfont: true, [chym.icon]: true }"></i> -->
+          <i :class="{ iconfont: true, [chym.icon]: true }"></i>
           {{ chym.name }}
         </el-menu-item>
       </el-menu-item-group>
@@ -37,7 +40,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, onMounted, computed } from 'vue'
-import { Menu as IconMenu, Location, House } from '@element-plus/icons-vue'
+import { House } from '@element-plus/icons-vue'
 import type { Permission } from '@/Type/pinia/user'
 import { homelogin } from '@/utils/images'
 import { useApperStore, useUserStore } from '@/stores'
@@ -72,6 +75,7 @@ const istype = computed(() => {
 })
 </script>
 <style lang="less" scoped>
+@import url('@/assets/leftMenu_icon/iconfont.css');
 .title {
   width: 100%;
   height: 60px;
@@ -80,17 +84,21 @@ const istype = computed(() => {
   text-align: center;
   line-height: 60px;
   color: #fff;
+
   span {
     font-weight: bold;
   }
 }
+
 .el-menu--collapse {
   width: 93px;
   animation: hide 0.2s linear !important;
+
   :deep(.el-sub-menu__title) {
     justify-content: center;
   }
 }
+
 @keyframes hide {
   from {
     width: 180px;
@@ -103,14 +111,21 @@ const istype = computed(() => {
     filter: blur(5px);
   }
 }
+
 .el-menu {
   width: 100%;
   border-right: none;
 }
+
 :deep(.el-menu-tooltip__trigger) {
   justify-content: center;
 }
+
 :deep(.el-menu-item-group__title) {
   padding: 0 !important;
+}
+
+.iconfont {
+  margin-right: 5px;
 }
 </style>
