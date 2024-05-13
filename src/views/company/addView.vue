@@ -62,14 +62,14 @@
             <el-form :inline="true" :rules="rules" label-position="right" :model="params" class="demo-form-inline">
                 <el-form-item label="卫生许可证：">
                     <el-radio-group v-model="params.license">
-                        <el-radio v-model="params.license" label="1">是</el-radio>
-                        <el-radio v-model="params.license" label="0">否</el-radio>
+                        <el-radio v-model="params.license" :label="0">是</el-radio>
+                        <el-radio v-model="params.license" :label="1">否</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="是否具备医疗定点资格：">
                     <el-radio-group v-model="params.medicalPoint">
-                        <el-radio  v-model="params.medicalPoint" label="1">是</el-radio>
-                        <el-radio   v-model="params.medicalPoint" label="0">否</el-radio>
+                        <el-radio v-model="params.medicalPoint" :label="0">是</el-radio>
+                        <el-radio v-model="params.medicalPoint" :label="1">否</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="房屋性质：">
@@ -81,39 +81,42 @@
                     </el-radio-group>
                 </el-form-item>
             </el-form>
-            <el-form :inline="true" :rules="rules" label-position="top" :model="formInline" class="demo-form-inline">
-                <el-form-item label="营业执照：">
-                    <el-button type="primary" class='button'>
-                        添加图片
-                    </el-button>
+            <el-form :inline="true" :rules="rules" label-position="top" :model="params" class="demo-form-inline">
+                <el-form-item label="营业执照：" v-model="params.certificate">
+                        <UploadPictures></UploadPictures>
                 </el-form-item>
-                <el-form-item label="机构图片:">
+                <el-form-item label="机构图片:" v-model="params.picture">
                     <el-button type="primary" class='button'>
                         添加图片
                     </el-button>
+                   
                 </el-form-item>
             </el-form>
         </div>
     </el-card>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, toRefs, onMounted } from 'vue'
+import { ref, reactive, toRefs, onMounted, defineAsyncComponent } from 'vue'
 import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
-import { companyadd,companyget } from '@/service/Organization/Organization'
+import { companyadd, companyget } from '@/service/Organization/Organization'
 import type { companyaddParams } from '@/service/Organization/type'
 import MayTimePicker from '@/components/timepicker/MayTimePicker.vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
+import { useRoute } from 'vue-router'
+
+const MassUpload = defineAsyncComponent(() => import('@/components/upload/MassUpload.vue'))
+const UploadPictures = defineAsyncComponent(() => import('@/components/upload/UploadPictures.vue'))
+const route = useRoute()
 const router = useRouter()
 const ruleFormRef = ref<FormInstance>()
-const formInline = reactive({
-    user: '',
-    region: '',
-    date: '',
-    resource: ''
+
+
+const data = reactive({
+    id: " " as any
 })
 const params = reactive<companyaddParams>({
-    id: null,
+    id: data.id,
     name: '',
     address: '',
     telephone: '',
@@ -127,8 +130,9 @@ const params = reactive<companyaddParams>({
     creditCode: '',//统一社会信用代码
     license: null,//卫生许可证
     medicalPoint: null, //医疗点
-    house: null //房屋性质
-
+    house: null, //房屋性质
+    certificate: null,//营业执照
+    picture: null,//机构图片
 })
 const rules = reactive<FormRules<companyaddParams>>({
     name: [
@@ -163,15 +167,21 @@ const save = async (formEl: FormInstance | undefined) => {
     await formEl.validate(async (valid, fields) => {
         if (valid) {
             if (params.id == 0) {
-                const res: any = await companyadd(params).catch(()=>{})
+                const res: any = await companyadd(params).catch(() => { })
                 console.log(res);
                 if (res.code === 10000) {
                     ruleFormRef.value && ruleFormRef.value.resetFields();
-                    ElMessage({
-                        message: res.msg,
-                        type: 'success',
-                    })
-                    
+                    params.legalPerson = '',
+                        params.mobile = '',
+                        params.creditCode = '',
+                        params.license = null,
+                        params.medicalPoint = null,
+                        params.house = null,
+                        ElMessage({
+                            message: '添加成功',
+                            type: 'success',
+                        })
+
                 } else {
                     ElMessage({
                         message: '添加失败',
@@ -179,15 +189,21 @@ const save = async (formEl: FormInstance | undefined) => {
                     })
                 }
             } else {
-                const res: any = await companyadd(params).catch(()=>{})
+                const res: any = await companyadd(params).catch(() => { })
                 console.log("修改", res);
                 if (res.code === 10000) {
                     ruleFormRef.value && ruleFormRef.value.resetFields();
-                    ElMessage({
-                        message: res.msg,
-                        type: 'success',
-                    })
-                 
+                    params.legalPerson = '',
+                        params.mobile = '',
+                        params.creditCode = '',
+                        params.license = null,
+                        params.medicalPoint = null,
+                        params.house = null,
+                        ElMessage({
+                            message: '修改成功',
+                            type: 'success',
+                        })
+
                 } else {
                     ElMessage({
                         message: '添加失败',
@@ -203,18 +219,27 @@ const save = async (formEl: FormInstance | undefined) => {
 //取消
 const cancel = () => {
     router.push({
-        path: 'organization'
+        path: 'Company'
     })
 }
 //单条数据
-const getcompanyget = (async () => {
-    if (params.id) {
-        const res: any = await companyget(params.id)
-        console.log("单条数据", res);
-        Object.assign(params)
-    }
-})
 
+const getcompanyget = (async () => {
+    data.id = route.query.id
+    if (data.id) {
+        const res: any = await companyget(data.id)
+        console.log("单条数据", res);
+        Object.assign(params, res.data)
+    }
+
+})
+//上传图片
+const uploadImg =()=>{
+    
+}
+const uploadrem = ()=>{
+
+}
 onMounted(() => {
     getcompanyget()
 })

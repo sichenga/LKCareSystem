@@ -75,21 +75,21 @@ const getlist = () => {
 // 新增
 const add = () => {
   router.push({
-    path: '/dashboard/AddRegisterInfo'
+    path: '/AddRegisterInfo'
   })
 }
 
 // 编辑
 const edit = () => {
   router.push({
-    path: '/dashboard/AddRegisterInfo'
+    path: '/AddRegisterInfo'
   })
 }
 
 // 查看详情
 const getinfo = () => {
   router.push({
-    path: '/dashboard/getregisterinfo'
+    path: '/getregisterinfo'
   })
 }
 

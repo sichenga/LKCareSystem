@@ -37,7 +37,7 @@
     <!-- 表格 -->
     <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
       <template #operate>
-        <el-button type="primary" text>查看明细</el-button>
+        <el-button type="primary" text @click="detail">查看明细</el-button>
       </template>
     </MayTable>
     <Pagination :total="50"></Pagination>
@@ -46,6 +46,8 @@
 <script lang="ts" setup>
 import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
 import AffiliatedView from '@/database/AffiliatedView.json'
+import { useRouter } from 'vue-router'
+const router = useRouter()
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
 const TimePicker = defineAsyncComponent(() => import('@/components/timepicker/MayTimePicker.vue'))
@@ -103,7 +105,10 @@ const getlist = () => {
     data.tableData = AffiliatedView
   }, 1000)
 }
-
+// 查看明细
+const detail = () => {
+  router.push('/record-details')
+}
 onMounted(() => {
   getlist()
 })

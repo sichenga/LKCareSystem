@@ -1,15 +1,15 @@
 <template>
   <!-- 分机构列表 -->
   <el-card>
-    <el-form :inline="true" :model="formInline" class="demo-form-inline">
+    <el-form :inline="true" :model="params" class="demo-form-inline">
       <el-form-item label="机构名称：">
-        <el-input v-model="formInline.user" placeholder="请输入" clearable />
+        <el-input v-model="params.key" placeholder="请输入" clearable />
       </el-form-item>
       <el-form-item label="管理姓名">
-        <el-input v-model="formInline.user" placeholder="请输入" clearable />
+        <el-input v-model="params.name" placeholder="请输入" clearable />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary">查询</el-button>
+        <el-button type="primary" @click="serch">查询</el-button>
         <el-button>重置</el-button>
       </el-form-item>
     </el-form>
@@ -20,14 +20,14 @@
       <organizationDialog @close="close" v-if="isdialog" :id="editId"></organizationDialog>
     </div>
     <!-- 表格 -->
-    <MayTable :tableData="data.tableData" :tableItem="data.tableItem" >
+    <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
       <template #operate="scope">
         <el-button type="primary" text>进入系统</el-button>
         <el-button type="primary" text @click="amend(scope.data.id)">修改</el-button>
         <el-button type="primary" text @click="del(scope.data.id)">删除</el-button>
       </template>
     </MayTable>
-    <Pagination :total="data.total" @page="page" @psize="psize" :page="params.page" :pszie="params.page" ></Pagination>
+    <Pagination :total="data.total" @page="page" @psize="psize" :page="params.page" :pszie="params.page"></Pagination>
   </el-card>
 </template>
 <script lang="ts" setup>
@@ -35,8 +35,8 @@ import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
 import { useRouter } from 'vue-router'
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
-import type { companylistParams } from '@/service/Organization/type'
-import { companylist, companydelete,companyget } from '@/service/Organization/Organization'
+import type { companylistParams ,} from '@/service/Organization/type'
+import { companylist, companydelete, companyget } from '@/service/Organization/Organization'
 import { useUserStore } from '@/stores'
 import organizationDialog from '@/components/dialog/organizationDialog.vue';
 
@@ -45,11 +45,6 @@ const isdialog = ref(false)
 const router = useRouter()
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
-const formInline = reactive({
-  user: '',
-  region: '',
-  date: ''
-})
 const data = reactive({
   total: undefined,
   tableData: [] as any,
@@ -97,7 +92,7 @@ const editId = ref(0);
 const SondAdd = () => {
   switch (userStore.model.type) {
     case 1:
-      router.push('/dashboard/organizationadd')
+      router.push('/adds')
       break;
     case 2:
       isdialog.value = true
@@ -125,7 +120,7 @@ const del = (async (id: any) => {
       }
       break;
     case 2:
-      
+
       if (res) {
         const res: any = await companydelete(id).catch(() => { })
         if (res.code == 10000) {
@@ -145,16 +140,16 @@ const del = (async (id: any) => {
 const amend = (async (id: any) => {
   console.log('修改', id);
   let res = await companyget(id)
-  console.log('修改',res);
+  console.log('修改', res);
   switch (userStore.model.type) {
     case 1:
-    router.push('/dashboard/organizationadd/'+id)
-    
+      router.push(`organizationadd?id=${id}`)
+
       break;
     case 2:
-    isdialog.value = true
-    editId.value = id
- 
+      isdialog.value = true
+      editId.value = id
+
       break;
     default:
       break;
@@ -164,7 +159,9 @@ const amend = (async (id: any) => {
 //定义页数
 const params = reactive<companylistParams>({
   page: 1,
-  pageSize: 10
+  pageSize: 5,
+  key:'',
+  name:''
 })
 //分页
 const page = ((val: number) => {
@@ -187,6 +184,12 @@ const getcompanylist = async () => {
 
 }
 
+//查询
+const serch = () => {
+  getcompanylist()
+  params.page = 1
+ 
+}
 
 onMounted(() => {
 
