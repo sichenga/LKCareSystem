@@ -83,13 +83,13 @@
             </el-form>
             <el-form :inline="true" :rules="rules" label-position="top" :model="params" class="demo-form-inline">
                 <el-form-item label="营业执照：" v-model="params.certificate">
-                        <UploadPictures></UploadPictures>
+                    <UploadPictures></UploadPictures>
                 </el-form-item>
                 <el-form-item label="机构图片:" v-model="params.picture">
                     <el-button type="primary" class='button'>
                         添加图片
                     </el-button>
-                   
+
                 </el-form-item>
             </el-form>
         </div>
@@ -110,8 +110,6 @@ const UploadPictures = defineAsyncComponent(() => import('@/components/upload/Up
 const route = useRoute()
 const router = useRouter()
 const ruleFormRef = ref<FormInstance>()
-
-
 const data = reactive({
     id: " " as any
 })
@@ -170,7 +168,7 @@ const save = async (formEl: FormInstance | undefined) => {
                 const res: any = await companyadd(params).catch(() => { })
                 console.log(res);
                 if (res.code === 10000) {
-                    ruleFormRef.value && ruleFormRef.value.resetFields();
+                    ruleFormRef.value && ruleFormRef.value.resetFields()
                     params.legalPerson = '',
                         params.mobile = '',
                         params.creditCode = '',
@@ -234,12 +232,12 @@ const getcompanyget = (async () => {
 
 })
 //上传图片
-const uploadImg =()=>{
-    
-}
-const uploadrem = ()=>{
+// const uploadImg = () => {
 
-}
+// }
+// const uploadrem = () => {
+
+// }
 onMounted(() => {
     getcompanyget()
 })

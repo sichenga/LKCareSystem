@@ -97,7 +97,7 @@ const addRole = () => {
 // 编辑
 const edit = (id: number) => {
   router.push({
-    path: '/dashboard/roledialog',
+    path: 'roledialog',
     query: {
       id: id
     }

@@ -60,7 +60,6 @@ const getlist = async () => {
     let res: any = await getList().catch(() => { })
     if (res.code == 10000) {
         data.value = convertToTree(res.data.list)
-
     }
 }
 
