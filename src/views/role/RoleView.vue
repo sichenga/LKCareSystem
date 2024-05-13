@@ -91,7 +91,7 @@ const del = async (id: number) => {
 //新增
 const addRole = () => {
   router.push({
-    path: '/dashboard/roledialog',
+    path: '/roledialog',
   })
 }
 // 编辑

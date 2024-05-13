@@ -33,3 +33,13 @@ export interface SelectSupplier {
   id: number
   name: string
 }
+
+// 采购申请列表
+export interface Purchase {
+  pageSize: number
+  page: number
+  companyId: string
+  state: string
+  beginDate: string
+  endDate: string
+}

@@ -47,11 +47,6 @@ const router = createRouter({
           component: () => import('@/views/food/PurchaseDetailView.vue')
         },
         {
-          path: 'received', //采购详情 已验收
-          name: 'received',
-          component: () => import('@/views/food/ReceivedView.vue')
-        },
-        {
           path: 'home',
           name: 'HomeView',
           component: () => import('@/views/home/HomeView.vue')
@@ -94,7 +89,7 @@ const router = createRouter({
         {
           path: 'Account', //账号设置
           name: 'AccountView',
-          component: () => import('@/views/basic/AccountView.vue')
+          component: () => import('@/views/account/AccountView.vue')
         },
         {
           path: 'NursingGradeScheme', //配置护理方案
@@ -157,17 +152,23 @@ const router = createRouter({
           component: () => import('@/views/role/RoleView.vue')
         },
         {
-          path: 'AddRole', //新增角色
+          path: 'roledialog', //新增角色
           name: 'AddRoleView',
           component: () => import('@/views/role/AddRoleView.vue')
         },
         {
-          path: 'BranchCompany', //分机构列表
+          path: 'Company', //机构列表
           name: 'BranchCompanyView',
           component: () => import('@/views/organization/BranchCompanyView.vue')
         },
         {
-          path: 'organizationAdd', //新增分机构
+          path: 'BranchCompany', //分机构列表
+
+          name: 'BranchCompanyView',
+          component: () => import('@/views/organization/BranchCompanyView.vue')
+        },
+        {
+          path: 'organizationadd', //新增分机构
           name: 'OrganizationAdd',
           component: () => import('@/views/organization/OrganizationAdd.vue')
         },
@@ -197,12 +198,12 @@ const router = createRouter({
           component: () => import('@/views/bazaar/ClientInfoView.vue')
         },
         {
-          path: 'particulars',
+          path: 'particulars',//任务详情
           name: 'Particulars',
           component: () => import('@/views/bazaar/ParticularsVIews.vue')
         },
         {
-          path: 'OldyView', //老人管理
+          path: 'Oldy', //老人管理
           name: 'OldyView',
           component: () => import('@/views/bazaar/OldyView.vue')
         },
@@ -513,7 +514,7 @@ const router = createRouter({
         },
         {
           path: 'Records', //健康档案
-          name: 'RecordView',
+          name: 'RecordViews',
           component: () => import('@/views/medicalcare/RecordView.vue')
         },
         {

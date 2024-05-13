@@ -45,36 +45,12 @@ const data = reactive({
     },
     {
       prop: 'name',
-      label: '机构名称'
+      label: '老人姓名'
     },
     {
       prop: 'address',
-      label: '区域'
+      label: '用药品种数'
     },
-    {
-      prop: 'manager',
-      label: '管理员姓名'
-    },
-    {
-      prop: 'phone',
-      label: '联系电话'
-    },
-    {
-      prop: 'username',
-      label: '管理员账号'
-    },
-    {
-      prop: 'userpass',
-      label: '管理员密码'
-    },
-    {
-      prop: 'creator',
-      label: '创建人'
-    },
-    {
-      prop: 'addtime',
-      label: '创建时间'
-    }
   ]
 })
 const getlist = () => {

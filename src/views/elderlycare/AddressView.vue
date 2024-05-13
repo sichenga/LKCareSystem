@@ -39,10 +39,6 @@ const data = reactive({
     {
       prop: 'address',
       label: '二维码'
-    },
-    {
-      prop: 'manager',
-      label: '管理员姓名'
     }
   ]
 })

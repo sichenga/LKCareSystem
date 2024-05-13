@@ -105,7 +105,7 @@ const close = () => {
 
 // 新增外出
 const add = () => {
-  router.push('/dashboard/addgoout')
+  router.push('/addgoout')
 }
 
 onMounted(() => {
