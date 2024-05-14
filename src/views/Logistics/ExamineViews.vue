@@ -4,22 +4,23 @@
         <div class="body-size">
             <div>
                 <div>创建时间：</div>
-                <div>2020-02-02 15：00</div>
+                <div>{{ data.TatleData.addTime}}</div>
             </div>
             <div>
                 <div>申请人：</div>
-                <div>张三</div>
+                <div>{{data.TatleData.addAccountName}}</div>
             </div>
             <div>
                 <div>品种数：</div>
-                <div>10</div>
+                <div>{{data.TatleData.counts}}</div>
             </div>
             <div>
                 <div>实际采购成本：</div>
-                <div>10000.0055</div>
+                <div>{{data.TatleData.addAccountId}}</div>
             </div>
         </div>
         <!-- 表格 -->
+        
         <MayTable :tableData="data.tableData" :tableItem="data.tableItem" :label="'采购实际数量'" :isoperate="isshou">
             <template #custom="data">
                 <el-input v-model="data.data.creators" style="width: 130px"></el-input>
@@ -31,7 +32,8 @@
 
             </div>
           <div class="image">
-            <el-image style="width: 100px; height: 100px" src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg" fit="cover" />
+           
+            <el-image style="width: 100px; height: 100px" :src="data.TatleData.picture" fit="cover" />
 
           </div>
         </div>
@@ -44,64 +46,96 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
-import {useRouter} from 'vue-router'
-import AffiliatedView from '@/database/AffiliatedView.json'
-
+import {useRoute,useRouter} from 'vue-router'
+import {getPurchase,getpurchaseFoods,putInspection} from '@/service/purchase/purchase'
+import { ElMessage } from 'element-plus'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
-
+const route = useRoute()
 const router = useRouter()
 const data = reactive({
     tableData: [] as any,
+    TatleData: [] as any,
     tableItem: [
         {
             prop: 'id',
             label: '序号'
         },
         {
-            prop: 'name',
+            prop: 'foodName',
             label: '物料名称'
         },
         {
-            prop: 'address',
+            prop: 'unit',
             label: '单位'
         },
         {
-            prop: 'manager',
+            prop: 'supplierName',
             label: '供应商'
         },
         {
-            prop: 'phone',
+            prop: 'sellPrice',
             label: '批发价'
         },
         {
-            prop: 'creator',
+            prop: 'purchasePrice',
             label: '零售价'
         },
         {
-            prop: 'addtime',
+            prop: 'purchaseId',
             label: '采购价'
         },
         {
-            prop: 'creator',
+            prop: 'purchaseCounts',
             label: '采购数量'
         },
     ]
 })
 const isshou = ref(false)
-const getlist = () => {
-    setTimeout(() => {
-        data.tableData = AffiliatedView
-    }, 1000)
+const getlist =async () => {
+    let id = Number(route.query.id)
+    let res:any = await getPurchase(id)
+    if(res.code==10000){
+        data.TatleData=res.data
+    }
+}
+const getData = async ()=>{
+    let id = Number(route.query.id)
+    let res:any = await getpurchaseFoods(id)
+    if(res.code==10000){
+        data.tableData=res.data.list
+    }
 }
 
-const confirm = ()=>{
-    router.push('/dashboard/purchase')
+
+const confirm =async ()=>{
+    const params = {
+        id:data.TatleData.id,
+        picture:data.TatleData.picture,
+        foods:[]
+      }
+
+      params.foods=data.tableData.map((item:any)=>({
+        id:item.id,
+        receiveCounts:item.receiveCounts
+      }))
+
+    let res:any = await putInspection(params)
+    if(res.code==10000){
+       
+        ElMessage({
+            message:res.data.state,
+            type:'success'
+        })
+        router.push('/Logistics')
+    }
+
 }
 const goback=()=>{
     router.push('/dashboard/apply')
 }
 onMounted(() => {
     getlist()
+    getData()
 })
 </script>
 <style lang="less" scoped>

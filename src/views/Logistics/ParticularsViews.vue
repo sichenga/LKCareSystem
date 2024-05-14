@@ -37,7 +37,7 @@
 
             </div>
           <div class="image">
-            <el-image style="width: 100px; height: 100px" src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg" fit="cover" />
+            <el-image style="width: 100px; height: 100px" :src="data.TatleData.picture?data.TatleData.picture:''" fit="cover" />
 
           </div>
         </div>
@@ -109,7 +109,6 @@ const getlist =async () => {
 const getData = async ()=>{
     let id = Number(route.query.id)
     let res:any = await getpurchaseFoods(id)
-    console.log(res);
     if(res.code==10000){
         data.tableData=res.data.list
     }

@@ -2,34 +2,37 @@
   <!-- 编辑采购申请 -->
   <el-card style="margin-top: 15px">
     <div style="margin: 10px 0">
-      <el-button type="primary">选择食材</el-button>
+      <el-button type="primary" @click="ingredient">选择食材</el-button>
       <div class="quantity">
         1
       </div>
     </div>
     <!-- 表格 -->
-    <MayTable :tableData="data.tableData" :tableItem="data.tableItem" :label="'采购数量'">
+    <MayTable :tableData="data.AddData.foods" :tableItem="data.tableItem" :label="'采购数量'">
       <template #custom="data">
         <el-input v-model="data.data.creators" style="width: 130px"></el-input>
       </template>
-      <template #operate>
-        <el-button type="primary" text @click="del">删除</el-button>
+      <template #operate="{ data }">
+        <el-button type="primary" text @click="del(data.id)">删除</el-button>
       </template>
     </MayTable>
     <div class="title-image">
       <div>
-        合计：采购品种数9，采购总成本：1000.00
+        合计：采购品种数{{ data.print }}，采购总成本：{{ data.totalPrices }} 元
       </div>
       <div class="image">
-        <el-form :model="form" label-width="auto" style="max-width: 600px">
-          <el-form-item label="期望到货日期">
-            <el-select v-model="form.region" placeholder="请选择">
-            </el-select>
+        <el-form :model="data.AddData" label-width="auto">
+          <el-form-item class="item-form" label="请输入备注：" style="width: 400px;height: 100px;">
+            <el-input v-model="data.AddData.remarks" type="textarea" placeholder="请输入" />
+          </el-form-item>
+          <el-form-item label="期望到货日期" style="width: 300px;height: 80px;">
+            <MayTimePicker @change="hoaldChange"></MayTimePicker>
           </el-form-item>
         </el-form>
       </div>
     </div>
   </el-card>
+  <AddIngredient v-if="dialogVisible" @close="haoldclose" @ingredient="hoaldIngredient"></AddIngredient>
   <div class="button-body">
     <el-button class="btn-body" @click="back">返回</el-button>
     <el-button type="primary" class="btn-body" @click="confirm">保存</el-button>
@@ -38,85 +41,122 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
-import AffiliatedView from '@/database/AffiliatedView.json'
-import {useRouter} from 'vue-router'
+import { useRouter } from 'vue-router'
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
+import { postInspection } from '@/service/purchase/purchase'
+import type { IUserList } from '@/service/purchase/type'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
+const AddIngredient = defineAsyncComponent(() => import('@/components/dialog/AddIngredientDialog.vue'))
+const MayTimePicker = defineAsyncComponent(() => import('@/components/timepicker/MayTimePicker.vue'))
 const router = useRouter()
-const form = reactive({
 
-  region: '',
-
-})
 const data = reactive({
   tableData: [] as any,
+  print: 0,
+  totalPrices: 0,
+  AddData: {
+    receiveTime: null,
+    remarks:null,
+    foods:[] 
+  } as IUserList,
   tableItem: [
     {
       prop: 'id',
       label: '序号'
     },
     {
-      prop: 'name',
+      prop: 'foodName',
       label: '物料名称'
     },
     {
-      prop: 'address',
+      prop: 'unit',
       label: '单位'
     },
     {
-      prop: 'manager',
+      prop: 'supplierName',
       label: '供应商'
     },
     {
-      prop: 'phone',
+      prop: 'wholePrice',
       label: '批发价'
     },
     {
-      prop: 'creator',
+      prop: 'sellPrice',
       label: '零售价'
     },
     {
-      prop: 'addtime',
+      prop: 'purchasePrice',
       label: '采购价'
     },
 
   ]
 })
-const getlist = () => {
-  setTimeout(() => {
-    data.tableData = AffiliatedView
-  }, 1000)
-}
 
-const del =async () => {
-  let res =await getMessageBox('是否确认删除该采购申请', '删除后将不可恢复')
- 
-  if(res){
+
+const del = async (id: any) => {
+  console.log(data);
+
+
+  let res = await getMessageBox('是否确认删除该采购申请', '删除后将不可恢复')
+  if (res) {
+    data.AddData.foods = data.AddData.foods.filter((item: any) => item.id !== id)
+
     ElMessage.success('删除成功')
-  }else{
+  } else {
     ElMessage.info('取消删除')
   }
-  
+
 }
-const back = () =>{
+const back = () => {
   router.push('/dashboard/apply')
 }
-const confirm = ()=>{
-    router.push('/dashboard/apply')
+const confirm = () => {
+  router.push('/dashboard/apply')
 }
-const save = ()=>{
-  router.push('/dashboard/examine')
-} 
+
+const dialogVisible = ref(false)
+//选择食材
+const ingredient = () => {
+  dialogVisible.value = true
+}
+const haoldclose = (val: boolean) => {
+  dialogVisible.value = val
+  if (val == true) {
+    dialogVisible.value = false
+
+  }
+}
+const hoaldIngredient = (val: any) => {
+  data.AddData.foods = val
+  data.print = data.AddData.foods.length
+  data.AddData.foods.forEach((item: any) => {
+    data.totalPrices += item.purchasePrice
+  })
+}
+const hoaldChange = (val: any) => {
+
+  data.AddData.receiveTime = val
+
+}
+
+const save = async () => {
+  let res: any = await postInspection(data.AddData)
+  if(res.code==10000){
+    router.push({
+      path:'/Examines',
+      query:{
+        id:res.data.id
+      }
+    })
+  }
+}
+
 onMounted(() => {
-  getlist()
+
 })
 </script>
 <style lang="less" scoped>
-.el-input {
-  height: 40px;
-}
-
 .el-button {
   height: 40px;
   line-height: 40px;
@@ -140,7 +180,8 @@ onMounted(() => {
 
   .image {
     margin: 50px 0;
-    .el-form-item{
+
+    .el-form-item {
       width: 230px;
       height: 20px;
     }

@@ -9,7 +9,7 @@
         <template #operate="{data}">
           <el-button type="primary" text @click="del">删除</el-button>
             <el-button type="primary" text @click="reteor.push('/dashboard/purchase')">编辑</el-button>
-          <el-button type="primary" text @click="reteor.push('/dashboard/examine')">收获验货</el-button>
+          <el-button type="primary" text @click="inspection(data)">收获验货</el-button>
           <el-button type="primary" text @click="examine(data.id)">查看详情</el-button>
         </template>
       </MayTable>
@@ -63,7 +63,6 @@
   })
   const getlist = async() => {
     let res:any = await getPurchaseList(params.value)
-    console.log(33,res);
     if(res.code==10000){
       data.tableData = res.data.list
     }
@@ -71,7 +70,6 @@
   }
   const del =async () => {
   let res =await getMessageBox('是否确认删除该采购申请', '删除后将不可恢复')
- 
   if(res){
     ElMessage.success('删除成功')
   }else{
@@ -91,6 +89,17 @@
       }
     })
   }
+
+  const inspection =async (params:any)=>{
+    reteor.push({
+          path:'/Examines',
+          query:{
+            id:params.id,
+          }
+        })
+     
+  }
+
   onMounted(() => {
     getlist()
   })
