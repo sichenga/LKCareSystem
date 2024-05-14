@@ -31,10 +31,10 @@
                 到货凭证
 
             </div>
-          <div class="image">
-            <el-image style="width: 100px; height: 100px" src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg" fit="cover" />
-
-          </div>
+            <div class="image">
+                <el-image style="width: 100px; height: 100px"
+                    src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg" fit="cover" />
+            </div>
         </div>
     </el-card>
     <div class="button-body">
@@ -44,7 +44,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
-import {useRouter} from 'vue-router'
+import { useRouter } from 'vue-router'
 import AffiliatedView from '@/database/AffiliatedView.json'
 
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
@@ -94,10 +94,10 @@ const getlist = () => {
     }, 1000)
 }
 
-const confirm = ()=>{
+const confirm = () => {
     router.push('/dashboard/purchase')
 }
-const goback=()=>{
+const goback = () => {
     router.push('/dashboard/apply')
 }
 onMounted(() => {
@@ -113,34 +113,42 @@ onMounted(() => {
     height: 40px;
     line-height: 40px;
 }
-.body-size{
+
+.body-size {
     font-size: 14px;
     margin: 20px 0 20px 10px;
-    div{
+
+    div {
         width: 240px;
         display: flex;
-  
-        justify-content:space-between;
+
+        justify-content: space-between;
     }
 }
-.title-image{
+
+.title-image {
     margin-top: 40px;
-    .image{
+
+    .image {
         margin-top: 20px;
     }
-    .el-image{
+
+    .el-image {
         width: 55px !important;
-        height: 55px !important; 
+        height: 55px !important;
     }
 }
-.button-body{
-    margin: 70px  740px;
+
+.button-body {
+    margin: 70px 740px;
     display: flex;
-    .btn-body{
+
+    .btn-body {
         width: 160px;
         height: 40px;
     }
-    .primary{
+
+    .primary {
         width: 220px;
         height: 40px;
     }

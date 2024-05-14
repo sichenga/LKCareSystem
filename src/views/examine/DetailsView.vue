@@ -77,7 +77,7 @@
         <el-form-item class="btn">
             <el-button type="primary" @click="isdialog = true">审批通过</el-button>
             <DetailsDialog @close="close" v-if="isdialog"></DetailsDialog>
-            <el-button @click="refuse=true">审批拒绝</el-button>
+            <el-button @click="refuse = true">审批拒绝</el-button>
             <RefuseDialog @close="closes" v-if="isdialog"></RefuseDialog>
             <el-button>返回</el-button>
         </el-form-item>
@@ -184,7 +184,8 @@ const closes = () => {
 .box {
     display: flex;
 }
-:deep .el-upload--picture-card  {
+
+:deep .el-upload--picture-card {
     width: 100px;
     height: 100px;
     margin-top: 20px

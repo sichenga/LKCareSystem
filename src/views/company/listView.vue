@@ -35,7 +35,7 @@ import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
 import { useRouter } from 'vue-router'
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
-import type { companylistParams ,} from '@/service/Organization/type'
+import type { companylistParams, } from '@/service/Organization/type'
 import { companylist, companydelete, companyget } from '@/service/Organization/Organization'
 import { useUserStore } from '@/stores'
 import organizationDialog from '@/components/dialog/organizationDialog.vue';
@@ -92,7 +92,7 @@ const editId = ref(0);
 const SondAdd = () => {
   switch (userStore.model.type) {
     case 1:
-      router.push('/organizationadd')
+      router.push('/adds')
       break;
     case 2:
       isdialog.value = true
@@ -105,7 +105,7 @@ const SondAdd = () => {
 //删除
 const del = (async (id: any) => {
   console.log('删除', id);
-  let res = await getMessageBox('是否确认删除该供应商', '删除后将不可恢复')
+  let res = await getMessageBox('是否确认删除机构', '删除后将不可恢复')
   console.log(res);
   switch (userStore.model.type) {
     case 1:
@@ -143,7 +143,7 @@ const amend = (async (id: any) => {
   console.log('修改', res);
   switch (userStore.model.type) {
     case 1:
-      router.push(`organizationadd?id=${id}`)
+      router.push(`adds?id=${id}`)
 
       break;
     case 2:
@@ -160,8 +160,8 @@ const amend = (async (id: any) => {
 const params = reactive<companylistParams>({
   page: 1,
   pageSize: 5,
-  key:'',
-  name:''
+  key: '',
+  name: ''
 })
 //分页
 const page = ((val: number) => {
@@ -188,7 +188,7 @@ const getcompanylist = async () => {
 const serch = () => {
   getcompanylist()
   params.page = 1
- 
+
 }
 
 onMounted(() => {

@@ -39,7 +39,7 @@
 <script lang="ts" setup>
 import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
 import AffiliatedView from '@/database/AffiliatedView.json'
-import {useRouter} from 'vue-router'
+import { useRouter } from 'vue-router'
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
@@ -89,25 +89,25 @@ const getlist = () => {
   }, 1000)
 }
 
-const del =async () => {
-  let res =await getMessageBox('是否确认删除该采购申请', '删除后将不可恢复')
- 
-  if(res){
+const del = async () => {
+  let res = await getMessageBox('是否确认删除该采购申请', '删除后将不可恢复')
+
+  if (res) {
     ElMessage.success('删除成功')
-  }else{
+  } else {
     ElMessage.info('取消删除')
   }
-  
+
 }
-const back = () =>{
+const back = () => {
   router.push('/dashboard/apply')
 }
-const confirm = ()=>{
-    router.push('/dashboard/apply')
+const confirm = () => {
+  router.push('/dashboard/apply')
 }
-const save = ()=>{
+const save = () => {
   router.push('/dashboard/examine')
-} 
+}
 onMounted(() => {
   getlist()
 })
@@ -140,7 +140,8 @@ onMounted(() => {
 
   .image {
     margin: 50px 0;
-    .el-form-item{
+
+    .el-form-item {
       width: 230px;
       height: 20px;
     }

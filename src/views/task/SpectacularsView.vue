@@ -7,12 +7,7 @@
       </el-form-item>
       <el-form-item label="任务状态">
         <el-select v-model="formInline.region" placeholder="请选择" style="width: 240px">
-          <el-option
-            v-for="item in statelist"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
+          <el-option v-for="item in statelist" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -24,25 +19,14 @@
   <el-card style="margin-top: 10px">
     <!-- 选项 -->
     <div class="taskoption">
-      <div
-        :class="{ item: true, select: istask === index }"
-        v-for="(item, index) in tasklist"
-        :key="index"
-        @click="change(index)"
-      >
-        <span
-          >{{ item.name }} <span style="margin-left: 5px">({{ item.num }})</span></span
-        >
+      <div :class="{ item: true, select: istask === index }" v-for="(item, index) in tasklist" :key="index"
+        @click="change(index)">
+        <span>{{ item.name }} <span style="margin-left: 5px">({{ item.num }})</span></span>
       </div>
       <!-- 展示 -->
     </div>
     <div class="tasklist">
-      <el-card
-        class="itemtask"
-        v-for="(item, index) in data.teskdata"
-        :key="index"
-        @click="taskinfo"
-      >
+      <el-card class="itemtask" v-for="(item, index) in data.teskdata" :key="index" @click="taskinfo">
         <div class="title">
           <span>{{ item.name }}</span>
           <el-avatar :size="35" :src="circleUrl" />
@@ -106,7 +90,7 @@ const tesklist = () => {
 }
 // 跳转详情
 const taskinfo = () => {
-  router.push('/dashboard/taskinfo')
+  router.push('/details')
 }
 onMounted(() => {
   tesklist()
@@ -117,6 +101,7 @@ onMounted(() => {
   width: 100%;
   height: 50px;
   display: flex;
+
   .item {
     width: 125px;
     height: 100%;
@@ -132,11 +117,13 @@ onMounted(() => {
     cursor: pointer;
   }
 }
+
 .tasklist {
   width: 100%;
   margin-top: 20px;
   display: flex;
   flex-wrap: wrap;
+
   .itemtask {
     width: 340px;
     height: 170px;
@@ -146,6 +133,7 @@ onMounted(() => {
     // 变小手
     cursor: pointer;
     padding-bottom: 15px;
+
     :deep(.el-card__body) {
       width: 100%;
       height: 100%;
@@ -153,21 +141,25 @@ onMounted(() => {
       flex-direction: column;
       justify-content: space-between;
     }
+
     .title {
       display: flex;
       justify-content: space-between;
       align-items: center;
       font-size: 16px;
     }
+
     .state {
       font-size: 14px;
     }
+
     .time {
       font-size: 12px;
       color: #ccc;
     }
   }
 }
+
 // 选择
 .select {
   color: #70c3ff;

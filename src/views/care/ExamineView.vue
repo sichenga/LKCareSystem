@@ -1,5 +1,5 @@
 <template>
-  <!--  外出申请  /   详情 -->
+  <!-- 床位更换申请审批 -->
   <el-card style="max-width: 100%">
     <div class="title">
       <span><span style="color: #00b1ff">▋</span>老人信息</span>
@@ -33,13 +33,10 @@
           </el-form>
         </div>
       </el-form-item>
-      <el-form-item label="陪同人类型："> 父子 </el-form-item>
-      <el-form-item label="陪同人姓名："> 张三缝 </el-form-item>
-      <el-form-item label="陪同人电话："> 177682978932 </el-form-item>
-      <el-form-item label="陪同人地址："> 苏州市山塘街北浩弄60号 </el-form-item>
-      <el-form-item label="外用时间："> 2020-02-02 </el-form-item>
-      <el-form-item label="计划返回时间："> 2020-09-09 </el-form-item>
-      <el-form-item label="外出原因："> 出去散散心！ </el-form-item>
+      <el-form-item label="*更换床位为"> 605-02 </el-form-item>
+      <el-form-item label="*更换原因">
+        605-02室友睡觉打呼噜，严重影响睡眠质量，需要更换房间！
+      </el-form-item>
     </el-form>
     <div class="title top">
       <span><span style="color: #00b1ff">▋</span>审批流</span>
@@ -65,19 +62,20 @@
       <span><span style="color: #00b1ff">▋</span>日志</span>
     </div>
 
-    <el-timeline style="max-width: 600px; margin-top: 30px">
-      <el-timeline-item
-        v-for="(activity, index) in activities"
-        :key="index"
-        :timestamp="activity.timestamp"
-      >
-        {{ activity.content }}
-        <template #dot>
+    <el-steps direction="vertical" class="stp">
+      <el-step>
+        <template #icon>
           <el-avatar :size="24" :src="circleUrl" />
         </template>
-      </el-timeline-item>
-    </el-timeline>
-    <el-button style="margin: 0 auto; display: block" @click="but">返回</el-button>
+        <template #description>
+          <div>20200303</div>
+          <div>张三 提交了床位更换申请</div>
+        </template>
+      </el-step>
+      <el-step title="Step 2" />
+      <el-step title="Step 3" />
+    </el-steps>
+    <el-button style="margin: 0 auto; display: block">返回</el-button>
   </el-card>
 </template>
 <script lang="ts" setup>
@@ -93,25 +91,7 @@ const form = reactive({
   resource: '',
   desc: ''
 })
-const activities = [
-  {
-    content: 'Event start',
-    timestamp: '2018-04-15'
-  },
-  {
-    content: 'Approved',
-    timestamp: '2018-04-13'
-  },
-  {
-    content: 'Success',
-    timestamp: '2018-04-11'
-  }
-]
 const circleUrl = ref('https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png')
-// 返回
-const but = () => {
-  window.history.go(-1)
-}
 </script>
 <style lang="less" scoped>
 .title {
@@ -164,8 +144,5 @@ const but = () => {
   :deep(.el-step__title) {
     padding: 0;
   }
-}
-:deep(.el-timeline-item__tail) {
-  left: 10px;
 }
 </style>

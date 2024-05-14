@@ -83,7 +83,7 @@
             </el-form>
             <el-form :inline="true" :rules="rules" label-position="top" :model="params" class="demo-form-inline">
                 <el-form-item label="营业执照：" v-model="params.certificate">
-                    <UploadPictures></UploadPictures>
+                    <MassUpload @upload="uploadimg"></MassUpload>
                 </el-form-item>
                 <el-form-item label="机构图片:" v-model="params.picture">
                     <el-button type="primary" class='button'>
@@ -113,6 +113,7 @@ const ruleFormRef = ref<FormInstance>()
 const data = reactive({
     id: " " as any
 })
+
 const params = reactive<companyaddParams>({
     id: data.id,
     name: '',
@@ -132,6 +133,12 @@ const params = reactive<companyaddParams>({
     certificate: null,//营业执照
     picture: null,//机构图片
 })
+const uploadimg = (val: any) => {
+
+    console.log('5555', val);
+
+}
+
 const rules = reactive<FormRules<companyaddParams>>({
     name: [
         { required: true, message: '请输入机构名称', trigger: 'blur' },

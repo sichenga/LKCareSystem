@@ -11,7 +11,7 @@
         <el-button type="primary" text @click="del(data.id)">删除</el-button>
       </template>
     </MayTable>
-    <Pagination :total="counts"  @page="page" @psize="psize" :page="params.page" :psize="params.pageSize"></Pagination>
+    <Pagination :total="counts" @page="page" @psize="psize" :page="params.page" :psize="params.pageSize"></Pagination>
   </el-card>
 </template>
 <script lang="ts" setup>
@@ -30,12 +30,12 @@ const params = reactive({
 })
 
 
-const page = (val:number)=>{
+const page = (val: number) => {
   params.page = val
   getData()
 }
 
-const psize = (val:number)=>{
+const psize = (val: number) => {
   params.pageSize = val
   getData()
 }
