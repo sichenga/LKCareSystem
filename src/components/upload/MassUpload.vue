@@ -73,7 +73,7 @@ const handleRemove: UploadProps['onRemove'] = (uploadFile: any) => {
 
 const handleSuccess: UploadProps['onSuccess'] = (uploadFile: any,usser:any) => {
   console.log(222777, uploadFile,usser)
-  if (uploadFile.errCode === 10000) {
+  if (uploadFile.code === 10000) {
     emit('upload', uploadFile.data)
   }
 }

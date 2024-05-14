@@ -1,8 +1,6 @@
 import { useUserStore } from '@/stores'
-import component from 'element-plus/es/components/tree-select/src/tree-select-option.mjs'
-import path from 'path'
 const model = import.meta.glob('../views/**/*.vue')
-console.log(model['../views/login/LoginViews.vue'])
+console.log(996,model['../views/login/LoginViews.vue'])
 // 动态路由
 export const AddMenu = () => {
   const userStore = useUserStore()
