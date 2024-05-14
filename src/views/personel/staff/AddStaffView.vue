@@ -60,6 +60,7 @@
 import { reactive, toRefs, ref, onMounted } from 'vue'
 import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
 import { useRouter } from 'vue-router'
+
 const router = useRouter();
 interface RuleForm {
     name: string

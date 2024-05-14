@@ -24,7 +24,9 @@
 import { ref, defineEmits, watch, defineProps } from 'vue'
 import type { PropType } from 'vue'
 import { Plus } from '@element-plus/icons-vue'
+
 const action = import.meta.env.VITE_BASE_UPLOAD_ADD || ''
+
 const emit = defineEmits(['upload', 'uploadrem'])
 const headers = {
   Authorization: sessionStorage.getItem('token') || ''
@@ -55,6 +57,7 @@ watch(
   { deep: true }
 )
 const fileList = ref<UploadUserFile[]>([])
+
 // 是否清除数据
 watch(
   () => props.delete,

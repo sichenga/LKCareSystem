@@ -31,6 +31,12 @@ export const useUserStore = defineStore(
     })
     // 用户权限
     const auth = ref([])
+    //选择食材数据
+    const ingredient = ref([])
+
+    const ingredients = (val: any) => {
+      ingredient.value = val
+    }
 
     // 登录
     const Login = async (data: LoginType) => {
@@ -86,9 +92,11 @@ export const useUserStore = defineStore(
       token,
       model,
       auth,
+      ingredient,
       Login,
       getUserAuth,
-      logout
+      logout,
+      ingredients
     }
   },
   {

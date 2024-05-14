@@ -1,5 +1,4 @@
 import { useUserStore } from '@/stores'
-
 const model = import.meta.glob('../views/**/*.vue')
 console.log(model)
 // 动态路由
