@@ -10,8 +10,6 @@
                     未签约
                 </div>
             </div>
-          
-
         </div>
         <div class="form-size">
             <div class="form-item">

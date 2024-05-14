@@ -6,18 +6,8 @@
         <el-input v-model="formInline.user" placeholder="请输入" clearable />
       </el-form-item>
       <el-form-item label="审批状态：">
-        <el-select
-          v-model="formInline.region"
-          placeholder="请选择"
-          size="large"
-          style="width: 240px"
-        >
-          <el-option
-            v-for="item in data.statelist"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
+        <el-select v-model="formInline.region" placeholder="请选择" size="large" style="width: 240px">
+          <el-option v-for="item in data.statelist" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
       </el-form-item>
       <el-form-item label="创建时间：">
@@ -120,6 +110,7 @@ onMounted(() => {
 .el-input {
   height: 40px;
 }
+
 .el-button {
   height: 40px;
   line-height: 40px;

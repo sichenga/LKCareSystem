@@ -1,4 +1,5 @@
 <template>
+ 
   <div class="title">
     <span v-if="!apperStore.statechange">{{ istype }}</span>
     <el-image v-else style="width: 80px; height: 50px" :src="url" />

@@ -9,35 +9,13 @@
         <el-input v-model="formInline.user" placeholder="请输入" clearable />
       </el-form-item>
       <el-form-item label="性别：">
-        <el-select
-          v-model="formInline.sex"
-          clearable
-          placeholder="请选择"
-          style="width: 240px"
-          size="large"
-        >
-          <el-option
-            v-for="item in sexlist"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
+        <el-select v-model="formInline.sex" clearable placeholder="请选择" style="width: 240px" size="large">
+          <el-option v-for="item in sexlist" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
       </el-form-item>
       <el-form-item label="审批状态：">
-        <el-select
-          v-model="formInline.state"
-          clearable
-          placeholder="请选择"
-          style="width: 240px"
-          size="large"
-        >
-          <el-option
-            v-for="item in data.statelist"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
+        <el-select v-model="formInline.state" clearable placeholder="请选择" style="width: 240px" size="large">
+          <el-option v-for="item in data.statelist" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
       </el-form-item>
 
@@ -155,6 +133,7 @@ onMounted(() => {
 .el-input {
   height: 40px;
 }
+
 .el-button {
   height: 40px;
   line-height: 40px;

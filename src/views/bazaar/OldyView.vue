@@ -15,7 +15,7 @@
                 </el-select>
             </el-form-item>
             <el-form-item label="入住状况:">
-                <el-select v-model="formInline.region" >
+                <el-select v-model="formInline.region">
                     <el-option label="Zone one" value="shanghai" />
                     <el-option label="Zone two" value="beijing" />
                 </el-select>
@@ -47,7 +47,7 @@
 <script lang="ts" setup>
 import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
 import AffiliatedView from '@/database/AffiliatedView.json'
-import {useRouter} from 'vue-router'
+import { useRouter } from 'vue-router'
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
 const router = useRouter()
@@ -109,7 +109,7 @@ const del = async () => {
         ElMessage.info('取消删除')
     }
 }
-const add = ()=>{
+const add = () => {
     router.push('/dashboard/addold')
 }
 onMounted(() => {
@@ -125,7 +125,8 @@ onMounted(() => {
     height: 40px;
     line-height: 40px;
 }
-.el-form--inline .el-form-item{
+
+.el-form--inline .el-form-item {
     width: 270px;
 }
 </style>
