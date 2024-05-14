@@ -55,8 +55,8 @@
     <!-- 表格 -->
     <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
       <template #operate>
-        <el-button type="primary" text @click="getinfo">编辑</el-button>
-        <el-button type="primary" text>查看详情</el-button>
+        <el-button type="primary" text>编辑</el-button>
+        <el-button type="primary" text @click="getinfo">查看详情</el-button>
       </template>
     </MayTable>
     <Pagination :total="50"></Pagination>

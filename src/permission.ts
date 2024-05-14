@@ -6,7 +6,6 @@ router.beforeEach((to) => {
   const userStore = useUserStore()
   if (userStore.token) {
     console.log(router.getRoutes())
-
     const menu = AddMenu()
     console.log('菜单', menu)
     if (router.getRoutes().length <= 3) {
@@ -15,7 +14,14 @@ router.beforeEach((to) => {
         path: '/',
         name: 'dashboard',
         component: () => import('./views/dashboard/DashBoard.vue'),
-        children: menu
+        children: [
+          {
+            path: 'home',
+            name: 'HomeView',
+            component: () => import('./views/home/HomeView.vue')
+          },
+          ...menu
+        ]
       }
       router.addRoute(rou)
       return to.fullPath

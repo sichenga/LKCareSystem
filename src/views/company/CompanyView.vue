@@ -41,11 +41,7 @@ import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
 import { useRouter } from 'vue-router'
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
-<<<<<<< HEAD
 import type { companylistParams } from '@/service/Organization/type'
-=======
-import type { companylistParams, } from '@/service/Organization/type'
->>>>>>> e08da855c1367a40ca1a4e3e8c727c64cd263fc4
 import { companylist, companydelete, companyget } from '@/service/Organization/Organization'
 import { useUserStore } from '@/stores'
 import organizationDialog from '@/components/dialog/organizationDialog.vue'
@@ -113,17 +109,10 @@ const SondAdd = () => {
   }
 }
 //删除
-<<<<<<< HEAD
 const del = async (id: any) => {
   console.log('删除', id)
   let res = await getMessageBox('是否确认删除该供应商', '删除后将不可恢复')
   console.log(res)
-=======
-const del = (async (id: any) => {
-  console.log('删除', id);
-  let res = await getMessageBox('是否确认删除机构', '删除后将不可恢复')
-  console.log(res);
->>>>>>> e08da855c1367a40ca1a4e3e8c727c64cd263fc4
   switch (userStore.model.type) {
     case 1:
       if (res) {
@@ -202,10 +191,6 @@ const getcompanylist = async () => {
 const serch = () => {
   getcompanylist()
   params.page = 1
-<<<<<<< HEAD
-=======
-
->>>>>>> e08da855c1367a40ca1a4e3e8c727c64cd263fc4
 }
 
 onMounted(() => {

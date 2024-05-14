@@ -1,5 +1,5 @@
 <template>
-
+    <!-- 收货验收 -->
     <el-card style="margin-top: 15px">
         <div class="body-top">
             <div class="body-size">

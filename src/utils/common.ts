@@ -14,14 +14,9 @@ export const AddMenu = () => {
 
 // 文字处理
 export const firstUpperCase = (str: string) => {
-  let text = str.toLowerCase().replace(/( |^)[a-z]/g, (L) => L.toUpperCase())
-  const nurse = ['Blood', 'Temperature', 'Blood-sugar']
-  if (text.includes('Edit')) {
-    text = text.replace('Edit', 'Add')
-  } else if (text.includes('Beg-details')) {
+  let text = str
+  if (text.includes('Beg-details')) {
     text = text.replace('Beg-details', 'Details')
-  } else if (nurse.includes(text)) {
-    text = text.replace(text, 'Nurse')
   }
   if (text.includes('/:id')) {
     // console.log('找到了', text.replace('/:id', ''))
@@ -93,12 +88,12 @@ const getRouter = (data?: any, tree: any = [], url: string = '') => {
           console.log(
             child.name,
             child.url,
-            `../views/${url ? url + '/' : ''}${item.url}/${firstUpperCase(child.url)}View.vue`
+            `../views/${url ? url + '/' : ''}${item.url}/${firstUpperCase(child.pathName)}View.vue`
           )
           console.log(
             child.name,
             model[
-              `../views/${url ? url + '/' : ''}${item.url}/${firstUpperCase(child.url)}View.vue`
+              `../views/${url ? url + '/' : ''}${item.url}/${firstUpperCase(child.pathName)}View.vue`
             ]
           )
           const menu = {
@@ -106,7 +101,7 @@ const getRouter = (data?: any, tree: any = [], url: string = '') => {
             name: child.pathName + child.id,
             component:
               model[
-                `../views/${url ? url + '/' : ''}${item.url.includes('branch') ? 'company' : item.url}/${firstUpperCase(child.url)}View.vue`
+                `../views/${url ? url + '/' : ''}${item.url.includes('branch') ? 'company' : item.url}/${firstUpperCase(child.pathName)}View.vue`
               ]
           }
           tree.push(menu)
