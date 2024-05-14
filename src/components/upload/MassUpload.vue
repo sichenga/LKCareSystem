@@ -75,6 +75,8 @@ const handleSuccess: UploadProps['onSuccess'] = (uploadFile: any) => {
 }
 
 const handlePictureCardPreview: UploadProps['onPreview'] = (uploadFile: any) => {
+  console.log(111111111,uploadFile);
+  
   dialogImageUrl.value = uploadFile.url!
   dialogVisible.value = false
 }

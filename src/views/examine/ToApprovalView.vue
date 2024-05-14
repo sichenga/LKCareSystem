@@ -1,6 +1,6 @@
 <template>
     <!-- 外出申请审批 -->
-   <el-card style="max-width: 100%">
+    <el-card style="max-width: 100%">
         <el-form :inline="true" :model="formInline" class="demo-form-inline">
             <el-form-item label="老人姓名:">
                 <el-input v-model="formInline.oldname" placeholder="请输入老人姓名" clearable />
@@ -28,8 +28,8 @@
     </el-card>
     <el-card style="max-width: 100%" class="card">
         <!-- 表格 -->
-        <MayTable :tableData="data.tableData" :tableItem="data.tableItem" >
-            <template #operate >
+        <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
+            <template #operate>
                 <el-button type="primary" text @click="approve">审批</el-button>
                 <el-button type="primary" text @click="details">详情</el-button>
             </template>
@@ -48,7 +48,7 @@ const router = useRouter();
 const formInline = reactive({
     oldname: '',
     status: '',
-    creation:''
+    creation: ''
 })
 
 const data = reactive({
@@ -57,7 +57,7 @@ const data = reactive({
         {
             prop: 'id',
             label: '序号',
-            width:'60'
+            width: '60'
         },
         {
             prop: 'oldname',
@@ -74,12 +74,12 @@ const data = reactive({
         {
             prop: 'tel',
             label: '陪同人员手机号'
-          
+
         },
         {
             prop: 'timeout',
             label: '外出时间',
-            width:'200'
+            width: '200'
         },
         {
             prop: 'founder',
@@ -126,6 +126,7 @@ onMounted(() => {
 .demo-form-inline .el-select {
     --el-select-width: 200px;
 }
+
 .card {
     margin-top: 20px;
 }

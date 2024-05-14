@@ -6,7 +6,9 @@
       </el-scrollbar>
     </el-aside>
     <el-container>
-      <el-header><TopMenu></TopMenu></el-header>
+      <el-header>
+        <TopMenu></TopMenu>
+      </el-header>
       <el-main>
         <el-scrollbar height="100%">
           <RouterView></RouterView>
@@ -28,6 +30,7 @@ import TopMenu from '@/components/menu/TopMenu.vue'
   width: 100%;
   height: 100%;
 }
+
 .el-aside {
   width: 100%;
   height: 100%;
@@ -39,11 +42,13 @@ import TopMenu from '@/components/menu/TopMenu.vue'
   -webkit-transition: width 0.15s;
   -o-transition: width 0.15s;
 }
+
 .el-header {
   width: 100%;
   display: flex;
   align-items: center;
 }
+
 .el-main {
   width: 100%;
   height: 100%;
