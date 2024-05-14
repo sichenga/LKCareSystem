@@ -5,7 +5,7 @@
       <el-form-item label="任务名称:"> 晨起 </el-form-item>
       <el-form-item label="任务状态:"> 进行中 </el-form-item>
       <el-form-item label="负责人:"> 张敏 </el-form-item>
-      <el-form-item label="任务描述:"> 需要按照规定给老人洗澡 </el-form-item>
+      <el-form-item label="任务描述:"> 需要按照规定给老人洗澡111 </el-form-item>
       <el-form-item label="任务时间:"> 8：00-8：30 </el-form-item>
     </el-form>
   </el-card>

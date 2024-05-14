@@ -1,12 +1,8 @@
-
-
-
 <template>
-  <!-- 账号管理 -->
+  <!-- 角色管理 -->
   <el-card style="margin-top: 15px">
     <div style="margin: 10px 0">
-      <el-button type="primary" @click="add">新增</el-button>
-      <AddAccountDialog v-if="isdialog" @close="close" :editid="editid"></AddAccountDialog>
+      <el-button type="primary" @click="addRole">新增</el-button>
     </div>
     <!-- 表格 -->
     <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
@@ -16,27 +12,39 @@
       </template>
     </MayTable>
     <Pagination
-      :total="total"
-      :page="form.page"
-      :psize="form.pageSize"
-      @page="getpage"
-      @psize="getpsize"
+      :total="counts"
+      @page="page"
+      @psize="psize"
+      :page="params.page"
+      :psize="params.pageSize"
     ></Pagination>
   </el-card>
 </template>
 <script lang="ts" setup>
 import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
-import { accountlist, accountdel } from '@/service/account/AccountApi'
 import { getMessageBox } from '@/utils/utils'
+import { RoleList, DelList } from '@/service/role/RoleApi'
 import { ElMessage } from 'element-plus'
-import type { AccountList } from '@/service/account/AccountType'
+import { useRouter } from 'vue-router'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
-const AddAccountDialog = defineAsyncComponent(
-  () => import('@/components/dialog/AddAccountDialog.vue')
-)
-const total = ref(0)
-const editid = ref(0)
+const router = useRouter()
+const counts = ref(0)
+const params = reactive({
+  page: 1,
+  pageSize: 5
+})
+
+const page = (val: number) => {
+  params.page = val
+  getData()
+}
+
+const psize = (val: number) => {
+  params.pageSize = val
+  getData()
+}
+
 const data = reactive({
   tableData: [] as any,
   tableItem: [
@@ -46,92 +54,69 @@ const data = reactive({
     },
     {
       prop: 'name',
-      label: '姓名'
+      label: '角色名称'
     },
     {
-      prop: 'mobile',
-      label: '手机号'
+      prop: 'accountCounts',
+      label: '关联账号数'
+    },
+
+    {
+      prop: 'addAccountName',
+      label: '创建人'
     },
     {
-      prop: 'username',
-      label: '账号'
-    },
-    {
-      prop: 'pwd',
-      label: '密码'
-    },
-    {
-      prop: 'roleIds',
-      label: '所属角色'
+      prop: 'addTime',
+      label: '创建时间'
     }
   ]
 })
-const form = reactive<AccountList>({
-  page: 1,
-  pageSize: 5
-})
-const isdialog = ref(false)
-// 获取列表
-const getlist = async () => {
-  let res: any = await accountlist(form).catch(() => {})
-  console.log('账号管理', res)
-  if (res?.code == 10000) {
-    total.value = res.data.counts
+//角色列表
+const getData = async () => {
+  let res: any = await RoleList(params).catch(() => {})
+  if (res.code == 10000) {
     data.tableData = res.data.list
+    counts.value = res.data.counts
   }
 }
-
-// 新增
-const add = () => {
-  isdialog.value = true
-}
-// 编辑
-const edit = (id: number) => {
-  console.log(id)
-  editid.value = id
-  isdialog.value = true
-}
-// 关闭弹框
-const close = (val: boolean) => {
-  if (val) {
-    getlist()
-  }
-  isdialog.value = false
-}
-// 删除
+//删除角色
 const del = async (id: number) => {
-  let res = await getMessageBox('是否确认删除该角色', '删除后将不可恢复')
-  console.log(11112, id)
+  const res = await getMessageBox('确定删除该角色吗?', '删除后不可恢复')
   if (res) {
-    let res: any = await accountdel(id).catch(() => {})
-    if (res?.code == 10000) {
+    let sun: any = await DelList(id)
+    if (sun.code == 10000) {
+      getData()
       ElMessage.success('删除成功')
-      getlist()
-    } else {
-      ElMessage.error(res.msg)
     }
   } else {
     ElMessage.info('取消删除')
   }
 }
-// 分页
-const getpage = (val: number) => {
-  form.page = val
-  getlist()
+//新增
+const addRole = () => {
+  router.push({
+    path: '/system/role-add'
+  })
 }
-const getpsize = (val: number) => {
-  form.pageSize = val
-  getlist()
+// 编辑
+const edit = (id: number) => {
+  router.push({
+    path: '/dashboard/roledialog',
+    query: {
+      id: id
+    }
+  })
 }
 
 onMounted(() => {
-  getlist()
+  getData()
 })
 </script>
 <style lang="less" scoped>
 .el-input {
   height: 40px;
 }
+
 .el-button {
   height: 40px;
   line-height: 40px;

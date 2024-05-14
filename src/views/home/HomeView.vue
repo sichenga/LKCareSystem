@@ -181,14 +181,17 @@ ul li {
 
 .body {
   display: flex;
-  .title{
-    margin-bottom: 10px ;
+
+  .title {
+    margin-bottom: 10px;
     font-size: 13px;
   }
-  .add{
+
+  .add {
     font-size: 13px;
   }
-  .progress{
+
+  .progress {
     margin: 20px 0;
   }
 }

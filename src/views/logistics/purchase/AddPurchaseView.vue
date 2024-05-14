@@ -41,6 +41,10 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
+<<<<<<< HEAD:src/views/Logistics/AddPurchaseView.vue
+=======
+import AffiliatedView from '@/database/AffiliatedView.json'
+>>>>>>> 9acce9cd3cf9c10dd01494cb47381ba147a551bb:src/views/logistics/purchase/AddPurchaseView.vue
 import { useRouter } from 'vue-router'
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
@@ -93,6 +97,7 @@ const data = reactive({
   ]
 })
 
+<<<<<<< HEAD:src/views/Logistics/AddPurchaseView.vue
 
 const del = async (id: any) => {
   console.log(data);
@@ -102,6 +107,12 @@ const del = async (id: any) => {
   if (res) {
     data.AddData.foods = data.AddData.foods.filter((item: any) => item.id !== id)
 
+=======
+const del = async () => {
+  let res = await getMessageBox('是否确认删除该采购申请', '删除后将不可恢复')
+
+  if (res) {
+>>>>>>> 9acce9cd3cf9c10dd01494cb47381ba147a551bb:src/views/logistics/purchase/AddPurchaseView.vue
     ElMessage.success('删除成功')
   } else {
     ElMessage.info('取消删除')
@@ -114,6 +125,7 @@ const back = () => {
 const confirm = () => {
   router.push('/dashboard/apply')
 }
+<<<<<<< HEAD:src/views/Logistics/AddPurchaseView.vue
 
 const dialogVisible = ref(false)
 //选择食材
@@ -152,6 +164,11 @@ const save = async () => {
   }
 }
 
+=======
+const save = () => {
+  router.push('/dashboard/examine')
+}
+>>>>>>> 9acce9cd3cf9c10dd01494cb47381ba147a551bb:src/views/logistics/purchase/AddPurchaseView.vue
 onMounted(() => {
 
 })

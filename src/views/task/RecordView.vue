@@ -16,12 +16,7 @@
       </el-form-item>
       <el-form-item label="接收状态：">
         <el-select v-model="formInline.user" clearable placeholder="请选择" size="large">
-          <el-option
-            v-for="item in data.statelist"
-            :key="item.id"
-            :label="item.name"
-            :value="item.id"
-          />
+          <el-option v-for="item in data.statelist" :key="item.id" :label="item.name" :value="item.id" />
         </el-select>
       </el-form-item>
       <el-form-item label="提交时间：">
@@ -107,7 +102,7 @@ const getlist = () => {
 }
 // 查看明细
 const detail = () => {
-  router.push('/record-details')
+  router.push('/task/record-details')
 }
 onMounted(() => {
   getlist()
@@ -118,9 +113,11 @@ onMounted(() => {
   width: 300px;
   height: 40px;
 }
+
 .el-select {
   width: 300px !important;
 }
+
 .el-button {
   height: 40px;
   line-height: 40px;

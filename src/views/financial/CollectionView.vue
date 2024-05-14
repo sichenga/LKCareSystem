@@ -34,8 +34,8 @@
         </MayTable>
         <!-- 分页 -->
         <Pagination :total="50"></Pagination>
-         <!-- 缴费结算 -->
-        <CollectionDialog  @close="close" v-if="isdialog"></CollectionDialog>
+        <!-- 缴费结算 -->
+        <CollectionDialog @close="close" v-if="isdialog"></CollectionDialog>
     </el-card>
 </template>
 
@@ -108,7 +108,7 @@ const getlist = () => {
 }
 // 关闭弹窗
 const close = () => {
-  isdialog.value = false
+    isdialog.value = false
 }
 onMounted(() => {
     getlist()
@@ -116,7 +116,7 @@ onMounted(() => {
 // 缴费结算 
 const pay = (() => {
     console.log('缴费结算 ');
-    isdialog.value=true
+    isdialog.value = true
 })
 //  查看明细
 const detail = (() => {

@@ -105,11 +105,11 @@ const close = () => {
 
 // 新增外出
 const add = () => {
-  router.push('/add')
+  router.push('/care/add')
 }
 // 详情
 const btn = () => {
-  router.push('/nurexamine')
+  router.push('/care/details/1')
 }
 
 onMounted(() => {

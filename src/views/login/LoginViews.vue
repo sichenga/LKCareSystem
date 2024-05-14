@@ -11,14 +11,8 @@
             <span>账号登录</span>
             <el-image style="width: 100px; height: 100px" :src="code" class="code" />
           </div>
-          <el-form
-            ref="ruleFormRef"
-            :model="ruleForm"
-            :rules="rules"
-            class="demo-ruleForm"
-            :size="formSize"
-            status-icon
-          >
+          <el-form ref="ruleFormRef" :model="ruleForm" :rules="rules" class="demo-ruleForm" :size="formSize"
+            status-icon>
             <el-form-item prop="username">
               <el-input v-model="ruleForm.username">
                 <template #prefix>
@@ -41,12 +35,8 @@
               <span>忘记密码?</span>
             </el-form-item>
             <el-form-item>
-              <el-button
-                type="success"
-                style="width: 100%; height: 45px"
-                @click="submitForm(ruleFormRef)"
-                >登录</el-button
-              >
+              <el-button type="success" style="width: 100%; height: 45px"
+                @click="submitForm(ruleFormRef)">登录</el-button>
             </el-form-item>
           </el-form>
         </div>

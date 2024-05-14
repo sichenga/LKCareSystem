@@ -127,6 +127,7 @@ onMounted(() => {
 .demo-form-inline .el-select {
     --el-select-width: 180px;
 }
+
 .card {
     margin-top: 20px;
 }

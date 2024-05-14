@@ -56,7 +56,7 @@
     <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
       <template #operate>
         <el-button type="primary" text>编辑</el-button>
-        <el-button type="primary" text>查看详情</el-button>
+        <el-button type="primary" text @click="getinfo">查看详情</el-button>
       </template>
     </MayTable>
     <Pagination :total="50"></Pagination>
@@ -65,11 +65,13 @@
 <script lang="ts" setup>
 import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
 import AffiliatedView from '@/database/AffiliatedView.json'
+import { useRouter } from 'vue-router'
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
 const BedDialog = defineAsyncComponent(() => import('@/components/dialog/BedDialog.vue'))
+const router = useRouter()
 const formInline = reactive({
   user: '',
   region: '',
@@ -146,6 +148,10 @@ const del = async () => {
   } else {
     ElMessage.info('取消删除')
   }
+}
+// 跳转详情
+const getinfo = () => {
+  router.push('/care/beg-details')
 }
 onMounted(() => {
   getlist()

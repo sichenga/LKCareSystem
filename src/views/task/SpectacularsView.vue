@@ -106,7 +106,7 @@ const tesklist = () => {
 }
 // 跳转详情
 const taskinfo = () => {
-  router.push('/details')
+  router.push('/task/details/2')
 }
 onMounted(() => {
   tesklist()
@@ -117,6 +117,7 @@ onMounted(() => {
   width: 100%;
   height: 50px;
   display: flex;
+
   .item {
     width: 125px;
     height: 100%;
@@ -132,11 +133,13 @@ onMounted(() => {
     cursor: pointer;
   }
 }
+
 .tasklist {
   width: 100%;
   margin-top: 20px;
   display: flex;
   flex-wrap: wrap;
+
   .itemtask {
     width: 340px;
     height: 170px;
@@ -146,6 +149,7 @@ onMounted(() => {
     // 变小手
     cursor: pointer;
     padding-bottom: 15px;
+
     :deep(.el-card__body) {
       width: 100%;
       height: 100%;
@@ -153,21 +157,25 @@ onMounted(() => {
       flex-direction: column;
       justify-content: space-between;
     }
+
     .title {
       display: flex;
       justify-content: space-between;
       align-items: center;
       font-size: 16px;
     }
+
     .state {
       font-size: 14px;
     }
+
     .time {
       font-size: 12px;
       color: #ccc;
     }
   }
 }
+
 // 选择
 .select {
   color: #70c3ff;

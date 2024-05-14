@@ -34,6 +34,19 @@ export interface SelectSupplier {
   name: string
 }
 
+// 食材详情
+export interface FoodDetail {
+  id: number
+  name: string
+  unit: string
+  supplierId: number
+  wholePrice: number
+  sellPrice: number
+  purchasePrice: number
+  updateTime: string
+  supplierName: string
+}
+
 // 采购申请列表
 export interface Purchase {
   pageSize: number

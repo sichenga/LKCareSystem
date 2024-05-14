@@ -4,16 +4,16 @@
     <el-image v-else style="width: 80px; height: 50px" :src="url" />
   </div>
   <el-menu
-    default-active="2"
     class="el-menu-vertical-demo"
     :collapse="apperStore.statechange"
     :collapse-transition="false"
     background-color="#333333"
     text-color="#ccc"
     active-text-color="#fff"
+    :default-active="$route.fullPath"
     router
   >
-    <el-menu-item index="/dashboard" v-if="userStore.model.type !== 3">
+    <el-menu-item index="/home" v-if="userStore.model.type !== 3">
       <el-icon>
         <i class="iconfont icon"></i>
         <House />
@@ -29,7 +29,7 @@
         <el-menu-item
           v-for="(chym, chindex) in item.children"
           :key="chindex + ''"
-          :index="chym.url"
+          :index="'/' + item.url + '/' + chym.url"
         >
           <i :class="{ iconfont: true, [chym.icon]: true }"></i>
           {{ chym.name }}
@@ -76,6 +76,7 @@ const istype = computed(() => {
 </script>
 <style lang="less" scoped>
 @import url('@/assets/leftMenu_icon/iconfont.css');
+
 .title {
   width: 100%;
   height: 60px;
