@@ -90,7 +90,7 @@ const tesklist = () => {
 }
 // 跳转详情
 const taskinfo = () => {
-  router.push('/details')
+  router.push('/spectaculars/details')
 }
 onMounted(() => {
   tesklist()
