@@ -111,7 +111,7 @@ const getlist = () => {
 
 // 跳转地址管理
 const location = () => {
-  router.push('/dashboard/Address')
+  router.push('/care/Address')
 }
 onMounted(() => {
   getlist()

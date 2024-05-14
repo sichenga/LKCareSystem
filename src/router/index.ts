@@ -16,6 +16,11 @@ const router = createRouter({
       component: () => import('@/views/error/Error-404.vue')
     },
 
+    {
+      path: '/',
+      name: 'dashboard',
+      component: () => import('@/views/dashboard/DashBoard.vue')
+    }
     // {
     //   path: '/',
     //   name: 'dashboard',

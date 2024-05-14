@@ -107,7 +107,7 @@ const getlist = () => {
 }
 // 查看明细
 const detail = () => {
-  router.push('/record-details')
+  router.push('/task/record-details')
 }
 onMounted(() => {
   getlist()
