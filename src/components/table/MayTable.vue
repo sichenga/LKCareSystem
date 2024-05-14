@@ -17,7 +17,7 @@
       :label="item.label"
       :width="item.width"
     >
-      <template v-if="item.prop == 'image' && props.identifier === 'Workers'" v-slot="{ row }">
+      <template v-if="item.prop == 'photo' && props.identifier === 'StaffView'" v-slot="{ row }">
         <el-image style="width: 50px; height: 50px" :src="row.image" /> <span></span>
       </template>
 

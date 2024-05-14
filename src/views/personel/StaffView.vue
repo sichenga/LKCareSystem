@@ -40,10 +40,10 @@
         <el-button style="margin-bottom: 20px;" type="primary" @click="add">新增</el-button>
         <!-- 表格 -->
         <MayTable :tableData="data.tableData" :tableItem="data.tableItem" :identifier="identifier">
-            <template #operate>
+            <template #operate="{data}">
                 <el-button type="primary" size="small" link @click="handleEdit">编辑</el-button>
                 <el-button type="primary" size="small" link @click="enable">禁用</el-button>
-                <el-button type="primary" size="small" link @click="handleDelete">删除</el-button>
+                <el-button type="primary" size="small" link @click="handleDelete(data.id)">删除</el-button>
             </template>
         </MayTable>
         <!-- 分页 -->
@@ -56,11 +56,12 @@ import { reactive, toRefs, ref, onMounted, defineAsyncComponent } from 'vue'
 import { useRouter } from 'vue-router'
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
+import {staffList,delstaff} from '@/service/staff/staff'
 const router = useRouter();
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
-import StaffView from '@/database/StaffView.json'
-const identifier = 'Workers'
+
+const identifier = 'StaffView'
 const data = reactive({
     tableData: [] as any,
     tableItem: [
@@ -69,7 +70,7 @@ const data = reactive({
             label: '序号'
         },
         {
-            prop: 'image',
+            prop: 'photo',
             label: '头像'
         },
         {
@@ -77,15 +78,19 @@ const data = reactive({
             label: '姓名'
         },
         {
-            prop: 'ibnumber',
+            prop:'mobile',
+            label: '联系方式'
+        },
+        {
+            prop: 'idCard',
             label: '身份证号'
         },
         {
-            prop: 'department',
+            prop: 'departmentId',
             label: '所属部门'
         },
         {
-            prop: 'station',
+            prop: 'companyId',
             label: '所属岗位'
         },
         {
@@ -97,7 +102,7 @@ const data = reactive({
             label: '密码'
         },
         {
-            prop: 'creator',
+            prop: 'isCarer',
             label: '创建人',
         },
         {
@@ -110,14 +115,15 @@ const data = reactive({
         }
     ]
 })
-const getlist = () => {
-    setTimeout(() => {
-        data.tableData = StaffView
-    }, 1000)
+const getlist =async () => {
+    let res:any =await staffList()
+    console.log(res);
+    
+    if(res.code==10000){
+      data.tableData =  res.data.list
+    }
 }
-onMounted(() => {
-    getlist()
-})
+
 // 添加
 const add=(()=>{
     router.push("/dashboard/compilestaff")
@@ -133,7 +139,8 @@ const enable=(async()=>{
     let res = await getMessageBox('是否确认禁用该员工', '禁用后该员工将不可正常使用系统功能')
     console.log(11112, res)
     if (res) {
-        ElMessage.success('删除成功')
+         ElMessage.success('删除成功')
+
     } else {
         ElMessage.info('取消删除')
     }
@@ -145,7 +152,12 @@ const handleDelete = (async (id: any) => {
     let res = await getMessageBox('是否确认删除该员工', '删除后将不可恢复')
     console.log(11112, res)
     if (res) {
-        ElMessage.success('删除成功')
+        let res:any=delstaff(id)
+        if(res.code==10000){
+            getlist()
+            ElMessage.success('删除成功')
+        }
+        
     } else {
         ElMessage.info('取消删除')
     }
@@ -159,6 +171,9 @@ const formInline = reactive({
 const onSubmit = () => {
     console.log('submit!')
 }
+onMounted(() => {
+    getlist()
+})
 </script>
 
 
