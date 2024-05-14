@@ -28,6 +28,7 @@
       </template>
     </MayTable>
     <Pagination :total="data.total" @page="page" @psize="psize" :page="params.page" :pszie="params.page"></Pagination>
+    
   </el-card>
 </template>
 <script lang="ts" setup>
@@ -35,11 +36,10 @@ import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
 import { useRouter } from 'vue-router'
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
-import type { companylistParams, } from '@/service/Organization/type'
+import type { companylistParams } from '@/service/Organization/type'
 import { companylist, companydelete, companyget } from '@/service/Organization/Organization'
 import { useUserStore } from '@/stores'
-import organizationDialog from '@/components/dialog/organizationDialog.vue';
-
+import organizationDialog from '@/components/dialog/organizationDialog.vue'
 const userStore = useUserStore()
 const isdialog = ref(false)
 const router = useRouter()
@@ -76,7 +76,7 @@ const data = reactive({
     {
       prop: 'adminPwd',
       label: '管理员密码'
-    },
+    }
   ]
 })
 //弹出框
@@ -88,25 +88,25 @@ const close = (val: boolean) => {
   }
 }
 //添加
-const editId = ref(0);
+const editId = ref(0)
 const SondAdd = () => {
   switch (userStore.model.type) {
     case 1:
       router.push('/adds')
-      break;
+      break
     case 2:
       isdialog.value = true
-      editId.value = 0;
-      break;
+      editId.value = 0
+      break
     default:
-      break;
+      break
   }
 }
 //删除
-const del = (async (id: any) => {
-  console.log('删除', id);
-  let res = await getMessageBox('是否确认删除机构', '删除后将不可恢复')
-  console.log(res);
+const del = async (id: any) => {
+  console.log('删除', id)
+  let res = await getMessageBox('是否确认删除该机构', '删除后将不可恢复')
+  console.log(res)
   switch (userStore.model.type) {
     case 1:
       if (res) {
@@ -118,9 +118,8 @@ const del = (async (id: any) => {
           ElMessage.error(res.msg)
         }
       }
-      break;
+      break
     case 2:
-
       if (res) {
         const res: any = await companydelete(id).catch(() => { })
         if (res.code == 10000) {
@@ -130,31 +129,31 @@ const del = (async (id: any) => {
           ElMessage.error(res.msg)
         }
       }
-      break;
+      break
     default:
-      break;
+      break
   }
-})
+}
 
 //修改
-const amend = (async (id: any) => {
-  console.log('修改', id);
+const amend = async (id: any) => {
+  console.log('修改', id)
   let res = await companyget(id)
-  console.log('修改', res);
+  console.log('修改', res)
   switch (userStore.model.type) {
     case 1:
       router.push(`adds?id=${id}`)
 
-      break;
+      break
     case 2:
       isdialog.value = true
       editId.value = id
 
-      break;
+      break
     default:
-      break;
+      break
   }
-})
+}
 
 //定义页数
 const params = reactive<companylistParams>({
@@ -164,35 +163,31 @@ const params = reactive<companylistParams>({
   name: ''
 })
 //分页
-const page = ((val: number) => {
+const page = (val: number) => {
   params.page = val
   getcompanylist()
-})
-const psize = ((val: number) => {
+}
+const psize = (val: number) => {
   params.pageSize = val
   getcompanylist()
-})
+}
 //请求列表
 const getcompanylist = async () => {
   const res: any = await companylist(params)
-  console.log('列表', res);
+  console.log('列表', res)
   if (res.code === 10000) {
     data.tableData = res.data.list
     data.total = res.data.counts
   }
-
-
 }
 
 //查询
 const serch = () => {
   getcompanylist()
   params.page = 1
-
 }
 
 onMounted(() => {
-
   getcompanylist()
 })
 </script>
@@ -200,7 +195,6 @@ onMounted(() => {
 .el-input {
   height: 40px;
 }
-
 
 .el-button {
   height: 40px;

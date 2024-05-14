@@ -3,15 +3,16 @@
   <el-card style="margin-top: 15px">
     <div style="margin: 10px 0">
       <el-button type="primary" @click="sond">创建采购申请</el-button>
-
     </div>
     <!-- 表格 -->
     <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
       <template #operate>
         <!-- <el-button type="primary" text @click="del">删除</el-button> -->
-        <el-button type="primary" text @click="reteor.push('/dashboard/purchase')">编辑</el-button>
-        <el-button type="primary" text @click="reteor.push('/dashboard/examine')">收获验货</el-button>
-        <el-button type="primary" text @click="reteor.push('/dashboard/particulars')">查看详情</el-button>
+        <el-button type="primary" text @click="edit">编辑</el-button>
+        <el-button type="primary" text @click="reteor.push('/dashboard/examine')"
+          >收货验货</el-button
+        >
+        <el-button type="primary" text @click="getifno">查看详情</el-button>
       </template>
     </MayTable>
     <Pagination :total="50"></Pagination>
@@ -53,8 +54,7 @@ const data = reactive({
     {
       prop: 'username',
       label: '状态'
-    },
-
+    }
   ]
 })
 const getlist = () => {
@@ -70,10 +70,18 @@ const del = async () => {
   } else {
     ElMessage.info('取消删除')
   }
-
 }
+// 创建采购申请
 const sond = () => {
-  reteor.push("/dashboard/purchase")
+  reteor.push('/medicalcare/add')
+}
+// 编辑采购申请
+const edit = () => {
+  sond()
+}
+// 查看详情
+const getifno = () => {
+  reteor.push('/logistics/details/id')
 }
 onMounted(() => {
   getlist()

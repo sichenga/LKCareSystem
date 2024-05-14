@@ -63,7 +63,7 @@ const data = reactive({
 })
 // 取消提交
 const cancel = () => {
-  router.push('/Goout')
+  router.push('/care/goout')
 }
 // 提交表单
 const add = () => {

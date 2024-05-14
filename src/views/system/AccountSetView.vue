@@ -4,15 +4,13 @@
     <div class="headbox">
       <el-form-item label="头像">
         <div class="header">
-          <img src="../../assets/image/1000.jpg" alt="">
+          <img src="../../assets/image/1000.jpg" alt="" />
         </div>
-        <div class="replece">
-          更换头像
-        </div>
+        <div class="replece">更换头像</div>
       </el-form-item>
     </div>
     <el-form ref="ruleFormRef" :model="ruleForm" label-width="auto" class="demo-ruleForm" :size="formSize"
-      style="width: 300px;" status-icon>
+      style="width: 300px" status-icon>
       <el-form-item label="姓名">
         <el-input class="custom-input" v-model="ruleForm.name" />
       </el-form-item>
@@ -23,8 +21,8 @@
         <el-input class="custom-input" v-model="ruleForm.account" />
       </el-form-item>
       <el-form-item label="密码">
-        <el-input class="custom-pass" v-model="ruleForm.pass" /> <span
-          style="color:#75a5ea ; font-size: 12px; padding-left: 20px;" @click="isdialog = true">修改密码</span>
+        <el-input class="custom-pass" v-model="ruleForm.pass" />
+        <span style="color: #75a5ea; font-size: 12px; padding-left: 20px" @click="isdialog = true">修改密码</span>
         <PassDialog @close="close" v-if="isdialog"></PassDialog>
       </el-form-item>
       <el-form-item label="所属角色">
@@ -35,16 +33,15 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref, } from 'vue'
-import type { ComponentSize, FormInstance, } from 'element-plus'
-import PassDialog from '@/components/dialog/PassDialog.vue';
+import { reactive, ref } from 'vue'
+import type { ComponentSize, FormInstance } from 'element-plus'
+import PassDialog from '@/components/dialog/PassDialog.vue'
 interface RuleForm {
-  name: string,
-  tel: string,
-  account: string,
-  pass: string,
+  name: string
+  tel: string
+  account: string
+  pass: string
   role: string
-
 }
 
 const formSize = ref<ComponentSize>('default')
@@ -62,8 +59,6 @@ const isdialog = ref(false)
 const close = () => {
   isdialog.value = false
 }
-
-
 </script>
 
 <style lang="less" scoped>
@@ -95,7 +90,6 @@ const close = () => {
     line-height: 50px;
     font-size: 12px;
     padding-left: 30px;
-
   }
 }
 
@@ -103,8 +97,6 @@ const close = () => {
   margin-top: 20px !important;
   margin-bottom: 20px !important;
 }
-
-
 
 :deep .custom-input .el-input__inner {
   color: #c3c3c3;

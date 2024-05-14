@@ -13,8 +13,18 @@
       </template>
     </MayTable>
     <!-- 分页 -->
+
     <Pagination :total="total" :page="params.page" :psize="params.pageSize" @page="getpage" @psize="getpsize">
     </Pagination>
+
+    <Pagination
+      :total="total"
+      :page="params.page"
+      :psize="params.pageSize"
+      @page="getpage"
+      @psize="getpsize"
+    ></Pagination>
+
     <!-- 价格更新 -->
     <PriceDialog @close="close" v-if="isprice" :priceid="priceid"></PriceDialog>
   </div>
@@ -132,7 +142,7 @@ const priceUpdate = (id: number) => {
 const priceAnalysis = (id: number) => {
   console.log('价格分析', id)
   router.push({
-    path: '/Price',
+    path: '/diet/food-price',
     query: {
       id
     }
