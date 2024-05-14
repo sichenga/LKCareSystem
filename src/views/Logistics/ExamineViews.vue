@@ -130,7 +130,7 @@ const confirm =async ()=>{
     }
 
 }
-const goback=()=>{
+const goback = () => {
     router.push('/dashboard/apply')
 }
 onMounted(() => {
@@ -147,34 +147,42 @@ onMounted(() => {
     height: 40px;
     line-height: 40px;
 }
-.body-size{
+
+.body-size {
     font-size: 14px;
     margin: 20px 0 20px 10px;
-    div{
+
+    div {
         width: 240px;
         display: flex;
-  
-        justify-content:space-between;
+
+        justify-content: space-between;
     }
 }
-.title-image{
+
+.title-image {
     margin-top: 40px;
-    .image{
+
+    .image {
         margin-top: 20px;
     }
-    .el-image{
+
+    .el-image {
         width: 55px !important;
-        height: 55px !important; 
+        height: 55px !important;
     }
 }
-.button-body{
-    margin: 70px  740px;
+
+.button-body {
+    margin: 70px 740px;
     display: flex;
-    .btn-body{
+
+    .btn-body {
         width: 160px;
         height: 40px;
     }
-    .primary{
+
+    .primary {
         width: 220px;
         height: 40px;
     }
