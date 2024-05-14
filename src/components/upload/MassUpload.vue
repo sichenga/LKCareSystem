@@ -1,7 +1,14 @@
 <template>
-  <el-upload v-model:file-list="fileList" :limit="props.limit" :action="action" :headers="headers"
-    list-type="picture-card" :on-preview="handlePictureCardPreview" :on-remove="handleRemove"
-    :on-success="handleSuccess">
+  <el-upload
+    v-model:file-list="fileList"
+    :limit="props.limit"
+    :action="action"
+    :headers="headers"
+    list-type="picture-card"
+    :on-preview="handlePictureCardPreview"
+    :on-remove="handleRemove"
+    :on-success="handleSuccess"
+  >
     <el-icon>
       <Plus />
     </el-icon>
@@ -69,14 +76,14 @@ const handleRemove: UploadProps['onRemove'] = (uploadFile: any) => {
 
 const handleSuccess: UploadProps['onSuccess'] = (uploadFile: any) => {
   console.log(777, uploadFile)
-  if (uploadFile.errCode === 10000) {
+  if (uploadFile.code === 10000) {
     emit('upload', uploadFile.data)
   }
 }
 
 const handlePictureCardPreview: UploadProps['onPreview'] = (uploadFile: any) => {
-  console.log(111111111,uploadFile);
-  
+  console.log(111111111, uploadFile)
+
   dialogImageUrl.value = uploadFile.url!
   dialogVisible.value = false
 }

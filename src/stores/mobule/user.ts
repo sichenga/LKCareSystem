@@ -6,6 +6,8 @@ import { TreeData } from '@/utils/utils'
 import { getListForUser } from '@/service/account/AccountApi'
 import type { Model } from '@/Type/pinia/user'
 import type { Login as LoginType } from '@/service/admin/AdminType'
+import router from '@/router'
+import { getMessageBox } from '@/utils/utils'
 import { useRouter } from 'vue-router'
 export const useUserStore = defineStore(
   'user',
@@ -53,13 +55,40 @@ export const useUserStore = defineStore(
         console.log('权限', auth.value)
       }
     }
+    // 退出登录
+    const logout = async () => {
+      const res = await getMessageBox('确定要退出登录吗？', 'warning', '提示')
+      if (res) {
+        ElMessage.success('退出登录成功')
+        token.value = ''
+        model.value = {
+          id: 0,
+          companyId: 0,
+          level: 0,
+          staffId: 0,
+          name: '',
+          pwd: null,
+          type: 0,
+          enable: 0,
+          mobile: '',
+          username: '',
+          roleIds: null
+        }
+        sessionStorage.clear()
 
+        router.push('/login')
+      } else {
+        ElMessage.success('取消退出登录')
+      }
+      // sessionStorage.clear()
+    }
     return {
       token,
       model,
       auth,
       Login,
-      getUserAuth
+      getUserAuth,
+      logout
     }
   },
   {

@@ -1,8 +1,7 @@
 import { useUserStore } from '@/stores'
-import component from 'element-plus/es/components/tree-select/src/tree-select-option.mjs'
-import path from 'path'
+
 const model = import.meta.glob('../views/**/*.vue')
-console.log(model['../views/login/LoginViews.vue'])
+console.log(model)
 // 动态路由
 export const AddMenu = () => {
   const userStore = useUserStore()
@@ -102,7 +101,10 @@ const getRouter = (data?: any, tree: any = [], url: string = '') => {
             component:
               model[
                 `../views/${url ? url + '/' : ''}${item.url.includes('branch') ? 'company' : item.url}/${firstUpperCase(child.pathName)}View.vue`
-              ]
+              ],
+            meat: {
+              title: child.name
+            }
           }
           tree.push(menu)
           // console.log(item.name, menu)

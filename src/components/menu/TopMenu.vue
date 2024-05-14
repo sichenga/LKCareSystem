@@ -13,20 +13,21 @@
       <div class="profile">
         <el-avatar :size="40" :src="circleUrl" />
         <div class="text">
-          <span>张敏</span>
-          <span>机构管理员</span>
+          <span>{{ userStore.model.name }}</span>
+          <span>{{ userStore.model.username }}</span>
         </div>
       </div>
       <!-- 退出 -->
-      <el-icon><SwitchButton /></el-icon>
+      <el-icon @click="userStore.logout"><SwitchButton /></el-icon>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
 import { ref, reactive, onMounted } from 'vue'
 import { Fold, SwitchButton, Expand } from '@element-plus/icons-vue'
-import { useApperStore } from '@/stores'
+import { useApperStore, useUserStore } from '@/stores'
 const apperStore = useApperStore()
+const userStore = useUserStore()
 // 头像
 const circleUrl = ref('https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png')
 // 左侧菜单状态切换

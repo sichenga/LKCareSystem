@@ -98,7 +98,7 @@ const editId = ref(0)
 const SondAdd = () => {
   switch (userStore.model.type) {
     case 1:
-      router.push('/adds')
+      router.push('/company/add')
       break
     case 2:
       isdialog.value = true
@@ -148,7 +148,7 @@ const amend = async (id: any) => {
   console.log('修改', res)
   switch (userStore.model.type) {
     case 1:
-      router.push(`adds?id=${id}`)
+      router.push(`/company/add?id=${id}`)
 
       break
     case 2:
