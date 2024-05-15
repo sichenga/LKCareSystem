@@ -132,7 +132,7 @@ const getlist =async () => {
 
 // 添加
 const add=(()=>{
-    router.push("/dashboard/compilestaff")  
+    router.push("/staff/add")  
 })
 // 编辑
 const handleEdit = ((id: any) => {
