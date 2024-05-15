@@ -59,7 +59,7 @@ import { reactive, toRefs, ref, onMounted, defineAsyncComponent } from 'vue'
 import { useRouter } from 'vue-router'
 import { PurchaseList } from '@/service/food/FoodApi'
 import type { Purchase } from '@/service/food/FoodType'
-import { companylist } from '@/service/Organization/Organization'
+import { companylist } from '@/service/Organization/OrganizationApi'
 const router = useRouter()
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
@@ -134,7 +134,7 @@ const deliver = () => {
 // 查看详情
 const details = () => {
   console.log('查看详情')
-  router.push(`/diet/purchase-detail/1`)
+  router.push(`/diet/purchase/purchase-detail/1`)
 }
 //
 const onReset = () => {

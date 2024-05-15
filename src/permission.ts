@@ -11,7 +11,6 @@ router.beforeEach((to) => {
     const menu = AddMenu()
     console.log('菜单', menu)
     if (router.getRoutes().length <= 3) {
-      console.log(222222221)
       const rou = {
         path: '/',
         name: 'dashboard',
@@ -28,17 +27,18 @@ router.beforeEach((to) => {
       router.addRoute(rou)
       return to.fullPath
     }
+
     // return true
   } else {
     console.log(111111)
     // 移除动态路由
     // console.log(111111)
-    if (router.getRoutes().length > 3) {
-      router.removeRoute('dashboard')
-    }
 
     if (to.path == '/login') {
       console.log(111111)
+      if (router.getRoutes().length > 3) {
+        router.removeRoute('dashboard')
+      }
 
       return true
     } else {

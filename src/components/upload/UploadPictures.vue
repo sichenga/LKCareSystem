@@ -1,9 +1,16 @@
 <template>
-  <el-upload v-model:file-list="fileList" class="upload-demo" :action="action" :headers="headers" :limit="props.limit"
-    :on-success="handleSuccess" :on-remove="handleRemove" list-type="picture">
-    <el-button type="primary">sawzzxs;</el-button>
+  <el-upload
+    v-model:file-list="fileList"
+    class="upload-demo"
+    :action="action"
+    :headers="headers"
+    :limit="props.limit"
+    :on-success="handleSuccess"
+    :on-remove="handleRemove"
+    list-type="picture"
+  >
+    <el-button type="primary">上传图片</el-button>
     <template #tip>
-
       <div class="el-upload__tip" v-if="istip">可以上传{{ props.limit }}张图片</div>
     </template>
   </el-upload>

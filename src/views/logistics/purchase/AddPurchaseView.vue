@@ -3,9 +3,7 @@
   <el-card style="margin-top: 15px">
     <div style="margin: 10px 0">
       <el-button type="primary" @click="ingredient">选择食材</el-button>
-      <div class="quantity">
-        1
-      </div>
+      <div class="quantity">1</div>
     </div>
     <!-- 表格 -->
     <MayTable :tableData="data.AddData.foods" :tableItem="data.tableItem" :label="'采购数量'">
@@ -17,22 +15,24 @@
       </template>
     </MayTable>
     <div class="title-image">
-      <div>
-        合计：采购品种数{{ data.print }}，采购总成本：{{ data.totalPrices }} 元
-      </div>
+      <div>合计：采购品种数{{ data.print }}，采购总成本：{{ data.totalPrices }} 元</div>
       <div class="image">
         <el-form :model="data.AddData" label-width="auto">
-          <el-form-item class="item-form" label="请输入备注：" style="width: 400px;height: 100px;">
+          <el-form-item class="item-form" label="请输入备注：" style="width: 400px; height: 100px">
             <el-input v-model="data.AddData.remarks" type="textarea" placeholder="请输入" />
           </el-form-item>
-          <el-form-item label="期望到货日期" style="width: 300px;height: 80px;">
+          <el-form-item label="期望到货日期" style="width: 300px; height: 80px">
             <MayTimePicker @change="hoaldChange"></MayTimePicker>
           </el-form-item>
         </el-form>
       </div>
     </div>
   </el-card>
-  <AddIngredient v-if="dialogVisible" @close="haoldclose" @ingredient="hoaldIngredient"></AddIngredient>
+  <AddIngredient
+    v-if="dialogVisible"
+    @close="haoldclose"
+    @ingredient="hoaldIngredient"
+  ></AddIngredient>
   <div class="button-body">
     <el-button class="btn-body" @click="back">返回</el-button>
     <el-button type="primary" class="btn-body" @click="confirm">保存</el-button>
@@ -44,11 +44,15 @@ import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
 import { useRouter } from 'vue-router'
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
-import { postInspection } from '@/service/purchase/purchase'
-import type { IUserList } from '@/service/purchase/type'
+import { postInspection } from '@/service/purchase/purchaseApi'
+import type { IUserList } from '@/service/purchase/PurchaseType'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
-const AddIngredient = defineAsyncComponent(() => import('@/components/dialog/AddIngredientDialog.vue'))
-const MayTimePicker = defineAsyncComponent(() => import('@/components/timepicker/MayTimePicker.vue'))
+const AddIngredient = defineAsyncComponent(
+  () => import('@/components/dialog/AddIngredientDialog.vue')
+)
+const MayTimePicker = defineAsyncComponent(
+  () => import('@/components/timepicker/MayTimePicker.vue')
+)
 const router = useRouter()
 
 const data = reactive({
@@ -57,8 +61,8 @@ const data = reactive({
   totalPrices: 0,
   AddData: {
     receiveTime: null,
-    remarks:null,
-    foods:[] 
+    remarks: null,
+    foods: []
   } as IUserList,
   tableItem: [
     {
@@ -88,15 +92,12 @@ const data = reactive({
     {
       prop: 'purchasePrice',
       label: '采购价'
-    },
-
+    }
   ]
 })
 
-
 const del = async (id: any) => {
-  console.log(data);
-
+  console.log(data)
 
   let res = await getMessageBox('是否确认删除该采购申请', '删除后将不可恢复')
   if (res) {
@@ -106,7 +107,6 @@ const del = async (id: any) => {
   } else {
     ElMessage.info('取消删除')
   }
-
 }
 const back = () => {
   router.push('/dashboard/apply')
@@ -124,7 +124,6 @@ const haoldclose = (val: boolean) => {
   dialogVisible.value = val
   if (val == true) {
     dialogVisible.value = false
-
   }
 }
 const hoaldIngredient = (val: any) => {
@@ -135,26 +134,22 @@ const hoaldIngredient = (val: any) => {
   })
 }
 const hoaldChange = (val: any) => {
-
   data.AddData.receiveTime = val
-
 }
 
 const save = async () => {
   let res: any = await postInspection(data.AddData)
-  if(res.code==10000){
+  if (res.code == 10000) {
     router.push({
-      path:'/Examines',
-      query:{
-        id:res.data.id
+      path: '/Examines',
+      query: {
+        id: res.data.id
       }
     })
   }
 }
 
-onMounted(() => {
-
-})
+onMounted(() => {})
 </script>
 <style lang="less" scoped>
 .el-button {
@@ -172,7 +167,7 @@ onMounted(() => {
   line-height: 14px;
   text-align: center;
   font-size: 10px;
-  background-color: #fff849
+  background-color: #fff849;
 }
 
 .title-image {

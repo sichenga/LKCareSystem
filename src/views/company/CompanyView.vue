@@ -41,8 +41,8 @@ import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
 import { useRouter } from 'vue-router'
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
-import type { companylistParams } from '@/service/Organization/type'
-import { companylist, companydelete, companyget } from '@/service/Organization/Organization'
+import type { companylistParams } from '@/service/Organization/OrganizationType'
+import { companylist, companydelete, companyget } from '@/service/Organization/OrganizationApi'
 import { useUserStore } from '@/stores'
 import organizationDialog from '@/components/dialog/organizationDialog.vue'
 
@@ -98,7 +98,7 @@ const editId = ref(0)
 const SondAdd = () => {
   switch (userStore.model.type) {
     case 1:
-      router.push('/company/add')
+      router.push('/company/list/add')
       break
     case 2:
       isdialog.value = true
@@ -148,7 +148,7 @@ const amend = async (id: any) => {
   console.log('修改', res)
   switch (userStore.model.type) {
     case 1:
-      router.push(`/company/add?id=${id}`)
+      router.push(`/company/list/add?id=${id}`)
 
       break
     case 2:

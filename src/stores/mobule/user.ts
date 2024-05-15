@@ -81,10 +81,9 @@ export const useUserStore = defineStore(
           roleIds: null
         }
         sessionStorage.clear()
-
         router.push('/login')
       } else {
-        ElMessage.success('取消退出登录')
+        ElMessage.error('取消退出登录')
       }
       // sessionStorage.clear()
     }
