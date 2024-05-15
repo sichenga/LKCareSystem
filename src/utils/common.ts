@@ -96,7 +96,7 @@ const getRouter = (data?: any, tree: any = [], url: string = '') => {
             ]
           )
           const menu = {
-            path: `${ item.url}/${child.url}`,
+            path: `${url ? url + '/' : ''}${item.url}/${child.url}`,
             name: child.pathName + child.id,
             component:
               model[

@@ -1,8 +1,8 @@
 export interface companylistParams {
   page: number
   pageSize: number
-  key: string
-  name: string
+  key?: string
+  name?: string
 }
 //添加机构
 export interface companyaddParams {
