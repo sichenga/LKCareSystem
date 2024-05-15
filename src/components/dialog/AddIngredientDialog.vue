@@ -9,9 +9,10 @@
         status-icon
       >
         <MayTable @selection-change="handleSelectionChange" :tableData="data.tableData" :tableItem="data.tableItem" :isoperate='isoperate' :isMultiple='isMultiple' :label="'采购数量'">
-
+              
         </MayTable>
       </el-form>
+      <Pagination @psize="handlePsize" @page="handlePage" :page="params.page" :psize="params.pageSize" :total="params.total"></Pagination>
       <template #footer>
         <div class="dialog-footer">
           <el-button @click="close(false)">取消</el-button>
@@ -28,6 +29,7 @@
   import {useUserStore} from '@/stores/index'
   const useUser =  useUserStore()  
   const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
+  const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
   const isoperate = ref(false)
   const isMultiple = ref(true)
   const props = defineProps({
@@ -38,8 +40,10 @@
   })
 
   const params:Supplier=reactive({
-    pageSize:100,
+  
+    pageSize:5,
     page:1,
+    total:0,
   })
 
 
@@ -99,6 +103,16 @@
   }
   
 
+  // 分页
+  const handlePsize = (val:any)=>{
+      params.pageSize=val
+      gerFoodList()
+  }
+  const handlePage = (val:any)=>{
+      params.page=val
+      gerFoodList()
+  }
+
   const multipleSelection = ref<any[]>([])
 
   const handleSelectionChange = (val: any[]) => {
@@ -108,8 +122,8 @@
 
   const gerFoodList=async()=>{
     let res:any  = await FoodList(params)
-    console.log(res);
     if(res.code===10000){
+        params.total=res.data.counts
         data.tableData=res.data.list
     }
   }
