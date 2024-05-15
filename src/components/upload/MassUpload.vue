@@ -1,7 +1,14 @@
 <template>
-  <el-upload v-model:file-list="fileList" :limit="props.limit" :action="action" :headers="headers"
-    list-type="picture-card" :on-preview="handlePictureCardPreview" :on-remove="handleRemove"
-    :on-success="handleSuccess">
+  <el-upload
+    v-model:file-list="fileList"
+    :limit="props.limit"
+    :action="action"
+    :headers="headers"
+    list-type="picture-card"
+    :on-preview="handlePictureCardPreview"
+    :on-remove="handleRemove"
+    :on-success="handleSuccess"
+  >
     <el-icon>
       <Plus />
     </el-icon>
@@ -37,8 +44,7 @@ const props = defineProps({
   delete: {
     type: Boolean,
     default: true
-  },
-
+  }
 })
 // 数据回显
 watch(
@@ -71,16 +77,16 @@ const handleRemove: UploadProps['onRemove'] = (uploadFile: any) => {
   emit('uploadrem', uploadFile?.response?.data ?? uploadFile?.name)
 }
 
-const handleSuccess: UploadProps['onSuccess'] = (uploadFile: any,usser:any) => {
-  console.log(222777, uploadFile,usser)
+const handleSuccess: UploadProps['onSuccess'] = (uploadFile: any) => {
+  console.log(777, uploadFile)
   if (uploadFile.code === 10000) {
     emit('upload', uploadFile.data)
   }
 }
 
 const handlePictureCardPreview: UploadProps['onPreview'] = (uploadFile: any) => {
-  console.log(111111111,uploadFile);
-  
+  console.log(111111111, uploadFile)
+
   dialogImageUrl.value = uploadFile.url!
   dialogVisible.value = false
 }

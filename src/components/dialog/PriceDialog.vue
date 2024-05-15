@@ -33,9 +33,10 @@
 import { ref, reactive, defineEmits, defineProps, watch } from 'vue'
 import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
 import { ElMessage } from 'element-plus'
-import { foodpriceadd, foodpriceupdate } from '@/service/food/FoodApi'
-import moment from 'moment'
+import { foodpriceadd, foodpricelist, foodpriceupdate } from '@/service/food/FoodApi'
 import type { AddFoodPrice } from '@/service/food/FoodType'
+import moment from 'moment'
+const mons = moment
 const props = defineProps({
   priceid: {
     type: Number,

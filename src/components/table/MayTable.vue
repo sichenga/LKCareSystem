@@ -47,7 +47,7 @@
       </template>
       <!-- 日期格式 -->
       <template v-else-if="item.prop === 'updateTime'" v-slot="{ row }">
-        <span>{{ moment(row.updateTime).format('YYYY-MM-DD') }}</span>
+        <span>{{ mons(row.updateTime).format('YYYY-MM-DD') }}</span>
       </template>
     </el-table-column>
 
@@ -74,6 +74,7 @@ import { defineProps } from 'vue'
 import type { PropType } from 'vue'
 import type { TableItem } from '@/Type/table'
 import moment from 'moment'
+const mons = moment
 const props = defineProps({
   tableData: {
     type: Array,

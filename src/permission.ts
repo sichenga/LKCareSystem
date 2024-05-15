@@ -4,6 +4,8 @@ import { AddMenu } from '@/utils/common'
 // 路由守卫
 router.beforeEach((to) => {
   const userStore = useUserStore()
+  console.log('token', userStore.token)
+
   if (userStore.token) {
     console.log(router.getRoutes())
     const menu = AddMenu()
@@ -28,7 +30,16 @@ router.beforeEach((to) => {
     }
     // return true
   } else {
+    console.log(111111)
+    // 移除动态路由
+    // console.log(111111)
+    if (router.getRoutes().length > 3) {
+      router.removeRoute('dashboard')
+    }
+
     if (to.path == '/login') {
+      console.log(111111)
+
       return true
     } else {
       return '/login'
