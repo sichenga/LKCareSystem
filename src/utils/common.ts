@@ -90,12 +90,13 @@ const getRouter = (data?: any, tree: any = [], url: string = '') => {
           )
           console.log(
             child.name,
+            `${item.url}/${child.url}`,
             model[
               `../views/${url ? url + '/' : ''}${item.url}/${firstUpperCase(child.pathName)}View.vue`
             ]
           )
           const menu = {
-            path: `${url ? url : item.url}/${child.url}`,
+            path: `${ item.url}/${child.url}`,
             name: child.pathName + child.id,
             component:
               model[

@@ -19,7 +19,5 @@ export const putInspection = (params:any) => {
 }
 //  体检采购申请 
 export const postInspection = (data:IUserList) => {
-  console.log(111111,data);
-  
   return post('/api/purchase/add',data)
 }

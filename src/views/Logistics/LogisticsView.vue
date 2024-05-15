@@ -59,7 +59,8 @@
   })
   const params = ref<IUser>({
     page: 1,
-    pageSize: 10
+    pageSize: 10,
+    total:0,
   })
   const getlist = async() => {
     let res:any = await getPurchaseList(params.value)

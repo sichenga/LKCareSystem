@@ -57,6 +57,7 @@ import { useRouter } from 'vue-router'
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
 import {staffList,delstaff} from '@/service/staff/staff'
+import type {StaffType} from '@/service/staff/type'
 const router = useRouter();
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
@@ -115,10 +116,15 @@ const data = reactive({
         }
     ]
 })
+
+const states = ref<StaffType>({
+        page:1,
+        pageSize:5,
+})
+
 const getlist =async () => {
-    let res:any =await staffList()
+    let res:any =await staffList(states.value)
     console.log(res);
-    
     if(res.code==10000){
       data.tableData =  res.data.list
     }
@@ -126,7 +132,7 @@ const getlist =async () => {
 
 // 添加
 const add=(()=>{
-    router.push("/dashboard/compilestaff")
+    router.push("/dashboard/compilestaff")  
 })
 // 编辑
 const handleEdit = ((id: any) => {
@@ -152,8 +158,8 @@ const handleDelete = (async (id: any) => {
     let res = await getMessageBox('是否确认删除该员工', '删除后将不可恢复')
     console.log(11112, res)
     if (res) {
-        let res:any=delstaff(id)
-        if(res.code==10000){
+        let ids:any=delstaff(id)
+        if(ids.code==10000){
             getlist()
             ElMessage.success('删除成功')
         }
