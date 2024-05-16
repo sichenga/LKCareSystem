@@ -6,12 +6,7 @@ w
     <el-form :inline="true" :model="params" class="demo-form-inline">
       <el-form-item label="机构名称：">
         <el-select v-model="params.companyId" placeholder="请选择" clearable>
-          <el-option
-            v-for="(item, index) in data.companyId"
-            :key="index"
-            :label="item.name"
-            :value="item.id"
-          />
+          <el-option v-for="(item, index) in data.companyId" :key="index" :label="item.name" :value="item.id" />
         </el-select>
       </el-form-item>
       <el-form-item label="期望到货日期：">
@@ -43,13 +38,7 @@ w
       </template>
     </MayTable>
     <!-- 分页 -->
-    <Pagination
-      @page="page"
-      @psize="psize"
-      :total="data.total"
-      :page="params.page"
-      :psize="params.pageSize"
-    >
+    <Pagination @page="page" @psize="psize" :total="data.total" :page="params.page" :psize="params.pageSize">
     </Pagination>
   </el-card>
 </template>
@@ -108,7 +97,7 @@ const params = reactive<Purchase>({
 })
 // 采购申请列表
 const getlist = async () => {
-  const res: any = await PurchaseList(params).catch(() => {})
+  const res: any = await PurchaseList(params).catch(() => { })
   console.log('采购申请列表', res)
   if (res.code == 10000) {
     data.tableData = res.data.list
@@ -117,7 +106,7 @@ const getlist = async () => {
 }
 // 机构名称
 const getdata = async () => {
-  const res: any = await companylist({ page: 1, pageSize: 100 })
+  const res: any = await companylist({ page: 1, pageSize: 5 })
   console.log('机构名称', res)
   if (res.code == 10000) {
     data.companyId = res.data.list

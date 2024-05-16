@@ -13,17 +13,8 @@
       </template>
     </MayTable>
     <!-- 分页 -->
-
     <Pagination :total="total" :page="params.page" :psize="params.pageSize" @page="getpage" @psize="getpsize">
     </Pagination>
-
-    <Pagination
-      :total="total"
-      :page="params.page"
-      :psize="params.pageSize"
-      @page="getpage"
-      @psize="getpsize"
-    ></Pagination>
 
     <!-- 价格更新 -->
     <PriceDialog @close="close" v-if="isprice" :priceid="priceid"></PriceDialog>

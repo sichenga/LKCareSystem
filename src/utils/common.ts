@@ -1,7 +1,8 @@
 import { useUserStore } from '@/stores'
-
 const model = import.meta.glob('../views/**/*.vue')
 console.log(6666,model['../views/login/LoginViews.vue'])
+
+
 // 动态路由
 export const AddMenu = () => {
   const userStore = useUserStore()
@@ -101,7 +102,10 @@ const getRouter = (data?: any, tree: any = [], url: string = '') => {
             component:
               model[
                 `../views/${url ? url + '/' : ''}${item.url.includes('branch') ? 'company' : item.url}/${firstUpperCase(child.pathName)}View.vue`
-              ]
+              ],
+            meat: {
+              title: child.name
+            }
           }
           tree.push(menu)
           // console.log(item.name, menu)

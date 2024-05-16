@@ -4,7 +4,7 @@
     type="datetime"
     placeholder="请选择"
     format="YYYY/MM/DD hh:mm"
-    value-format="YYYY-MM-DD h:m"
+    value-format="YYYY-MM-DD"
     editable
     :size="props.size"
     @change="handleChange"
@@ -21,7 +21,7 @@ const props = defineProps({
 const emit = defineEmits(['change'])
 const time = ref('')
 const handleChange = (val: any) => {
-  console.log(val)
+  console.log('年月日',val)
   emit('change', val)
 }
 </script>

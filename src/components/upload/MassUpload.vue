@@ -17,7 +17,9 @@
 import { ref, defineEmits, watch, defineProps } from 'vue'
 import type { PropType } from 'vue'
 import { Plus } from '@element-plus/icons-vue'
+
 const action = import.meta.env.VITE_BASE_UPLOAD_ADD || ''
+
 const emit = defineEmits(['upload', 'uploadrem'])
 const headers = {
   Authorization: sessionStorage.getItem('token') || ''
@@ -48,6 +50,7 @@ watch(
   { deep: true }
 )
 const fileList = ref<UploadUserFile[]>([])
+
 // 是否清除数据
 watch(
   () => props.delete,
@@ -69,14 +72,14 @@ const handleRemove: UploadProps['onRemove'] = (uploadFile: any) => {
 
 const handleSuccess: UploadProps['onSuccess'] = (uploadFile: any) => {
   console.log(777, uploadFile)
-  if (uploadFile.errCode === 10000) {
+  if (uploadFile.code === 10000) {
     emit('upload', uploadFile.data)
   }
 }
 
 const handlePictureCardPreview: UploadProps['onPreview'] = (uploadFile: any) => {
-  console.log(111111111,uploadFile);
-  
+  console.log(111111111, uploadFile)
+
   dialogImageUrl.value = uploadFile.url!
   dialogVisible.value = false
 }

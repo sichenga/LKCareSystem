@@ -17,7 +17,7 @@
       :label="item.label"
       :width="item.width"
     >
-      <template v-if="item.prop == 'image' && props.identifier === 'Workers'" v-slot="{ row }">
+      <template v-if="item.prop == 'photo' && props.identifier === 'StaffView'" v-slot="{ row }">
         <el-image style="width: 50px; height: 50px" :src="row.image" /> <span></span>
       </template>
 
@@ -47,7 +47,7 @@
       </template>
       <!-- 日期格式 -->
       <template v-else-if="item.prop === 'updateTime'" v-slot="{ row }">
-        <span>{{ moment(row.updateTime).format('YYYY-MM-DD') }}</span>
+        <span>{{ mons(row.updateTime).format('YYYY-MM-DD') }}</span>
       </template>
     </el-table-column>
 
@@ -73,8 +73,8 @@
 import { defineProps } from 'vue'
 import type { PropType } from 'vue'
 import type { TableItem } from '@/Type/table'
-
-
+import moment from 'moment'
+const mons = moment
 const props = defineProps({
   tableData: {
     type: Array,
