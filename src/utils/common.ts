@@ -4,7 +4,6 @@ console.log(model)
 // 动态路由
 export const AddMenu = () => {
   const userStore = useUserStore()
-
   // 添加菜单
   console.log(userStore.auth)
   return getRouter(userStore.auth)
@@ -110,7 +109,7 @@ const getRouter = (data?: any, tree: any = [], url: string = '') => {
           // console.log(item.name, menu)
         }
       })
-      console.log(item.name, item.url)
+      // console.log(item.name, item.url)
       if (item.children) {
         getRouter(item.children, tree, item.url)
       }

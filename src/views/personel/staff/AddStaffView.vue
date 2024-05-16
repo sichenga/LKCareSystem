@@ -1,5 +1,5 @@
 <template>
-    <!-- 新增员工 -->
+    <!-- 新增员工 编辑 -->
     <div class="box">
         <el-form ref="ruleFormRef" style="max-width: 600px" :model="ruleForm" :rules="rules" label-width="auto"
             class="demo-ruleForm" :size="formSize" status-icon>
@@ -17,14 +17,13 @@
             </el-form-item>
             <el-form-item label="所属部门:" prop="departmentId">
                 <el-select v-model="ruleForm.departmentId" placeholder="请选择">
-                    <el-option label="Zone one" value="shanghai" />
-                    <el-option label="Zone two" value="beijing" />
+                    <el-option v-for="item in departmentData" :key="item.id" :label="item.name" :value="item.id" />
+
                 </el-select>
             </el-form-item>
-            <el-form-item label="所属岗位:" prop="isCarer">
-                <el-select v-model="ruleForm.isCarer" placeholder="请选择">
-                    <el-option label="Zone one" value="shanghai" />
-                    <el-option label="Zone two" value="beijing" />
+            <el-form-item label="所属岗位:">
+                <el-select v-model="ruleForm.roles" multiple placeholder="请选择所属岗位" style="width: 240px">
+                    <el-option v-for="item in Roles" :key="item.id" :label="item.name" :value="item.id" />
                 </el-select>
             </el-form-item>
             <el-form-item label="账号:" prop="adminUserName">
@@ -33,28 +32,32 @@
             <el-form-item label="密码:" prop="adminPwd">
                 <el-input v-model="ruleForm.adminPwd" placeholder="请输入密码" />
             </el-form-item>
-            <el-form-item label="是否护工:" prop="enable">
-                <el-radio-group v-model="ruleForm.enable">
-                    <el-radio value="1">是</el-radio>
-                    <el-radio value="2">否</el-radio>
+            <el-form-item label="是否护工:" prop="isCarer">
+                <el-radio-group v-model="ruleForm.isCarer">
+                    <el-radio :value="1">是</el-radio>
+                    <el-radio :value="2">否</el-radio>
                 </el-radio-group>
             </el-form-item>
         </el-form>
     </div>
     <div class="button">
-        <el-button @click="resetForm(ruleFormRef)">取消</el-button>
+        <el-button @click="resetForm">取消</el-button>
         <el-button type="primary" @click="submitForm(ruleFormRef)">
             确定
         </el-button>
     </div>
 </template>
 <script lang='ts' setup>
-import { reactive, toRefs, ref, onMounted,defineAsyncComponent } from 'vue'
-import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
-import { useRouter } from 'vue-router'
-import type {RuleForm} from '@/service/staff/type'
+import { reactive, toRefs, ref, onMounted, defineAsyncComponent } from 'vue'
+import type{ ComponentSize, FormInstance, FormRules } from 'element-plus'
+import { ElMessage } from 'element-plus'
+import { useRoute, useRouter } from 'vue-router'
+import type { RuleForm } from '@/service/staff/StaffType'
+import { staffAdd, departmentList, staffId, updateList } from '@/service/staff/StaffApi'
+import { RoleList } from '@/service/role/RoleApi'
+const route = useRoute()
 
-import  {staffAdd} from '@/service/staff/staff'
+
 const router = useRouter();
 const AvatarUpload = defineAsyncComponent(() => import('@/components/upload/AvatarUpload.vue'))
 
@@ -64,11 +67,11 @@ const ruleForm = reactive<RuleForm>({
     photo: "1.jpg",
     name: "", //姓名
     mobile: "", //手机号
-    isCarer: null, //所属岗位
+    enable: null, //是否禁用
     departmentId: null, //部门id
     adminUserName: "", //用户名
     adminPwd: "", //密码
-    enable: null, //是否
+    isCarer: null, //是否护工
     idCard: "", //身份证
     roles: [] //角色
 })
@@ -95,39 +98,104 @@ const rules = reactive<FormRules<RuleForm>>({
             trigger: 'change',
         },
     ],
-    enable: [
+    isCarer: [
         {
             required: true,
             message: '是否护工',
             trigger: 'change',
         },
     ],
-    isCarer: [
-        {
-            required: true,
-            message: '请选择所属岗位',
-            trigger: 'change',
-        },
-    ],
+
 })
+
+const resetForm = () => {
+    router.push({
+        path: "/personel/staff"
+    })
+}
+//所属部门
+const departmentData: any = ref([])
+const partmentList = async () => {
+    let res: any = await departmentList()
+    if (res.code === 10000) {
+        departmentData.value = res.data.list
+    }
+}
+//所属岗位
+const Roles: any = ref([])
+const RoleListData = async () => {
+    let res: any = await RoleList()
+    if (res.code) {
+        Roles.value = res.data.list
+    }
+}
+
+// 根据id获取单挑数据
+const staffIds = async () => {
+    if (route.query.id) {
+        let ids = Number(route.query.id)
+        let res: any = await staffId(ids).catch(()=>{})
+        console.log(res);
+        
+        if (res?.code === 10000) {
+            Object.assign(ruleForm, res.data)
+            ruleForm.roles=res.data.roles.map((item:any)=>(item.id))
+        }
+    }
+
+}
+
+// 提交
 const submitForm = async (formEl: FormInstance | undefined) => {
     if (!formEl) return
     await formEl.validate(async (valid, fields) => {
         if (valid) {
-            let res:any=await staffAdd(ruleForm)
-            console.log(res);
             
+            ruleForm.roles=ruleForm.roles.map((item:any)=>({id:item}))
+            if (route.query.id) {
+                //修改员工
+                let res: any = await updateList(ruleForm)
+                console.log(res);
+                if(res.code==10000){
+
+                    router.push({
+                        path: '/personel/staff'
+                    })
+                    ElMessage.success({
+                        message: '修改成功',
+                        type: 'success'
+                    })
+                }
+            } else {
+                //添加员工
+                let res: any = await staffAdd(ruleForm)
+
+                if (res.code == 10000) {
+                    router.push({
+                        path: '/personel/staff'
+                    })
+                    ElMessage.success({
+                        message: '添加成功',
+                        type: 'success'
+                    })
+                }
+            }
+
         } else {
             console.log('error submit!', fields)
         }
     })
 }
-
-const resetForm = (formEl: FormInstance | undefined) => {
-    if (!formEl) return
-    formEl.resetFields()
+// api接口
+const Api=()=>{
+    partmentList()//所属部门
+    RoleListData()//所属岗位
+    staffIds()//根据id获取单挑数据
 }
 
+onMounted(() => {
+    Api()
+})
 </script>
 
 <style scoped lang="less">

@@ -19,10 +19,9 @@
 <script lang="ts" setup>
 import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
 import { useRouter } from 'vue-router'
-import AffiliatedView from '@/database/AffiliatedView.json'
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
-import { getPurchaseList } from '@/service/purchase/purchase'
+import { getPurchaseList } from '@/service/purchase/PurchaseApi'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
 const reteor = useRouter()
@@ -43,7 +42,7 @@ const data = reactive({
     },
 
     {
-      prop: 'foods',
+      prop: 'counts',
       label: '品种'
     },
     {
@@ -59,7 +58,7 @@ const data = reactive({
 const states = ref({
   page: 1,
   pageSize: 5,
-  total: 0,
+  total: 0
 })
 // 列表
 const getlist = async () => {
@@ -68,7 +67,6 @@ const getlist = async () => {
     states.value.total = res.data.counts
     data.tableData = res.data.list
   }
-
 }
 // 分页
 const pageChenge = (val: any) => {
@@ -91,7 +89,7 @@ const del = async () => {
 }
 // 创建采购申请
 const sond = () => {
-  reteor.push('/logistics/add')
+  reteor.push('/logistics/purchase/add')
 }
 // 编辑采购申请
 const edit = () => {
@@ -99,12 +97,12 @@ const edit = () => {
 }
 //收货验货
 const delivery = (id: number) => {
-  reteor.push('/logistics/details/' + id)
+  reteor.push('/logistics/purchase/details/' + id)
 }
 // 查看详情
 const getifno = (id: any) => {
   reteor.push({
-    path: '/logistics/check',
+    path: '/logistics/purchase/check',
     query: {
       id: id
     }

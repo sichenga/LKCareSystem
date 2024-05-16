@@ -50,7 +50,7 @@ const data = reactive({
     {
       prop: 'address',
       label: '用药品种数'
-    },
+    }
   ]
 })
 const getlist = () => {
@@ -61,7 +61,7 @@ const getlist = () => {
 
 // 用药计划设置
 const projectinfo = () => {
-  router.push('/dashboard/projectinfo')
+  router.push('/medicalcare/medicineplan/planset')
 }
 
 // 删除

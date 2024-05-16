@@ -3,19 +3,19 @@
     <div class="body-size">
       <div>
         <div>创建时间：</div>
-        <div>{{ data.titleData.addTime}}</div>
+        <div>{{ data.titleData.addTime }}</div>
       </div>
       <div>
         <div>申请人：</div>
-        <div>{{ data.titleData.addAccountName}}</div>
+        <div>{{ data.titleData.addAccountName }}</div>
       </div>
       <div>
         <div>品种数：</div>
-        <div>{{ data.titleData.counts}}</div>
+        <div>{{ data.titleData.counts }}</div>
       </div>
       <div>
         <div>实际采购成本：</div>
-        <div>{{ data.titleData.addAccountId}}</div>
+        <div>{{ data.titleData.addAccountId }}</div>
       </div>
     </div>
     <!-- 表格 -->
@@ -25,14 +25,14 @@
       :label="'采购实际数量'"
       :isoperate="isshou"
     >
-      <template #custom="data">
-        <el-input v-model="data.data.creators" style="width: 130px"></el-input>
+      <template #custom="{data}">
+        <el-input v-model="data.receiveCounts" style="width: 130px"></el-input>
       </template>
     </MayTable>
     <div class="title-image">
       <div>到货凭证</div>
       <div class="image">
-        <AvatarUpload></AvatarUpload>
+        <AvatarUpload @upload="uploadImage"></AvatarUpload>
       </div>
     </div>
   </el-card>
@@ -43,15 +43,15 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
-import { useRouter,useRoute } from 'vue-router'
-import AffiliatedView from '@/database/AffiliatedView.json'
-import {getPurchase,getpurchaseFoods,putInspection} from '@/service/purchase/purchase'
+import { useRouter, useRoute } from 'vue-router'
+
+import { getPurchase, getpurchaseFoods, putInspection } from '@/service/purchase/PurchaseApi'
 
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const AvatarUpload = defineAsyncComponent(() => import('@/components/upload/AvatarUpload.vue'))
 const router = useRouter()
 const route = useRoute()
-// console.log('route',route.params.id);
+
 
 const data = reactive({
   tableData: [] as any,
@@ -62,7 +62,7 @@ const data = reactive({
       label: '序号'
     },
     {
-      prop: 'foodName',
+      prop: 'name',
       label: '物料名称'
     },
     {
@@ -74,11 +74,11 @@ const data = reactive({
       label: '供应商'
     },
     {
-      prop: 'sellPrice',
+      prop: 'wholePrice',
       label: '批发价'
     },
     {
-      prop: 'purchasePrice',
+      prop: 'sellPrice',
       label: '零售价'
     },
     {
@@ -93,49 +93,54 @@ const data = reactive({
 })
 const isshou = ref(false)
 
-const getlist =async () => {
+const getlist = async () => {
   let ids = Number(route.params.id)
-  let res:any=await getpurchaseFoods(ids)
-  console.log(res);
-  if(res.code==10000){
-    data.tableData=res.data.list
+  let res: any = await getpurchaseFoods(ids)
+  if (res.code == 10000) {
+    data.tableData = res.data.list
   }
 }
 
-const getPur=async ()=>{
+const getPur = async () => {
   let ids = Number(route.params.id)
-  let res:any=await getPurchase(ids)
+  let res: any = await getPurchase(ids)
+  if (res.code == 10000) {
+    data.titleData = res.data
+  }
+}
+
+ let ids = Number(route.params.id)
+const params = reactive({
+    id: ids,
+    picture: '',
+    foods: []
+  })
+
+const uploadImage = (val:any)=>{
+
+  params.picture=val
+
+}
+
+const confirm = async () => {
+  params.foods = data.tableData.map((item: any) => ({
+    id: item.id,
+    receiveCounts: item.receiveCounts
+  }))
+  let res: any = await putInspection(params)
   console.log(res);
   
-  if(res.code==10000){
-    data.titleData=res.data
+  if (res.code == 10000) {
+    router.push('/logistics/purchase')
   }
 }
 
-const confirm =async () => {
-  const params = {
-        id:data.titleData.id,
-        picture:'99.png',
-        foods:[]
-      }
-
-      params.foods=data.tableData.map((item:any)=>({
-        id:item.id,
-        receiveCounts:item.receiveCounts
-      }))
-      let res:any=await putInspection(params)
-      console.log('收货验货',res);
-      if(res.code==10000){
-        router.push('/logistics/purchase')
-      }
-      
-}
 const goback = () => {
   router.push('/logistics/purchase')
 }
 onMounted(() => {
   getPur() //根据id获取单条采购申请信息
-  getlist()//根据采购id获取采购物品列表
+  getlist() //根据采购id获取采购物品列表
 })
 </script>
 <style lang="less" scoped>

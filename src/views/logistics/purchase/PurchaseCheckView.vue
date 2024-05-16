@@ -34,24 +34,25 @@
       <div class="image">
         <el-image
           style="width: 100px; height: 100px"
-          :src="data.TatleData.picture ? data.TatleData.picture : ''"
+          :src="data.TatleData.picture ? ImageUrls+data.TatleData.picture : ''"
           fit="cover"
         />
       </div>
     </div>
   </el-card>
   <div class="button-body">
-    <el-button class="btn-body" @click="router.push('/dashboard/apply')">返回</el-button>
+    <el-button class="btn-body" @click="router.push('/logistics/purchase')">返回</el-button>
   </div>
 </template>
 <script lang="ts" setup>
 import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { getPurchase, getpurchaseFoods } from '@/service/purchase/purchaseApi'
+import { getPurchase, getpurchaseFoods } from '@/service/purchase/PurchaseApi'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const router = useRouter()
 const route = useRoute()
-console.log(route.query.id)
+//图片后缀路径
+const ImageUrls = import.meta.env.VITE_BASE_URL+'/' || ''
 
 const data = reactive({
   tableData: [] as any,
@@ -62,7 +63,7 @@ const data = reactive({
       label: '序号'
     },
     {
-      prop: 'foodName',
+      prop: 'name',
       label: '物料名称'
     },
     {
@@ -74,15 +75,15 @@ const data = reactive({
       label: '供应商'
     },
     {
-      prop: 'sellPrice',
+      prop: 'wholePrice',
       label: '批发价'
     },
     {
-      prop: 'purchasePrice',
+      prop: 'sellPrice',
       label: '零售价'
     },
     {
-      prop: 'purchaseId',
+      prop: 'purchasePrice',
       label: '采购价'
     },
     {
@@ -96,14 +97,18 @@ const data = reactive({
   ]
 })
 
+
+//根据id获取单条采购申请信息
 const isshou = ref(false)
 const getlist = async () => {
   let id = Number(route.query.id)
   let res: any = await getPurchase(id)
+
   if (res.code == 10000) {
     data.TatleData = res.data
   }
 }
+// 根据采购id获取采购物品列表
 const getData = async () => {
   let id = Number(route.query.id)
   let res: any = await getpurchaseFoods(id)
@@ -111,9 +116,9 @@ const getData = async () => {
     data.tableData = res.data.list
   }
 }
-onMounted(async () => {
-  await getlist()
-  await getData()
+onMounted( () => {
+   getlist()//根据id获取单条采购申请信息
+   getData()// 根据采购id获取采购物品列表
 })
 </script>
 <style lang="less" scoped>

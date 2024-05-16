@@ -106,7 +106,7 @@ const tesklist = () => {
 }
 // 跳转详情
 const taskinfo = () => {
-  router.push('/task/details/2')
+  router.push('/task/spectaculars/details/1')
 }
 onMounted(() => {
   tesklist()
