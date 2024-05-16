@@ -99,7 +99,7 @@ const getRouter = (data?: any, tree: any = [], url: string = '') => {
             name: child.pathName + child.id,
             component:
               model[
-                `../views/${url ? url + '/' : ''}${item.url.includes('branch') ? 'company' : item.url}/${firstUpperCase(child.pathName)}View.vue`
+                `../views/${url ? url + '/' : ''}${item.url.includes('branch') ? 'company' : item.url}/${child.pathName}View.vue`
               ],
             meat: {
               title: child.name

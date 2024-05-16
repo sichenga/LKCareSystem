@@ -19,7 +19,7 @@
 <script lang="ts" setup>
 import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
 import { useRouter } from 'vue-router'
-import AffiliatedView from '@/database/AffiliatedView.json'
+
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
 import { getPurchaseList } from '@/service/purchase/PurchaseApi'

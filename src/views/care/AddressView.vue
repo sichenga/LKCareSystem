@@ -12,12 +12,19 @@
         <el-button type="primary" text @click="del">删除</el-button>
       </template>
     </MayTable>
-    <Pagination :total="50"></Pagination>
+    <Pagination
+      :total="total"
+      :page="params.page"
+      :psize="params.pageSize"
+      @page="getpage"
+      @psize="getpsize"
+    ></Pagination>
   </el-card>
 </template>
 <script lang="ts" setup>
 import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
-import AffiliatedView from '@/database/AffiliatedView.json'
+import { addresslist } from '@/service/address/AddressApi'
+import type { AddressList } from '@/service/address/AddressType'
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
 import LocationDialog from '@/components/dialog/LocationDialog.vue'
@@ -37,15 +44,24 @@ const data = reactive({
       label: '巡检地点'
     },
     {
-      prop: 'address',
+      prop: 'qrcode',
       label: '二维码'
     }
   ]
 })
-const getlist = () => {
-  setTimeout(() => {
-    data.tableData = AffiliatedView
-  }, 1000)
+const total = ref(0)
+const params = reactive<AddressList>({
+  page: 1,
+  pageSize: 5
+})
+// 地址管理
+const getlist = async () => {
+  let res: any = await addresslist(params).catch(() => {})
+  console.log('地址列表', res)
+  if (res?.code === 10000) {
+    total.value = res.data.counts
+    data.tableData = res.data.list
+  }
 }
 // 关闭弹窗
 const close = () => {
@@ -60,6 +76,15 @@ const del = async () => {
   } else {
     ElMessage.info('取消删除')
   }
+}
+// 分页
+const getpage = (page: number) => {
+  params.page = page
+  getlist()
+}
+const getpsize = (pageSize: number) => {
+  params.pageSize = pageSize
+  getlist()
 }
 onMounted(() => {
   getlist()

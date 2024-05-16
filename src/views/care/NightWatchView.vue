@@ -1,13 +1,14 @@
 <template>
   <!-- 夜巡管理 -->
   <el-card>
+    <AddNightDialog v-if="isdialog" @close="close"></AddNightDialog>
     <el-form :inline="true" :model="formInline" class="demo-form-inline">
       <el-form-item label="上报人：">
-        <el-input v-model="formInline.user" placeholder="请输入" clearable />
+        <el-input v-model="formInline.name" placeholder="请输入" clearable />
       </el-form-item>
       <el-form-item label="巡检地址：">
         <el-select
-          v-model="formInline.region"
+          v-model="formInline.address"
           clearable
           placeholder="请选择"
           style="width: 240px"
@@ -15,18 +16,18 @@
         >
           <el-option
             v-for="item in data.sitelist"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
           />
         </el-select>
       </el-form-item>
       <el-form-item label="巡检上报时间：">
-        <TimePicker></TimePicker>
+        <TimePicker @change="timechange"></TimePicker>
       </el-form-item>
       <el-form-item label="巡检状态：">
         <el-select
-          v-model="formInline.region"
+          v-model="formInline.state"
           clearable
           placeholder="请选择"
           style="width: 240px"
@@ -41,7 +42,7 @@
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary">查询</el-button>
+        <el-button type="primary" @click="search">查询</el-button>
         <el-button>重置</el-button>
       </el-form-item>
     </el-form>
@@ -49,27 +50,39 @@
   <el-card style="margin-top: 15px">
     <div style="margin: 10px 0">
       <el-button type="primary">EXCEL导出</el-button>
+      <el-button type="primary" @click="add">增加</el-button>
       <el-button @click="location">地址管理</el-button>
     </div>
     <!-- 表格 -->
-    <MayTable :tableData="data.tableData" :tableItem="data.tableItem" :isoperate="false">
+    <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
+      <template #operate="{ data }">
+        <el-button text type="primary" @click="del(data.id)">删除</el-button>
+      </template>
     </MayTable>
     <Pagination :total="50"></Pagination>
   </el-card>
 </template>
 <script lang="ts" setup>
 import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
-import AffiliatedView from '@/database/AffiliatedView.json'
-
+import { ElMessage } from 'element-plus'
+import { patrolList, patrolDelete } from '@/service/patrol/PatrolApi'
+import { addresslist } from '@/service/address/AddressApi'
+import type { PatrolList, AddressSelect } from '@/service/patrol/PatrolType'
+import { getMessageBox } from '@/utils/utils'
 import { useRouter } from 'vue-router'
 const router = useRouter()
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
 const TimePicker = defineAsyncComponent(() => import('@/components/timepicker/MayTimePicker.vue'))
-const formInline = reactive({
-  user: '',
-  region: '',
-  date: ''
+const AddNightDialog = defineAsyncComponent(() => import('@/components/dialog/AddNightDialog.vue'))
+const formInline = reactive<PatrolList>({
+  page: 1,
+  pageSize: 5,
+  name: '',
+  address: '',
+  state: undefined,
+  beginDate: '',
+  endDate: ''
 })
 const isdialog = ref(false)
 const data = reactive({
@@ -80,40 +93,93 @@ const data = reactive({
       label: '序号'
     },
     {
-      prop: 'name',
+      prop: 'address',
       label: '巡检地点'
     },
     {
-      prop: 'address',
+      prop: 'addTime',
       label: '巡检上报时间'
     },
     {
-      prop: 'manager',
+      prop: 'staffName',
       label: '上报人'
     },
     {
-      prop: 'phone',
+      prop: 'state',
       label: '巡检状态'
     },
     {
-      prop: 'username',
+      prop: 'comment',
       label: '巡检记录'
     }
   ],
-  sitelist: [] as any,
+  sitelist: [] as Array<AddressSelect>,
   statelist: [] as any
 })
-const getlist = () => {
-  setTimeout(() => {
-    data.tableData = AffiliatedView
-  }, 1000)
+// 获取列表
+const getlist = async () => {
+  let res: any = await patrolList(formInline).catch(() => {})
+  console.log('夜巡列表', res)
+  if (res?.code === 10000) {
+    data.tableData = res.data.list
+  }
+}
+// 搜索
+const search = () => {
+  formInline.page = 1
+  getlist()
+}
+
+// 选择时间
+const timechange = (val: string) => {
+  console.log(val)
+
+  formInline.endDate = val
+}
+
+// 地址列表
+const getaddresslist = async () => {
+  let res: any = await addresslist()
+  console.log('地址列表', res)
+  if (res?.code === 10000) {
+    data.sitelist = res.data.list
+  }
 }
 
 // 跳转地址管理
 const location = () => {
   router.push('/care/Address')
 }
+// 增加
+const add = () => {
+  isdialog.value = true
+}
+
+// 关闭弹窗
+const close = (isclose: boolean) => {
+  if (isclose == true) {
+    getlist()
+  }
+  isdialog.value = false
+}
+// 删除
+const del = async (id: number) => {
+  console.log(id)
+  let box = await getMessageBox('是否确认删除该条记录', '删除后将不可恢复')
+
+  if (box) {
+    let res: any = await patrolDelete(id).catch(() => {})
+    console.log('删除', res)
+    if (res?.code === 10000) {
+      ElMessage.success('删除成功')
+      getlist()
+    }
+  } else {
+    ElMessage.info('取消删除')
+  }
+}
 onMounted(() => {
+  getaddresslist()
   getlist()
 })
 </script>
