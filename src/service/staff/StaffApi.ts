@@ -1,7 +1,7 @@
 import { get, del, post, put } from '@/utils/request'
-import type { AddDepartmentParams, UpdateDepartmentParams } from './StaffType'
+import type { AddDepartmentParams, UpdateDepartmentParams, StaffListParams } from './StaffType'
 // 员工列表
-export const staffList = () => get('/api/staff/list')
+export const staffList = (params: StaffListParams) => get('/api/staff/list', params)
 
 // 删除员工
 export const delstaff = (id: number) => del('/api/staff/delete/' + id)

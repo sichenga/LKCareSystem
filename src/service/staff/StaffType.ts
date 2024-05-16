@@ -20,3 +20,8 @@ export interface DepartmentListParams {
   pid: number
   children?: Array<DepartmentListParams>
 }
+// 员工列表
+export interface StaffListParams {
+  page:number
+  pageSize:number
+}

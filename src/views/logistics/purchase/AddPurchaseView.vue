@@ -44,7 +44,7 @@ import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
 import { useRouter } from 'vue-router'
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
-import { postInspection } from '@/service/purchase/purchaseApi'
+import { postInspection } from '@/service/purchase/PurchaseApi'
 import type { IUserList } from '@/service/purchase/PurchaseType'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const AddIngredient = defineAsyncComponent(
@@ -108,11 +108,13 @@ const del = async (id: any) => {
     ElMessage.info('取消删除')
   }
 }
+// 返回
 const back = () => {
-  router.push('/dashboard/apply')
+  router.push('/logistics/purchase')
 }
+// 保存
 const confirm = () => {
-  router.push('/dashboard/apply')
+  router.push('/logistics/purchase')
 }
 
 const dialogVisible = ref(false)

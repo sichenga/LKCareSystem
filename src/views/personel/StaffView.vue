@@ -56,90 +56,88 @@ import { reactive, toRefs, ref, onMounted, defineAsyncComponent } from 'vue'
 import { useRouter } from 'vue-router'
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
-import {staffList,delstaff} from '@/service/staff/staff'
-import type {StaffType} from '@/service/staff/type'
-const router = useRouter();
+import { staffList, delstaff } from '@/service/staff/StaffApi'
+import type { StaffListParams } from '@/service/staff/StaffType'
+const router = useRouter()
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
 
 const identifier = 'StaffView'
 const data = reactive({
-    tableData: [] as any,
-    tableItem: [
-        {
-            prop: 'id',
-            label: '序号'
-        },
-        {
-            prop: 'photo',
-            label: '头像'
-        },
-        {
-            prop: 'name',
-            label: '姓名'
-        },
-        {
-            prop:'mobile',
-            label: '联系方式'
-        },
-        {
-            prop: 'idCard',
-            label: '身份证号'
-        },
-        {
-            prop: 'departmentId',
-            label: '所属部门'
-        },
-        {
-            prop: 'companyId',
-            label: '所属岗位'
-        },
-        {
-            prop: 'account',
-            label: '账号'
-        },
-        {
-            prop: 'password',
-            label: '密码'
-        },
-        {
-            prop: 'isCarer',
-            label: '创建人',
-        },
-        {
-            prop: 'creation',
-            label: '创建日期',
-        },
-        {
-            prop: 'state',
-            label: '状态'
-        }
-    ]
-})
-
-const states = ref<StaffType>({
-        page:1,
-        pageSize:5,
-})
-
-const getlist =async () => {
-    let res:any =await staffList(states.value)
-    console.log(res);
-    if(res.code==10000){
-      data.tableData =  res.data.list
+  tableData: [] as any,
+  tableItem: [
+    {
+      prop: 'id',
+      label: '序号'
+    },
+    {
+      prop: 'photo',
+      label: '头像'
+    },
+    {
+      prop: 'name',
+      label: '姓名'
+    },
+    {
+      prop: 'mobile',
+      label: '联系方式'
+    },
+    {
+      prop: 'idCard',
+      label: '身份证号'
+    },
+    {
+      prop: 'departmentId',
+      label: '所属部门'
+    },
+    {
+      prop: 'companyId',
+      label: '所属岗位'
+    },
+    {
+      prop: 'account',
+      label: '账号'
+    },
+    {
+      prop: 'password',
+      label: '密码'
+    },
+    {
+      prop: 'isCarer',
+      label: '创建人'
+    },
+    {
+      prop: 'creation',
+      label: '创建日期'
+    },
+    {
+      prop: 'state',
+      label: '状态'
     }
+  ]
+})
 
+const states = ref<StaffListParams>({
+  page: 1,
+  pageSize: 5
+})
+
+const getlist = async () => {
+  let res: any = await staffList(states.value)
+  console.log(res)
+  if (res.code == 10000) {
+    data.tableData = res.data.list
+  }
 }
 
-
 // 添加
-const add=(()=>{
-    router.push("/dashboard/compilestaff")
-})
+const add = () => {
+  router.push('/personel/staff/add')
+}
 // 编辑
 const handleEdit = (id: any) => {
   console.log('编辑', id)
-  router.push('/dashboard/compilestaff')
+  router.push('/personel/staff/add')
 }
 //  禁用
 const enable = async () => {
