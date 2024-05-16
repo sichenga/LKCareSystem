@@ -8,7 +8,7 @@
         :size="formSize"
         status-icon
       >
-        <MayTable @selection-change="handleSelectionChange" :tableData="data.tableData" :tableItem="data.tableItem" :isoperate='isoperate' :isMultiple='isMultiple' :label="'采购数量'">
+        <MayTable @selection-change="handleSelectionChange" :tableData="data.tableData" :tableItem="data.tableItem" :isoperate='isoperate' :isMultiple='isMultiple' >
               
         </MayTable>
       </el-form>
@@ -55,7 +55,7 @@
       label: '序号'
     },
     {
-      prop: 'foodName',
+      prop: 'name',
       label: '物料名称'
     },
     {
@@ -67,15 +67,15 @@
       label: '供应商'
     },
     {
-      prop: 'sellPrice',
+      prop: 'wholePrice',
       label: '批发价'
     },
     {
-      prop: 'purchasePrice',
+      prop: 'sellPrice',
       label: '零售价'
     },
     {
-      prop: 'purchaseCounts',
+      prop: 'purchasePrice',
       label: '采购价'
     },
 

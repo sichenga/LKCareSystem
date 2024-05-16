@@ -18,7 +18,7 @@
       :width="item.width"
     >
       <template v-if="item.prop == 'photo' && props.identifier === 'StaffView'" v-slot="{ row }">
-        <el-image style="width: 50px; height: 50px" :src="row.image" /> <span></span>
+        <el-image style="width: 50px; height: 50px" :src="upload+row.photo" /> <span></span>
       </template>
 
       <template
@@ -74,6 +74,7 @@ import { defineProps } from 'vue'
 import type { PropType } from 'vue'
 import type { TableItem } from '@/Type/table'
 import moment from 'moment'
+const upload=import.meta.env.VITE_BASE_URL
 const mons = moment
 const props = defineProps({
   tableData: {

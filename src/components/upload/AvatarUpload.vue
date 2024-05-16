@@ -6,7 +6,7 @@
       :show-file-list="false"
       :on-success="handleAvatarSuccess"
     >
-      <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+      <img v-if="imageUrl" :src="ImageUrls+imageUrl" class="avatar" />
       <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
     </el-upload>
   </template>
@@ -19,7 +19,7 @@ const imageUrl = ref('')
 
 
 const action = import.meta.env.VITE_BASE_UPLOAD_ADD || ''
-
+const ImageUrls = import.meta.env.VITE_BASE_URL+'/' || ''
 const emit = defineEmits(['upload', 'uploadrem'])
 
 const headers = {
@@ -33,8 +33,8 @@ const handleAvatarSuccess: UploadProps['onSuccess'] = (
   console.log('头像',response,
   uploadFile);
   if(response.code==10000){
-    console.log(123);
-    uploadFile.name=imageUrl.value
+    imageUrl.value= response.data.url
+    emit('upload',response.data.url)
   }
 }
 

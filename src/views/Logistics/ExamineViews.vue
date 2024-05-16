@@ -46,7 +46,7 @@
 <script lang="ts" setup>
 import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { getPurchase, getpurchaseFoods, putInspection } from '@/service/purchase/purchaseApi'
+import { getPurchase, getpurchaseFoods, putInspection } from '@/service/purchase/PurchaseApi'
 import { ElMessage } from 'element-plus'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const route = useRoute()
@@ -72,15 +72,15 @@ const data = reactive({
       label: '供应商'
     },
     {
-      prop: 'sellPrice',
+      prop: 'wholePrice',
       label: '批发价'
     },
     {
-      prop: 'purchasePrice',
+      prop: 'sellPrice',
       label: '零售价'
     },
     {
-      prop: 'purchaseId',
+      prop: 'purchasePrice',
       label: '采购价'
     },
     {

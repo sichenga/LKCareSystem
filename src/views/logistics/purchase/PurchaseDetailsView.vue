@@ -25,14 +25,14 @@
       :label="'采购实际数量'"
       :isoperate="isshou"
     >
-      <template #custom="data">
-        <el-input v-model="data.data.creators" style="width: 130px"></el-input>
+      <template #custom="{data}">
+        <el-input v-model="data.receiveCounts" style="width: 130px"></el-input>
       </template>
     </MayTable>
     <div class="title-image">
       <div>到货凭证</div>
       <div class="image">
-        <AvatarUpload></AvatarUpload>
+        <AvatarUpload @upload="uploadImage"></AvatarUpload>
       </div>
     </div>
   </el-card>
@@ -51,7 +51,7 @@ const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.
 const AvatarUpload = defineAsyncComponent(() => import('@/components/upload/AvatarUpload.vue'))
 const router = useRouter()
 const route = useRoute()
-// console.log('route',route.params.id);
+
 
 const data = reactive({
   tableData: [] as any,
@@ -62,7 +62,7 @@ const data = reactive({
       label: '序号'
     },
     {
-      prop: 'foodName',
+      prop: 'name',
       label: '物料名称'
     },
     {
@@ -74,11 +74,11 @@ const data = reactive({
       label: '供应商'
     },
     {
-      prop: 'sellPrice',
+      prop: 'wholePrice',
       label: '批发价'
     },
     {
-      prop: 'purchasePrice',
+      prop: 'sellPrice',
       label: '零售价'
     },
     {
@@ -96,7 +96,6 @@ const isshou = ref(false)
 const getlist = async () => {
   let ids = Number(route.params.id)
   let res: any = await getpurchaseFoods(ids)
-  console.log(res)
   if (res.code == 10000) {
     data.tableData = res.data.list
   }
@@ -105,30 +104,37 @@ const getlist = async () => {
 const getPur = async () => {
   let ids = Number(route.params.id)
   let res: any = await getPurchase(ids)
-  console.log(res)
-
   if (res.code == 10000) {
     data.titleData = res.data
   }
 }
 
-const confirm = async () => {
-  const params = {
-    id: data.titleData.id,
-    picture: '99.png',
+ let ids = Number(route.params.id)
+const params = reactive({
+    id: ids,
+    picture: '',
     foods: []
-  }
+  })
 
+const uploadImage = (val:any)=>{
+
+  params.picture=val
+
+}
+
+const confirm = async () => {
   params.foods = data.tableData.map((item: any) => ({
     id: item.id,
     receiveCounts: item.receiveCounts
   }))
   let res: any = await putInspection(params)
-  console.log('收货验货', res)
+  console.log(res);
+  
   if (res.code == 10000) {
     router.push('/logistics/purchase')
   }
 }
+
 const goback = () => {
   router.push('/logistics/purchase')
 }

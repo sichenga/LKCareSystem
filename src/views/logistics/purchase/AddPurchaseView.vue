@@ -6,7 +6,7 @@
       <div class="quantity">1</div>
     </div>
     <!-- 表格 -->
-    <MayTable :tableData="data.AddData.foods" :tableItem="data.tableItem" :label="'采购数量'">
+    <MayTable :tableData="data.AddData.foods" :tableItem="data.tableItem" :label="'采购数量'" v-if="isProxy">
       <template #custom="data">
         <el-input v-model="data.data.creators" style="width: 130px"></el-input>
       </template>
@@ -28,11 +28,7 @@
       </div>
     </div>
   </el-card>
-  <AddIngredient
-    v-if="dialogVisible"
-    @close="haoldclose"
-    @ingredient="hoaldIngredient"
-  ></AddIngredient>
+  <AddIngredient v-if="dialogVisible" @close="haoldclose" @ingredient="hoaldIngredient"></AddIngredient>
   <div class="button-body">
     <el-button class="btn-body" @click="back">返回</el-button>
     <el-button type="primary" class="btn-body" @click="confirm">保存</el-button>
@@ -70,7 +66,7 @@ const data = reactive({
       label: '序号'
     },
     {
-      prop: 'foodName',
+      prop: 'name',
       label: '物料名称'
     },
     {
@@ -95,14 +91,16 @@ const data = reactive({
     }
   ]
 })
-
+// 删除选择食材
 const del = async (id: any) => {
-  console.log(data)
 
   let res = await getMessageBox('是否确认删除该采购申请', '删除后将不可恢复')
   if (res) {
     data.AddData.foods = data.AddData.foods.filter((item: any) => item.id !== id)
-
+    if (data.AddData.foods.length === 0) {
+      isProxy.value = false
+    }
+    countsprice(data.AddData.foods)
     ElMessage.success('删除成功')
   } else {
     ElMessage.info('取消删除')
@@ -128,30 +126,48 @@ const haoldclose = (val: boolean) => {
     dialogVisible.value = false
   }
 }
+const isProxy = ref(false)
+// 选择食材
 const hoaldIngredient = (val: any) => {
-  data.AddData.foods = val
-  data.print = data.AddData.foods.length
-  data.AddData.foods.forEach((item: any) => {
-    data.totalPrices += item.purchasePrice
-  })
+  if (val) {
+    isProxy.value = true
+    data.AddData.foods = val
+    countsprice(val)
+  }
+
 }
+// 选择时间
 const hoaldChange = (val: any) => {
   data.AddData.receiveTime = val
 }
-
-const save = async () => {
-  let res: any = await postInspection(data.AddData)
-  if (res.code == 10000) {
-    router.push({
-      path: '/Examines',
-      query: {
-        id: res.data.id
-      }
-    })
-  }
+// 结算总数量和价格
+const countsprice = (fooddata: any) => {
+  data.print = fooddata?.length
+  data.totalPrices = fooddata.reduce((counts: any, item: any) => counts + item.purchasePrice, 0)
 }
 
-onMounted(() => {})
+//采购申请 保存并提交
+const save = async () => {
+
+
+  if (data.AddData.foods.length >= 1) {
+    let res: any = await postInspection(data.AddData)
+    if (res.code == 10000) {
+      router.push(
+        '/logistics/purchase/details/' + res.data.id,
+
+      )
+    }
+  } else {
+    ElMessage.error({
+      message: '请选择食材',
+    })
+
+  }
+
+}
+
+onMounted(() => { })
 </script>
 <style lang="less" scoped>
 .el-button {
