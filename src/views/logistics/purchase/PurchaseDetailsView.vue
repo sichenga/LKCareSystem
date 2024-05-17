@@ -25,7 +25,7 @@
       :label="'采购实际数量'"
       :isoperate="isshou"
     >
-      <template #custom="{data}">
+      <template #custom="{ data }">
         <el-input v-model="data.receiveCounts" style="width: 130px"></el-input>
       </template>
     </MayTable>
@@ -52,7 +52,6 @@ const AvatarUpload = defineAsyncComponent(() => import('@/components/upload/Avat
 const router = useRouter()
 const route = useRoute()
 
-
 const data = reactive({
   tableData: [] as any,
   titleData: [] as any,
@@ -62,7 +61,7 @@ const data = reactive({
       label: '序号'
     },
     {
-      prop: 'name',
+      prop: 'foodName',
       label: '物料名称'
     },
     {
@@ -109,17 +108,15 @@ const getPur = async () => {
   }
 }
 
- let ids = Number(route.params.id)
+let ids = Number(route.params.id)
 const params = reactive({
-    id: ids,
-    picture: '',
-    foods: []
-  })
+  id: ids,
+  picture: '',
+  foods: []
+})
 
-const uploadImage = (val:any)=>{
-
-  params.picture=val
-
+const uploadImage = (val: any) => {
+  params.picture = val
 }
 
 const confirm = async () => {
@@ -127,9 +124,10 @@ const confirm = async () => {
     id: item.id,
     receiveCounts: item.receiveCounts
   }))
+  // params.state
   let res: any = await putInspection(params)
-  console.log(res);
-  
+  console.log(res)
+
   if (res.code == 10000) {
     router.push('/logistics/purchase')
   }

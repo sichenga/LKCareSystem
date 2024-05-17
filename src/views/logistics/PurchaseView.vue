@@ -9,6 +9,7 @@
       <template #operate="{ data }">
         <el-button type="primary" text @click="del">删除</el-button>
         <el-button type="primary" text @click="edit">编辑</el-button>
+        <el-button type="primary" text v-if="data.state === '待提交'">提交</el-button>
         <el-button type="primary" text @click="delivery(data.id)">收货验货</el-button>
         <el-button type="primary" text @click="getifno(data.id)">查看详情</el-button>
       </template>

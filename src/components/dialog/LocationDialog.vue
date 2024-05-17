@@ -5,8 +5,7 @@
         <el-input v-model="form.name" @input="createQRCode" />
       </el-form-item>
       <el-form-item label="地址二维码：">
-        <!-- <el-input v-model="form.name" /> -->
-        <el-image style="width: 80px; height: 80px" :src="form.qrcode" />
+        <el-image style="width: 80px; height: 80px" :src="codedata" />
       </el-form-item>
     </el-form>
     <template #footer>
@@ -18,23 +17,71 @@
   </el-dialog>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, onMounted, defineEmits } from 'vue'
-import { addressadd } from '@/service/address/AddressApi'
+import { ref, reactive, defineEmits, defineProps, watch } from 'vue'
+import { addressadd, addressupdate } from '@/service/address/AddressApi'
+import { uploadImage } from '@/service/upload/UploadApi'
 import type { AddressAdd } from '@/service/address/AddressType'
+import { dataURLtoFile } from '@/utils/utils'
+import { ElMessage } from 'element-plus'
+// 二维码
 import qrcode from 'qrcode'
 const emit = defineEmits(['close'])
 const dialogVisible = ref(true)
+const upload = import.meta.env.VITE_BASE_URL
 const codedata = ref('')
 const form = reactive<AddressAdd>({
   id: 0,
   name: '',
   qrcode: ''
 })
+const props = defineProps({
+  data: {
+    type: Object,
+    default: () => {}
+  }
+})
+// 数据回显
+watch(
+  () => props.data,
+  (newval) => {
+    if (newval) {
+      console.log('newval', newval)
+      Object.assign(form, newval)
+      codedata.value = upload + '/' + form.qrcode
+    }
+  },
+  { immediate: true }
+)
+
 // 新增地址
 const add = async () => {
-  let res: any = await addressadd(form)
+  let res: any
+  if (!form.id) {
+    form.qrcode = await uploadcode()
+    res = await addressadd(form)
+  } else {
+    res = await addressupdate(form)
+  }
   console.log('增加', res)
+  if (res?.code === 10000) {
+    ElMessage.success('操作成功')
+    close(true)
+  } else {
+    ElMessage.error(res?.msg)
+  }
 }
+
+// 上传二维码
+const uploadcode = async () => {
+  const url = dataURLtoFile(codedata.value, form.name)
+  console.log('url', { file: url })
+  let upload: any = await uploadImage(url)
+  console.log('11111', upload)
+  if (upload?.code === 10000) {
+    return upload?.data?.url
+  }
+}
+
 // 关闭弹窗
 const close = (close: boolean = false) => {
   emit('close', close)
@@ -44,7 +91,7 @@ const createQRCode = () => {
   qrcode.toDataURL(form.name, function (err, url) {
     if (err) throw err
     console.log(url)
-    form.qrcode = url
+    codedata.value = url
   })
 }
 </script>

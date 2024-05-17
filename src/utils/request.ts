@@ -17,6 +17,8 @@ const config: McAxiosRequestConfig = {
 const instance = axios.create(config)
 
 instance.interceptors.request.use(async (config: any) => {
+  console.log('config', config)
+
   const userStore = useUserStore()
   if (!config.extraConfig?.tokenRetryCount) {
     config.extraConfig = {
@@ -24,6 +26,9 @@ instance.interceptors.request.use(async (config: any) => {
     }
   }
   ;(config.headers as any)['Authorization'] = userStore.token || ''
+  if (config.url === '/api/upload/add') {
+    ;(config.headers as any)['Content-Type'] = 'multipart/form-data'
+  }
   return config
 })
 
