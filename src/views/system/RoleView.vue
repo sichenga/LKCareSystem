@@ -11,13 +11,7 @@
         <el-button type="primary" text @click="del(data.id)">删除</el-button>
       </template>
     </MayTable>
-    <Pagination
-      :total="counts"
-      @page="page"
-      @psize="psize"
-      :page="params.page"
-      :psize="params.pageSize"
-    ></Pagination>
+    <Pagination :total="counts" @page="page" @psize="psize" :page="params.page" :psize="params.pageSize"></Pagination>
   </el-card>
 </template>
 <script lang="ts" setup>
@@ -73,7 +67,7 @@ const data = reactive({
 })
 //角色列表
 const getData = async () => {
-  let res: any = await RoleList(params).catch(() => {})
+  let res: any = await RoleList(params).catch(() => { })
   if (res.code == 10000) {
     data.tableData = res.data.list
     counts.value = res.data.counts

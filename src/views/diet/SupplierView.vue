@@ -5,22 +5,13 @@
     <!-- 表格 -->
     <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
       <template #operate="scope">
-        <el-button type="primary" size="small" link @click="handleEdit(scope.data.id)"
-          >编辑</el-button
-        >
-        <el-button type="primary" size="small" link @click="handleDelete(scope.data.id)"
-          >删除</el-button
-        >
+        <el-button type="primary" size="small" link @click="handleEdit(scope.data.id)">编辑</el-button>
+        <el-button type="primary" size="small" link @click="handleDelete(scope.data.id)">删除</el-button>
       </template>
     </MayTable>
     <!-- 分页 -->
-    <Pagination
-      @page="page"
-      @psize="psize"
-      :total="data.total"
-      :page="params.page"
-      :psize="params.pageSize"
-    ></Pagination>
+    <Pagination @page="page" @psize="psize" :total="data.total" :page="params.page" :psize="params.pageSize">
+    </Pagination>
     <!-- 弹出框 -->
     <SupplierDialog @close="close" :id="editId" v-if="isdialog"></SupplierDialog>
   </div>
@@ -67,7 +58,7 @@ const params = reactive<Supplier>({
   page: 1
 })
 const getlist = async () => {
-  const res: any = await SupplierList(params).catch(() => {})
+  const res: any = await SupplierList(params).catch(() => { })
   console.log('供应商列表', res)
   if (res.code == 10000) {
     data.tableData = res.data.list
@@ -111,7 +102,7 @@ const handleDelete = async (id: any) => {
   console.log('删除', id)
   let res = await getMessageBox('是否确认删除该供应商', '删除后将不可恢复')
   if (res) {
-    const res: any = await Supplierdelete(id).catch(() => {})
+    const res: any = await Supplierdelete(id).catch(() => { })
     if (res.code == 10000) {
       ElMessage.success('删除成功')
       getlist()

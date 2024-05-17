@@ -24,7 +24,7 @@
 
     </el-card>
     <el-card style="margin-top: 15px">
-    
+
     </el-card>
 
 </template>
@@ -42,24 +42,29 @@ import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
     height: 40px;
     line-height: 40px;
 }
+
 .el-form--inline .el-form-item {
     width: 270px;
 }
-.body-top{
+
+.body-top {
     display: flex;
-    .size-I-right{
+
+    .size-I-right {
         margin-left: 55px;
-        .size-right{
+
+        .size-right {
             display: flex;
-            div{
+
+            div {
                 margin: 7px 0;
             }
-            div:nth-child(1){
+
+            div:nth-child(1) {
                 width: 160px;
             }
         }
     }
 
 }
-
 </style>

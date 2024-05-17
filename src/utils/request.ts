@@ -17,8 +17,6 @@ const config: McAxiosRequestConfig = {
 const instance = axios.create(config)
 
 instance.interceptors.request.use(async (config: any) => {
-  console.log('config', config)
-
   const userStore = useUserStore()
   if (!config.extraConfig?.tokenRetryCount) {
     config.extraConfig = {

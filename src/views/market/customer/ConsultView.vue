@@ -44,7 +44,7 @@ import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
 import AffiliatedView from '@/database/AffiliatedView.json'
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
-import {useRouter} from 'vue-router'
+import { useRouter } from 'vue-router'
 const router = useRouter()
 const AddRelation = defineAsyncComponent(() => import('@/components/dialog/consult/AddConsult.vue'))
 const Particulars = defineAsyncComponent(() => import('@/components/dialog/consult/particulars.vue'))
@@ -111,7 +111,7 @@ const Holedclose = (val: any) => {
 //资讯详情
 const dialogVisibles = ref(false)
 
-const particulars = ()=>{
+const particulars = () => {
     dialogVisibles.value = true
 }
 const Holedcloses = (val: any) => {
@@ -139,14 +139,17 @@ onMounted(() => {
 
 .body {
     display: flex;
-    .body-title{
-        div{
+
+    .body-title {
+        div {
             margin-top: 10px;
         }
     }
-    .body-title-size{
+
+    .body-title-size {
         margin-left: 400px;
-        div{
+
+        div {
             margin-top: 10px;
             margin-bottom: 10px;
         }

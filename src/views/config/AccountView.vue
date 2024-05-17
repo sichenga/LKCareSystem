@@ -53,7 +53,6 @@ interface RuleForm {
     account: string,
     pass: string,
     role: string
-
 }
 
 const formSize = ref<ComponentSize>('default')
@@ -66,7 +65,6 @@ const ruleForm = reactive<RuleForm>({
     role: '人事经理',
     account: 'zhangsan',
     pass: '123456'
-
 })
 
 //弹出框

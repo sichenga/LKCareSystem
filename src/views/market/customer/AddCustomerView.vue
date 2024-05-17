@@ -32,7 +32,6 @@
             家属信息
         </div>
         <div class="form-size">
-            
                 <div style="margin: 10px 0">
                     <el-button type="primary" @click='addRelation'>新增家属</el-button>
                 </div>
@@ -44,7 +43,6 @@
                     </template>
                 </MayTable>
                 <Pagination :total="50"></Pagination>
-
         </div>
         <div class="title-text">
             <span>▋</span>

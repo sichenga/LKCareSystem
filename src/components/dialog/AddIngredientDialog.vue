@@ -21,33 +21,33 @@
       </template>
     </el-dialog>
   </template>
-  <script lang="ts" setup>
-  import { ref, reactive, defineEmits, onMounted, defineProps,defineAsyncComponent } from 'vue'
-  import type { ComponentSize, FormInstance } from 'element-plus'
-  import {FoodList} from '@/service/food/FoodApi'
-  import type {Supplier} from '@/service/food/FoodType'
-  import {useUserStore} from '@/stores/index'
-  const useUser =  useUserStore()  
-  const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
-  const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
-  const isoperate = ref(false)
-  const isMultiple = ref(true)
-  const props = defineProps({
-    editid: {
-      type: Number,
-      default: 0
-    }
-  })
+<script lang="ts" setup>
+import { ref, reactive, defineEmits, onMounted, defineProps, defineAsyncComponent } from 'vue'
+import type { ComponentSize, FormInstance } from 'element-plus'
+import { FoodList } from '@/service/food/FoodApi'
+import type { Supplier } from '@/service/food/FoodType'
+import { useUserStore } from '@/stores/index'
+const useUser = useUserStore()
+const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
+const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
+const isoperate = ref(false)
+const isMultiple = ref(true)
+const props = defineProps({
+  editid: {
+    type: Number,
+    default: 0
+  }
+})
 
-  const params:Supplier=reactive({
-  
-    pageSize:5,
-    page:1,
-    total:0,
-  })
+const params: Supplier = reactive({
+
+  pageSize: 5,
+  page: 1,
+  total: 0,
+})
 
 
-  const data = reactive({
+const data = reactive({
   tableData: [] as any,
   tableItem: [
     {
@@ -81,60 +81,59 @@
 
   ]
 })
-  
-  const formSize = ref<ComponentSize>('default')
-  
-  const ruleFormRef = ref<FormInstance>()
+
+const formSize = ref<ComponentSize>('default')
+
+const ruleFormRef = ref<FormInstance>()
 
 
-  const dialogVisible = ref(true)
+const dialogVisible = ref(true)
 
-  const emit = defineEmits(['close','ingredient'])
-  // 关闭弹框
-  const close = (close: boolean = false) => {
-    emit('close', close)
-  }
-
-  // 提交表单
-  const submitForm = async () => {
-    useUser.ingredients(multipleSelection.value)
-    emit('ingredient',useUser.ingredient)
-    close(true)
-  }
-  
-
-  // 分页
-  const handlePsize = (val:any)=>{
-      params.pageSize=val
-      gerFoodList()
-  }
-  const handlePage = (val:any)=>{
-      params.page=val
-      gerFoodList()
-  }
-
-  const multipleSelection = ref<any[]>([])
-
-  const handleSelectionChange = (val: any[]) => {
-
-    multipleSelection.value = val
+const emit = defineEmits(['close', 'ingredient'])
+// 关闭弹框
+const close = (close: boolean = false) => {
+  emit('close', close)
 }
 
-  const gerFoodList=async()=>{
-    let res:any  = await FoodList(params)
-    if(res.code===10000){
-        params.total=res.data.counts
-        data.tableData=res.data.list
-    }
+// 提交表单
+const submitForm = async () => {
+  useUser.ingredients(multipleSelection.value)
+  emit('ingredient', useUser.ingredient)
+  close(true)
+}
+
+
+// 分页
+const handlePsize = (val: any) => {
+  params.pageSize = val
+  gerFoodList()
+}
+const handlePage = (val: any) => {
+  params.page = val
+  gerFoodList()
+}
+
+const multipleSelection = ref<any[]>([])
+
+const handleSelectionChange = (val: any[]) => {
+
+  multipleSelection.value = val
+}
+
+const gerFoodList = async () => {
+  let res: any = await FoodList(params)
+  if (res.code === 10000) {
+    params.total = res.data.counts
+    data.tableData = res.data.list
   }
- 
-  onMounted(() => {
-    gerFoodList() //获取食材
-  })
-  </script>
-  <style lang="less" scoped>
-  .el-input {
-    width: 300px;
-  }
-  </style>
-  
+}
+
+onMounted(() => {
+  gerFoodList() //获取食材
+})
+</script>
+<style lang="less" scoped>
+.el-input {
+  width: 300px;
+}
+</style>

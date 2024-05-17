@@ -4,12 +4,8 @@
       <el-form-item label="登记日期："> 2020-03-03 </el-form-item>
       <el-form-item label="家属姓名：" class="formitem">张三 </el-form-item>
       <el-form-item label="经办人：" class="formitem">李四 </el-form-item>
-      <el-form-item label="药品：" class="formitem"
-        ><MayTable
-          :tableData="data.tableData"
-          :tableItem="data.tableItem"
-          :isoperate="false"
-        ></MayTable>
+      <el-form-item label="药品：" class="formitem">
+        <MayTable :tableData="data.tableData" :tableItem="data.tableItem" :isoperate="false"></MayTable>
       </el-form-item>
     </el-form>
   </el-card>
@@ -74,6 +70,7 @@ onMounted(() => {
   width: 80%;
   white-space: normal;
 }
+
 .formitem {
   align-items: flex-start;
 }

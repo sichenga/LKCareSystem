@@ -20,7 +20,7 @@ export interface companyaddParams {
   creditCode: string | null //统一社会信用代码
   license: number | null //卫生许可证
   medicalPoint: number | null //医疗点
-  house: number | null //房屋性质
+  house: string | null //房屋性质
   certificate: string | null //营业执照
   picture: string //机构图片
 }

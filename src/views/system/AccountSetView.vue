@@ -9,15 +9,8 @@
         <div class="replece">更换头像</div>
       </el-form-item>
     </div>
-    <el-form
-      ref="ruleFormRef"
-      :model="ruleForm"
-      label-width="auto"
-      class="demo-ruleForm"
-      :size="formSize"
-      style="width: 300px"
-      status-icon
-    >
+    <el-form ref="ruleFormRef" :model="ruleForm" label-width="auto" class="demo-ruleForm" :size="formSize"
+      style="width: 300px" status-icon>
       <el-form-item label="姓名">
         <el-input class="custom-input" v-model="ruleForm.name" />
       </el-form-item>
@@ -29,9 +22,7 @@
       </el-form-item>
       <el-form-item label="密码">
         <el-input class="custom-pass" v-model="ruleForm.pass" />
-        <span style="color: #75a5ea; font-size: 12px; padding-left: 20px" @click="isdialog = true"
-          >修改密码</span
-        >
+        <span style="color: #75a5ea; font-size: 12px; padding-left: 20px" @click="isdialog = true">修改密码</span>
         <PassDialog @close="close" v-if="isdialog"></PassDialog>
       </el-form-item>
       <el-form-item label="所属角色">
