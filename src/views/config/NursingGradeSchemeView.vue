@@ -34,7 +34,6 @@
                 <div class="table">
                     <MayTable :tableData="data.tableData" :tableItem="data.tableItem" :isoperate="false"
                         style="width: 800px;">
-
                     </MayTable>
                 </div>
             </div>

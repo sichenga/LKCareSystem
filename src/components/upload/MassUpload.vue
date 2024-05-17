@@ -1,14 +1,7 @@
 <template>
-  <el-upload
-    v-model:file-list="fileList"
-    :limit="props.limit"
-    :action="action"
-    :headers="headers"
-    list-type="picture-card"
-    :on-preview="handlePictureCardPreview"
-    :on-remove="handleRemove"
-    :on-success="handleSuccess"
-  >
+  <el-upload v-model:file-list="fileList" :limit="props.limit" :action="action" :headers="headers"
+    list-type="picture-card" :on-preview="handlePictureCardPreview" :on-remove="handleRemove"
+    :on-success="handleSuccess">
     <el-icon>
       <Plus />
     </el-icon>

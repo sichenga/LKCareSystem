@@ -12,14 +12,7 @@
       </div>
     </div>
     <div class="form-size">
-      <el-form
-        ref="oneRef"
-        :inline="true"
-        :rules="rules"
-        label-position="top"
-        :model="params"
-        class="demo-form-inline"
-      >
+      <el-form ref="oneRef" :inline="true" :rules="rules" label-position="top" :model="params" class="demo-form-inline">
         <el-form-item label="机构名称:" prop="name">
           <el-input v-model="params.name" placeholder="请输入" clearable />
         </el-form-item>
@@ -51,14 +44,8 @@
       经营信息
     </div>
     <div class="form-size">
-      <el-form
-        :inline="true"
-        :rules="rules"
-        label-position="top"
-        :model="params"
-        ref="ruleFormRef"
-        class="demo-form-inline"
-      >
+      <el-form :inline="true" :rules="rules" label-position="top" :model="params" ref="ruleFormRef"
+        class="demo-form-inline">
         <el-form-item label="法人代表：" prop="legalPerson">
           <el-input v-model="params.legalPerson" placeholder="请输入法人" clearable />
         </el-form-item>
@@ -69,14 +56,8 @@
           <el-input v-model="params.creditCode" placeholder="请输入统一社会信用码" clearable />
         </el-form-item>
       </el-form>
-      <el-form
-        :inline="true"
-        :rules="rules"
-        label-position="right"
-        :model="params"
-        ref="towRef"
-        class="demo-form-inline"
-      >
+      <el-form :inline="true" :rules="rules" label-position="right" :model="params" ref="towRef"
+        class="demo-form-inline">
         <el-form-item label="卫生许可证" prop="license">
           <el-radio-group v-model="params.license">
             <el-radio :value="0">是</el-radio>
@@ -98,29 +79,14 @@
           </el-radio-group>
         </el-form-item>
       </el-form>
-      <el-form
-        :inline="true"
-        :rules="rules"
-        label-position="top"
-        :model="params"
-        ref="threeRef"
-        class="demo-form-inline"
-      >
+      <el-form :inline="true" :rules="rules" label-position="top" :model="params" ref="threeRef"
+        class="demo-form-inline">
         <el-form-item label="营业执照：">
-          <MassUpload
-            @upload="uploadimg"
-            @uploadrem="uploadrem"
-            :showlist="getMassUpload"
-          ></MassUpload>
+          <MassUpload @upload="uploadimg" @uploadrem="uploadrem" :showlist="getMassUpload"></MassUpload>
         </el-form-item>
         <el-form-item label="机构图片:">
-          <UploadPictures
-            :limit="5"
-            class="uploadpic"
-            @upload="pictureupload"
-            @uploadrem="picturerem"
-            :showlist="getUploadPictures"
-          ></UploadPictures>
+          <UploadPictures :limit="5" class="uploadpic" @upload="pictureupload" @uploadrem="picturerem"
+            :showlist="getUploadPictures"></UploadPictures>
         </el-form-item>
       </el-form>
     </div>
@@ -166,7 +132,7 @@ const params = reactive<companyaddParams>({
   creditCode: '', //统一社会信用代码
   license: null, //卫生许可证
   medicalPoint: null, //医疗点
-  house: null, //房屋性质
+  house: '', //房屋性质
   certificate: null, //营业执照
   picture: '' //机构图片
 })
@@ -204,7 +170,6 @@ const rules = reactive<FormRules<companyaddParams>>({
   address: [{ required: true, message: '请选择地址', trigger: 'blur' }],
   telephone: [{ required: true, message: '请输入对外服务电话', trigger: 'blur' }],
   adminName: [{ required: true, message: '请输入管理员姓名', trigger: 'blur' }],
-
   adminMobile: [{ required: true, message: '请输入联系方式', trigger: 'blur' }],
   adminUserName: [{ required: true, message: '请输入账号', trigger: 'blur' }],
   adminPwd: [{ required: true, message: '请输入密码', trigger: 'blur' }],
@@ -217,10 +182,10 @@ const save = async (formEl: FormInstance | undefined) => {
   if (valid) {
     let res: any
     if (!params.id) {
-      res = await companyadd(params).catch(() => {})
+      res = await companyadd(params).catch(() => { })
       console.log(res)
     } else {
-      res = await companyadd(params).catch(() => {})
+      res = await companyadd(params).catch(() => { })
       console.log('修改', res)
     }
     if (res.code === 10000) {
@@ -242,7 +207,6 @@ const cancel = () => {
   })
 }
 //数据回显
-
 const getcompanyget = async () => {
   data.id = route.query.id
   if (data.id) {
@@ -257,6 +221,7 @@ const getcompanyget = async () => {
         }
       ]
     }
+    // 图片回显
     if (res.data.picture) {
       getUploadPictures.value = res.data.picture.split(',').map((item: any) => ({
         url: upload + '/' + item,
@@ -265,13 +230,7 @@ const getcompanyget = async () => {
     }
   }
 }
-//上传图片
-// const uploadImg = () => {
 
-// }
-// const uploadrem = () => {
-
-// }
 onMounted(() => {
   getcompanyget()
 })
@@ -320,6 +279,7 @@ onMounted(() => {
   width: 92px;
   height: 40px;
 }
+
 .uploadpic {
   :deep(.el-upload-list) {
     display: flex;

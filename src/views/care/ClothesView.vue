@@ -10,33 +10,13 @@
         <TimePicker></TimePicker>
       </el-form-item>
       <el-form-item label="类型：">
-        <el-select
-          v-model="formInline.region"
-          placeholder="请选择"
-          style="width: 240px"
-          size="large"
-        >
-          <el-option
-            v-for="item in data.typelist"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
+        <el-select v-model="formInline.region" placeholder="请选择" style="width: 240px" size="large">
+          <el-option v-for="item in data.typelist" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
       </el-form-item>
       <el-form-item label="状态：">
-        <el-select
-          v-model="formInline.region"
-          placeholder="请选择"
-          style="width: 240px"
-          size="large"
-        >
-          <el-option
-            v-for="item in data.statelist"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
+        <el-select v-model="formInline.region" placeholder="请选择" style="width: 240px" size="large">
+          <el-option v-for="item in data.statelist" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
       </el-form-item>
 
@@ -127,6 +107,7 @@ onMounted(() => {
 .el-input {
   height: 40px;
 }
+
 .el-button {
   height: 40px;
   line-height: 40px;

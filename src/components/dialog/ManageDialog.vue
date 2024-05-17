@@ -3,7 +3,7 @@
         <el-form ref="ruleFormRef" style="max-width: 400px" :model="ruleForm" :rules="rules" label-width="auto"
             class="demo-ruleForm" :size="formSize" status-icon>
             <el-form-item label="房型名称:" prop="name">
-                {{ props.dataget }}
+                <!-- {{ props.dataget }} -->
                 <el-input v-model="ruleForm.name" placeholder="请输入房型名称" />
             </el-form-item>
         </el-form>

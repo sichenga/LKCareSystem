@@ -1,24 +1,11 @@
 <template>
   <!-- 新增外出 -->
   <el-card>
-    <el-form
-      ref="ruleFormRef"
-      style="max-width: 400px"
-      :model="ruleForm"
-      :rules="rules"
-      label-width="auto"
-      class="demo-ruleForm"
-      :size="formSize"
-      status-icon
-    >
+    <el-form ref="ruleFormRef" style="max-width: 400px" :model="ruleForm" :rules="rules" label-width="auto"
+      class="demo-ruleForm" :size="formSize" status-icon>
       <el-form-item label="老人姓名" prop="name">
         <el-select v-model="ruleForm.name" clearable placeholder="请选择" style="width: 300px">
-          <el-option
-            v-for="item in data.oldlist"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
+          <el-option v-for="item in data.oldlist" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
       </el-form-item>
       <el-form-item label="外出时间" prop="name">
@@ -26,12 +13,7 @@
       </el-form-item>
       <el-form-item label="陪同人员类型" prop="name">
         <el-select v-model="ruleForm.name" clearable placeholder="请选择" style="width: 300px">
-          <el-option
-            v-for="item in data.typelist"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
+          <el-option v-for="item in data.typelist" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
       </el-form-item>
       <el-form-item label="陪同人员姓名" prop="name">
@@ -44,13 +26,7 @@
         <el-input v-model="ruleForm.name" placeholder="请输入" />
       </el-form-item>
       <el-form-item label="外出原因" prop="name">
-        <el-input
-          v-model="ruleForm.name"
-          :rows="2"
-          placeholder="请输入原因"
-          type="textarea"
-          style="width: 300px"
-        />
+        <el-input v-model="ruleForm.name" :rows="2" placeholder="请输入原因" type="textarea" style="width: 300px" />
       </el-form-item>
     </el-form>
   </el-card>

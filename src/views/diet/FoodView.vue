@@ -8,22 +8,14 @@
       <template #operate="{ data }">
         <el-button type="primary" size="small" link @click="handleEdit(data.id)">编辑</el-button>
         <el-button type="primary" size="small" link @click="handleDelete(data.id)">删除</el-button>
-        <el-button type="primary" size="small" link @click="priceUpdate(data.id)"
-          >价格更新</el-button
-        >
-        <el-button type="primary" size="small" link @click="priceAnalysis(data.id)"
-          >价格分析</el-button
-        >
+        <el-button type="primary" size="small" link @click="priceUpdate(data.id)">价格更新</el-button>
+        <el-button type="primary" size="small" link @click="priceAnalysis(data.id)">价格分析</el-button>
       </template>
     </MayTable>
     <!-- 分页 -->
-    <Pagination
-      :total="total"
-      :page="params.page"
-      :psize="params.pageSize"
-      @page="getpage"
-      @psize="getpsize"
-    ></Pagination>
+    <Pagination :total="total" :page="params.page" :psize="params.pageSize" @page="getpage" @psize="getpsize">
+    </Pagination>
+
     <!-- 价格更新 -->
     <PriceDialog @close="close" v-if="isprice" :priceid="priceid"></PriceDialog>
   </div>

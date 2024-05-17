@@ -27,13 +27,8 @@
         <el-button type="primary" text @click="del(scope.data.id)">删除</el-button>
       </template>
     </MayTable>
-    <Pagination
-      :total="data.total"
-      @page="page"
-      @psize="psize"
-      :page="params.page"
-      :pszie="params.page"
-    ></Pagination>
+    <Pagination :total="data.total" @page="page" @psize="psize" :page="params.page" :pszie="params.page"></Pagination>
+
   </el-card>
 </template>
 <script lang="ts" setup>
@@ -45,7 +40,6 @@ import type { companylistParams } from '@/service/Organization/OrganizationType'
 import { companylist, companydelete, companyget } from '@/service/Organization/OrganizationApi'
 import { useUserStore } from '@/stores'
 import organizationDialog from '@/components/dialog/organizationDialog.vue'
-
 const userStore = useUserStore()
 const isdialog = ref(false)
 const router = useRouter()
@@ -98,7 +92,7 @@ const editId = ref(0)
 const SondAdd = () => {
   switch (userStore.model.type) {
     case 1:
-      router.push('/company/list/add')
+      router.push('/company/add')
       break
     case 2:
       isdialog.value = true
@@ -111,12 +105,12 @@ const SondAdd = () => {
 //删除
 const del = async (id: any) => {
   console.log('删除', id)
-  let res = await getMessageBox('是否确认删除该供应商', '删除后将不可恢复')
+  let res = await getMessageBox('是否确认删除该机构', '删除后将不可恢复')
   console.log(res)
   switch (userStore.model.type) {
     case 1:
       if (res) {
-        const res: any = await companydelete(id).catch(() => {})
+        const res: any = await companydelete(id).catch(() => { })
         if (res.code == 10000) {
           ElMessage.success('删除成功')
           getcompanylist()
@@ -127,7 +121,7 @@ const del = async (id: any) => {
       break
     case 2:
       if (res) {
-        const res: any = await companydelete(id).catch(() => {})
+        const res: any = await companydelete(id).catch(() => { })
         if (res.code == 10000) {
           ElMessage.success('删除成功')
           getcompanylist()
@@ -148,13 +142,11 @@ const amend = async (id: any) => {
   console.log('修改', res)
   switch (userStore.model.type) {
     case 1:
-      router.push(`/company/list/add?id=${id}`)
-
+      router.push(`/company/add?id=${id}`)
       break
     case 2:
       isdialog.value = true
       editId.value = id
-
       break
     default:
       break

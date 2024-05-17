@@ -1,23 +1,20 @@
 <template>
-    <el-tabs
-   type="card"
-   class="demo-tabs"
- >
-       <el-tab-pane label="血压记录" name="first">
-            血压记录
-       </el-tab-pane>
-       <el-tab-pane label="血糖记录" name="second">
-        血糖记录
-       </el-tab-pane>
-       <el-tab-pane label="体温记录" name="third">
-        体温记录
-       </el-tab-pane>
- 
-    </el-tabs>
+   <el-tabs type="card" class="demo-tabs">
+      <el-tab-pane label="血压记录" name="first">
+         血压记录
+      </el-tab-pane>
+      <el-tab-pane label="血糖记录" name="second">
+         血糖记录
+      </el-tab-pane>
+      <el-tab-pane label="体温记录" name="third">
+         体温记录
+      </el-tab-pane>
+
+   </el-tabs>
 
 </template>
 <script lang="ts" setup>
-import { ref, reactive, toRefs, onMounted,defineAsyncComponent } from 'vue'
+import { ref, reactive, toRefs, onMounted, defineAsyncComponent } from 'vue'
 
 
 </script>

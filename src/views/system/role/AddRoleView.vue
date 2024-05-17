@@ -1,31 +1,13 @@
 <template>
   <!--新增角色  -->
-  <el-form
-    ref="ruleFormRef"
-    style="max-width: 600px"
-    :model="ruleForm"
-    :rules="rules"
-    label-width="auto"
-    class="demo-ruleForm"
-    :size="formSize"
-    status-icon
-    label-position="top"
-  >
+  <el-form ref="ruleFormRef" style="max-width: 600px" :model="ruleForm" :rules="rules" label-width="auto"
+    class="demo-ruleForm" :size="formSize" status-icon label-position="top">
     <el-form-item label="角色名称" prop="name">
       <el-input v-model="ruleForm.name" placeholder="请输入角色名称" />
     </el-form-item>
     <el-form-item label="权限配置" prop="menuIds">
-      <el-tree
-        ref="treeRef"
-        style="max-width: 600px"
-        :data="data"
-        show-checkbox
-        :default-expand-all="false"
-        node-key="id"
-        :default-expanded-keys="ArrData"
-        :default-checked-keys="ArrData"
-        :props="defaultProps"
-      />
+      <el-tree ref="treeRef" style="max-width: 600px" :data="data" show-checkbox :default-expand-all="false"
+        node-key="id" :default-expanded-keys="ArrData" :default-checked-keys="ArrData" :props="defaultProps" />
     </el-form-item>
   </el-form>
   <div class="dialog-footer">
@@ -73,7 +55,7 @@ const defaultProps = {
 const data: any = ref([])
 
 const getlist = async () => {
-  let res: any = await getList().catch(() => {})
+  let res: any = await getList().catch(() => { })
   if (res.code == 10000) {
     data.value = convertToTree(res.data.list)
   }
@@ -83,7 +65,7 @@ const addlist = async () => {
   if (treeRef.value?.getCheckedKeys()) {
     ruleForm.menuIds = treeRef.value?.getCheckedKeys()
   }
-  let res: any = await Addroles(ruleForm).catch(() => {})
+  let res: any = await Addroles(ruleForm).catch(() => { })
   if (res.code == 10000) {
     let id = Number(route.query.id)
     if (id) {
@@ -99,7 +81,7 @@ const addlist = async () => {
 const edit = async () => {
   let id = Number(route.query.id)
   if (id >= 0) {
-    let res: any = await Rolesget(id).catch(() => {})
+    let res: any = await Rolesget(id).catch(() => { })
     if (res.code === 10000) {
       Object.assign(ruleForm, res.data)
       if (res.data.menuIds == null) {

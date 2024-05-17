@@ -1,85 +1,116 @@
 <template>
     <!-- 楼层管理 -->
     <el-card style="max-width: 100%;">
-        <el-button type="primary" @click="isdialog = true">新增楼层</el-button>
-        <FloorDialog @close="close" v-if="isdialog"></FloorDialog>
-        <MayTable :tableData="data.tableData" :tableItem="data.tableItem" >
-            <template #operate>
-                <el-button type="primary" text >编辑</el-button>
-                <el-button type="primary" text @click="del">删除</el-button>
+        <el-button type="primary" @click="addBuild">新增楼层</el-button>
+        <FloorDialog @close="close" v-if="isdialog" :pid="pid" :id="id"></FloorDialog>
+        <el-tree style="max-width: 600px" :data="dataSource" show-checkbox node-key="id" 
+            :expand-on-click-node="false"  :props="{ label: 'name', children: 'children' }">
+            <template #default="{ node, data }">
+                <span class="custom-tree-node">
+                    <span>{{ node.label }}</span>
+                    <span>
+                        <el-button type="success" @click="add(data)" :icon="Plus" circle />
+                        <el-button type="primary" @click="modification(data)" :icon="Edit" circle />
+                        <el-button type="danger" @click="del(data.id)" :icon="Delete" circle />
+                    </span>
+                </span>
             </template>
-        </MayTable>
-        <Pagination :total="50"></Pagination>
+        </el-tree>
     </el-card>
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, defineAsyncComponent, onMounted } from 'vue'
-import FloorView from '@/database/FloorView.json'
+import { ref, reactive, onMounted } from 'vue'
 import FloorDialog from '@/components/dialog/FloorDialog.vue';
-const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
-const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
-
-const data = reactive({
-
-    tableData: [] as any,
-    tableItem: [
-        {
-            prop: 'id',
-            label: '序号',
-            width:'60'
-        },
-      
-        {
-            prop: 'floor',
-            label: '楼层'
-        },
-        {
-            prop: 'rooms',
-            label: '关联房间数'
-        },
-        {
-            prop: 'founder',
-            label: '创建人'
-        },
-        {
-            prop: 'addtime',
-            label: '创建人'
-        },
-    ]
-})
-
-const getlist = () => {
-    setTimeout(() => {
-        data.tableData = FloorView
-    }, 1000)
-}
-onMounted(() => {
-    getlist()
-})
-//弹出框
-const isdialog = ref(false)
-const close = () => {
-    isdialog.value = false
-}
-//删除
+import {
+    Plus,
+    Delete,
+    Edit,
+} from '@element-plus/icons-vue'
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
-const del = async () => {
+import { ConfigBuildingList, delBuilding } from '@/service/config/ConfigApi'
+import { convertToTree } from '@/utils/treeUtils'
+//树形控件
+const dataSource = ref<any[]>([])
+const buildingList = async () => {
+    let res: any = await ConfigBuildingList().catch(()=>{})
+    if (res.code === 10000) {
+        dataSource.value = convertToTree(res.data.list)
+    }
+}
+
+
+//弹出框
+const isdialog = ref(false)
+const close = (val: boolean) => {
+    isdialog.value = val
+    if (val) {
+        isdialog.value = false
+        buildingList()
+    }
+}
+
+//删除
+const del = async (id: any) => {
     let res = await getMessageBox('是否确认删除该楼层', '删除后将不可恢复')
-    console.log(1111, res)
     if (res) {
-        ElMessage.success('删除成功')
+        let list: any = await delBuilding(id).catch(()=>{})
+        if (list.code === 10000) {
+            buildingList()
+            ElMessage.success('删除成功')
+        }
+
     } else {
         ElMessage.info('取消删除')
     }
 }
 
+//添加子楼栋
+const pid:any =ref(0) 
+const add = (data: any) => {
+    if(data){
+        id.value = 0
+        pid.value=data.id
+    }
+    isdialog.value = true
+}
+//修改楼栋
+const id:any=ref({})
+const modification=(data:any)=>{
 
+    if(data){
+        id.value=data.id
+        pid.value=data.pid
+    }
+    isdialog.value = true
+}
+//添加楼栋
+
+const addBuild = ()=>{
+    isdialog.value = true
+    id.value=0
+    pid.value=0
+}
+onMounted(() => {
+    buildingList()
+})
 </script>
 
 <style lang="less" scoped>
-.el-button {
-    margin-bottom: 20px;
+.custom-tree-node {
+    width: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    span:last-child {
+        margin-left: 5px;
+    }
+}
+
+:deep(.el-tree-node__content) {
+    margin-bottom: 5px;
+    height: 35px;
 }
 </style>

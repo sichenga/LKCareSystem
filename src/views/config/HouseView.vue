@@ -1,91 +1,189 @@
 <template>
-  <!-- 房间管理 -->
-  <el-card style="max-width: 100%">
-    <el-button type="primary" @click="isdialog = true">新增房间</el-button>
-    <RoomDialog @close="close" v-if="isdialog"></RoomDialog>
-    <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
-      <template #operate>
-        <el-button type="primary" text>编辑</el-button>
-        <el-button type="primary" text @click="del">删除</el-button>
-      </template>
-    </MayTable>
-    <Pagination :total="50"></Pagination>
-  </el-card>
+    <!-- 房间管理 -->
+    <el-card style="max-width: 100%">
+        <el-form :inline="true" :model="params" class="demo-form-inline">
+            <el-form-item label="房间号">
+                <el-input v-model="params.name" placeholder="请输入房间号" clearable />
+            </el-form-item>
+            <el-form-item label="楼栋">
+                <el-cascader v-model="value" :options="options" @change="handleChange" />
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" @click="search">查询</el-button>
+                <el-button>重置</el-button>
+            </el-form-item>
+        </el-form>
+    </el-card>
+    <el-card style="max-width: 100%;margin-top: 20px;">
+        <el-button type="primary" @click="isdialog = true" class="btn">新增房间</el-button>
+        <RoomDialog @close="close" v-if="isdialog"></RoomDialog>
+        <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
+            <template #operate="{ data }">
+                <el-button type="primary" text>编辑</el-button>
+                <el-button type="primary" text @click="handleDelete(data.id)">删除</el-button>
+            </template>
+        </MayTable>
+        <Pagination :total="data.total" @page="page" @psize="psize" :page="params.page" :pszie="params.page">
+        </Pagination>
+    </el-card>
 </template>
 
 <script lang="ts" setup>
 import { ref, reactive, defineAsyncComponent, onMounted } from 'vue'
-import RoomView from '@/database/RoomView.json'
-import RoomDialog from '@/components/dialog/RoomDialog.vue'
+import RoomDialog from '@/components/dialog/RoomDialog.vue';
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
+//房间列表
+import { getHouseList, deleteHouse } from '@/service/config/ConfigApi'
+import type { HouseViewType } from '@/service/config/ConfigType'
 
-const data = reactive({
-  tableData: [] as any,
-  tableItem: [
-    {
-      prop: 'id',
-      label: '序号',
-      width: '60'
-    },
-
-    {
-      prop: 'rooms',
-      label: '房间号'
-    },
-    {
-      prop: 'floor',
-      label: '楼层'
-    },
-    {
-      prop: 'bed',
-      label: '床位数'
-    },
-    {
-      prop: 'checkin',
-      label: '入住老人'
-    },
-
-    {
-      prop: 'addtime',
-      label: '创建人'
-    },
-    {
-      prop: 'founder',
-      label: '创建人'
-    }
-  ]
-})
-
-const getlist = () => {
-  setTimeout(() => {
-    data.tableData = RoomView
-  }, 1000)
+const value = ref([])
+const handleChange = (value: any) => {
+    console.log(value)
 }
-onMounted(() => {
-  getlist()
+const options = [
+    {
+        value: 'guide',
+        label: 'Guide',
+        children: [
+            {
+                value: 'disciplines',
+                label: 'Disciplines',
+                children: [
+                    {
+                        value: 'consistency',
+                        label: 'Consistency',
+                    },
+                    {
+                        value: 'feedback',
+                        label: 'Feedback',
+                    },
+                    {
+                        value: 'efficiency',
+                        label: 'Efficiency',
+                    },
+                    {
+                        value: 'controllability',
+                        label: 'Controllability',
+                    },
+                ],
+            },
+            {
+                value: 'navigation',
+                label: 'Navigation',
+                children: [
+                    {
+                        value: 'side nav',
+                        label: 'Side Navigation',
+                    },
+                    {
+                        value: 'top nav',
+                        label: 'Top Navigation',
+                    },
+                ],
+            },
+        ],
+    },
+]
+const data = reactive({
+    tableData: [] as any,
+    total: undefined,
+    tableItem: [
+        {
+            prop: 'id',
+            label: '序号',
+            width: '60'
+        },
+        {
+            prop: 'name',
+            label: '房间号'
+        },
+        {
+            prop: 'buildingName',
+            label: '楼层'
+        },
+        {
+            prop: 'beds',
+            label: '床位数'
+        },
+        {
+            prop: '',
+            label: '入住老人'
+        },
+
+        {
+            prop: 'addTime',
+            label: '创建时间'
+        },
+        {
+            prop: 'addAccountName',
+            label: '创建人'
+        }
+    ]
 })
+
+
+
 //弹出框
 const isdialog = ref(false)
 const close = () => {
-  isdialog.value = false
+    isdialog.value = false
 }
 //删除
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
-const del = async () => {
-  let res = await getMessageBox('是否确认删除该房间', '删除后将不可恢复')
-  console.log(1111, res)
+const handleDelete = async (id: number) => {
+  console.log('删除', id)
+  let res = await getMessageBox('是否确认删除该房屋', '删除后将不可恢复')
+  console.log(11112, res)
   if (res) {
-    ElMessage.success('删除成功')
+    const del: any = await deleteHouse(id)
+    console.log('删除', del)
+    if (del?.code === 10000) {
+      ElMessage.success('删除成功')
+      getHouselist()
+    }
   } else {
     ElMessage.info('取消删除')
   }
 }
+//房间列表
+const params = reactive<HouseViewType>({
+    page: 1,
+    pageSize: 5,
+    name: ''
+})
+const getHouselist = async () => {
+    const res: any = await getHouseList(params)
+    console.log('房间列表', res);
+    if (res.code === 10000) {
+        data.tableData = res.data.list
+        data.total = res.data.counts
+    }
+
+}
+//分页
+const page = (val: number) => {
+    params.page = val
+    getHouselist()
+}
+const psize = (val: number) => {
+    params.pageSize = val
+    getHouselist()
+}
+//查询
+const search = () => {
+    params.page = 1
+    getHouselist()
+}
+onMounted(() => {
+
+    getHouselist()
+})
 </script>
 
 <style lang="less" scoped>
-.el-button {
-  margin-bottom: 20px;
+.btn {
+    margin-bottom: 20px;
 }
 </style>
