@@ -18,7 +18,9 @@
         </div>
       </div>
       <!-- 退出 -->
-      <el-icon @click="userStore.logout"><SwitchButton /></el-icon>
+      <el-icon @click="userStore.logout">
+        <SwitchButton />
+      </el-icon>
     </div>
   </div>
 </template>
@@ -43,24 +45,29 @@ const change = () => {
   justify-content: space-between;
   height: 100%;
   align-items: center;
+
   .left {
     display: flex;
     align-items: center;
+
     .el-icon {
       font-size: 24px;
     }
+
     .el-breadcrumb {
       height: 40px;
       line-height: 40px;
       margin-left: 15px;
     }
   }
+
   .right {
     display: flex;
     align-items: center;
     width: 150px;
     justify-content: space-between;
     margin-right: 20px;
+
     .profile {
       display: flex;
       align-items: center;
@@ -68,12 +75,15 @@ const change = () => {
       .el-avatar {
         margin-right: 10px;
       }
+
       .text {
         display: flex;
         flex-direction: column;
+
         span {
           font-size: 14px;
         }
+
         span:nth-child(2) {
           font-size: 12px;
           color: #999;
@@ -82,6 +92,7 @@ const change = () => {
     }
   }
 }
+
 .el-icon {
   font-size: 20px;
   // 变小手

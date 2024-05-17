@@ -5,21 +5,10 @@
       <span><span style="color: #00b1ff">▋</span>老人信息</span>
       <span style="color: #ccc; font-size: 18px">待审批</span>
     </div>
-    <el-form
-      :model="form"
-      label-position="left"
-      label-width="130px"
-      style="max-width: 100%; margin-top: 30px"
-    >
+    <el-form :model="form" label-position="left" label-width="130px" style="max-width: 100%; margin-top: 30px">
       <el-form-item label="*老人信息" style="align-items: flex-start">
         <div class="oldinfo">
-          <el-form
-            :inline="true"
-            label-position="left"
-            label-width="auto"
-            class="demo-form-inline"
-            style="width: 60%"
-          >
+          <el-form :inline="true" label-position="left" label-width="auto" class="demo-form-inline" style="width: 60%">
             <el-form-item label="头像：">
               <el-avatar :size="20" :src="circleUrl" />
             </el-form-item>
@@ -99,48 +88,60 @@ const circleUrl = ref('https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726
   justify-content: space-between;
   align-items: center;
 }
+
 .oldinfo {
   width: 100%;
   // height: 150px;
   border: 1px solid #ccc;
   padding: 20px;
 }
+
 .demo-form-inline {
   .el-form-item {
     width: 30%;
   }
 }
+
 .gray {
   color: #ccc;
 }
+
 .top {
   margin-top: 100px;
 }
+
 .el-steps {
   background-color: #fff;
 }
+
 :deep(.el-step__title) {
   max-width: 100% !important;
   color: black;
   font-weight: bold;
 }
+
 .steps {
   .el-step {
     flex-basis: 8% !important;
   }
+
   padding: 0 !important;
   max-width: 100% !important;
+
   :deep(.el-step__icon) {
     width: 40px !important;
     height: 40px !important;
   }
 }
+
 .stp {
   margin-top: 30px;
+
   .el-step {
     height: 100px !important;
     flex-basis: initial !important;
   }
+
   :deep(.el-step__title) {
     padding: 0;
   }

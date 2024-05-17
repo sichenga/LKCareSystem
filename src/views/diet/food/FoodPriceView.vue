@@ -26,12 +26,8 @@
   <!-- 图表 -->
   <div class="chart">
     <div>价格趋势</div>
-    <ECharts
-      :timelist="state.timelist"
-      :sellPricelist="state.sellPricelist"
-      :wholePricelist="state.wholePricelist"
-      :purchasePricelist="state.purchasePricelist"
-    ></ECharts>
+    <ECharts :timelist="state.timelist" :sellPricelist="state.sellPricelist" :wholePricelist="state.wholePricelist"
+      :purchasePricelist="state.purchasePricelist"></ECharts>
   </div>
   <div class="table">
     <!-- 查询 -->
@@ -219,6 +215,7 @@ const close = (isrefresh: boolean) => {
     }
   }
 }
+
 .back {
   box-sizing: border-box;
   display: flex;

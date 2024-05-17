@@ -41,7 +41,6 @@
                 <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
                     <template #operate>
                         <el-button type="primary" text>移除</el-button>
-                     
                     </template>
                 </MayTable>
             </div>

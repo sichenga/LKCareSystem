@@ -4,12 +4,7 @@
     <el-form :inline="true" :model="formInline" class="demo-form-inline">
       <el-form-item label="接收状态：">
         <el-select v-model="formInline.region" clearable placeholder="Select" style="width: 240px">
-          <el-option
-            v-for="item in data.statelist"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
+          <el-option v-for="item in data.statelist" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -81,6 +76,7 @@ onMounted(() => {
 .el-input {
   height: 40px;
 }
+
 .el-button {
   height: 40px;
   line-height: 40px;
