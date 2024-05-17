@@ -3,9 +3,9 @@
     <div class="box">
         <div class="s1"> <span><i>▋</i>任务奖励积分设置</span></div>
         <!-- 表格 :identifier="identifier"-->
-        <MayTable :tableData="data.tableData" :tableItem="data.tableItem" :input="true" :isoperate="false"></MayTable>
+        <MayTable :tableData="data.tableData" :tableItem="data.tableItem" :isoperate="false"></MayTable>
         <div class="s2"> <span><i>▋</i>积分与人民币比率设置</span></div>
-        <div class="s3">1积分 = <input type="text">  人民币</div>
+        <div class="s3">1积分 = <input type="text"> 人民币</div>
         <div class="save">
             <el-button type="primary">保存设置</el-button>
         </div>
@@ -26,6 +26,10 @@ const data = reactive({
         {
             prop: 'task',
             label: '任务名称'
+        },
+        {
+            prop: 'input',
+            label: '奖励积分'
         }
     ]
 })
@@ -61,10 +65,12 @@ onMounted(() => {
             color: #409EFF;
         }
     }
-    .s3{
+
+    .s3 {
         margin-top: 30px;
     }
-    .save{
+
+    .save {
         margin-top: 30px;
         margin-bottom: 20px;
         text-align: center;

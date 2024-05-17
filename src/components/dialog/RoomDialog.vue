@@ -33,8 +33,8 @@
 import { reactive, ref, defineAsyncComponent, onMounted } from 'vue'
 import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
 const MassUpload = defineAsyncComponent(() => import('@/components/upload/MassUpload.vue'))
-import { addHouse,getHouseTypeList } from '@/service/config/HouseView'
-import type { houseaddType,getHouseType } from '@/service/config/HouseViewType'
+import { addHouse,getHouseTypeList } from '@/service/config/ConfigApi'
+import type { houseaddType,getHouseType } from '@/service/config/ConfigType'
 
 
 const formSize = ref<ComponentSize>('default')
