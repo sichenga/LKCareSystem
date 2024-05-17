@@ -1,4 +1,5 @@
 <template>
+  
   <el-dialog v-model="dialogVisible" title="查看编辑" width="500" @close="close">
     <el-form :model="form" label-width="130px" label-position="left" style="max-width: 600px">
       <el-form-item label="老人："> 张国粉 </el-form-item>
@@ -15,6 +16,7 @@
     </template>
   </el-dialog>
 </template>
+
 <script lang="ts" setup>
 import { ref, reactive, onMounted, defineEmits } from 'vue'
 const emit = defineEmits(['close'])

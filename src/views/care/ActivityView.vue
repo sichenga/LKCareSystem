@@ -32,7 +32,7 @@ import AffiliatedView from '@/database/AffiliatedView.json'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
 const TimePicker = defineAsyncComponent(() => import('@/components/timepicker/MayTimePicker.vue'))
-const ActDialog = defineAsyncComponent(() => import('@/components/dialog/ActDialog.vue'))
+const ActDialog = defineAsyncComponent(() => import('@/components/dialog/care/ActDialog.vue'))
 const formInline = reactive({
   user: '',
   region: '',

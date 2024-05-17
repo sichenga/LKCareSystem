@@ -46,7 +46,7 @@ const router = useRouter()
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
 const TimePicker = defineAsyncComponent(() => import('@/components/timepicker/MayTimePicker.vue'))
-const RegDialog = defineAsyncComponent(() => import('@/components/dialog/RegDialog.vue'))
+const RegDialog = defineAsyncComponent(() => import('@/components/dialog/care/RegDialog.vue'))
 const formInline = reactive({
   user: '',
   region: '',
