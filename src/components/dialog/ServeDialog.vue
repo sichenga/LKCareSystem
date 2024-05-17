@@ -45,8 +45,8 @@
         <el-form-item label="服务名称" prop="name">
           <el-input v-model="ruleForm.name" />
         </el-form-item>
-        <el-form-item label="服务描述" prop="desc">
-          <el-input v-model="ruleForm.desc" type="textarea" />
+        <el-form-item label="服务描述" prop="content">
+          <el-input v-model="ruleForm.content" type="textarea" />
         </el-form-item>
       </el-form>
     </template>
@@ -54,38 +54,82 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref, defineEmits } from 'vue'
+import { reactive, ref, defineEmits, defineProps, watch } from 'vue'
 import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
 import MayDialog from '@/components/dialog/maydialog/MayDialog.vue'
-interface RuleForm {
-  name: string
-  region: string
-  desc: string
-}
-
+import { ElMessage } from 'element-plus'
+import { addNursingService, updateNursingService } from '@/service/config/ConfigApi'
+import type { NursingServiceAdd } from '@/service/config/ConfigType'
 const formSize = ref<ComponentSize>('default')
 const ruleFormRef = ref<FormInstance>()
-const ruleForm = reactive<RuleForm>({
-  name: 'Hello',
-  region: '',
-  desc: ''
+const ruleForm = reactive<NursingServiceAdd>({
+  id: 0,
+  name: '',
+  content: ''
 })
 
-const rules = reactive<FormRules<RuleForm>>({
-  name: [{ required: true, message: 'Please input Activity name', trigger: 'blur' }],
-  region: [
+const props = defineProps({
+  data: {
+    type: Object,
+    default: () => {}
+  }
+})
+
+// 回显数据
+watch(
+  () => props.data,
+  (newval) => {
+    console.log(111, newval)
+    if (newval) {
+      Object.assign(ruleForm, newval)
+    }
+  },
+  { immediate: true }
+)
+
+const rules = reactive<FormRules<NursingServiceAdd>>({
+  name: [
     {
       required: true,
-      message: 'Please select Activity zone',
-      trigger: 'change'
+      message: '请选择服务名称',
+      trigger: 'blur'
     }
   ],
-  desc: [{ required: true, message: 'Please input activity form', trigger: 'blur' }]
+  content: [
+    {
+      required: true,
+      message: '请选择服务描述',
+      trigger: 'blur'
+    }
+  ]
 })
+
+// 确定提交
+const submitForm = async (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+  const valid = await formEl.validate().catch(() => {})
+  if (valid) {
+    let res: any
+    if (!ruleForm.id) {
+      res = await addNursingService(ruleForm).catch(() => {})
+    } else {
+      res = await updateNursingService(ruleForm).catch(() => {})
+    }
+    console.log('增加', res)
+    if (res?.code == 10000) {
+      ElMessage.success(ruleForm.id ? '编辑成功' : '新增成功')
+    }
+  }
+  return valid
+}
 
 //关闭弹框
 const emit = defineEmits(['close'])
-const close = (close: boolean = false) => {
+const close = async (close: boolean = false) => {
+  if (close === true) {
+    let submit = await submitForm(ruleFormRef.value)
+    if (!submit) return false
+  }
   emit('close', close)
 }
 </script>
