@@ -96,8 +96,8 @@
 import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
 import type { UploadUserFile } from 'element-plus'
 import type { FormInstance, FormRules } from 'element-plus'
-import { companyadd, companyget } from '@/service/Organization/Organization'
-import type { companyaddParams } from '@/service/Organization/type'
+import { companyadd, companyget } from '@/service/Organization/OrganizationApi'
+import type { companyaddParams } from '@/service/Organization/OrganizationType'
 import MayTimePicker from '@/components/timepicker/MayTimePicker.vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
@@ -132,7 +132,7 @@ const params = reactive<companyaddParams>({
   creditCode: '', //统一社会信用代码
   license: null, //卫生许可证
   medicalPoint: null, //医疗点
-  house: null, //房屋性质
+  house: '', //房屋性质
   certificate: null, //营业执照
   picture: '' //机构图片
 })
@@ -221,6 +221,7 @@ const getcompanyget = async () => {
         }
       ]
     }
+    // 图片回显
     if (res.data.picture) {
       getUploadPictures.value = res.data.picture.split(',').map((item: any) => ({
         url: upload + '/' + item,

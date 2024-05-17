@@ -28,7 +28,7 @@
       </template>
     </MayTable>
     <Pagination :total="data.total" @page="page" @psize="psize" :page="params.page" :pszie="params.page"></Pagination>
-    
+
   </el-card>
 </template>
 <script lang="ts" setup>
@@ -36,8 +36,8 @@ import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
 import { useRouter } from 'vue-router'
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
-import type { companylistParams } from '@/service/Organization/type'
-import { companylist, companydelete, companyget } from '@/service/Organization/Organization'
+import type { companylistParams } from '@/service/Organization/OrganizationType'
+import { companylist, companydelete, companyget } from '@/service/Organization/OrganizationApi'
 import { useUserStore } from '@/stores'
 import organizationDialog from '@/components/dialog/organizationDialog.vue'
 const userStore = useUserStore()

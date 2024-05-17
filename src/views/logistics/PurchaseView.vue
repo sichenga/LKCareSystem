@@ -6,16 +6,14 @@
     </div>
     <!-- 表格 -->
     <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
-      <template #operate>
-        <!-- <el-button type="primary" text @click="del">删除</el-button> -->
+      <template #operate="{ data }">
+        <el-button type="primary" text @click="del">删除</el-button>
         <el-button type="primary" text @click="edit">编辑</el-button>
-        <el-button type="primary" text @click="reteor.push('/dashboard/examine')"
-          >收货验货</el-button
-        >
-        <el-button type="primary" text @click="getifno">查看详情</el-button>
+        <el-button type="primary" text @click="delivery(data.id)">收货验货</el-button>
+        <el-button type="primary" text @click="getifno(data.id)">查看详情</el-button>
       </template>
     </MayTable>
-    <Pagination :total="50"></Pagination>
+    <Pagination @page="pageChenge" @psize="pageSizeChenge" :total="states.total"></Pagination>
   </el-card>
 </template>
 <script lang="ts" setup>
@@ -24,6 +22,7 @@ import { useRouter } from 'vue-router'
 import AffiliatedView from '@/database/AffiliatedView.json'
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
+import { getPurchaseList } from '@/service/purchase/PurchaseApi'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
 const reteor = useRouter()
@@ -35,33 +34,51 @@ const data = reactive({
       label: '序号'
     },
     {
-      prop: 'addtime',
+      prop: 'addTime',
       label: '创建时间'
     },
     {
-      prop: 'name',
-      label: '机构名称'
+      prop: 'addAccountName',
+      label: '申请人'
     },
 
     {
-      prop: 'manager',
+      prop: 'foods',
       label: '品种'
     },
     {
-      prop: 'phone',
+      prop: 'addAccountId',
       label: '实际采购成本'
     },
     {
-      prop: 'username',
+      prop: 'state',
       label: '状态'
     }
   ]
 })
-const getlist = () => {
-  setTimeout(() => {
-    data.tableData = AffiliatedView
-  }, 1000)
+const states = ref({
+  page: 1,
+  pageSize: 5,
+  total: 0
+})
+// 列表
+const getlist = async () => {
+  let res: any = await getPurchaseList(states.value)
+  if (res.code == 10000) {
+    states.value.total = res.data.counts
+    data.tableData = res.data.list
+  }
 }
+// 分页
+const pageChenge = (val: any) => {
+  states.value.page = val
+  getlist()
+}
+const pageSizeChenge = (val: any) => {
+  states.value.pageSize = val
+  getlist()
+}
+
 const del = async () => {
   let res = await getMessageBox('是否确认删除该采购申请', '删除后将不可恢复')
 
@@ -73,15 +90,24 @@ const del = async () => {
 }
 // 创建采购申请
 const sond = () => {
-  reteor.push('/medicalcare/add')
+  reteor.push('/logistics/purchase/add')
 }
 // 编辑采购申请
 const edit = () => {
   sond()
 }
+//收货验货
+const delivery = (id: number) => {
+  reteor.push('/logistics/purchase/details/' + id)
+}
 // 查看详情
-const getifno = () => {
-  reteor.push('/logistics/details/id')
+const getifno = (id: any) => {
+  reteor.push({
+    path: '/logistics/purchase/check',
+    query: {
+      id: id
+    }
+  })
 }
 onMounted(() => {
   getlist()

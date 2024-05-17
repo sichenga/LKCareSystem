@@ -1,5 +1,6 @@
 // 供应商管理列表
 export interface Supplier {
+  total:number
   pageSize: number
   page: number
 }

@@ -75,7 +75,7 @@ const getlist = () => {
 // 新增
 const add = () => {
   router.push({
-    path: '/AddRegisterInfo'
+    path: '/medicalcare/medicinelogs/add'
   })
 }
 
