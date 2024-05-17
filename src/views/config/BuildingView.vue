@@ -1,16 +1,16 @@
 <template>
     <!-- 楼层管理 -->
     <el-card style="max-width: 100%;">
-        <el-button type="primary" @click="isdialog = true">新增楼层</el-button>
-        <FloorDialog @close="close" v-if="isdialog"></FloorDialog>
+        <el-button type="primary" @click="addBuild">新增楼层</el-button>
+        <FloorDialog @close="close" v-if="isdialog" :pid="pid" :id="id"></FloorDialog>
         <el-tree style="max-width: 600px" :data="dataSource" show-checkbox node-key="id" default-expand-all
             :expand-on-click-node="false" :props="{ label: 'name', children: 'children' }">
             <template #default="{ node, data }">
                 <span class="custom-tree-node">
                     <span>{{ node.label }}</span>
                     <span>
-                        <el-button type="success" @clcik="add(data.id)" :icon="Plus" circle />
-                        <el-button type="primary" :icon="Edit" circle />
+                        <el-button type="success" @click="add(data.id)" :icon="Plus" circle />
+                        <el-button type="primary" @click="modification(data)" :icon="Edit" circle />
                         <el-button type="danger" @click="del(data.id)" :icon="Delete" circle />
                     </span>
                 </span>
@@ -29,7 +29,7 @@ import {
 } from '@element-plus/icons-vue'
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
-import { ConfigBuildingList, delBuilding, BuildingAdd } from '@/service/config/ConfigApi'
+import { ConfigBuildingList, delBuilding } from '@/service/config/ConfigApi'
 import { convertToTree } from '@/utils/treeUtils'
 //树形控件
 const dataSource = ref<any[]>([])
@@ -66,18 +66,30 @@ const del = async (id: any) => {
     }
 }
 //添加楼栋
-const add = (id: any) => {
-    if (id) {
-        isdialog.value = true
-        let res: any = BuildingAdd(id)
-        console.log(res);
-        if (res.code == 10000) {
-            buildingList()
-            ElMessage.success('添加成功')
-        }
-    }
-}
+const id:any=ref({})
 
+const addBuild = ()=>{
+    isdialog.value = true
+    id.value =0 
+    pid.value =0 
+}
+//添加子楼栋
+const pid:any =ref(0) 
+const add = (id: any) => {
+    if(id){
+        pid.value=id 
+    }
+    isdialog.value = true
+}
+//修改楼栋
+
+const modification=(data:any)=>{
+    console.log(data);
+    if(data){
+        id.value=data.id
+    }
+    isdialog.value = true
+}
 onMounted(() => {
     buildingList()
 })
