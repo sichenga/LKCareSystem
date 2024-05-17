@@ -8,7 +8,7 @@
     <el-table-column v-for="(item, index) in props.tableItem" :key="index" :prop="item.prop" :label="item.label"
       :width="item.width">
       <template v-if="item.prop == 'photo' && props.identifier === 'StaffView'" v-slot="{ row }">
-        <el-image style="width: 50px; height: 50px" :src="row.image" /> <span></span>
+        <el-image style="width: 50px; height: 50px" :src="upload+row.photo" /> <span></span>
       </template>
 
       <template v-else-if="props.identifier == 'administration' && item.prop == 'image'" v-slot="{ row }">
@@ -52,6 +52,7 @@ import { defineProps } from 'vue'
 import type { PropType } from 'vue'
 import type { TableItem } from '@/Type/table'
 import moment from 'moment'
+const upload=import.meta.env.VITE_BASE_URL
 const mons = moment
 const props = defineProps({
   tableData: {

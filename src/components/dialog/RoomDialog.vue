@@ -11,15 +11,13 @@
                 </el-select>
             </el-form-item>
             <el-form-item label="所属楼层" prop="region">
-                <el-select v-model="ruleForm.region" placeholder="请选择">
-
-                </el-select>
+                <el-cascader v-model="value" :options="options" @change="handleChange" />
             </el-form-item>
             <el-form-item label="床位数" prop="name">
                 <el-input v-model="ruleForm.name" placeholder="请输入床位数" />
             </el-form-item>
-            <el-form-item label="房间图片" prop="desc">
-                <MassUpload  v-model="ruleForm.desc"></MassUpload>
+            <el-form-item label="房间图片" >
+                <MassUpload @upload="uploadimg" @uploadrem="uploadrem" :showlist="getMassUpload"></MassUpload>
             </el-form-item>
         </el-form>
         <template #footer>
@@ -49,7 +47,54 @@ const ruleForm = reactive<RuleForm>({
     desc: '',
 })
 
-
+const value = ref([])
+const handleChange = (value: any) => {
+    console.log(value)
+}
+const options = [
+    {
+        value: 'guide',
+        label: 'Guide',
+        children: [
+            {
+                value: 'disciplines',
+                label: 'Disciplines',
+                children: [
+                    {
+                        value: 'consistency',
+                        label: 'Consistency',
+                    },
+                    {
+                        value: 'feedback',
+                        label: 'Feedback',
+                    },
+                    {
+                        value: 'efficiency',
+                        label: 'Efficiency',
+                    },
+                    {
+                        value: 'controllability',
+                        label: 'Controllability',
+                    },
+                ],
+            },
+            {
+                value: 'navigation',
+                label: 'Navigation',
+                children: [
+                    {
+                        value: 'side nav',
+                        label: 'Side Navigation',
+                    },
+                    {
+                        value: 'top nav',
+                        label: 'Top Navigation',
+                    },
+                ],
+            },
+        ],
+    },
+]
 
 const rules = reactive<FormRules<RuleForm>>({
     name: [
@@ -64,16 +109,23 @@ const rules = reactive<FormRules<RuleForm>>({
     ],
 
 })
-
-
-
-
-
 //弹框
 const dialogVisible = ref(true)
 const emit = defineEmits(['close'])
 const close = (close: boolean = false) => {
     emit('close', close)
+}
+//图片
+import type { UploadUserFile } from 'element-plus'
+const getMassUpload = ref<UploadUserFile[]>([])
+const uploadimg = (val: any) => {
+  console.log('5555', val)
+ // params.certificate = val?.url
+}
+
+// 移除营业执照
+const uploadrem = () => {
+  //params.certificate = ''
 }
 </script>
 
@@ -85,5 +137,8 @@ const close = (close: boolean = false) => {
 :deep .el-upload--picture-card {
     width: 100px ;
     height: 100px;
+}
+:deep.el-cascader-panel {
+    width: 100px;
 }
 </style>
