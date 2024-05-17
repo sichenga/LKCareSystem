@@ -60,7 +60,7 @@ const add = async () => {
   if (params.id) {
     res = await Buildingupdate(ruleForm).catch(()=>{})
   } else {
-     res = await BuildingAdd(ruleForm).catch(()=>{})
+     res = await BuildingAdd(ruleForm).catch(()=>{}) 
   }
   if (res.code == 10000) {
       ElMessage.success(res.data.id==0?'添加成功':'修改成功')
