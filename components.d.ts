@@ -53,6 +53,7 @@ declare module 'vue' {
     ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
     ElTable: typeof import('element-plus/es')['ElTable']
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
+    ElTree: typeof import('element-plus/es')['ElTree']
     ElUpload: typeof import('element-plus/es')['ElUpload']
     FloorDialog: typeof import('./src/components/dialog/FloorDialog.vue')['default']
     FoodDialog: typeof import('./src/components/dialog/FoodDialog.vue')['default']

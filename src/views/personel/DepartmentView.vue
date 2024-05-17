@@ -80,9 +80,9 @@ const remove = (data: DepartmentListParams) => {
     obj.text2 = '不支持删除操作'
   }
   let res:any = getMessageBox(obj.text1, obj.text2, '删除确认')
-  if (res) {
+  // if (res) {
        
-  }
+  // }
 }
 
 // 关闭弹窗

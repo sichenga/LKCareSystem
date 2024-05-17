@@ -9,7 +9,7 @@
         <template #footer>
             <div class="dialog-footer">
                 <el-button @click="close">取消</el-button>
-                <el-button type="primary" @click="close(true)">确定</el-button>
+                <el-button type="primary" @click="add">确定</el-button>
             </div>
         </template>
     </el-dialog>
@@ -18,31 +18,37 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
 import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
-
-interface RuleForm {
+import {BuildingAdd} from '@/service/config/ConfigApi'
+interface RuleForm{
   name: string
-  desc: string
 }
 
 const formSize = ref<ComponentSize>('default')
 const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive<RuleForm>({
   name: '',
-  desc: '',
 })
 
 
 
 const rules = reactive<FormRules<RuleForm>>({
   name: [
-    { required: true, message: 'Please input Activity name', trigger: 'blur' },
+    { required: true, message: '请输入楼栋名称', trigger: 'blur' },
   ],
- 
-  
+
 })
 
 
+// 添加
+const add=async()=>{
+    let res:any= await BuildingAdd(ruleForm)
+    console.log(res);
+    if(res.code==10000){
 
+      emit('close', true)
+      
+    }
+}
 
 
 //弹框
