@@ -154,6 +154,8 @@ const hoaldIngredient = (val: any) => {
     countsprice(val)
   }
 }
+
+
 // 选择时间
 const hoaldChange = (val: any) => {
   data.AddData.receiveTime = val
@@ -162,6 +164,7 @@ const hoaldChange = (val: any) => {
 const countsprice = (fooddata: any) => {
   data.print = fooddata?.length
   data.totalPrices = fooddata.reduce((counts: any, item: any) => counts + item.purchasePrice, 0)
+
 }
 
 //采购申请 保存并提交

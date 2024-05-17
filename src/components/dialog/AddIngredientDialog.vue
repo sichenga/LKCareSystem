@@ -1,11 +1,4 @@
 <template>
-<<<<<<< HEAD
-  <el-dialog v-model="dialogVisible" title="选择喜欢的食材" width="1200" @close="close">
-    <el-form ref="ruleFormRef" style="max-width: 1000px" label-width="auto" class="demo-ruleForm" :size="formSize"
-      status-icon>
-      <MayTable @selection-change="handleSelectionChange" :tableData="data.tableData" :tableItem="data.tableItem"
-        :isoperate='isoperate' :isMultiple='isMultiple' :label="'采购数量'">
-=======
     <el-dialog v-model="dialogVisible" title="选择喜欢的食材" width="1200" @close="close">
       <el-form
         ref="ruleFormRef"
@@ -28,37 +21,6 @@
       </template>
     </el-dialog>
   </template>
-  <script lang="ts" setup>
-  import { ref, reactive, defineEmits, onMounted, defineProps,defineAsyncComponent } from 'vue'
-  import type { ComponentSize, FormInstance } from 'element-plus'
-  import {FoodList} from '@/service/food/FoodApi'
-  import type {Supplier} from '@/service/food/FoodType'
-  import {useUserStore} from '@/stores/index'
-  const useUser =  useUserStore()  
-  const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
-  const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
-  const isoperate = ref(false)
-  const isMultiple = ref(true)
-  const props = defineProps({
-    editid: {
-      type: Number,
-      default: 0
-    }
-  })
->>>>>>> 3bc683a6d072c89f2d209a2c4726c5d4408f6c6a
-
-      </MayTable>
-    </el-form>
-    <Pagination @psize="handlePsize" @page="handlePage" :page="params.page" :psize="params.pageSize"
-      :total="params.total"></Pagination>
-    <template #footer>
-      <div class="dialog-footer">
-        <el-button @click="close(false)">取消</el-button>
-        <el-button type="primary" @click="submitForm"> 确定 </el-button>
-      </div>
-    </template>
-  </el-dialog>
-</template>
 <script lang="ts" setup>
 import { ref, reactive, defineEmits, onMounted, defineProps, defineAsyncComponent } from 'vue'
 import type { ComponentSize, FormInstance } from 'element-plus'

@@ -7,7 +7,8 @@
             </el-form-item>
             <el-form-item label="房间类型" prop="type">
                 <el-select v-model="ruleForm.type" placeholder="Select" size="large" style="width: 240px">
-                    <el-option v-for="item in state.getHouseTypelist" :key="item.value" :label="item.name" :value="item.id" />
+                    <el-option v-for="item in state.getHouseTypelist" :key="item.value" :label="item.name"
+                        :value="item.id" />
                 </el-select>
             </el-form-item>
             <el-form-item label="所属楼层" prop="name">
@@ -33,9 +34,13 @@
 import { reactive, ref, defineAsyncComponent, onMounted } from 'vue'
 import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
 const MassUpload = defineAsyncComponent(() => import('@/components/upload/MassUpload.vue'))
-import { buildingList, HouseTypeList, addHouse } from '@/service/config/HouseView'
-import type { houseaddType, getHouseType } from '@/service/config/HouseViewType'
+
+
 import { TreeData } from '@/utils/utils'
+
+import { addHouse, HouseTypeList, buildingList } from '@/service/config/ConfigApi'
+import type { houseaddType, getHouseType } from '@/service/config/ConfigType'
+
 const formSize = ref<ComponentSize>('default')
 const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive<houseaddType>({
@@ -129,7 +134,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
         console.log(res);
 
         if (valid) {
-            if(res.code===10000){
+            if (res.code === 10000) {
                 ElMessage({
                     type: 'success',
                     message: '添加成功'
