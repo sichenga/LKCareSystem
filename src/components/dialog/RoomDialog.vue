@@ -5,8 +5,9 @@
             <el-form-item label="房间号" prop="buildingId">
                 <el-input v-model="ruleForm.buildingId" placeholder="请输入房间号" />
             </el-form-item>
+            {{ props.datail }}
             <el-form-item label="房间类型" prop="type">
-                <el-select v-model="ruleForm.type" placeholder="Select" size="large" style="width: 240px">
+                <el-select v-model="ruleForm.type" placeholder="请选择" size="large" style="width: 240px">
                     <el-option v-for="item in state.getHouseTypelist" :key="item.value" :label="item.name"
                         :value="item.id" />
                 </el-select>
@@ -39,8 +40,8 @@ const MassUpload = defineAsyncComponent(() => import('@/components/upload/MassUp
 import { TreeData } from '@/utils/utils'
 
 import { addHouse, HouseTypeList, buildingList } from '@/service/config/ConfigApi'
-import type { houseaddType, getHouseType } from '@/service/config/ConfigType'
-
+import type { houseaddType, getHouseType,houseupdateType } from '@/service/config/ConfigType'
+const upload = import.meta.env.VITE_BASE_URL
 const formSize = ref<ComponentSize>('default')
 const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive<houseaddType>({
@@ -60,7 +61,6 @@ const floorArr = ref([])
 const handleChange = () => {
     ruleForm.name = floorArr.value.join(',')
     console.log(ruleForm.name);
-
 }
 const options = ref<any>([])
 
@@ -96,18 +96,7 @@ const emit = defineEmits(['close'])
 const close = (close: boolean = false) => {
     emit('close', close)
 }
-//图片
-import type { UploadUserFile } from 'element-plus'
-const getMassUpload = ref<UploadUserFile[]>([])
-const uploadimg = (val: any) => {
-    console.log('5555', val)
-    ruleForm.picture = val?.url
-}
 
-// 移除营业执照
-const uploadrem = () => {
-    ruleForm.picture = ''
-}
 //获取房间类型
 const paramsroom = reactive<getHouseType>({
     page: 1,
@@ -127,7 +116,7 @@ const getHouseTypelist = async () => {
 import { ElMessage } from 'element-plus'
 const submitForm = async (formEl: FormInstance | undefined) => {
     if (!formEl) return
-    console.log(ruleForm);
+
 
     await formEl.validate(async (valid, fields) => {
         const res: any = await addHouse(ruleForm)
@@ -139,12 +128,39 @@ const submitForm = async (formEl: FormInstance | undefined) => {
                     type: 'success',
                     message: '添加成功'
                 })
+                close(true)
+                getHouseTypelist()
             }
             console.log('submit!')
         } else {
             console.log('error submit!', fields)
         }
     })
+}
+
+//图片
+import type { UploadUserFile } from 'element-plus'
+const getMassUpload = ref<UploadUserFile[]>([])
+const uploadimg = (val: any) => {
+    console.log('5555', val)
+    ruleForm.picture = val?.url
+}
+//修改
+const props = defineProps(['datail'])
+if (props.datail) {
+    Object.assign(ruleForm, props.datail)
+    if (ruleForm.picture) {
+        console.log(333, props.datail.picture);
+        getMassUpload.value = ruleForm.picture.split(',').map((item: any) => ({
+            url: upload + '/' + item,
+            name: item
+        }))
+    }
+    console.log(66, getMassUpload);
+}
+// 移除营业执照
+const uploadrem = () => {
+    ruleForm.picture = ''
 }
 onMounted(() => {
     getHouseTypelist()

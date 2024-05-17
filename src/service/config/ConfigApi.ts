@@ -48,3 +48,5 @@ export const addHouse = (params: houseaddType) => post('/api/house/add', params)
 export const HouseTypeList = (data: getHouseType) => get('/api/housetype/list', data)
 // 获取楼栋列表
 export const buildingList = () => get( '/api/building/list')
+//房间修改
+export const houseupdate = () => get( '/api/house/update')

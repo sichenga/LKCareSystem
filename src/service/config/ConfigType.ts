@@ -35,3 +35,12 @@ export interface getHouseType {
   page: number
   pageSize: number
 }
+//房间修改
+export interface houseupdateType {
+  id: number,
+  buildingId: number,
+  type: number,
+  name: string,
+  beds: number,
+  picture: string
+}

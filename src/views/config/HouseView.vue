@@ -6,7 +6,7 @@
                 <el-input v-model="params.name" placeholder="请输入房间号" clearable />
             </el-form-item>
             <el-form-item label="楼栋">
-                <el-cascader v-model="value" :options="options" @change="handleChange" />
+                <el-cascader v-model="floorArr" :options="options" @change="handleChange" :props="defaultProps" />
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="search">查询</el-button>
@@ -15,11 +15,11 @@
         </el-form>
     </el-card>
     <el-card style="max-width: 100%;margin-top: 20px;">
-        <el-button type="primary" @click="isdialog = true" class="btn">新增房间</el-button>
-        <RoomDialog @close="close" v-if="isdialog"></RoomDialog>
+        <el-button type="primary" @click="add" class="btn">新增房间</el-button>
+        <RoomDialog @close="close" v-if="isdialog" :datail="datail"></RoomDialog>
         <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
             <template #operate="{ data }">
-                <el-button type="primary" text>编辑</el-button>
+                <el-button type="primary" text @click="handleEdit(data)">编辑</el-button>
                 <el-button type="primary" text @click="handleDelete(data.id)">删除</el-button>
             </template>
         </MayTable>
@@ -34,57 +34,30 @@ import RoomDialog from '@/components/dialog/RoomDialog.vue';
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
 //房间列表
-import { getHouseList, deleteHouse } from '@/service/config/ConfigApi'
+import { getHouseList, deleteHouse, buildingList } from '@/service/config/ConfigApi'
 import type { HouseViewType } from '@/service/config/ConfigType'
 
-const value = ref([])
-const handleChange = (value: any) => {
-    console.log(value)
+import { TreeData } from '@/utils/utils'
+const defaultProps = {
+    children: 'children',
+    value: 'id',
+    label: 'name',
 }
-const options = [
-    {
-        value: 'guide',
-        label: 'Guide',
-        children: [
-            {
-                value: 'disciplines',
-                label: 'Disciplines',
-                children: [
-                    {
-                        value: 'consistency',
-                        label: 'Consistency',
-                    },
-                    {
-                        value: 'feedback',
-                        label: 'Feedback',
-                    },
-                    {
-                        value: 'efficiency',
-                        label: 'Efficiency',
-                    },
-                    {
-                        value: 'controllability',
-                        label: 'Controllability',
-                    },
-                ],
-            },
-            {
-                value: 'navigation',
-                label: 'Navigation',
-                children: [
-                    {
-                        value: 'side nav',
-                        label: 'Side Navigation',
-                    },
-                    {
-                        value: 'top nav',
-                        label: 'Top Navigation',
-                    },
-                ],
-            },
-        ],
-    },
-]
+const floorArr = ref([])
+const handleChange = () => {
+   // params.value.buildingId = floorArr.value.join(',')
+}
+// 获取楼栋列表
+const getbuildingList = async () => {
+    let res: any = await buildingList().catch(() => { })
+    console.log(33, res);
+    if (res?.code === 10000) {
+        // options.value=res.data.list
+        // console.log(44444,options.value);
+        options.value = TreeData(res.data.list)
+    }
+}
+const options = ref<any>([])
 const data = reactive({
     tableData: [] as any,
     total: undefined,
@@ -95,7 +68,7 @@ const data = reactive({
             width: '60'
         },
         {
-            prop: 'name',
+            prop: 'buildingId',
             label: '房间号'
         },
         {
@@ -123,7 +96,10 @@ const data = reactive({
 })
 
 
-
+const add = (() => {
+    isdialog.value = true
+    datail.value = {}
+})
 //弹出框
 const isdialog = ref(false)
 const close = () => {
@@ -133,19 +109,19 @@ const close = () => {
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
 const handleDelete = async (id: number) => {
-  console.log('删除', id)
-  let res = await getMessageBox('是否确认删除该房屋', '删除后将不可恢复')
-  console.log(11112, res)
-  if (res) {
-    const del: any = await deleteHouse(id)
-    console.log('删除', del)
-    if (del?.code === 10000) {
-      ElMessage.success('删除成功')
-      getHouselist()
+    console.log('删除', id)
+    let res = await getMessageBox('是否确认删除该房屋', '删除后将不可恢复')
+    console.log(11112, res)
+    if (res) {
+        const del: any = await deleteHouse(id)
+        console.log('删除', del)
+        if (del?.code === 10000) {
+            ElMessage.success('删除成功')
+            getHouselist()
+        }
+    } else {
+        ElMessage.info('取消删除')
     }
-  } else {
-    ElMessage.info('取消删除')
-  }
 }
 //房间列表
 const params = reactive<HouseViewType>({
@@ -176,8 +152,14 @@ const search = () => {
     params.page = 1
     getHouselist()
 }
+//修改
+const datail = ref<any>([])
+const handleEdit = (data: any) => {
+    isdialog.value = true
+    datail.value = data
+}
 onMounted(() => {
-
+    getbuildingList()
     getHouselist()
 })
 </script>
