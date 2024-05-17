@@ -91,7 +91,7 @@ const data = reactive({
       label: '采购数量'
     },
     {
-      prop: 'purchaseCounts',
+      prop: 'receiveCounts',
       label: '采购实际数量'
     }
   ]
@@ -112,6 +112,8 @@ const getlist = async () => {
 const getData = async () => {
   let id = Number(route.query.id)
   let res: any = await getpurchaseFoods(id)
+  console.log(res);
+  
   if (res.code == 10000) {
     data.tableData = res.data.list
   }

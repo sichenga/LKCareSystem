@@ -62,7 +62,7 @@ const data = reactive({
       label: '序号'
     },
     {
-      prop: 'name',
+      prop: 'foodName',
       label: '物料名称'
     },
     {
@@ -82,7 +82,7 @@ const data = reactive({
       label: '零售价'
     },
     {
-      prop: 'purchaseId',
+      prop: 'purchasePrice',
       label: '采购价'
     },
     {
@@ -96,6 +96,7 @@ const isshou = ref(false)
 const getlist = async () => {
   let ids = Number(route.params.id)
   let res: any = await getpurchaseFoods(ids)
+
   if (res.code == 10000) {
     data.tableData = res.data.list
   }

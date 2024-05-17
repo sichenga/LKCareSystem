@@ -7,8 +7,8 @@
     </div>
     <!-- 表格 -->
     <MayTable :tableData="data.AddData.foods" :tableItem="data.tableItem" :label="'采购数量'" v-if="isProxy">
-      <template #custom="data">
-        <el-input v-model="data.data.creators" style="width: 130px"></el-input>
+      <template #custom="{data}">
+        <el-input v-model="data.creators" style="width: 130px"></el-input>
       </template>
       <template #operate="{ data }">
         <el-button type="primary" text @click="del(data.id)">删除</el-button>
@@ -134,8 +134,9 @@ const hoaldIngredient = (val: any) => {
     data.AddData.foods = val
     countsprice(val)
   }
-
 }
+
+
 // 选择时间
 const hoaldChange = (val: any) => {
   data.AddData.receiveTime = val
@@ -144,6 +145,7 @@ const hoaldChange = (val: any) => {
 const countsprice = (fooddata: any) => {
   data.print = fooddata?.length
   data.totalPrices = fooddata.reduce((counts: any, item: any) => counts + item.purchasePrice, 0)
+
 }
 
 //采购申请 保存并提交
