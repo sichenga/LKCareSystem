@@ -49,6 +49,7 @@ const priceid = ref(0)
 // 编辑食材fondid
 const foodid = ref(0)
 const params = reactive<Supplier>({
+  total:0,
   page: 1,
   pageSize: 5
 })
