@@ -18,12 +18,13 @@
         <el-button type="primary" @click="isdialog = true" class="btn">新增房间</el-button>
         <RoomDialog @close="close" v-if="isdialog"></RoomDialog>
         <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
-            <template #operate>
+            <template #operate="{ data }">
                 <el-button type="primary" text>编辑</el-button>
-                <el-button type="primary" text @click="del">删除</el-button>
+                <el-button type="primary" text @click="handleDelete(data.id)">删除</el-button>
             </template>
         </MayTable>
-        <Pagination :total="data.total" @page="page" @psize="psize" :page="params.page" :pszie="params.page"></Pagination>
+        <Pagination :total="data.total" @page="page" @psize="psize" :page="params.page" :pszie="params.page">
+        </Pagination>
     </el-card>
 </template>
 
@@ -33,7 +34,7 @@ import RoomDialog from '@/components/dialog/RoomDialog.vue';
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
 //房间列表
-import { getHouseList,deleteHouse } from '@/service/config/HouseView'
+import { getHouseList, deleteHouse } from '@/service/config/HouseView'
 import type { HouseViewType } from '@/service/config/HouseViewType'
 
 const value = ref([])
@@ -131,15 +132,20 @@ const close = () => {
 //删除
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
-const del = async (id:any) => {
-    console.log(id)
-    let res = await getMessageBox('是否确认删除该房间', '删除后将不可恢复')
-    console.log(1111, res)
-    if (res) {
-        ElMessage.success('删除成功')
-    } else {
-        ElMessage.info('取消删除')
+const handleDelete = async (id: number) => {
+  console.log('删除', id)
+  let res = await getMessageBox('是否确认删除该房屋', '删除后将不可恢复')
+  console.log(11112, res)
+  if (res) {
+    const del: any = await deleteHouse(id)
+    console.log('删除', del)
+    if (del?.code === 10000) {
+      ElMessage.success('删除成功')
+      getHouselist()
     }
+  } else {
+    ElMessage.info('取消删除')
+  }
 }
 //房间列表
 const params = reactive<HouseViewType>({
@@ -158,17 +164,17 @@ const getHouselist = async () => {
 }
 //分页
 const page = (val: number) => {
-  params.page = val
-  getHouselist()
+    params.page = val
+    getHouselist()
 }
 const psize = (val: number) => {
-  params.pageSize = val
-  getHouselist()
+    params.pageSize = val
+    getHouselist()
 }
 //查询
 const search = () => {
-  params.page = 1
-  getHouselist()
+    params.page = 1
+    getHouselist()
 }
 onMounted(() => {
 

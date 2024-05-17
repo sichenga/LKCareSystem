@@ -32,3 +32,28 @@ export function TreeData<T>(data: Array<T>, pid: number = 0) {
   })
   return tree
 }
+
+//将base64转换为file文件
+export const dataURLtoFile = (dataurl: any, filename: any) => {
+  const arr = dataurl.split(',')
+  const mime = arr[0].match(/:(.*?);/)[1],
+    bstr = atob(arr[1])
+  let n = bstr.length
+  const u8arr = new Uint8Array(n)
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n)
+  }
+  return new File([u8arr], filename, { type: mime })
+}
+
+// 扁平数据转树状 结构数据
+export function convertToTree(flatData: any, pid: number = 0) {
+  const children = flatData.filter((node: any) => node.pid === pid)
+  if (!children.length) {
+    return null
+  }
+  return children.map((node: any) => ({
+    ...node,
+    children: convertToTree(flatData, node.id)
+  }))
+}

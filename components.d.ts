@@ -13,6 +13,7 @@ declare module 'vue' {
     AddDepartmentDialog: typeof import('./src/components/dialog/AddDepartmentDialog.vue')['default']
     AddedlevelDialog: typeof import('./src/components/dialog/AddedlevelDialog.vue')['default']
     AddIngredientDialog: typeof import('./src/components/dialog/AddIngredientDialog.vue')['default']
+    AddNightDialog: typeof import('./src/components/dialog/AddNightDialog.vue')['default']
     AddRegInfoDialog: typeof import('./src/components/dialog/AddRegInfoDialog.vue')['default']
     AddRelation: typeof import('./src/components/dialog/AddRelation.vue')['default']
     AdmissionDialog: typeof import('./src/components/dialog/AdmissionDialog.vue')['default']

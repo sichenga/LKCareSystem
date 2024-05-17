@@ -1,17 +1,31 @@
 <template>
-  <el-table :data="props.tableData" border style="width: 100%" :header-cell-style="{
-    background: '#f9f9f9',
-    color: '#000000',
-    height: '50px'
-  }">
+  <el-table
+    :data="props.tableData"
+    border
+    style="width: 100%"
+    :header-cell-style="{
+      background: '#f9f9f9',
+      color: '#000000',
+      height: '50px'
+    }"
+  >
     <el-table-column type="selection" width="55" v-if="isMultiple" />
-    <el-table-column v-for="(item, index) in props.tableItem" :key="index" :prop="item.prop" :label="item.label"
-      :width="item.width">
-      <template v-if="item.prop == 'photo' && props.identifier === 'StaffView'" v-slot="{ row }">
-        <el-image style="width: 50px; height: 50px" :src="upload+row.photo" /> <span></span>
+    <el-table-column
+      v-for="(item, index) in props.tableItem"
+      :key="index"
+      :prop="item.prop"
+      :label="item.label"
+      :width="item.width"
+    >
+      <template v-if="item.prop == 'photo' || item.prop == 'qrcode'" v-slot="{ row }">
+        <el-image style="width: 50px; height: 50px" :src="upload + (row.photo || row.qrcode)" />
+        <span></span>
       </template>
 
-      <template v-else-if="props.identifier == 'administration' && item.prop == 'image'" v-slot="{ row }">
+      <template
+        v-else-if="props.identifier == 'administration' && item.prop == 'image'"
+        v-slot="{ row }"
+      >
         <el-image style="width: 50px; height: 50px" :src="row.image" fit="cover" />
 
         <el-image style="width: 80px; height: 80px" :src="row.image" fit="cover" />
@@ -20,8 +34,17 @@
       </template>
 
       <!-- 出入院管理>老人管理>新增>健康信息 -->
-      <template v-else-if="props.identifier == 'oldphysical' && item.prop == 'image'" v-slot="{ row }">
-        <el-image v-for="item in row.image" :key="item" style="width: 40px; height: 40px" :src="item" fit="cover" />
+      <template
+        v-else-if="props.identifier == 'oldphysical' && item.prop == 'image'"
+        v-slot="{ row }"
+      >
+        <el-image
+          v-for="item in row.image"
+          :key="item"
+          style="width: 40px; height: 40px"
+          :src="item"
+          fit="cover"
+        />
       </template>
       <!-- 日期格式 -->
       <template v-else-if="item.prop === 'updateTime'" v-slot="{ row }">
@@ -52,7 +75,7 @@ import { defineProps } from 'vue'
 import type { PropType } from 'vue'
 import type { TableItem } from '@/Type/table'
 import moment from 'moment'
-const upload=import.meta.env.VITE_BASE_URL
+const upload = import.meta.env.VITE_BASE_URL + '/'
 const mons = moment
 const props = defineProps({
   tableData: {

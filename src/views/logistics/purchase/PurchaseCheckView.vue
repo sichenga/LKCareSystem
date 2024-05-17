@@ -34,7 +34,7 @@
       <div class="image">
         <el-image
           style="width: 100px; height: 100px"
-          :src="data.TatleData.picture ? ImageUrls+data.TatleData.picture : ''"
+          :src="data.TatleData.picture ? ImageUrls + data.TatleData.picture : ''"
           fit="cover"
         />
       </div>
@@ -52,7 +52,7 @@ const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.
 const router = useRouter()
 const route = useRoute()
 //图片后缀路径
-const ImageUrls = import.meta.env.VITE_BASE_URL+'/' || ''
+const ImageUrls = import.meta.env.VITE_BASE_URL + '/' || ''
 
 const data = reactive({
   tableData: [] as any,
@@ -63,7 +63,7 @@ const data = reactive({
       label: '序号'
     },
     {
-      prop: 'name',
+      prop: 'foodname',
       label: '物料名称'
     },
     {
@@ -97,7 +97,6 @@ const data = reactive({
   ]
 })
 
-
 //根据id获取单条采购申请信息
 const isshou = ref(false)
 const getlist = async () => {
@@ -116,9 +115,9 @@ const getData = async () => {
     data.tableData = res.data.list
   }
 }
-onMounted( () => {
-   getlist()//根据id获取单条采购申请信息
-   getData()// 根据采购id获取采购物品列表
+onMounted(() => {
+  getlist() //根据id获取单条采购申请信息
+  getData() // 根据采购id获取采购物品列表
 })
 </script>
 <style lang="less" scoped>

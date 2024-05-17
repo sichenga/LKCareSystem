@@ -8,7 +8,6 @@
       :data="dataSource"
       show-checkbox
       node-key="id"
-      default-expand-all
       :expand-on-click-node="false"
       :props="{ children: 'children', label: 'name' }"
     >
@@ -79,9 +78,8 @@ const remove = (data: DepartmentListParams) => {
     obj.text1 = '该部门关联了若干员工'
     obj.text2 = '不支持删除操作'
   }
-  let res:any = getMessageBox(obj.text1, obj.text2, '删除确认')
+  let res: any = getMessageBox(obj.text1, obj.text2, '删除确认')
   if (res) {
-       
   }
 }
 
