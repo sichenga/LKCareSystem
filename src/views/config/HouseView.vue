@@ -34,8 +34,8 @@ import RoomDialog from '@/components/dialog/RoomDialog.vue';
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
 //房间列表
-import { getHouseList, deleteHouse } from '@/service/config/HouseView'
-import type { HouseViewType } from '@/service/config/HouseViewType'
+import { getHouseList, deleteHouse } from '@/service/config/ConfigApi'
+import type { HouseViewType } from '@/service/config/ConfigType'
 
 const value = ref([])
 const handleChange = (value: any) => {
