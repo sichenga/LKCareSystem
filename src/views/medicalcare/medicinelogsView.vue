@@ -71,7 +71,7 @@ const getlist = () => {
 // 用药登记
 const registerinfo = () => {
   router.push({
-    path: '/medicalcare/details/id'
+    path: '/medicalcare/medicinelogs/details/id'
   })
 }
 
@@ -83,6 +83,7 @@ onMounted(() => {
 .el-input {
   height: 40px;
 }
+
 .el-button {
   height: 40px;
   line-height: 40px;
