@@ -1,99 +1,106 @@
 <template>
     <!-- 房型管理 -->
     <el-card style="max-width: 100%">
-        <el-button type="primary" @click="isdialog = true">新增房间类型</el-button>
-        <ManageDialog @close="close" v-if="isdialog"></ManageDialog>
+        <el-button type="primary" @click="add">新增房间类型</el-button>
+        <ManageDialog @close="close" v-if="isdialog" :dataget="dataget"></ManageDialog>
         <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
-            <template #operate>
-                <el-button type="primary" text>编辑</el-button>
-                <el-button type="primary" text @click="del">删除</el-button>
+            <template #operate="{ data }">
+                <el-button type="primary" size="small" link @click="handleEdit(data)">编辑</el-button>
+                <el-button type="primary" size="small" link @click="handleDelete(data.id)">删除</el-button>
             </template>
         </MayTable>
-        <Pagination :total="50"></Pagination>
+        <!-- 分页 -->
+        <Pagination :total="data.total" :page="params.page" :psize="params.pageSize" @page="getpage" @psize="getpsize">
+        </Pagination>
     </el-card>
 </template>
 
 <script lang="ts" setup>
 import { ref, reactive, defineAsyncComponent, onMounted } from 'vue'
-import ManageView from '@/database/ManageView.json'
+import { HousetypeList, HousetypeDelete } from "@/service/config/ConfigApi"
+import type { Housetypeparams } from "@/service/config/ConfigType"
 import ManageDialog from '@/components/dialog/ManageDialog.vue';
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
 
 const data = reactive({
-
+    total: undefined,
     tableData: [] as any,
     tableItem: [
         {
             prop: 'id',
             label: '序号',
-            width: '60'
         },
-
         {
-            prop: 'roomname',
+            prop: 'name',
             label: '房间名称'
-        },
-        {
-            prop: 'bed',
-            label: '关联房间数'
-        },
-        {
-            prop: 'fee',
-            label: '床位费(元/天)'
-        },
-        {
-            prop: 'earnest',
-            label: '定金(元/天)'
-        },
-        {
-            prop: 'rooms',
-            label: '关联房间数'
-        },
-        {
-            prop: 'Introduction',
-            label: '房型简介'
-        },
-        {
-            prop: 'founder',
-            label: '创建人'
-        },
-        {
-            prop: 'addtime',
-            label: '创建时间'
         },
     ]
 })
-
-const getlist = () => {
-    setTimeout(() => {
-        data.tableData = ManageView
-    }, 1000)
+const params = reactive<Housetypeparams>({
+    page: 1,
+    pageSize: 5
+})
+const getlist = async () => {
+    const res: any = await HousetypeList(params)
+    console.log('房间类型列表', res);
+    if (res.code == 10000) {
+        data.tableData = res.data.list
+        data.total = res.data.counts
+    }
+}
+// 编辑
+const dataget = ref<any>([])
+const handleEdit = (data: any) => {
+    console.log('编辑', data)
+    isdialog.value = true
+    dataget.value = data
 }
 onMounted(() => {
     getlist()
 })
 //弹出框
 const isdialog = ref(false)
-const close = () => {
+const close = (val: any) => {
+    if (val) {
+        getlist()
+    }
     isdialog.value = false
 }
 //删除
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
-const del = async () => {
-    let res = await getMessageBox('是否确认删除该房型', '删除后将不可恢复')
-    console.log(1111, res)
+const handleDelete = async (id: number) => {
+    let res = await getMessageBox('是否确认删除该食材', '删除后将不可恢复')
     if (res) {
-        ElMessage.success('删除成功')
+        const del: any = await HousetypeDelete(id)
+        console.log('删除', del)
+        if (del?.code === 10000) {
+            ElMessage.success('删除成功')
+            getlist()
+        }
     } else {
         ElMessage.info('取消删除')
     }
 }
+// 新增
+const add = () => {
+    dataget.value = { };
+    // 打开对话框
+    isdialog.value = true;
+}
+// 分页
+const getpage = (val: number) => {
+    params.page = val
+    getlist()
+}
+const getpsize = (val: number) => {
+    params.pageSize = val
+    getlist()
+}
 </script>
 
 <style lang="less" scoped>
-
 .el-button {
     margin-bottom: 20px;
 }

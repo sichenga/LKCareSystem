@@ -37,7 +37,7 @@
 <script lang="ts" setup>
 import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
 import AffiliatedView from '@/database/AffiliatedView.json'
-import AffDialog from '@/components/dialog/AffDialog.vue'
+import AffDialog from '@/components/dialog/care/AffDialog.vue'
 import { useRouter } from 'vue-router'
 const router = useRouter()
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))

@@ -1,5 +1,5 @@
 <template>
-  <el-dialog v-model="dialogVisible" title="新增楼层" width="500" @close="close">
+  <el-dialog v-model="dialogVisible" :title="params.id?'修改楼层':'新增楼层'" width="500" @close="close">
     <el-form ref="ruleFormRef" style="max-width: 400px" :model="ruleForm" :rules="rules" label-width="auto"
       class="demo-ruleForm" :size="formSize" status-icon>
       <el-form-item label="楼层号" prop="name">
@@ -17,8 +17,8 @@
 
 <script lang="ts" setup>
 import { reactive, ref, defineProps } from 'vue'
-import {ElMessage} from 'element-plus'
-import type { ComponentSize, FormInstance, FormRules} from 'element-plus'
+import { ElMessage } from 'element-plus'
+import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
 import { BuildingAdd, Buildingupdate } from '@/service/config/ConfigApi'
 import type { RuleForm } from '@/service/config/ConfigType'
 
@@ -35,7 +35,15 @@ const params = defineProps({
 })
 
 
-
+const rules = reactive<FormRules<RuleForm>>({
+  name: [
+    {
+      required: true,
+      message: '请输入楼层',
+      trigger: 'blur'
+    }
+  ]
+})
 const formSize = ref<ComponentSize>('default')
 const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive<RuleForm>({
@@ -46,43 +54,20 @@ const ruleForm = reactive<RuleForm>({
 
 
 
-const rules = reactive<FormRules<RuleForm>>({
-  name: [
-    { required: true, message: '请输入楼栋名称', trigger: 'blur' },
-  ],
-
-})
-
-
 // 添加
 const add = async () => {
-
-
-  if (params.id >= 1) {
-    //修改楼栋
-    console.log('修改楼栋');
-    
-    let res: any = await Buildingupdate(ruleForm)
-    console.log(res);
-    if(res.code==10000){
-      emit('close', true)
-      ElMessage.success('修改成功')
-    }
+  let res:any;
+  if (params.id) {
+    res = await Buildingupdate(ruleForm).catch(()=>{})
   } else {
-    //添加楼栋
-    console.log('添加楼栋');
-    console.log(ruleForm);
-    
-    let res: any = await BuildingAdd(ruleForm)
-    console.log(res);
-    if (res.code == 10000) {
-      emit('close', true)
-      ElMessage.success('添加成功')
-      
-    }
+     res = await BuildingAdd(ruleForm).catch(()=>{}) 
   }
-}
+  if (res.code == 10000) {
+      ElMessage.success(res.data.id==0?'添加成功':'修改成功')
+      emit('close', true)
+    }
 
+}
 
 //弹框
 const dialogVisible = ref(true)

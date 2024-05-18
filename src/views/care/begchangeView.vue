@@ -48,7 +48,7 @@ import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
-const BedDialog = defineAsyncComponent(() => import('@/components/dialog/BedDialog.vue'))
+const BedDialog = defineAsyncComponent(() => import('@/components/dialog/care/BedDialog.vue'))
 const router = useRouter()
 const formInline = reactive({
   user: '',

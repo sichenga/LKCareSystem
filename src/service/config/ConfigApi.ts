@@ -1,7 +1,36 @@
 import { get, post, del, put } from '@/utils/request'
-import type { RuleForm, NursingServiceList, NursingServiceAdd } from '@/service/config/ConfigType'
+import type {
+  NursingServiceList,
+  Housetypeparams,
+  Housetypeadd,
+  RuleForm,
+  HouseViewType,
+  houseaddType,
+  getHouseType,
+  NursingServiceAdd
+} from './ConfigType'
 
-// 楼栋管理 /api/building/list
+// 房间类型列表
+export const HousetypeList = (params: Housetypeparams) => {
+  return get('/api/housetype/list', params)
+}
+
+// 房间类型添加
+export const HousetypeAdd = (params: Housetypeadd) => {
+  return post('/api/housetype/add', params)
+}
+
+// 删除房间类型
+export const HousetypeDelete = (id: number) => {
+  return del(`/api/housetype/delete/${id}`)
+}
+
+// 房间类型修改
+export const Housetypeupdate = (data: Housetypeadd) => {
+  return put(`/api/housetype/update`, data)
+}
+
+// 楼栋管理
 export const ConfigBuildingList = () => get('/api/building/list')
 //添加楼栋
 export const BuildingAdd = (data: RuleForm) => post('/api/building/add', data)
@@ -21,3 +50,15 @@ export const addNursingService = (data: NursingServiceAdd) => post('/api/nursing
 // 护理服务修改 /api/nursingService/update
 export const updateNursingService = (data: NursingServiceAdd) =>
   put('/api/nursingService/update', data)
+//房间列表
+export const getHouseList = (data: HouseViewType) => get('/api/house/list', data)
+//删除
+export const deleteHouse = (id: number) => del(`/api/house/delete/${id}`)
+//添加房间
+export const addHouse = (params: houseaddType) => post('/api/house/add', params)
+//获取房间类型列表
+export const HouseTypeList = (data: getHouseType) => get('/api/housetype/list', data)
+// 获取楼栋列表
+export const buildingList = () => get('/api/building/list')
+//房间修改
+export const houseupdate = () => get('/api/house/update')

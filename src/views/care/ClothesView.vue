@@ -44,7 +44,7 @@ const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
 const TimePicker = defineAsyncComponent(() => import('@/components/timepicker/MayTimePicker.vue'))
 const WashparticularsDialog = defineAsyncComponent(
-  () => import('@/components/dialog/WashparticularsDialog.vue')
+  () => import('@/components/dialog/care/WashparticularsDialog.vue')
 )
 const formInline = reactive({
   user: '',

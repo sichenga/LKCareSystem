@@ -27,10 +27,9 @@ import { addresslist, addressdelete } from '@/service/address/AddressApi'
 import type { AddressList } from '@/service/address/AddressType'
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
-import LocationDialog from '@/components/dialog/LocationDialog.vue'
+import LocationDialog from '@/components/dialog/care/LocationDialog.vue'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
-// const LocationDialog = defineAsyncComponent(() => import('@/components/dialog/LocationDialog.vue'))
 const isdialog = ref(false)
 const data = reactive({
   tableData: [] as any,
