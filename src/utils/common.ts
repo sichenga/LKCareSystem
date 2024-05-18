@@ -2,12 +2,11 @@ import { useUserStore } from '@/stores'
 const model = import.meta.glob('../views/**/*.vue')
 console.log(6666, model['../views/login/LoginViews.vue'])
 
-
 // 动态路由
 export const AddMenu = () => {
   const userStore = useUserStore()
   // 添加菜单
-  console.log(userStore.auth)
+  // console.log(userStore.auth)
   return getRouter(userStore.auth)
 }
 
@@ -92,15 +91,15 @@ const getRouter = (data?: any, tree: any = [], url: string = '') => {
           console.log(
             child.name,
             model[
-            `../views/${url ? url + '/' : ''}${item.url}/${firstUpperCase(child.pathName)}View.vue`
+              `../views/${url ? url + '/' : ''}${item.url}/${firstUpperCase(child.pathName)}View.vue`
             ]
           )
           const menu = {
-            path: `${url ? url : item.url}/${child.url}`,
+            path: `${url ? url + '/' : ''}${item.url}/${child.url}`,
             name: child.pathName + child.id,
             component:
               model[
-              `../views/${url ? url + '/' : ''}${item.url.includes('branch') ? 'company' : item.url}/${firstUpperCase(child.pathName)}View.vue`
+                `../views/${url ? url + '/' : ''}${item.url.includes('branch') ? 'company' : item.url}/${firstUpperCase(child.pathName)}View.vue`
               ],
             meat: {
               title: child.name
