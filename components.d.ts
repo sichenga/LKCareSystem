@@ -51,7 +51,12 @@ declare module 'vue' {
     ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
     ElTable: typeof import('element-plus/es')['ElTable']
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
+<<<<<<< HEAD
     FloorDialog: typeof import('./src/components/dialog/config/FloorDialog.vue')['default']
+=======
+    ElTree: typeof import('element-plus/es')['ElTree']
+    FloorDialog: typeof import('./src/components/dialog/FloorDialog.vue')['default']
+>>>>>>> dee9fba394368bcc7bca1c2c44160123efba84bd
     FoodDialog: typeof import('./src/components/dialog/FoodDialog.vue')['default']
     HospitalDialog: typeof import('./src/components/dialog/financial/HospitalDialog.vue')['default']
     IndustryDialog: typeof import('./src/components/dialog/config/IndustryDialog.vue')['default']
@@ -61,6 +66,7 @@ declare module 'vue' {
     ManagementDialog: typeof import('./src/components/dialog/system/ManagementDialog.vue')['default']
     MassUpload: typeof import('./src/components/upload/MassUpload.vue')['default']
     MayDateTimePicker: typeof import('./src/components/timepicker/MayDateTimePicker.vue')['default']
+    MayDialog: typeof import('./src/components/dialog/maydialog/MayDialog.vue')['default']
     MayPagination: typeof import('./src/components/pagination/MayPagination.vue')['default']
     MayTable: typeof import('./src/components/table/MayTable.vue')['default']
     MayTimePicker: typeof import('./src/components/timepicker/MayTimePicker.vue')['default']
