@@ -5,7 +5,7 @@ import type {
   RuleForm,
   HouseViewType,
   houseaddType,
-  getHouseType
+  getHouseType,
 } from './ConfigType'
 
 // 房间类型列表
@@ -49,4 +49,4 @@ export const HouseTypeList = (data: getHouseType) => get('/api/housetype/list', 
 // 获取楼栋列表
 export const buildingList = () => get( '/api/building/list')
 //房间修改
-export const houseupdate = () => get( '/api/house/update')
+export const houseupdate = (data: houseaddType) => put( '/api/house/update',data)

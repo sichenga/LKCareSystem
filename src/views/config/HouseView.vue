@@ -6,7 +6,7 @@
                 <el-input v-model="params.name" placeholder="请输入房间号" clearable />
             </el-form-item>
             <el-form-item label="楼栋">
-                <el-cascader v-model="floorArr" :options="options" @change="handleChange" :props="defaultProps" />
+                <!-- 级联选择器 -->
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="search">查询</el-button>
@@ -34,30 +34,8 @@ import RoomDialog from '@/components/dialog/RoomDialog.vue';
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
 //房间列表
-import { getHouseList, deleteHouse, buildingList } from '@/service/config/ConfigApi'
+import { getHouseList, deleteHouse,  } from '@/service/config/ConfigApi'
 import type { HouseViewType } from '@/service/config/ConfigType'
-
-import { TreeData } from '@/utils/utils'
-const defaultProps = {
-    children: 'children',
-    value: 'id',
-    label: 'name',
-}
-const floorArr = ref([])
-const handleChange = () => {
-   // params.value.buildingId = floorArr.value.join(',')
-}
-// 获取楼栋列表
-const getbuildingList = async () => {
-    let res: any = await buildingList().catch(() => { })
-    console.log(33, res);
-    if (res?.code === 10000) {
-        // options.value=res.data.list
-        // console.log(44444,options.value);
-        options.value = TreeData(res.data.list)
-    }
-}
-const options = ref<any>([])
 const data = reactive({
     tableData: [] as any,
     total: undefined,
@@ -102,8 +80,11 @@ const add = (() => {
 })
 //弹出框
 const isdialog = ref(false)
-const close = () => {
+const close = (val:any) => {
     isdialog.value = false
+    if(val){
+        getHouselist()
+    }
 }
 //删除
 import { getMessageBox } from '@/utils/utils'
@@ -159,7 +140,6 @@ const handleEdit = (data: any) => {
     datail.value = data
 }
 onMounted(() => {
-    getbuildingList()
     getHouselist()
 })
 </script>
