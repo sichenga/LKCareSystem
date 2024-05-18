@@ -35,7 +35,7 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
 import type { ComponentSize, FormInstance } from 'element-plus'
-import PassDialog from '@/components/dialog/PassDialog.vue'
+import PassDialog from '@/components/dialog/config/PassDialog.vue'
 interface RuleForm {
   name: string
   tel: string

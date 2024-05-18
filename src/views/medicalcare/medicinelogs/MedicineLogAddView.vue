@@ -33,7 +33,7 @@ import { ElMessage } from 'element-plus'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const TimePicker = defineAsyncComponent(() => import('@/components/timepicker/MayTimePicker.vue'))
 const AddRegInfoDialog = defineAsyncComponent(
-  () => import('@/components/dialog/AddRegInfoDialog.vue')
+  () => import('@/components/dialog/medicalcare/AddRegInfoDialog.vue')
 )
 const formInline = reactive({
   user: '',

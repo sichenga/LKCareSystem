@@ -1,4 +1,5 @@
 <template>
+       <!-- dialog写在market文件夹下 -->
     <el-card style="margin-top: 15px" class="section">
         <div class="title">
             <div class="title-box">

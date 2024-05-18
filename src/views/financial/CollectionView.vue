@@ -42,7 +42,7 @@
 <script lang='ts' setup>
 import { reactive, toRefs, ref, onMounted, defineAsyncComponent } from 'vue'
 import { useRouter } from 'vue-router'
-import CollectionDialog from "@/components/dialog/CollectionDialog.vue"
+import CollectionDialog from "@/components/dialog/financial/CollectionDialog.vue"
 const router = useRouter();
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))

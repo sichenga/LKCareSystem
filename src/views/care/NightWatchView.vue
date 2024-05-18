@@ -74,7 +74,7 @@ const router = useRouter()
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
 const TimePicker = defineAsyncComponent(() => import('@/components/timepicker/MayTimePicker.vue'))
-const AddNightDialog = defineAsyncComponent(() => import('@/components/dialog/AddNightDialog.vue'))
+const AddNightDialog = defineAsyncComponent(() => import('@/components/dialog/care/AddNightDialog.vue'))
 const formInline = reactive<PatrolList>({
   page: 1,
   pageSize: 5,

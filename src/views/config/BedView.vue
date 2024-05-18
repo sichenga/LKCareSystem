@@ -43,7 +43,7 @@
 <script lang="ts" setup>
 import { ref, reactive, defineAsyncComponent, onMounted } from 'vue'
 import BerthView from '@/database/BerthView.json'
-import BerthDialog from '@/components/dialog/BerthDialog.vue';
+import BerthDialog from '@/components/dialog/config/BerthDialog.vue';
 const identifier = 'Workers'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
