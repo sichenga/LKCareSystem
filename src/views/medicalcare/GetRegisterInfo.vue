@@ -1,5 +1,5 @@
 <template>
-      <!-- dialog写在medicalcare文件夹下 -->
+  <!-- dialog写在medicalcare文件夹下 -->
   <el-card>
     <el-form :model="form" label-width="130px" label-position="left">
       <el-form-item label="登记日期："> 2020-03-03 </el-form-item>

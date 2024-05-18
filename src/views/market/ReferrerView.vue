@@ -35,7 +35,7 @@
       <!-- 新增 -->
       <ReferrerDialog @close="close" v-if="isdialog"></ReferrerDialog>
       <!-- 积分奖励 -->
-      <Rewarddialog @close="close" v-if="isdshow"></Rewarddialog>
+      <RewarDialog @close="close" v-if="isdshow"></RewarDialog>
    </el-card>
 </template>
 
@@ -45,7 +45,7 @@ import ReferrerView from '@/database/ReferrerView.json'
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
 import ReferrerDialog from '@/components/dialog/market/ReferrerDialog.vue'
-import Rewarddialog from '@/components/dialog/market/Rewarddialog.vue'
+import RewarDialog from '@/components/dialog/market/Rewardialog.vue'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
 import { useRouter } from 'vue-router';
