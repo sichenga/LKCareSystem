@@ -59,7 +59,7 @@
 <script lang="ts" setup>
 import { reactive, ref, defineAsyncComponent, onMounted } from 'vue'
 import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
-import ConfigurationView from '@/database/ConfigurationView.json'
+
 import { useRouter } from 'vue-router';
 const router = useRouter();
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))

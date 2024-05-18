@@ -14,7 +14,7 @@
 <script lang="ts" setup>
 import { ref,reactive,defineAsyncComponent,onMounted } from 'vue'
 import ServeView from '@/database/ServeView.json'
-import ServeDialog from '@/components/dialog/ServeDialog.vue';
+import ServeDialog from '@/components/dialog/config/ServeDialog.vue';
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 
 const data = reactive({

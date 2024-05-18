@@ -1,4 +1,5 @@
 <template>
+      <!-- dialog写在market文件夹下 -->
    <div>入院详情</div>
 </template>
 

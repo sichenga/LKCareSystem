@@ -24,7 +24,7 @@
 import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
 import AffiliatedView from '@/database/AffiliatedView.json'
 const ProjectInfoDialog = defineAsyncComponent(
-  () => import('@/components/dialog/ProjectInfoDialog.vue')
+  () => import('@/components/dialog/medicalcare/ProjectInfoDialog.vue')
 )
 const isdialog = ref(false)
 const isinfo = ref(true)

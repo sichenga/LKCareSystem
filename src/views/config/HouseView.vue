@@ -30,7 +30,7 @@
 
 <script lang="ts" setup>
 import { ref, reactive, defineAsyncComponent, onMounted } from 'vue'
-import RoomDialog from '@/components/dialog/RoomDialog.vue';
+import RoomDialog from '@/components/dialog/config/RoomDialog.vue';
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
 //房间列表

@@ -1,4 +1,5 @@
 <template>
+     <!-- dialog写在market文件夹下 -->
    <!-- 投诉建议详情 -->
    <el-card style="max-width: 100%">
       <div class="header">

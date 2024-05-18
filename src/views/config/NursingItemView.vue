@@ -15,7 +15,7 @@
 <script lang="ts" setup>
 import { ref, reactive, defineAsyncComponent, onMounted } from 'vue'
 import ProjectView from '@/database/ProjectView.json'
-import ProjectDialog from '@/components/dialog/ProjectDialog.vue';
+import ProjectDialog from '@/components/dialog/config/ProjectDialog.vue';
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 import { useRouter } from 'vue-router';
 const router = useRouter();

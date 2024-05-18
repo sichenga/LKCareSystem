@@ -1,5 +1,6 @@
 <template>
     <!-- 审批设置 -->
+       <!-- dialog写在config文件夹下 -->
     <el-card style="max-width:100%">
         <MayTable :tableData="data.tableData" :tableItem="data.tableItem" >
             <template #operate>

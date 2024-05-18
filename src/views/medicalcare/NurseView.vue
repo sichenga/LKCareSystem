@@ -1,4 +1,5 @@
 <template>
+       <!-- dialog写在medicalcare文件夹下 -->
    <el-tabs type="card" class="demo-tabs">
       <el-tab-pane label="血压记录" name="first">
          血压记录

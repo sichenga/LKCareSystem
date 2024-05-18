@@ -26,7 +26,7 @@ import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
 import FoodDialog from '@/components/dialog/FoodDialog.vue'
-import PriceDialog from '@/components/dialog/PriceDialog.vue'
+import PriceDialog from '@/components/dialog/diet/PriceDialog.vue'
 import { useRouter } from 'vue-router'
 const router = useRouter()
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))

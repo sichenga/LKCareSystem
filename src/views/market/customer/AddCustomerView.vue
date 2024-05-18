@@ -71,7 +71,7 @@ import AffiliatedView from '@/database/AffiliatedView.json'
 import {getMessageBox} from '@/utils/utils'
 import { ElMessage } from 'element-plus'
 
-const AddRelation = defineAsyncComponent(() => import('@/components/dialog/AddRelation.vue'))
+const AddRelation = defineAsyncComponent(() => import('@/components/dialog/market/AddRelation.vue'))
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
 const data = reactive({

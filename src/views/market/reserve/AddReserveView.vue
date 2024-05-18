@@ -1,5 +1,6 @@
 <template>
     <el-card>
+          <!-- dialog写在market文件夹下 -->
         新增预定
     </el-card>
    

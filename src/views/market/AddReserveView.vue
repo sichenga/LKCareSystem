@@ -1,4 +1,7 @@
-<template>新增入院申请</template>
+<template>
+  <!-- dialog写在market文件夹下 -->
+  新增入院申请
+  </template>
 <script lang="ts" setup>
 import { ref, reactive, onMounted } from 'vue'
 </script>
