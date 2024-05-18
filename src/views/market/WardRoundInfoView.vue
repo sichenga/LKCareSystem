@@ -1,4 +1,5 @@
 <template>
+
    <!-- <div>行政查房详情</div> -->
    <el-card style="max-width: 100%">
       <div class="live">
@@ -152,6 +153,9 @@
          <el-button type="primary">确认</el-button>
       </div>
    </el-card>
+
+      <!-- dialog写在market文件夹下 -->
+
 </template>
 
 <script lang='ts' setup>

@@ -1,5 +1,6 @@
 <template>
   <!-- 用药计划 -->
+      <!-- dialog写在medicalcare文件夹下 -->
   <el-card>
     <el-form :inline="true" :model="formInline" class="demo-form-inline">
       <el-form-item label="老人：">

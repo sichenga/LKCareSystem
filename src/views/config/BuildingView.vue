@@ -21,7 +21,7 @@
 
 <script lang="ts" setup>
 import { ref, reactive, onMounted } from 'vue'
-import FloorDialog from '@/components/dialog/FloorDialog.vue';
+import FloorDialog from '@/components/dialog/config/FloorDialog.vue';
 import {
     Plus,
     Delete,

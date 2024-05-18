@@ -88,7 +88,7 @@
 import { ref, reactive, onMounted } from 'vue'
 import { Edit, Picture, UploadFilled } from '@element-plus/icons-vue'
 import DetailsDialog from '@/components/dialog/DetailsDialog.vue';
-import RefuseDialog from '@/components/dialog/RefuseDialog.vue';
+import RefuseDialog from '@/components/dialog/examine/RefuseDialog.vue';
 const form = reactive({
     name: '',
     region: '',

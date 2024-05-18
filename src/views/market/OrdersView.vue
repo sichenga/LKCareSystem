@@ -1,4 +1,5 @@
 <template>
+      <!-- dialog写在market文件夹下 -->
    <div>下单</div>
 </template>
 

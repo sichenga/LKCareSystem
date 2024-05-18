@@ -61,7 +61,7 @@
 import { reactive, ref, onMounted, defineAsyncComponent } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { Foodget, foodpricelist } from '@/service/food/FoodApi'
-import PriceDialog from '@/components/dialog/PriceDialog.vue'
+import PriceDialog from '@/components/dialog/diet/PriceDialog.vue'
 import type { FoodDetail } from '@/service/food/FoodType'
 import moment from 'moment'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))

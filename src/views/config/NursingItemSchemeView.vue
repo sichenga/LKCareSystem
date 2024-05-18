@@ -74,7 +74,7 @@
 <script lang="ts" setup>
 import { ref,onMounted,reactive,defineAsyncComponent   } from 'vue'
 import IndustryView from '@/database/IndustryView.json'
-import IndustryDialog from '@/components/dialog/IndustryDialog.vue';
+import IndustryDialog from '@/components/dialog/config/IndustryDialog.vue';
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 import { useRouter } from 'vue-router'
 const router = useRouter()

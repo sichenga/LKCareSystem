@@ -19,7 +19,7 @@
 import { ref, reactive, defineAsyncComponent, onMounted } from 'vue'
 import { HousetypeList, HousetypeDelete } from "@/service/config/ConfigApi"
 import type { Housetypeparams } from "@/service/config/ConfigType"
-import ManageDialog from '@/components/dialog/ManageDialog.vue';
+import ManageDialog from '@/components/dialog/config/ManageDialog.vue';
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
 

@@ -37,7 +37,6 @@ router.beforeEach((to) => {
       if (router.getRoutes().length > 3) {
         router.removeRoute('dashboard')
       }
-
       return true
     } else {
       return '/login'

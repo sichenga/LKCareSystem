@@ -1,4 +1,5 @@
 <template>
+
    <!-- <div>行政查房</div> -->
    <el-card style="max-width: 100%">
       <el-form :inline="true" :model="formInline" class="demo-form-inline">
@@ -22,7 +23,8 @@
       </MayTable>
       <Pagination :total="50"></Pagination>
    </el-card>
-</template>
+
+
 
 <script lang='ts' setup>
 import { reactive, toRefs, ref, onMounted, defineAsyncComponent } from 'vue'

@@ -1,4 +1,5 @@
 <template>
+      <!-- dialog写在market文件夹下 -->
    <div>护理等级变更详情</div>
 </template>
 

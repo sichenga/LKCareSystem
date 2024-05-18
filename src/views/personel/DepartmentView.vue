@@ -33,7 +33,7 @@ import { getMessageBox } from '@/utils/utils'
 import { departmentList } from '@/service/staff/StaffApi'
 import type { DepartmentListParams } from '@/service/staff/StaffType'
 const DepartmentTree = defineAsyncComponent(
-  () => import('@/components/dialog/AddDepartmentDialog.vue')
+  () => import('@/components/dialog/personel/AddDepartmentDialog.vue')
 )
 const depid = ref<number>(0)
 const deppid = ref<number>(0)

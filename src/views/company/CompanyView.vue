@@ -39,7 +39,7 @@ import { ElMessage } from 'element-plus'
 import type { companylistParams } from '@/service/Organization/OrganizationType'
 import { companylist, companydelete, companyget } from '@/service/Organization/OrganizationApi'
 import { useUserStore } from '@/stores'
-import organizationDialog from '@/components/dialog/organizationDialog.vue'
+import organizationDialog from '@/components/dialog/company/organizationDialog.vue'
 const userStore = useUserStore()
 const isdialog = ref(false)
 const router = useRouter()

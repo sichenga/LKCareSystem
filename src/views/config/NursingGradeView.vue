@@ -16,7 +16,7 @@
 <script lang="ts" setup>
 import { ref,reactive,defineAsyncComponent,onMounted } from 'vue'
 import AddedlevelView from '@/database/AddedlevelView.json'
-import AddedlevelDialog from '@/components/dialog/AddedlevelDialog.vue';
+import AddedlevelDialog from '@/components/dialog/config/AddedlevelDialog.vue';
 import { useRouter } from 'vue-router';
 const router = useRouter()
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))

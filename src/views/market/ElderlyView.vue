@@ -1,4 +1,5 @@
 <template>
+     <!-- dialog写在market文件夹下 -->
   <!-- 老人管理 -->
   <el-card>
     <el-form :inline="true" :model="formInline" class="demo-form-inline">
