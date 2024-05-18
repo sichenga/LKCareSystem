@@ -13,11 +13,16 @@
       </div>
     </el-card>
     <el-card class="right-card" style="max-width: 84%">
-      <el-button type="primary" @click="isdialog = true">新增床位</el-button>
-      <BerthDialog @close="close" v-if="isdialog"></BerthDialog>
+      <el-button type="primary" @click="add">新增床位</el-button>
+      <BerthDialog
+        @close="close"
+        v-if="isdialog"
+        :housedata="berdata"
+        :emitdata="emitbeddata"
+      ></BerthDialog>
       <MayTable :tableData="data.tableData" :tableItem="data.tableItem" :identifier="identifier">
-        <template #operate>
-          <el-button type="primary" text>编辑</el-button>
+        <template #operate="{ data }">
+          <el-button type="primary" text @click="emit(data)">编辑</el-button>
           <el-button type="primary" text @click="del">删除</el-button>
         </template>
       </MayTable>
@@ -28,14 +33,14 @@
 
 <script lang="ts" setup>
 import { ref, reactive, defineAsyncComponent, onMounted } from 'vue'
-import BerthDialog from '@/components/dialog/BerthDialog.vue'
+import BerthDialog from '@/components/dialog/config/BerthDialog.vue'
 const identifier = 'Workers'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
 import { getHouseList, getBedsList, buildingList } from '@/service/config/ConfigApi'
 import { getMessageBox, TreeData } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
-import type { BedsList } from '@/service/config/ConfigType'
+import type { BedsList, HouseList } from '@/service/config/ConfigType'
 const defaultProps = {
   children: 'children',
   label: 'name'
@@ -50,7 +55,7 @@ const data = reactive({
       label: '序号'
     },
     {
-      prop: 'bed',
+      prop: 'name',
       label: '床位号'
     },
     {
@@ -62,11 +67,11 @@ const data = reactive({
       label: '价格'
     },
     {
-      prop: 'founder',
+      prop: 'addAccountName',
       label: '创建人'
     },
     {
-      prop: 'addtime',
+      prop: 'addTime',
       label: '创建日期'
     },
     {
@@ -80,7 +85,10 @@ const params = reactive<BedsList>({
   pageSize: 5,
   houseId: 0
 })
-
+// 增加dialog数据
+const berdata = ref<HouseList>({})
+// 编辑dialog数据
+const emitbeddata = ref<HouseList>({})
 // 楼栋列表
 const getbuildingList = async () => {
   let res: any = await buildingList()
@@ -105,7 +113,7 @@ const getbedslist = async () => {
     data.tableData = res.data.list
   }
 }
-
+// 左侧数据展示
 const gethouse = async () => {
   let house = await getbuildingList()
   let beds = await gethouselist()
@@ -119,16 +127,34 @@ const handleNodeClick = (data: any) => {
   if (!data?.children) {
     console.log(1111, data)
     params.houseId = data?.id
-    console.log(1111, params)
-
+    berdata.value = data
     getbedslist()
   }
 }
 
+// 新增床位
+const add = () => {
+  if (!berdata.value?.id) {
+    return ElMessage.error('请先选择房间')
+  }
+  isdialog.value = true
+}
+
+// 修改床位
+const emit = (row: any) => {
+  console.log(1111, row)
+  emitbeddata.value = row
+  isdialog.value = true
+}
+
 //弹出框
 const isdialog = ref(false)
-const close = () => {
+const close = (isclose: boolean) => {
+  if (isclose == true) {
+    getbedslist()
+  }
   isdialog.value = false
+  emitbeddata.value = {}
 }
 //删除
 const del = async () => {

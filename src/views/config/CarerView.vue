@@ -37,7 +37,7 @@
 <script lang="ts" setup>
 import { ref,reactive,defineAsyncComponent,onMounted } from 'vue'
 import WorkersView from '@/database/WorkersView.json'
-import WorkersDialog from '@/components/dialog/WorkersDialog.vue';
+import WorkersDialog from '@/components/dialog/config/WorkersDialog.vue';
 const identifier='Workers'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))

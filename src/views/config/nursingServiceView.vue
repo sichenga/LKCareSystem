@@ -24,16 +24,18 @@ import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
 import { ConfigNursingServiceList, delNursingService } from '@/service/config/ConfigApi'
 import type { NursingServiceList } from '@/service/config/ConfigType'
+import ServeDialog from '@/components/dialog/config/ServeDialog.vue'
+const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
+const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
 const total = ref(0)
 const params = reactive<NursingServiceList>({
   page: 1,
   pageSize: 5
 })
-import ServeDialog from '@/components/dialog/ServeDialog.vue'
-const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
-const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
-const servicedata = ref({})
+//弹出框
 const isdialog = ref(false)
+//删除
+const servicedata = ref({})
 const data = reactive({
   tableData: [] as any,
   tableItem: [

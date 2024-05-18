@@ -45,7 +45,7 @@ import { reactive, toRefs, ref, onMounted, defineAsyncComponent } from 'vue'
 import { ElMessage } from 'element-plus'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
-const ToHospitalDialog = defineAsyncComponent(() => import('@/components/dialog/ToHospitalDialog.vue'))
+const ToHospitalDialog = defineAsyncComponent(() => import('@/components/dialog/market/ToHospitalDialog.vue'))
 import AffiliatedView from '@/database/AffiliatedView.json'
 import { getMessageBox } from '@/utils/utils'
 const formInline = reactive({

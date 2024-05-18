@@ -1,4 +1,5 @@
 <template>
+     <!-- dialog写在market文件夹下 -->
    <div>合作组织管理</div>
 </template>
 

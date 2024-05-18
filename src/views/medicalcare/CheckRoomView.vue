@@ -1,5 +1,6 @@
 <template>
     <div>
+            <!-- dialog写在medicalcare文件夹下 -->
         医生查房记录
     </div>
 </template>

@@ -53,7 +53,7 @@ import { postInspection } from '@/service/purchase/PurchaseApi'
 import type { IUserList } from '@/service/purchase/PurchaseType'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const AddIngredient = defineAsyncComponent(
-  () => import('@/components/dialog/AddIngredientDialog.vue')
+  () => import('@/components/dialog/logistics/AddIngredientDialog.vue')
 )
 const MayTimePicker = defineAsyncComponent(
   () => import('@/components/timepicker/MayTimePicker.vue')

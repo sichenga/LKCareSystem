@@ -70,8 +70,19 @@ export interface BedsList {
 }
 // 床位添加  /api/beds/add
 export interface BedsAdd {
+  id: number
   houseId: number
   name: string
-  price: number
+  price: number | undefined
   state: number | undefined
+}
+
+// 房间列表
+export interface HouseList {
+  id?: number
+  companyId?: number
+  name?: string
+  addTime?: string
+  addAccountId?: number
+  pid?: number
 }

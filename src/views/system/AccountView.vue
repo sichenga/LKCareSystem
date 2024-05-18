@@ -20,7 +20,7 @@ import {ref,reactive,onMounted,defineAsyncComponent } from 'vue'
 import ManagementView from '@/database/ManagementView.json'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
-import ManagementDialog from '@/components/dialog/ManagementDialog.vue'
+import ManagementDialog from '@/components/dialog/system/ManagementDialog.vue'
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
 const data = reactive({

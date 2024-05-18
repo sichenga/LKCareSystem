@@ -1,6 +1,7 @@
 <template>
     <!-- 档案管理 -->
     <el-card>
+          <!-- dialog写在market文件夹下 -->
         <div class="body-top">
             <div>
                 <el-image style="width: 50px; height: 50px;margin-top: 11px;"

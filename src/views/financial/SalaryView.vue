@@ -49,7 +49,7 @@
 <script lang='ts' setup>
 import { reactive, toRefs, ref, onMounted, defineAsyncComponent } from 'vue'
 import { useRouter } from 'vue-router'
-import WelfareDialog from "@/components/dialog/WelfareDialog.vue"
+import WelfareDialog from "@/components/dialog/financial/WelfareDialog.vue"
 const router = useRouter();
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
