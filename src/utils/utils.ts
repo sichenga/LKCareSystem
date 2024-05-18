@@ -57,3 +57,22 @@ export function convertToTree(flatData: any, pid: number = 0) {
     children: convertToTree(flatData, node.id)
   }))
 }
+
+// 自定义树状数据转扁平数据
+export function CustomTree<T>(data: Array<T>, type: string, initial: number = 0) {
+  console.log(data, type, initial)
+
+  const tree: Array<T> = []
+  data.forEach((node: any) => {
+    if (node[type] === initial) {
+      console.log(node)
+
+      const children = TreeData(data, node.id)
+      if (children.length) {
+        node.children = children
+      }
+      tree.push(node)
+    }
+  })
+  return tree
+}

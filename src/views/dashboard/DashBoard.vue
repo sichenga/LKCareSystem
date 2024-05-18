@@ -95,4 +95,8 @@ import TopMenu from '@/components/menu/TopMenu.vue'
     // width: 6.7vw;
   }
 }
+:deep(.el-scrollbar__view) {
+  width: 100%;
+  height: 100%;
+}
 </style>
