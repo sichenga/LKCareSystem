@@ -30,8 +30,8 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, onMounted, defineEmits, defineProps, watch } from 'vue'
-import {} from 'element-plus'
-import { addBeds } from '@/service/config/ConfigApi'
+import { ElMessage } from 'element-plus'
+import { addBeds, updateBeds } from '@/service/config/ConfigApi'
 import type { BedsAdd } from '@/service/config/ConfigType'
 import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
 const props = defineProps({
@@ -76,13 +76,18 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   const valid: any = await formEl.validate()
   if (valid) {
+    let res: any
     if (!ruleForm.id) {
       ruleForm.name = props.housedata?.name + '-' + ruleForm.name
-      let res: any = await addBeds(ruleForm)
+      res = await addBeds(ruleForm)
+    } else {
+      res = await updateBeds(ruleForm)
     }
-
-    if (res.code === 10000) {
+    if (res?.code === 10000) {
+      ElMessage.success(ruleForm.id ? '修改成功' : '添加成功')
       close(true)
+    } else {
+      ElMessage.error(res?.msg)
     }
   }
 }

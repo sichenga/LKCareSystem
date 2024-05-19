@@ -23,10 +23,16 @@
       <MayTable :tableData="data.tableData" :tableItem="data.tableItem" :identifier="identifier">
         <template #operate="{ data }">
           <el-button type="primary" text @click="emit(data)">编辑</el-button>
-          <el-button type="primary" text @click="del">删除</el-button>
+          <el-button type="primary" text @click="del(data.id)">删除</el-button>
         </template>
       </MayTable>
-      <Pagination :total="50"></Pagination>
+      <Pagination
+        :total="total"
+        :page="params.page"
+        :psize="params.pageSize"
+        @page="getpage"
+        @psize="getpsize"
+      ></Pagination>
     </el-card>
   </div>
 </template>
@@ -37,7 +43,7 @@ import BerthDialog from '@/components/dialog/config/BerthDialog.vue'
 const identifier = 'Workers'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
-import { getHouseList, getBedsList, buildingList } from '@/service/config/ConfigApi'
+import { getHouseList, getBedsList, buildingList, delBeds } from '@/service/config/ConfigApi'
 import { getMessageBox, TreeData } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
 import type { BedsList, HouseList } from '@/service/config/ConfigType'
@@ -80,6 +86,7 @@ const data = reactive({
     }
   ]
 })
+const total = ref(0)
 const params = reactive<BedsList>({
   page: 1,
   pageSize: 5,
@@ -110,6 +117,7 @@ const getbedslist = async () => {
   let res: any = await getBedsList(params)
   console.log('床位列表', res)
   if (res?.code === 10000) {
+    total.value = res.data.counts
     data.tableData = res.data.list
   }
 }
@@ -157,15 +165,28 @@ const close = (isclose: boolean) => {
   emitbeddata.value = {}
 }
 //删除
-const del = async () => {
+const del = async (id: number) => {
   let res = await getMessageBox('是否确认删除该床位', '删除后将不可恢复')
-  console.log(1111, res)
+
   if (res) {
-    ElMessage.success('删除成功')
+    let del: any = await delBeds(id)
+    if (del?.code === 10000) {
+      ElMessage.success('删除成功')
+      getbedslist()
+    }
   } else {
     ElMessage.info('取消删除')
   }
 }
+const getpage = (page: number) => {
+  params.page = page
+  getbedslist()
+}
+const getpsize = (pageSize: number) => {
+  params.pageSize = pageSize
+  getbedslist()
+}
+
 onMounted(async () => {
   await gethouse()
   await getbedslist()
@@ -192,7 +213,7 @@ onMounted(async () => {
   margin-bottom: 20px;
 }
 
-:deep .el-image {
+:deep(.el-image) {
   border-radius: 50%;
 }
 
