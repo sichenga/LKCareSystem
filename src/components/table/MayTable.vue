@@ -11,6 +11,12 @@
         <el-image style="width: 50px; height: 50px" :src="upload + (row.photo || row.qrcode)" />
         <span></span>
       </template>
+      
+      <!-- 所属岗位      角色数据 -->
+      <template v-else-if="item.prop == 'roles'" v-slot="{ row }">
+        
+        <span>{{ rolename(row.roles) }}</span>
+      </template>
 
       <template v-else-if="props.identifier == 'administration' && item.prop == 'image'" v-slot="{ row }">
         <el-image style="width: 50px; height: 50px" :src="row.image" fit="cover" />
@@ -83,5 +89,8 @@ const props = defineProps({
     default: true
   },
 })
+const rolename=(data:any)=>{
+  return data.map((item:any)=>(item?.name)).toString()
+}
 </script>
 <style lang="less" scoped></style>

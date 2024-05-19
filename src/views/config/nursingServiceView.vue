@@ -24,7 +24,7 @@ import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
 import { ConfigNursingServiceList, delNursingService } from '@/service/config/ConfigApi'
 import type { NursingServiceList } from '@/service/config/ConfigType'
-import ServeDialog from '@/components/dialog/ServeDialog.vue'
+import ServeDialog from '@/components/dialog/config/ServeDialog.vue'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
 const total = ref(0)

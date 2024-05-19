@@ -7,7 +7,7 @@ console.log(6666, model['../views/login/LoginViews.vue'])
 export const AddMenu = () => {
   const userStore = useUserStore()
   // 添加菜单
-  console.log(userStore.auth)
+  // console.log(userStore.auth)
   return getRouter(userStore.auth)
 }
 
@@ -84,17 +84,17 @@ const getRouter = (data?: any, tree: any = [], url: string = '') => {
     if (item.url && item.children) {
       item.children.forEach((child: any) => {
         if (child.url) {
-          console.log(
-            child.name,
-            child.url,
-            `../views/${url ? url + '/' : ''}${item.url}/${firstUpperCase(child.pathName)}View.vue`
-          )
-          console.log(
-            child.name,
-            model[
-            `../views/${url ? url + '/' : ''}${item.url}/${firstUpperCase(child.pathName)}View.vue`
-            ]
-          )
+          // console.log(
+          //   child.name,
+          //   child.url,
+          //   `../views/${url ? url + '/' : ''}${item.url}/${firstUpperCase(child.pathName)}View.vue`
+          // )
+          // console.log(
+          //   child.name,
+          //   model[
+          //   `../views/${url ? url + '/' : ''}${item.url}/${firstUpperCase(child.pathName)}View.vue`
+          //   ]
+          // )
           const menu = {
             path: `${url ? url : item.url}/${child.url}`,
             name: child.pathName + child.id,
@@ -110,7 +110,7 @@ const getRouter = (data?: any, tree: any = [], url: string = '') => {
           // console.log(item.name, menu)
         }
       })
-      console.log(item.name, item.url)
+      // console.log(item.name, item.url)
       if (item.children) {
         getRouter(item.children, tree, item.url)
       }

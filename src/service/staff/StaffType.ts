@@ -30,6 +30,7 @@ export interface StaffListParams {
   departmentId?:number |null //部门id
   roleId?:number |null //岗位id
   enable?:number |null //状态
+  carer?:number|null //是否是护工1是
 }
 
 

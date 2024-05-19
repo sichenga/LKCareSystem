@@ -10,7 +10,7 @@ router.beforeEach((to) => {
 
     if (router.getRoutes().length <= 3) {
       const menu = AddMenu()
-      console.log('菜单', menu)
+      // console.log('菜单', menu)
       const rou = {
         path: '/',
         name: 'dashboard',
