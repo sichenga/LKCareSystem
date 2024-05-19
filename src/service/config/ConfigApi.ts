@@ -75,7 +75,7 @@ export const HouseTypeList = (data: getHouseType) => get('/api/housetype/list', 
 export const buildingList = () => get('/api/building/list')
 
 //房间修改
-export const houseupdate = (data: HouseViewType) => put('/api/house/update',data)
+export const houseupdate = (data: houseaddType) => put('/api/house/update',data)
       
 // 床位列表 /api/beds/list
 export const getBedsList = (params: BedsList) => get('/api/beds/list', params)

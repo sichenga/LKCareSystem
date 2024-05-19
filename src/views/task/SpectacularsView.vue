@@ -7,12 +7,7 @@
       </el-form-item>
       <el-form-item label="任务状态">
         <el-select v-model="formInline.region" placeholder="请选择" style="width: 240px">
-          <el-option
-            v-for="item in statelist"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
+          <el-option v-for="item in statelist" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -24,25 +19,14 @@
   <el-card style="margin-top: 10px">
     <!-- 选项 -->
     <div class="taskoption">
-      <div
-        :class="{ item: true, select: istask === index }"
-        v-for="(item, index) in tasklist"
-        :key="index"
-        @click="change(index)"
-      >
-        <span
-          >{{ item.name }} <span style="margin-left: 5px">({{ item.num }})</span></span
-        >
+      <div :class="{ item: true, select: istask === index }" v-for="(item, index) in tasklist" :key="index"
+        @click="change(index)">
+        <span>{{ item.name }} <span style="margin-left: 5px">({{ item.num }})</span></span>
       </div>
       <!-- 展示 -->
     </div>
     <div class="tasklist">
-      <el-card
-        class="itemtask"
-        v-for="(item, index) in data.teskdata"
-        :key="index"
-        @click="taskinfo"
-      >
+      <el-card class="itemtask" v-for="(item, index) in data.teskdata" :key="index" @click="taskinfo">
         <div class="title">
           <span>{{ item.name }}</span>
           <el-avatar :size="35" :src="circleUrl" />

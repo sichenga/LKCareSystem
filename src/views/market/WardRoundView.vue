@@ -25,7 +25,7 @@
    </el-card>
 
 
-
+</template>
 <script lang='ts' setup>
 import { reactive, toRefs, ref, onMounted, defineAsyncComponent } from 'vue'
 import WardRoundView from '@/database/WardRoundView.json'
