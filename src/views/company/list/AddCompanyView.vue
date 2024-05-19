@@ -8,7 +8,7 @@
       </div>
       <div class="title-btn">
         <el-button @click="cancel">取消</el-button>
-        <el-button type="primary" @click="save(ruleFormRef)">保存</el-button>
+        <el-button type="primary" @click="save(oneRef)">保存</el-button>
       </div>
     </div>
     <div class="form-size">

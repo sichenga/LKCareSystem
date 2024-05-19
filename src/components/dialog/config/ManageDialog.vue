@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref, defineProps, watch } from 'vue'
+import { reactive, ref, defineProps, } from 'vue'
 import { HousetypeAdd, Housetypeupdate } from "@/service/config/ConfigApi"
 import type { Housetypeadd } from "@/service/config/ConfigType"
 import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
@@ -33,7 +33,7 @@ const ruleForm = reactive<Housetypeadd>({
 
 const rules = reactive<FormRules<Housetypeadd>>({
     name: [
-        { required: true, message: 'Please input Activity name', trigger: 'blur' },
+        { required: true, message: '请输入房型名称', trigger: 'blur' },
     ],
 })
 // 提交表单
