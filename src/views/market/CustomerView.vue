@@ -9,14 +9,11 @@
                 <el-input v-model="formInline.user" placeholder="请输入身份证号" clearable />
             </el-form-item>
             <el-form-item label="创建日期:" style="width: 240px;">
-                <el-select v-model="formInline.region" placeholder="请选择">
-            
-                </el-select>
+                <MayTimePicker></MayTimePicker>
             </el-form-item>
             <el-form-item label="状态:" style="width: 240px;">
                 <el-select v-model="formInline.region" placeholder="请选择">
                     <el-option v-for="item in data.tables" :key="item.id" :label="item.lable" :value="item.id" />
- 
                 </el-select>
             </el-form-item>
             <el-form-item>
@@ -27,9 +24,8 @@
     </el-card>
     <el-card style="margin-top: 15px">
         <div style="margin: 10px 0">
-            <el-button type="primary" @click="isdialog = true">新增潜在客户</el-button>
+            <el-button type="primary" @click="newcustomer">新增潜在客户</el-button>
             <el-button>EXCEL导入</el-button>
-            <AffDialog @close="close" v-if="isdialog"></AffDialog>
         </div>
         <!-- 表格 -->
         <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
@@ -40,30 +36,30 @@
                 <el-button type="primary" text @click="del">删除</el-button>
             </template>
         </MayTable>
-        <Pagination :total="50"></Pagination>
+        <Pagination :total="data.total" @page="page" @psize="psize" :page="CustomerlistParams.page" :pszie="CustomerlistParams.page">
+        </Pagination>
     </el-card>
 </template>
 <script lang="ts" setup>
 import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
-import AffiliatedView from '@/database/AffiliatedView.json'
-import AffDialog from '@/components/dialog/care/AffDialog.vue'
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
-import {useRouter} from  'vue-router'
+import { useRouter } from 'vue-router'
+import { CustomerList } from '@/service/market/CustomerApi'
+import type { CustomerlistType } from '@/service/market/CustomerType'
 const router = useRouter()
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
+const MayTimePicker = defineAsyncComponent(() => import('@/components/timepicker/MayTimePicker.vue'))
 const formInline = reactive({
     user: '',
     region: '',
     date: ''
 })
-
-
 const isdialog = ref(false)
 const data = reactive({
-    tables:[{lable:'未签约',id:'0'},{lable:'预定中',id:'1'},{lable:'已入院',id:'2'}] as any,
     tableData: [] as any,
+    total: undefined,
     tableItem: [
         {
             prop: 'id',
@@ -74,36 +70,55 @@ const data = reactive({
             label: '老人姓名'
         },
         {
-            prop: 'address',
+            prop: 'gender',
             label: '性别'
         },
         {
-            prop: 'manager',
-            label: '身份证'
+            prop: 'idCard',
+            label: '身份证号'
         },
         {
-            prop: 'phone',
+            prop: 'source',
             label: '来源渠道'
         },
-  
+
         {
-            prop: 'addtime',
+            prop: 'addTime',
             label: '创建时间'
         },
         {
-            prop: 'creator',
+            prop: 'state',
             label: '状态'
         },
     ]
 })
-const getlist = () => {
-    setTimeout(() => {
-        data.tableData = AffiliatedView
-    }, 1000)
+
+//新增潜在客户
+const newcustomer = () => {
+    router.push('/market/customer/add')
 }
-// 关闭弹窗
-const close = () => {
-    isdialog.value = false
+//获取潜在客户列表
+const CustomerlistParams = reactive<CustomerlistType>({
+    page: 1,
+    pageSize: 5
+})
+const getCustomerList = async () => {
+    const res: any = await CustomerList(CustomerlistParams)
+    console.log('潜在客户列表', res);
+    if (res.code === 10000) {
+        data.tableData = res.data.list
+        data.total = res.data.counts
+    }
+
+}
+//分页
+const page = (val: number) => {
+    CustomerlistParams.page = val
+    getCustomerList()
+}
+const psize = (val: number) => {
+    CustomerlistParams.pageSize = val
+    getCustomerList()
 }
 // 删除
 const del = async () => {
@@ -116,7 +131,7 @@ const del = async () => {
     }
 }
 onMounted(() => {
-    getlist()
+    getCustomerList()
 })
 </script>
 <style lang="less" scoped>

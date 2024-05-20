@@ -1,5 +1,5 @@
 <template>
-     <!-- dialog写在market文件夹下 -->
+  <!-- dialog写在market文件夹下 -->
   <!-- 老人管理 -->
   <el-card>
     <el-form :inline="true" :model="formInline" class="demo-form-inline">
@@ -53,10 +53,15 @@ import { ElMessage } from 'element-plus'
 const router = useRouter()
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
-const formInline = reactive({
-  user: '',
-  region: '',
-  date: ''
+import { getElderlyList } from '@/service/old/OldApi'
+import type { ListElderlyRequest } from '@/service/old/OldType'
+const formInline = reactive<ListElderlyRequest>({
+  page: 1,
+  pageSize: 5,
+  name: '',
+  idCard: 0,
+  begId: 0,
+  state: 0
 })
 const identifier = 'administration'
 const data = reactive({
@@ -92,10 +97,13 @@ const data = reactive({
     }
   ]
 })
-const getlist = () => {
-  setTimeout(() => {
-    data.tableData = AffiliatedView
-  }, 1000)
+const getlist = async () => {
+  let res:any = await getElderlyList(formInline)
+  console.log('老人列表',res);
+  if(res?.code===10000){
+    data.tableData = res.data.list
+  }
+  
 }
 
 // 删除
