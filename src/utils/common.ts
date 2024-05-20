@@ -2,7 +2,6 @@ import { useUserStore } from '@/stores'
 const model = import.meta.glob('../views/**/*.vue')
 console.log(6666, model['../views/login/LoginViews.vue'])
 
-
 // 动态路由
 export const AddMenu = () => {
   const userStore = useUserStore()
@@ -84,23 +83,23 @@ const getRouter = (data?: any, tree: any = [], url: string = '') => {
     if (item.url && item.children) {
       item.children.forEach((child: any) => {
         if (child.url) {
-          // console.log(
-          //   child.name,
-          //   child.url,
-          //   `../views/${url ? url + '/' : ''}${item.url}/${firstUpperCase(child.pathName)}View.vue`
-          // )
-          // console.log(
-          //   child.name,
-          //   model[
-          //   `../views/${url ? url + '/' : ''}${item.url}/${firstUpperCase(child.pathName)}View.vue`
-          //   ]
-          // )
+          console.log(
+            child.name,
+            child.url,
+            `../views/${url ? url + '/' : ''}${item.url}/${firstUpperCase(child.pathName)}View.vue`
+          )
+          console.log(
+            child.name,
+            model[
+              `../views/${url ? url + '/' : ''}${item.url}/${firstUpperCase(child.pathName)}View.vue`
+            ]
+          )
           const menu = {
-            path: `${url ? url : item.url}/${child.url}`,
+            path: `${url ? url + '/' : ''}${item.url}/${child.url}`,
             name: child.pathName + child.id,
             component:
               model[
-              `../views/${url ? url + '/' : ''}${item.url.includes('branch') ? 'company' : item.url}/${firstUpperCase(child.pathName)}View.vue`
+                `../views/${url ? url + '/' : ''}${item.url.includes('branch') ? 'company' : item.url}/${firstUpperCase(child.pathName)}View.vue`
               ],
             meat: {
               title: child.name

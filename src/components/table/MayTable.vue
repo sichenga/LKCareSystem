@@ -11,18 +11,14 @@
         <el-image style="width: 50px; height: 50px" :src="upload + (row.photo || row.qrcode)" />
         <span></span>
       </template>
-      
+
       <!-- 所属岗位      角色数据 -->
       <template v-else-if="item.prop == 'roles'" v-slot="{ row }">
-        
+
         <span>{{ rolename(row.roles) }}</span>
       </template>
 
       <template v-else-if="props.identifier == 'administration' && item.prop == 'image'" v-slot="{ row }">
-        <el-image style="width: 50px; height: 50px" :src="row.image" fit="cover" />
-
-        <el-image style="width: 80px; height: 80px" :src="row.image" fit="cover" />
-
         <el-image style="width: 50px; height: 50px" :src="row.image" fit="cover" />
       </template>
 
@@ -34,8 +30,12 @@
       <template v-else-if="item.prop === 'updateTime'" v-slot="{ row }">
         <span>{{ mons(row.updateTime).format('YYYY-MM-DD') }}</span>
       </template>
+      <!-- 时间格式 -->
+      <template v-else-if="item.prop === 'visitTime'" v-slot="{ row }">
+        <span>{{ mons(row.visitTime).format('YYYY-MM-DD HH:mm ') }}</span>
+      </template>
       <!-- 奖励积分 -->
-      <template v-else-if="item.prop === 'input'" v-slot="{ }">
+      <template v-else-if="item.prop === 'input'" v-slot="{}">
         <input type="text" />
       </template>
     </el-table-column>
@@ -87,10 +87,10 @@ const props = defineProps({
   isoperate: {
     type: Boolean,
     default: true
-  },
+  }
 })
-const rolename=(data:any)=>{
-  return data.map((item:any)=>(item?.name)).toString()
+const rolename = (data: any) => {
+  return data.map((item: any) => (item?.name)).toString()
 }
 </script>
 <style lang="less" scoped></style>

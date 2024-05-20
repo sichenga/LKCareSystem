@@ -62,3 +62,27 @@ export interface houseupdateType {
   beds: number
   picture: string
 }
+// 床位列表 /api/beds/list
+export interface BedsList {
+  page: number
+  pageSize: number
+  houseId: number
+}
+// 床位添加  /api/beds/add
+export interface BedsAdd {
+  id: number
+  houseId: number
+  name: string
+  price: number | undefined
+  state: number | undefined
+}
+
+// 房间列表
+export interface HouseList {
+  id?: number
+  companyId?: number
+  name?: string
+  addTime?: string
+  addAccountId?: number
+  pid?: number
+}

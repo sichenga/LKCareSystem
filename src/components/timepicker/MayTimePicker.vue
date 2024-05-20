@@ -11,15 +11,30 @@
   />
 </template>
 <script lang="ts" setup>
-import { ref, reactive, onMounted, defineProps, defineEmits } from 'vue'
+import { ref, reactive, onMounted, defineProps, defineEmits,watch } from 'vue'
 const props = defineProps({
   size: {
     type: String,
     default: 'large'
+  },
+  remtime:{
+    type: String,
+    default: ''
   }
 })
+
+
+//时间回显
+const times = ref('')
+times.value=props.remtime
+watch(props,(newValue)=>{
+  console.log('时间回显',newValue);
+  
+  times.value=newValue.remtime
+},{deep:true})
+
 const emit = defineEmits(['change'])
-const time = ref('')
+const time = ref(times)
 const handleChange = (val: any) => {
   console.log('年月日', val)
   emit('change', val)

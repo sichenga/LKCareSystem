@@ -19,7 +19,7 @@
   </el-card>
 </template>
 <script lang="ts" setup>
-import { ref,reactive,defineAsyncComponent,onMounted } from 'vue'
+import { ref, reactive, defineAsyncComponent, onMounted } from 'vue'
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
 import { ConfigNursingServiceList, delNursingService } from '@/service/config/ConfigApi'
