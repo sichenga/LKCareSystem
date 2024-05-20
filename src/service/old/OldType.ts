@@ -1,8 +1,8 @@
 interface Health {
-  oldillness: string
-  nowillness: string
-  otherillness: string
-  otherCase: string
+  oldillness: string | Array<string>
+  nowillness: string | Array<string>
+  otherillness: string | Array<string>
+  otherCase: string | Array<string>
 }
 
 interface SelfCaresItem {
@@ -53,8 +53,8 @@ export interface AddElderlyRequest {
 export interface ListElderlyRequest {
   page: number
   pageSize: number
-  name:string
-  idCard:number
-  begId:number
-  state:number
+  name: string
+  idCard: number | undefined
+  begId: number | undefined
+  state: number | undefined
 }

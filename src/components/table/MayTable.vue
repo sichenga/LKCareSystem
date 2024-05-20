@@ -17,8 +17,15 @@
       :label="item.label"
       :width="item.width"
     >
-      <template v-if="item.prop == 'photo' || item.prop == 'qrcode'" v-slot="{ row }">
-        <el-image style="width: 50px; height: 50px" :src="upload + (row.photo || row.qrcode)" />
+      <template
+        v-if="item.prop == 'photo' || item.prop == 'qrcode' || item.prop === 'picture'"
+        v-slot="{ row }"
+      >
+        <el-image
+          style="width: 50px; height: 50px"
+          v-if="row.photo || row.qrcode || row.picture"
+          :src="upload + (row.photo || row.qrcode || row.picture)"
+        />
         <span></span>
       </template>
 
@@ -61,7 +68,7 @@
 
     <el-table-column label="操作" v-if="props.isoperate" width="330">
       <template v-slot="scope">
-        <slot name="operate" :data="scope.row"></slot>
+        <slot name="operate" :data="scope.row" :index="scope.$index"></slot>
       </template>
     </el-table-column>
   </el-table>
@@ -101,5 +108,13 @@ const props = defineProps({
     default: true
   }
 })
+
+// const enter = (row: any, column: any, cell: HTMLTableCellElement, event: Event) => {
+//   // console.log(11111, row, column, cell, event)
+//   cell.style.backgroundColor = 'red'
+// }
+// const leave = (row: any, column: any, cell: HTMLTableCellElement, event: Event) => {
+//   cell.style.backgroundColor = ''
+// }
 </script>
 <style lang="less" scoped></style>
