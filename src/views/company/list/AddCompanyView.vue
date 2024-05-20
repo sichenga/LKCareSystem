@@ -208,7 +208,9 @@ const cancel = () => {
 }
 //数据回显
 const getcompanyget = async () => {
-  data.id = route.query.id
+  data.id = route.params?.id
+  console.log(route.params?.id);
+
   if (data.id) {
     const res: any = await companyget(data.id)
     console.log('单条数据', res)

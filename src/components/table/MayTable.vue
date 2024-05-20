@@ -32,6 +32,10 @@
       <template v-else-if="item.prop === 'input'" v-slot="{ }">
         <input type="text" />
       </template>
+      <!-- 男女 -->
+      <template v-else-if="item.prop === 'gender'" v-slot="{ row}">
+        {{ row.gender=='1'?'男':"女" }}
+      </template>
     </el-table-column>
 
     <!-- 是否有input框 -->
