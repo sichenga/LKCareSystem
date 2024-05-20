@@ -9,17 +9,17 @@
             <el-form-item label="老人姓名" prop="name">
                 <el-input v-model="ruleForm.name" placeholder="请输入老人姓名" />
             </el-form-item>
-            <el-form-item label="老人性别" prop="region">
-                <el-select v-model="ruleForm.region" placeholder="请选择">
-                    <el-option label="Zone one" value="shanghai" />
-                    <el-option label="Zone two" value="beijing" />
+            <el-form-item label="老人性别" prop="gender">
+                <el-select v-model="ruleForm.gender" placeholder="请选择">
+                    <el-option label="男" :value="1" />
+                    <el-option label="女" :value="0" />
                 </el-select>
             </el-form-item>
-            <el-form-item label="身份证号" prop="name">
-                <el-input v-model="ruleForm.name" placeholder="请输入老人身份证号" />
+            <el-form-item label="身份证号" prop="idCard">
+                <el-input v-model="ruleForm.idCard" placeholder="请输入老人身份证号" />
             </el-form-item>
-            <el-form-item label="老人状况" prop="desc">
-                <el-input v-model="ruleForm.desc" type="textarea" placeholder="请输入老人状况" />
+            <el-form-item label="老人状况" prop="status">
+                <el-input v-model="ruleForm.status" type="textarea" placeholder="请输入老人状况" />
             </el-form-item>
 
             <div class="family">
@@ -39,11 +39,11 @@
             <div class="family">
                 <span>▋</span>需求总结
             </div>
-            <el-form-item label="房间需求" prop="desc">
-                <el-input v-model="ruleForm.desc" type="textarea" placeholder="请输入老人状况" />
+            <el-form-item label="房间需求" prop="roomRequire">
+                <el-input v-model="ruleForm.roomRequire" type="textarea" placeholder="请输入房间需求" />
             </el-form-item>
-            <el-form-item label="意向描述" prop="desc">
-                <el-input v-model="ruleForm.desc" type="textarea" placeholder="请输入老人状况" />
+            <el-form-item label="意向描述" prop="content">
+                <el-input v-model="ruleForm.content" type="textarea" placeholder="请输入意向描述" />
             </el-form-item>
             <div class="btn">
                 <el-button>取消</el-button>
@@ -64,93 +64,51 @@ const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
 //表单
 import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
-
-interface RuleForm {
-    name: string
-    region: string
-    count: string
-    date1: string
-    date2: string
-    delivery: boolean
-    location: string
-    type: string[]
-    resource: string
-    desc: string
-}
-
+//潜在客户添加
+import { CustomerAdd } from '@/service/market/CustomerApi'
+import type { CustomerAddType } from '@/service/market/CustomerType'
+import { useRouter } from 'vue-router';
+const router = useRouter()
 const formSize = ref<ComponentSize>('default')
 const ruleFormRef = ref<FormInstance>()
-const ruleForm = reactive<RuleForm>({
-    name: 'Hello',
-    region: '',
-    count: '',
-    date1: '',
-    date2: '',
-    delivery: false,
-    location: '',
-    type: [],
-    resource: '',
-    desc: '',
+const ruleForm = reactive<CustomerAddType>({
+    name: '',
+    mobile: '',
+    gender: null,
+    idCard: '',
+    status: '',
+    roomRequire: '',
+    content: '',
+    state: 1,
+    source: '在线咨询',
+    family: [{
+        name: '',
+        mobile: '',
+        gender: null,
+        idCard: '',
+        relation: '',
+        address:''
+    }]
 })
-const rules = reactive<FormRules<RuleForm>>({
+const rules = reactive<FormRules<CustomerAddType>>({
+
     name: [
-        { required: true, message: 'Please input Activity name', trigger: 'blur' },
-        { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
+        { required: true, message: '请输入老人姓名', trigger: 'blur' },
     ],
-    region: [
-        {
-            required: true,
-            message: 'Please select Activity zone',
-            trigger: 'change',
-        },
+    gender: [
+        { required: true, message: '请选择老人性别', trigger: 'blur' },
     ],
-    count: [
-        {
-            required: true,
-            message: 'Please select Activity count',
-            trigger: 'change',
-        },
+    idCard: [
+        { required: true, message: '请输入老人身份证号', trigger: 'blur' },
     ],
-    date1: [
-        {
-            type: 'date',
-            required: true,
-            message: 'Please pick a date',
-            trigger: 'change',
-        },
+    status: [
+        { required: true, message: '请输入老人身体状况', trigger: 'blur' },
     ],
-    date2: [
-        {
-            type: 'date',
-            required: true,
-            message: 'Please pick a time',
-            trigger: 'change',
-        },
+    roomRequire: [
+        { required: true, message: '请输入房间需求', trigger: 'blur' },
     ],
-    location: [
-        {
-            required: true,
-            message: 'Please select a location',
-            trigger: 'change',
-        },
-    ],
-    type: [
-        {
-            type: 'array',
-            required: true,
-            message: 'Please select at least one activity type',
-            trigger: 'change',
-        },
-    ],
-    resource: [
-        {
-            required: true,
-            message: 'Please select activity resource',
-            trigger: 'change',
-        },
-    ],
-    desc: [
-        { required: true, message: 'Please input activity form', trigger: 'blur' },
+    content: [
+        { required: true, message: '请输入意向描述', trigger: 'blur' },
     ],
 })
 
@@ -167,23 +125,23 @@ const data = reactive({
             label: '姓名'
         },
         {
-            prop: 'address',
+            prop: 'gender',
             label: '性别'
         },
         {
-            prop: 'manager',
+            prop: 'idCard',
             label: '身份证号'
         },
         {
-            prop: 'phone',
+            prop: 'mobile',
             label: '联系电话'
         },
         {
-            prop: 'username',
+            prop: 'address',
             label: '联系地址'
         },
         {
-            prop: 'userpass',
+            prop: 'relation',
             label: '与老人关系'
         },
     ]
@@ -209,11 +167,18 @@ const del = async () => {
         ElMessage.info('取消删除')
     }
 }
+//添加潜在客户
+
 const submitForm = async (formEl: FormInstance | undefined) => {
     if (!formEl) return
-    await formEl.validate((valid, fields) => {
+    await formEl.validate(async (valid, fields) => {
         if (valid) {
-            console.log('submit!')
+            const res: any = await CustomerAdd(ruleForm)
+            console.log('添加潜在客户', res);
+            if (res.code === 10000) {
+                ElMessage.success('添加成功')
+                router.push('/market/customer')
+            }
         } else {
             console.log('error submit!', fields)
         }

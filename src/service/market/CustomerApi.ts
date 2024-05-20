@@ -1,5 +1,5 @@
 import { get, post, put, del } from '@/utils/request'
-import type { CustomerParams } from './CustomerType'
+import type { CustomerParams,CustomerAddType } from './CustomerType'
 
 // 潜在客户列表
 export const CustomerList = (params?: CustomerParams) => {
@@ -15,5 +15,8 @@ export const CustomerDelete = (id: number) => {
 export const Customerget = (id: number) => {
   return get(`/api/customer/get/${id}`)
 }
-
+// 添加潜在客户
+export const CustomerAdd = (data: CustomerAddType) => {
+    return post('/api/customer/add',data)
+  }
 
