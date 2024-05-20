@@ -35,7 +35,6 @@
                 </template>
             </MayTable>
             <Pagination :total="50"></Pagination>
-
             <div class="family">
                 <span>▋</span>需求总结
             </div>
@@ -51,7 +50,6 @@
             </div>
         </el-form>
     </el-card>
-
 </template>
 <script lang="ts" setup>
 
@@ -87,11 +85,10 @@ const ruleForm = reactive<CustomerAddType>({
         gender: null,
         idCard: '',
         relation: '',
-        address:''
+        address: ''
     }]
 })
 const rules = reactive<FormRules<CustomerAddType>>({
-
     name: [
         { required: true, message: '请输入老人姓名', trigger: 'blur' },
     ],
@@ -111,7 +108,6 @@ const rules = reactive<FormRules<CustomerAddType>>({
         { required: true, message: '请输入意向描述', trigger: 'blur' },
     ],
 })
-
 
 const data = reactive({
     tableData: [] as any,
