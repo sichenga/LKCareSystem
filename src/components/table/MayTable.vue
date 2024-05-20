@@ -1,14 +1,9 @@
 <template>
-  <el-table
-    :data="props.tableData"
-    border
-    style="width: 100%"
-    :header-cell-style="{
-      background: '#f9f9f9',
-      color: '#000000',
-      height: '50px'
-    }"
-  >
+  <el-table :data="props.tableData" border style="width: 100%" :header-cell-style="{
+    background: '#f9f9f9',
+    color: '#000000',
+    height: '50px'
+  }">
     <el-table-column type="selection" width="55" v-if="isMultiple" />
     <el-table-column
       v-for="(item, index) in props.tableItem"
@@ -29,29 +24,27 @@
         <span></span>
       </template>
 
-      <template
-        v-else-if="props.identifier == 'administration' && item.prop == 'image'"
-        v-slot="{ row }"
-      >
+      <!-- 所属岗位      角色数据 -->
+      <template v-else-if="item.prop == 'roles'" v-slot="{ row }">
+
+        <span>{{ rolename(row.roles) }}</span>
+      </template>
+
+      <template v-else-if="props.identifier == 'administration' && item.prop == 'image'" v-slot="{ row }">
         <el-image style="width: 50px; height: 50px" :src="row.image" fit="cover" />
       </template>
 
       <!-- 出入院管理>老人管理>新增>健康信息 -->
-      <template
-        v-else-if="props.identifier == 'oldphysical' && item.prop == 'image'"
-        v-slot="{ row }"
-      >
-        <el-image
-          v-for="item in row.image"
-          :key="item"
-          style="width: 40px; height: 40px"
-          :src="item"
-          fit="cover"
-        />
+      <template v-else-if="props.identifier == 'oldphysical' && item.prop == 'image'" v-slot="{ row }">
+        <el-image v-for="item in row.image" :key="item" style="width: 40px; height: 40px" :src="item" fit="cover" />
       </template>
       <!-- 日期格式 -->
       <template v-else-if="item.prop === 'updateTime'" v-slot="{ row }">
         <span>{{ mons(row.updateTime).format('YYYY-MM-DD') }}</span>
+      </template>
+      <!-- 时间格式 -->
+      <template v-else-if="item.prop === 'visitTime'" v-slot="{ row }">
+        <span>{{ mons(row.visitTime).format('YYYY-MM-DD HH:mm ') }}</span>
       </template>
       <!-- 奖励积分 -->
       <template v-else-if="item.prop === 'input'" v-slot="{}">
@@ -112,13 +105,8 @@ const props = defineProps({
     default: true
   }
 })
-
-// const enter = (row: any, column: any, cell: HTMLTableCellElement, event: Event) => {
-//   // console.log(11111, row, column, cell, event)
-//   cell.style.backgroundColor = 'red'
-// }
-// const leave = (row: any, column: any, cell: HTMLTableCellElement, event: Event) => {
-//   cell.style.backgroundColor = ''
-// }
+const rolename = (data: any) => {
+  return data.map((item: any) => (item?.name)).toString()
+}
 </script>
 <style lang="less" scoped></style>
