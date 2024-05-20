@@ -5,10 +5,22 @@
     height: '50px'
   }">
     <el-table-column type="selection" width="55" v-if="isMultiple" />
-    <el-table-column v-for="(item, index) in props.tableItem" :key="index" :prop="item.prop" :label="item.label"
-      :width="item.width">
-      <template v-if="item.prop == 'photo' || item.prop == 'qrcode'" v-slot="{ row }">
-        <el-image style="width: 50px; height: 50px" :src="upload + (row.photo || row.qrcode)" />
+    <el-table-column
+      v-for="(item, index) in props.tableItem"
+      :key="index"
+      :prop="item.prop"
+      :label="item.label"
+      :width="item.width"
+    >
+      <template
+        v-if="item.prop == 'photo' || item.prop == 'qrcode' || item.prop === 'picture'"
+        v-slot="{ row }"
+      >
+        <el-image
+          style="width: 50px; height: 50px"
+          v-if="row.photo || row.qrcode || row.picture"
+          :src="upload + (row.photo || row.qrcode || row.picture)"
+        />
         <span></span>
       </template>
 
@@ -38,6 +50,10 @@
       <template v-else-if="item.prop === 'input'" v-slot="{}">
         <input type="text" />
       </template>
+      <!-- 男女 -->
+      <template v-else-if="item.prop === 'gender'" v-slot="{ row}">
+        {{ row.gender=='1'?'男':"女" }}
+      </template>
     </el-table-column>
 
     <!-- 是否有input框 -->
@@ -49,7 +65,7 @@
 
     <el-table-column label="操作" v-if="props.isoperate" width="330">
       <template v-slot="scope">
-        <slot name="operate" :data="scope.row"></slot>
+        <slot name="operate" :data="scope.row" :index="scope.$index"></slot>
       </template>
     </el-table-column>
   </el-table>

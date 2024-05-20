@@ -1,79 +1,118 @@
 <template>
     <!-- 新增潜在客户 -->
-    <el-card style="margin-top: 15px" class="section">
-        <div class="title">
-            <div class="title-text">
-                <span>▋</span>
-                老人信息
+    <el-card style="max-width: 100%">
+        <div class="header">
+            <span>▋</span> 老人信息
+        </div>
+        <el-form ref="ruleFormRef" style="margin-top: 20px; " :model="ruleForm" :rules="rules" label-width="auto"
+            class="demo-ruleForm" :size="formSize" status-icon>
+            <el-form-item label="老人姓名" prop="name">
+                <el-input v-model="ruleForm.name" placeholder="请输入老人姓名" />
+            </el-form-item>
+            <el-form-item label="老人性别" prop="gender">
+                <el-select v-model="ruleForm.gender" placeholder="请选择">
+                    <el-option label="男" :value="1" />
+                    <el-option label="女" :value="0" />
+                </el-select>
+            </el-form-item>
+            <el-form-item label="身份证号" prop="idCard">
+                <el-input v-model="ruleForm.idCard" placeholder="请输入老人身份证号" />
+            </el-form-item>
+            <el-form-item label="老人状况" prop="status">
+                <el-input v-model="ruleForm.status" type="textarea" placeholder="请输入老人状况" />
+            </el-form-item>
+
+            <div class="family">
+                <span>▋</span> 家属信息
             </div>
+            <el-button type="primary" @click='addRelation' style="margin-bottom: 20px;">新增家属</el-button>
+            <AddRelation v-if="dialogVisible" @close="Holedclose"></AddRelation>
+            <!-- 表格 -->
+            <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
+                <template #operate>
+                    <el-button type="primary" text>编辑</el-button>
+                    <el-button type="primary" text @click="del">删除</el-button>
+                </template>
+            </MayTable>
+            <Pagination :total="50"></Pagination>
 
-        </div>
-        <div class="form-size">
-            <el-form :rules="rules" label-position="right" :model="formInline" class="demo-form-inline">
-                <el-form-item label="老人姓名:" prop="user">
-                    <el-input v-model="formInline.user" placeholder="请输入老人姓名" />
-                </el-form-item>
-                <el-form-item label="老人性别:" prop="region">
-                    <el-select v-model="formInline.region" placeholder="请选择">
-                        <el-option label="男" value="1" />
-                        <el-option label="女" value="2" />
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="身份证:" prop="user">
-                    <el-input v-model="formInline.user" placeholder="请输入老人身份证" />
-                </el-form-item>
-                <el-form-item label="老人状况:">
-                    <el-input v-model="formInline.user"  type="textarea" placeholder="请输入老人状况" />
-                </el-form-item>
-            </el-form>
-        </div>
-        <div class="title-text">
-            <span>▋</span>
-            家属信息
-        </div>
-        <div class="form-size">
-                <div style="margin: 10px 0">
-                    <el-button type="primary" @click='addRelation'>新增家属</el-button>
-                </div>
-                <!-- 表格 -->
-                <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
-                    <template #operate>
-                        <el-button type="primary" text>编辑</el-button>
-                        <el-button type="primary" text @click="del">删除</el-button>
-                    </template>
-                </MayTable>
-                <Pagination :total="50"></Pagination>
-        </div>
-        <div class="title-text">
-            <span>▋</span>
-            需求总结
-        </div>
-        <div class="form-size">
-            <el-form-item label="房间需求:" class="form-size-box">
-                    <el-input v-model="formInline.user"  type="textarea" placeholder="请输入房间需求" />
+            <div class="family">
+                <span>▋</span>需求总结
+            </div>
+            <el-form-item label="房间需求" prop="roomRequire">
+                <el-input v-model="ruleForm.roomRequire" type="textarea" placeholder="请输入房间需求" />
             </el-form-item>
-            <el-form-item label="意向描述:">
-                    <el-input v-model="formInline.user"  type="textarea" placeholder="请输入意向描述" />
+            <el-form-item label="意向描述" prop="content">
+                <el-input v-model="ruleForm.content" type="textarea" placeholder="请输入意向描述" />
             </el-form-item>
-        </div>
-
+            <div class="btn">
+                <el-button>取消</el-button>
+                <el-button type="primary" @click="submitForm(ruleFormRef)">保存</el-button>
+            </div>
+        </el-form>
     </el-card>
-    <div class="title-btn">
-            <el-button>取消</el-button>
-            <el-button type="primary">保存</el-button>
-    </div>
-    <AddRelation v-if="dialogVisible" @close="Holedclose"></AddRelation>
+
 </template>
 <script lang="ts" setup>
-import type { FormRules } from 'element-plus'
+
 import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
 import AffiliatedView from '@/database/AffiliatedView.json'
-import {getMessageBox} from '@/utils/utils'
+import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
-
 const AddRelation = defineAsyncComponent(() => import('@/components/dialog/market/AddRelation.vue'))
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
+//表单
+import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
+//潜在客户添加
+import { CustomerAdd } from '@/service/market/CustomerApi'
+import type { CustomerAddType } from '@/service/market/CustomerType'
+import { useRouter } from 'vue-router';
+const router = useRouter()
+const formSize = ref<ComponentSize>('default')
+const ruleFormRef = ref<FormInstance>()
+const ruleForm = reactive<CustomerAddType>({
+    name: '',
+    mobile: '',
+    gender: null,
+    idCard: '',
+    status: '',
+    roomRequire: '',
+    content: '',
+    state: 1,
+    source: '在线咨询',
+    family: [{
+        name: '',
+        mobile: '',
+        gender: null,
+        idCard: '',
+        relation: '',
+        address:''
+    }]
+})
+const rules = reactive<FormRules<CustomerAddType>>({
+
+    name: [
+        { required: true, message: '请输入老人姓名', trigger: 'blur' },
+    ],
+    gender: [
+        { required: true, message: '请选择老人性别', trigger: 'blur' },
+    ],
+    idCard: [
+        { required: true, message: '请输入老人身份证号', trigger: 'blur' },
+    ],
+    status: [
+        { required: true, message: '请输入老人身体状况', trigger: 'blur' },
+    ],
+    roomRequire: [
+        { required: true, message: '请输入房间需求', trigger: 'blur' },
+    ],
+    content: [
+        { required: true, message: '请输入意向描述', trigger: 'blur' },
+    ],
+})
+
+
 const data = reactive({
     tableData: [] as any,
     tableItem: [
@@ -86,23 +125,23 @@ const data = reactive({
             label: '姓名'
         },
         {
-            prop: 'address',
+            prop: 'gender',
             label: '性别'
         },
         {
-            prop: 'manager',
+            prop: 'idCard',
             label: '身份证号'
         },
         {
-            prop: 'phone',
+            prop: 'mobile',
             label: '联系电话'
         },
         {
-            prop: 'username',
+            prop: 'address',
             label: '联系地址'
         },
         {
-            prop: 'userpass',
+            prop: 'relation',
             label: '与老人关系'
         },
     ]
@@ -113,84 +152,81 @@ const getlist = () => {
     }, 1000)
 }
 const dialogVisible = ref(false)
-const addRelation=()=>{
-    dialogVisible.value=true
+const addRelation = () => {
+    dialogVisible.value = true
 }
 
-const Holedclose =(val:any)=>{
-    dialogVisible.value=val
+const Holedclose = (val: any) => {
+    dialogVisible.value = val
 }
-const del = async()=>{
-    let res = await getMessageBox('是否确认删除该家属','删除后将不可恢复')
-    if(res){
+const del = async () => {
+    let res = await getMessageBox('是否确认删除该家属', '删除后将不可恢复')
+    if (res) {
         ElMessage.success('删除成功')
-    }else{
+    } else {
         ElMessage.info('取消删除')
     }
 }
+//添加潜在客户
+
+const submitForm = async (formEl: FormInstance | undefined) => {
+    if (!formEl) return
+    await formEl.validate(async (valid, fields) => {
+        if (valid) {
+            const res: any = await CustomerAdd(ruleForm)
+            console.log('添加潜在客户', res);
+            if (res.code === 10000) {
+                ElMessage.success('添加成功')
+                router.push('/market/customer')
+            }
+        } else {
+            console.log('error submit!', fields)
+        }
+    })
+}
+
 onMounted(() => {
     getlist()
 })
-const formInline = reactive({
-    user: '',
-    region: '',
-    date: '',
-    resource: ''
-})
 
-const rules = reactive<FormRules<any>>({
-    user: [
-        { required: true, message: '请输入机构名称', trigger: 'blur' },
-    ],
-    region: [
-        { required: true, message: 'Please select Activity zone', trigger: 'change' },
-    ],
-})
 </script>
 <style lang="less" scoped>
-.section {
-    width: 100%;
-    background-color: #fff;
-}
-
-.title-text {
-    margin: 40px;
+.header {
+    height: 50px;
+    font-weight: bold;
 
     span {
-        color: #409EFF;
-    }
-}
-.form-size{
-    margin: 40px;
-}
-.title {
-    display: flex;
-    justify-content: space-between;
-    height: 57px;
-}
-.form-size-box{
-    margin-bottom: 120px;
-}
-.title-btn {
-    margin: 40px 690px;
-
-    .el-button {
-        width: 100px;
-        height: 40px;
+        line-height: 50px;
+        color: #529bfd;
     }
 }
 
-.el-form-item {
-    width: 429px;
-    margin-top: 40px;
-    margin-left: 40px;
+.family {
+    height: 50px;
+    font-weight: bold;
 
+    span {
+        line-height: 50px;
+        color: #529bfd;
+    }
 }
 
+.el-input {
+    width: 400px;
+}
 
+.el-select {
+    width: 400px;
+}
 
-.button {
-    width: 92px;
-    height: 40px;
+.el-textarea {
+    width: 400px;
+}
+
+.btn {
+    width: 200px;
+    height: 50px;
+    margin: 0 auto;
+    margin-top: 30px;
 }
 </style>

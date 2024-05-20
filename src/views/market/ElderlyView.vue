@@ -4,19 +4,19 @@
   <el-card>
     <el-form :inline="true" :model="formInline" class="demo-form-inline">
       <el-form-item label="老人姓名:">
-        <el-input v-model="formInline.user" placeholder="请输入" clearable />
+        <el-input v-model="formInline.name" placeholder="请输入" clearable />
       </el-form-item>
       <el-form-item label="身份证号码:">
-        <el-input v-model="formInline.user" placeholder="请输入" clearable />
+        <el-input v-model="formInline.idCard" placeholder="请输入" clearable />
       </el-form-item>
       <el-form-item label="床位:">
-        <el-select v-model="formInline.region">
+        <el-select v-model="formInline.begId">
           <el-option label="Zone one" value="shanghai" />
           <el-option label="Zone two" value="beijing" />
         </el-select>
       </el-form-item>
       <el-form-item label="入住状况:">
-        <el-select v-model="formInline.region">
+        <el-select v-model="formInline.state">
           <el-option label="Zone one" value="shanghai" />
           <el-option label="Zone two" value="beijing" />
         </el-select>
@@ -46,7 +46,6 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
-import AffiliatedView from '@/database/AffiliatedView.json'
 import { useRouter } from 'vue-router'
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
@@ -59,9 +58,9 @@ const formInline = reactive<ListElderlyRequest>({
   page: 1,
   pageSize: 5,
   name: '',
-  idCard: 0,
-  begId: 0,
-  state: 0
+  idCard: undefined,
+  begId: undefined,
+  state: undefined
 })
 const identifier = 'administration'
 const data = reactive({
@@ -80,30 +79,29 @@ const data = reactive({
       label: '老人姓名'
     },
     {
-      prop: 'address',
+      prop: 'gender',
       label: '性别'
     },
     {
-      prop: 'manager',
+      prop: 'idCard',
       label: '身份证号'
     },
     {
-      prop: 'phone',
+      prop: 'begName',
       label: '床位'
     },
     {
-      prop: 'username',
+      prop: 'stateName',
       label: '状态'
     }
   ]
 })
 const getlist = async () => {
-  let res:any = await getElderlyList(formInline)
-  console.log('老人列表',res);
-  if(res?.code===10000){
+  let res: any = await getElderlyList(formInline)
+  console.log('老人列表', res)
+  if (res?.code === 10000) {
     data.tableData = res.data.list
   }
-  
 }
 
 // 删除

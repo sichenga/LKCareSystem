@@ -40,16 +40,19 @@ const props = defineProps({
   }
 })
 // 数据回显
+const fileList = ref<UploadUserFile[]>([])
 watch(
   () => props.showlist,
   (newval: UploadUserFile[]) => {
+    console.log(123);
+    
     console.log(4444, newval)
 
     fileList.value = newval
   },
-  { deep: true }
+  { deep: true , immediate:true}
 )
-const fileList = ref<UploadUserFile[]>([])
+
 
 // 是否清除数据
 watch(

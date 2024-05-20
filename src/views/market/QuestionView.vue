@@ -54,7 +54,6 @@ const AddRelation = defineAsyncComponent(() => import('@/components/dialog/consu
 const Particulars = defineAsyncComponent(() => import('@/components/dialog/consult/particulars.vue'))
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
-
 const data = reactive({
     tableData: [] as any,
     tableItem: [
