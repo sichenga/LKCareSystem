@@ -6,20 +6,20 @@
         <el-input v-model="ruleForm.name" />
       </el-form-item>
       <el-form-item label="联系电话" prop="mobile">
-        <el-input v-model="ruleForm.mobile" placeholder="请输入联系电话"/>
+        <el-input v-model="ruleForm.mobile" placeholder="请输入联系电话" />
       </el-form-item>
       <el-form-item label="身份证号" prop="idCard">
         <el-input v-model="ruleForm.idCard" placeholder="请输入身份证号" />
       </el-form-item>
       <el-form-item label="与老人关系" prop="relation">
-        <el-select v-model="ruleForm.relation" placeholder="请选择与老人关系">
+        <el-select v-model="ruleForm.family.relation" placeholder="请选择与老人关系">
           <el-option label="Zone one" value="shanghai" />
           <el-option label="Zone two" value="beijing" />
         </el-select>
       </el-form-item>
       <el-form-item label="性别" prop="gender">
         <el-radio-group v-model="ruleForm.gender">
-          <el-radio :value="0" >男</el-radio>
+          <el-radio :value="0">男</el-radio>
           <el-radio :value="1">女</el-radio>
         </el-radio-group>
       </el-form-item>
@@ -57,12 +57,12 @@ const ruleForm = reactive<CustomerAddType>({
   state: 1,
   source: '在线咨询',
   family: [{
-    name: '',
-    mobile: '',
+    name: '5456',
+    mobile: '546546',
     gender: null,
-    idCard: '',
-    relation: '',
-    address: ''
+    idCard: '54654',
+    relation: '5654', // 现在可以安全地使用 relation，因为它在 FamilyMember 接口中定义了
+    address: '5454'
   }]
 })
 
@@ -87,13 +87,16 @@ const rules = reactive<FormRules<CustomerAddType>>({
   address: [
     { required: true, message: '请输入联系地址', trigger: 'blur' },
   ],
- 
+
 })
 
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
-  await formEl.validate((valid, fields) => {
+  await formEl.validate(async(valid, fields) => {
     if (valid) {
+      const res = await CustomerAdd(ruleForm)
+      console.log();
+      
       console.log('submit!')
     } else {
       console.log('error submit!', fields)
