@@ -66,7 +66,7 @@ const add = async () => {
   let valid = await RefOldMessage.value?.submitForm()
   console.log(valid)
   if (valid) {
-    // addElderly()
+    // addElderly(ruleForm)
   }
 }
 </script>
