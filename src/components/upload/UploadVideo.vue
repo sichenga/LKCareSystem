@@ -11,7 +11,7 @@
     :limit="limit"
     :on-exceed="handleExceed"
   >
-    <el-button type="primary">上传视频</el-button>
+    <el-button type="primary">{{ props.text }}</el-button>
   </el-upload>
 </template>
 <script lang="ts" setup>
@@ -19,9 +19,11 @@ import { ref, defineEmits, watch, defineProps } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import type { PropType } from 'vue'
 const emit = defineEmits(['upload', 'uploadrem'])
+import { useUserStore } from '@/stores'
+const userStore = useUserStore()
 const action = import.meta.env.VITE_BASE_UPLOAD_ADD || ''
 const headers = {
-  Authorization: sessionStorage.getItem('token') || ''
+  Authorization: userStore.token || ''
 }
 import type { UploadProps, UploadUserFile } from 'element-plus'
 const props = defineProps({
@@ -36,6 +38,10 @@ const props = defineProps({
   delete: {
     type: Boolean,
     default: true
+  },
+  text: {
+    type: String,
+    default: '上传视频'
   }
 })
 // 数据回显

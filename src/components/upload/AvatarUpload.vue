@@ -1,50 +1,56 @@
 <template>
-    <el-upload
-      class="avatar-uploader"
-      :action="action"
-      :headers="headers"
-      :show-file-list="false"
-      :on-success="handleAvatarSuccess"
-    >
-      <img v-if="imageUrl" :src="ImageUrls+imageUrl" class="avatar" />
-      <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
-    </el-upload>
-  </template>
+  <el-upload
+    class="avatar-uploader"
+    :action="action"
+    :headers="headers"
+    :show-file-list="false"
+    :on-success="handleAvatarSuccess"
+    :style="style"
+  >
+    <img v-if="imageUrl" :src="ImageUrls + imageUrl" class="avatar" />
+    <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
+  </el-upload>
+</template>
 <script lang="ts" setup>
-import { ref ,defineProps,defineEmits} from 'vue'
+import { ref, defineProps, defineEmits } from 'vue'
 import { Plus } from '@element-plus/icons-vue'
 import type { UploadProps } from 'element-plus'
 
 const imageUrl = ref('')
-
+const props = defineProps({
+  style: {
+    type: Object,
+    default: () => {
+      return {
+        width: '65px',
+        height: '65px'
+      }
+    }
+  }
+})
+console.log(props.style)
 
 const action = import.meta.env.VITE_BASE_UPLOAD_ADD || ''
-const ImageUrls = import.meta.env.VITE_BASE_URL+'/' || ''
+const ImageUrls = import.meta.env.VITE_BASE_URL + '/' || ''
 const emit = defineEmits(['upload', 'uploadrem'])
 
 const headers = {
   Authorization: sessionStorage.getItem('token') || ''
 }
 
-const handleAvatarSuccess: UploadProps['onSuccess'] = (
-  response,
-  uploadFile
-) => {
-  console.log('头像',response,
-  uploadFile);
-  if(response.code==10000){
-    imageUrl.value= response.data.url
-    emit('upload',response.data.url)
+const handleAvatarSuccess: UploadProps['onSuccess'] = (response, uploadFile) => {
+  console.log('头像', response, uploadFile)
+  if (response.code == 10000) {
+    imageUrl.value = response.data.url
+    emit('upload', response.data.url)
   }
 }
-
-
 </script>
 
 <style scoped>
 .avatar-uploader .avatar {
-  width: 65px;
-  height: 65px;
+  width: 100%;
+  height: 100%;
   display: block;
 }
 </style>
@@ -66,8 +72,14 @@ const handleAvatarSuccess: UploadProps['onSuccess'] = (
 .el-icon.avatar-uploader-icon {
   font-size: 28px;
   color: #8c939d;
-  width: 65px;
-  height: 65px;
+  /* width: 65px;
+  height: 65px; */
+  width: 100%;
+  height: 100%;
   text-align: center;
 }
-</style>  
+.el-upload {
+  width: 100%;
+  height: 100%;
+}
+</style>
