@@ -6,12 +6,7 @@
         <el-input v-model="params.name" placeholder="请输入房间号" clearable />
       </el-form-item>
       <el-form-item label="楼栋">
-        <el-cascader
-          v-model="floorArr"
-          :options="options"
-          @change="handleChange"
-          :props="defaultProps"
-        />
+        <el-cascader v-model="floorArr" :options="options" @change="handleChange" :props="defaultProps" />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="search">查询</el-button>
@@ -28,13 +23,7 @@
         <el-button type="primary" text @click="handleDelete(data.id)">删除</el-button>
       </template>
     </MayTable>
-    <Pagination
-      :total="data.total"
-      @page="page"
-      @psize="psize"
-      :page="params.page"
-      :pszie="params.page"
-    >
+    <Pagination :total="data.total" @page="page" @psize="psize" :page="params.page" :pszie="params.page">
     </Pagination>
   </el-card>
 </template>
@@ -60,7 +49,7 @@ const handleChange = () => {
 }
 // 获取楼栋列表
 const getbuildingList = async () => {
-  let res: any = await buildingList().catch(() => {})
+  let res: any = await buildingList().catch(() => { })
   console.log(33, res)
   if (res?.code === 10000) {
     // options.value=res.data.list
@@ -112,8 +101,11 @@ const add = () => {
 }
 //弹出框
 const isdialog = ref(false)
-const close = () => {
+const close = (val:any) => {
   isdialog.value = false
+  if (val) {
+    getHouselist()
+  }
 }
 //删除
 import { getMessageBox } from '@/utils/utils'

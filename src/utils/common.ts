@@ -12,7 +12,7 @@ export const AddMenu = () => {
 
 // 文字处理
 export const firstUpperCase = (str: string) => {
-  let text = str
+  let text = str  
   if (text.includes('Beg-details')) {
     text = text.replace('Beg-details', 'Details')
   }

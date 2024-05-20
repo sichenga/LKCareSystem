@@ -10,16 +10,11 @@
       </template>
     </MayTable>
     <!-- 分页 -->
-    <Pagination
-      :total="total"
-      :page="params.page"
-      :psize="params.pageSize"
-      @page="getpage"
-      @psize="getpsize"
-    ></Pagination>
+    <Pagination :total="total" :page="params.page" :psize="params.pageSize" @page="getpage" @psize="getpsize">
+    </Pagination>
   </div>
 </template>
- 
+
 <script lang="ts" setup>
 import { reactive, toRefs, ref, onMounted, defineAsyncComponent } from 'vue'
 import { getMessageBox } from '@/utils/utils'

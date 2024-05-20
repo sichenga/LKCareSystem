@@ -83,6 +83,7 @@ const add = async () => {
   border-top-right-radius: 18px;
   background-color: #fff;
 }
+
 .submit {
   width: 100%;
   display: flex;
