@@ -1,16 +1,7 @@
 <template>
-  <el-date-picker
-    v-model="time"
-    type="datetimerange"
-    range-separator="-"
-    start-placeholder="开始时间"
-    end-placeholder="结束时间"
-    format="YYYY-MM-DD HH:mm:ss"
-    date-format="YYYY/MM/DD"
-    time-format="HH:mm:ss"
-    value-format="YYYY-MM-DD HH:mm"
-    @change="handleChange"
-  />
+  <el-date-picker v-model="time" type="datetimerange" range-separator="-" start-placeholder="开始时间"
+    end-placeholder="结束时间" format="YYYY-MM-DD HH:mm:ss" date-format="YYYY/MM/DD" time-format="HH:mm:ss"
+    value-format="YYYY-MM-DD HH:mm" @change="handleChange" />
 </template>
 <script lang="ts" setup>
 import { ref, reactive, onMounted, defineEmits } from 'vue'
@@ -30,9 +21,11 @@ const handleChange = (value: string) => {
   border-right: solid 1px var(--el-border-color);
   flex: 1;
 }
+
 .block:last-child {
   border-right: none;
 }
+
 .block .demonstration {
   display: block;
   color: var(--el-text-color-secondary);

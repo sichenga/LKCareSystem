@@ -8,3 +8,18 @@ export interface CustomerParams {
   state: number | null
   endDate: string
 }
+
+
+//新增家属
+export interface CustomerAddType {
+    name:string,
+    mobile:string,
+    gender:number,
+    idCard:string,
+    status:string,
+    roomRequire:string,
+    content:string,
+    state:number,
+    source:string,
+}
+

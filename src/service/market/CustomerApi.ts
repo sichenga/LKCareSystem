@@ -15,3 +15,5 @@ export const CustomerDelete = (id: number) => {
 export const Customerget = (id: number) => {
   return get(`/api/customer/get/${id}`)
 }
+
+

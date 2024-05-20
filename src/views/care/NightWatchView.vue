@@ -7,38 +7,16 @@
         <el-input v-model="formInline.name" placeholder="请输入" clearable />
       </el-form-item>
       <el-form-item label="巡检地址：">
-        <el-select
-          v-model="formInline.address"
-          clearable
-          placeholder="请选择"
-          style="width: 240px"
-          size="large"
-        >
-          <el-option
-            v-for="item in data.sitelist"
-            :key="item.id"
-            :label="item.name"
-            :value="item.id"
-          />
+        <el-select v-model="formInline.address" clearable placeholder="请选择" style="width: 240px" size="large">
+          <el-option v-for="item in data.sitelist" :key="item.id" :label="item.name" :value="item.id" />
         </el-select>
       </el-form-item>
       <el-form-item label="巡检上报时间：">
         <TimePicker @change="timechange"></TimePicker>
       </el-form-item>
       <el-form-item label="巡检状态：">
-        <el-select
-          v-model="formInline.state"
-          clearable
-          placeholder="请选择"
-          style="width: 240px"
-          size="large"
-        >
-          <el-option
-            v-for="item in data.statelist"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
+        <el-select v-model="formInline.state" clearable placeholder="请选择" style="width: 240px" size="large">
+          <el-option v-for="item in data.statelist" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -118,7 +96,7 @@ const data = reactive({
 })
 // 获取列表
 const getlist = async () => {
-  let res: any = await patrolList(formInline).catch(() => {})
+  let res: any = await patrolList(formInline).catch(() => { })
   console.log('夜巡列表', res)
   if (res?.code === 10000) {
     data.tableData = res.data.list
@@ -168,7 +146,7 @@ const del = async (id: number) => {
   let box = await getMessageBox('是否确认删除该条记录', '删除后将不可恢复')
 
   if (box) {
-    let res: any = await patrolDelete(id).catch(() => {})
+    let res: any = await patrolDelete(id).catch(() => { })
     console.log('删除', res)
     if (res?.code === 10000) {
       ElMessage.success('删除成功')
@@ -187,6 +165,7 @@ onMounted(() => {
 .el-input {
   height: 40px;
 }
+
 .el-button {
   height: 40px;
   line-height: 40px;

@@ -81,6 +81,7 @@ declare module 'vue' {
     OutRecord: typeof import('./src/components/Record/OutRecord.vue')['default']
     Particulars: typeof import('./src/components/dialog/consult/particulars.vue')['default']
     PassDialog: typeof import('./src/components/dialog/config/PassDialog.vue')['default']
+    PfleGestufeDialog: typeof import('./src/components/dialog/market/PfleGestufeDialog.vue')['default']
     PriceDialog: typeof import('./src/components/dialog/diet/PriceDialog.vue')['default']
     ProjectDialog: typeof import('./src/components/dialog/config/ProjectDialog.vue')['default']
     ProjectInfoDialog: typeof import('./src/components/dialog/medicalcare/ProjectInfoDialog.vue')['default']
