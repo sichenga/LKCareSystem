@@ -28,12 +28,13 @@
             </div>
         </div>
         <el-timeline style="width: 500px;margin-top: 50px;">
-            <el-timeline-item v-for="(activity, index) in activities" :key="index" :timestamp="activity.timestamp">
+            <el-timeline-item v-for="(activity, index) in activities" :key="index" :timestamp="activity.timestamp" @click="modification(activity)">
+
                 <template #dot>
                     <el-image :src="image+activity.addAccountPhoto" fit="cover" />
                 </template>
                 <template #default>
-                   <div @click="modification(activity)">
+                   <div >
                     {{ activity.content }}
                    </div>
                 </template>
@@ -81,7 +82,6 @@ const questionlist = async () => {
     let res: any = await followupList(states)
     if (res?.code == 10000) {
         console.log(res);
-        await nextTick()
         res.data.list.forEach((item: any) => {
             console.log(item);
             activities.push({
