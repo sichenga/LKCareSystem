@@ -46,7 +46,7 @@
                 <el-input v-model="ruleForm.desc" type="textarea" placeholder="请输入老人状况" />
             </el-form-item>
             <div class="btn">
-                <el-button >取消</el-button>
+                <el-button>取消</el-button>
                 <el-button type="primary" @click="submitForm(ruleFormRef)">保存</el-button>
             </div>
         </el-form>
@@ -210,14 +210,14 @@ const del = async () => {
     }
 }
 const submitForm = async (formEl: FormInstance | undefined) => {
-  if (!formEl) return
-  await formEl.validate((valid, fields) => {
-    if (valid) {
-      console.log('submit!')
-    } else {
-      console.log('error submit!', fields)
-    }
-  })
+    if (!formEl) return
+    await formEl.validate((valid, fields) => {
+        if (valid) {
+            console.log('submit!')
+        } else {
+            console.log('error submit!', fields)
+        }
+    })
 }
 
 onMounted(() => {
@@ -257,10 +257,11 @@ onMounted(() => {
 .el-textarea {
     width: 400px;
 }
+
 .btn {
     width: 200px;
     height: 50px;
-    margin:  0 auto;
+    margin: 0 auto;
     margin-top: 30px;
 }
 </style>

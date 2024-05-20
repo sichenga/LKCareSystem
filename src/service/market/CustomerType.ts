@@ -7,7 +7,7 @@ export interface CustomerlistType {
 export interface CustomerAddType {
     name:string,
     mobile:string,
-    gender:number,
+    gender:number|null,
     idCard:string,
     status:string,
     roomRequire:string,
