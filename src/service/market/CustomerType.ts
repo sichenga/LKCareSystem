@@ -1,8 +1,15 @@
-//潜在客户列表
-export interface CustomerlistType {
-    page:number,
-    pageSize:number
+// 潜在客户列表
+export interface CustomerParams {
+  page: number
+  pageSize: number
+  name: string
+  idCard: string
+  beginDate: string
+  state: number | null
+  endDate: string
 }
+
+
 //新增家属
 export interface CustomerAddType {
     name:string,
@@ -15,3 +22,4 @@ export interface CustomerAddType {
     state:number,
     source:string,
 }
+
