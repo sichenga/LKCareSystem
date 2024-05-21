@@ -29,12 +29,6 @@
         </div>
         <!-- 表格 -->
         <MayTable :tableData="data.tableData" :tableItem="data.tableItem" :isoperate="false">
-            <template #operate="">
-                <el-button type="primary" text>编辑</el-button>
-                <!-- <el-button type="primary" text @click="details(scope.data.id)">详情</el-button>
-                <el-button type="primary" text @click="router.push('/dashboard/consult')">咨询登记</el-button>
-                <el-button type="primary" text @click="handleDelete(scope.data.id)">删除</el-button> -->
-            </template>
         </MayTable>
         <div class="title" style="margin-top: 30px;">
             <div><i>▋</i> 需求信息</div>

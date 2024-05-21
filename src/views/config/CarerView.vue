@@ -25,6 +25,7 @@
     <el-card style="max-width: 100%" class="card">
         <el-button type="primary" @click="isdialog = true">新增</el-button>
         <WorkersDialog @close="close" v-if="isdialog"></WorkersDialog>
+        
         <MayTable :tableData="data.tableData" :tableItem="data.tableItem" :identifier="identifier">
             <template #operate="{ data }">
                 <el-button type="primary" text @click="del(data.id)">删除</el-button>
