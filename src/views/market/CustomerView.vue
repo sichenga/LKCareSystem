@@ -33,7 +33,7 @@
             <template #operate="scope">
                 <el-button type="primary" text @click="handleedit(scope.data.id)">编辑</el-button>
                 <el-button type="primary" text @click="details(scope.data.id)">详情</el-button>
-                <el-button type="primary" text @click="router.push('/dashboard/consult')">咨询登记</el-button>
+                <el-button type="primary" text @click="register">咨询登记</el-button>
                 <el-button type="primary" text @click="handleDelete(scope.data.id)">删除</el-button>
             </template>
         </MayTable>
@@ -126,6 +126,10 @@ const add = () => {
 // 编辑
 const handleedit = (id: any) => {
     router.push(`/market/customer/edit/${id}`)
+}
+// 资讯登记
+const register = () => {
+    router.push('/market/question')
 }
 // 删除
 const handleDelete = async (id: any) => {
