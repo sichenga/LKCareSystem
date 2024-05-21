@@ -19,3 +19,8 @@ export const Customerget = (id: number) => {
 export const CustomerAdd = (data: CustomerAddType) => {
   return post('/api/customer/add', data)
 }
+
+// 潜在客户修改
+export const Customerupdate = (data: CustomerAddType) => {
+  return put('/api/customer/update', data)
+}

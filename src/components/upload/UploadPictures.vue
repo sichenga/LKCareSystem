@@ -9,7 +9,7 @@
     :on-remove="handleRemove"
     list-type="picture"
   >
-    <el-button type="primary">上传图片</el-button>
+    <el-button type="primary">{{ props.text }}</el-button>
     <template #tip>
       <div class="el-upload__tip" v-if="istip">可以上传{{ props.limit }}张图片</div>
     </template>
@@ -37,6 +37,10 @@ const props = defineProps({
   istip: {
     type: Boolean,
     default: true
+  },
+  text: {
+    type: String,
+    default: '上传图片'
   }
 })
 const fileList = ref<UploadUserFile[]>([])

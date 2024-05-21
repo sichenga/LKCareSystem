@@ -98,6 +98,7 @@ declare module 'vue' {
     SupplierDialog: typeof import('./src/components/dialog/diet/SupplierDialog.vue')['default']
     ToHospitalDialog: typeof import('./src/components/dialog/market/ToHospitalDialog.vue')['default']
     TopMenu: typeof import('./src/components/menu/TopMenu.vue')['default']
+    UploadImg: typeof import('./src/components/upload/UploadImg.vue')['default']
     UploadPictures: typeof import('./src/components/upload/UploadPictures.vue')['default']
     UploadVideo: typeof import('./src/components/upload/UploadVideo.vue')['default']
     WashparticularsDialog: typeof import('./src/components/dialog/care/WashparticularsDialog.vue')['default']
