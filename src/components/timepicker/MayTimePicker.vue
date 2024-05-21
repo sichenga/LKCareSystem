@@ -1,32 +1,55 @@
 <template>
-  <el-date-picker v-model="time" type="datetime" placeholder="请选择" format="YYYY/MM/DD hh:mm"
-    value-format="YYYY-MM-DD HH:mm" editable :size="props.size" @change="handleChange" />
+  <!-- <div>
+    {{ time }}
+  </div> -->
+  <el-date-picker
+    v-model="times"
+    type="datetime"
+    placeholder="请选择"
+    :format="props.format"
+    :value-format="valueFormat"
+    editable
+    :size="props.size"
+    @change="handleChange"
+  />
 </template>
 <script lang="ts" setup>
-import { ref, reactive, onMounted, defineProps, defineEmits,watch } from 'vue'
+import { ref, reactive, onMounted, defineProps, defineEmits, watch } from 'vue'
 const props = defineProps({
   size: {
     type: String,
     default: 'large'
   },
-  remtime:{
+  remtime: {
     type: String,
     default: ''
+  },
+  format: {
+    type: String,
+    default: 'YYYY-MM-DD HH:mm'
+  },
+  valueFormat: {
+    type: String,
+    default: 'YYYY-MM-DD HH:mm'
   }
 })
 
-
 //时间回显
-const times = ref('')
-times.value=props.remtime
-watch(props,(newValue)=>{
-  console.log('时间回显',newValue);
-  
-  times.value=newValue.remtime
-},{deep:true})
+const times = ref('2024-05-10 12:00')
+watch(
+  () => props.remtime,
+  (newValue) => {
+    console.log('时间回显', newValue)
+    if (newValue) {
+      times.value = newValue
+      // console.log('时间回显', times.value)
+    }
+  },
+  { immediate: true }
+)
 
 const emit = defineEmits(['change'])
-const time = ref(times)
+
 const handleChange = (val: any) => {
   console.log('年月日', val)
   emit('change', val)

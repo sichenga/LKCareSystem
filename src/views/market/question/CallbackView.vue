@@ -86,12 +86,22 @@ const questionlist = async () => {
   let res: any = await followupList(states)
   if (res?.code == 10000) {
     console.log(res)
+    // res.data.list.forEach(async (item: any) => {
+    //   console.log(item)
+    //   activities.list.push({
+    //     id: item.id,
+    //     content: item.content,
+    //     timestamp: item.callbackTime,
+    //     addAccountPhoto: item.addAccountPhoto
+    //   })
+    // })
     activities.list = res.data.list.map((item: any) => ({
       id: item.id,
       content: item.content,
       timestamp: item.callbackTime,
       addAccountPhoto: item.addAccountPhoto
     }))
+    console.log(activities.list)
   }
 }
 

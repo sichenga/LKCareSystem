@@ -14,7 +14,7 @@
           <OldRelation></OldRelation>
         </el-tab-pane>
         <div class="submit">
-          <el-button size="large">取消</el-button>
+          <el-button size="large" @click="router.push('/market/elderly')">取消</el-button>
           <el-button size="large" type="primary" @click="add"> 保存 </el-button>
         </div>
       </el-card>
@@ -22,12 +22,16 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, toRefs, onMounted, defineAsyncComponent, provide } from 'vue'
-const OldMessage = defineAsyncComponent(() => import('@/components/addold/oldmessage.vue'))
-const OldRelation = defineAsyncComponent(() => import('@/components/addold/oldrelation.vue'))
-const OldHealth = defineAsyncComponent(() => import('@/components/addold/oldhealth.vue'))
-import { addElderly } from '@/service/old/OldApi'
+import { ref, reactive, defineAsyncComponent, provide, onMounted } from 'vue'
+import { ElMessage } from 'element-plus'
+import { useRouter, useRoute } from 'vue-router'
+const OldMessage = defineAsyncComponent(() => import('@/components/addold/OldMessage.vue'))
+const OldRelation = defineAsyncComponent(() => import('@/components/addold/OldRelation.vue'))
+const OldHealth = defineAsyncComponent(() => import('@/components/addold/OldHealth.vue'))
+import { addElderly, getElderly, updateElderly } from '@/service/old/OldApi'
 import type { AddElderlyRequest } from '@/service/old/OldType'
+const route = useRoute()
+const router = useRouter()
 const activeName = ref('first')
 const RefOldMessage = ref()
 const ruleForm = reactive<AddElderlyRequest>({
@@ -51,13 +55,14 @@ const ruleForm = reactive<AddElderlyRequest>({
   health: {
     oldillness: [],
     nowillness: [],
-    otherillness: [],
-    otherCase: []
+    otherillness: '',
+    otherCase: ''
   },
   selfCares: [],
   checkups: [],
   family: []
 })
+
 // 隔代传值
 provide('ruleForm', ruleForm)
 // 增加
@@ -66,9 +71,57 @@ const add = async () => {
   let valid = await RefOldMessage.value?.submitForm()
   console.log(valid)
   if (valid) {
-    // addElderly(ruleForm)
+    // let obj: any = {}
+    // obj.health = {
+    //   ...ruleForm.health,
+    //   oldillness: ruleForm.health.oldillness.join(',') || '',
+    //   nowillness: ruleForm.health.nowillness.join(',') || ''
+    // }
+
+    // obj.selfCares = ruleForm.selfCares.filter((item: any) => item !== null)
+    let obj = {
+      ...ruleForm,
+      health: {
+        ...ruleForm.health,
+        oldillness: ruleForm.health.oldillness.join(',') || '',
+        nowillness: ruleForm.health.nowillness.join(',') || ''
+      },
+      selfCares: ruleForm.selfCares.filter((item: any) => item !== null)
+    }
+    // ruleForm.
+    let res: any
+    if (!ruleForm.id) {
+      res = await addElderly(obj)
+    } else {
+      res = await updateElderly(obj)
+    }
+    console.log('增加老人', res)
+    if (res?.code === 10000) {
+      ElMessage.success(ruleForm.id ? '编辑成功' : '新增成功')
+      router.push('/market/elderly')
+    }
   }
 }
+// 数据回显
+const getedit = async () => {
+  let id = route.params?.id
+  console.log(11, id)
+
+  if (id) {
+    let res: any = await getElderly(Number(id))
+    console.log('编辑', res)
+    if (res?.code === 10000) {
+      Object.assign(ruleForm, res.data)
+      ruleForm.health.oldillness = ruleForm.health.oldillness.split(',')
+      ruleForm.health.nowillness = ruleForm.health.nowillness.split(',')
+      ruleForm.selfCares = ruleForm.selfCares.filter((item: any) => item !== null)
+      console.log(ruleForm)
+    }
+  }
+}
+onMounted(() => {
+  getedit()
+})
 </script>
 <style lang="less" scoped>
 :deep(.el-tabs__header) {

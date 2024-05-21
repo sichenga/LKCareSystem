@@ -10,6 +10,7 @@ export const getMessageBox = async (text: string, texttwo: string, title: string
         h('div', { style: 'color: #ccc' }, texttwo)
       ]),
       showCancelButton: true,
+      lockScroll: false,
       confirmButtonText: '确定',
       cancelButtonText: '取消'
     })
