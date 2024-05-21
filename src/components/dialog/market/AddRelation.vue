@@ -57,18 +57,18 @@ const ruleForm = reactive<CustomerAddType>({
   state: 1,
   source: '在线咨询',
   family: [{
-    name: '5456',
-    mobile: '546546',
+    name: '',
+    mobile: '',
     gender: null,
-    idCard: '54654',
-    relation: '5654', // 现在可以安全地使用 relation，因为它在 FamilyMember 接口中定义了
-    address: '5454'
+    idCard: '',
+    relation: '', // 现在可以安全地使用 relation，因为它在 FamilyMember 接口中定义了
+    address: ''
   }]
 })
 
 
 
-const rules = reactive<FormRules<CustomerAddType>>({
+const rules = reactive<FormRules<any>>({
   name: [
     { required: true, message: '请输入姓名', trigger: 'blur' },
   ],
@@ -92,11 +92,8 @@ const rules = reactive<FormRules<CustomerAddType>>({
 
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
-  await formEl.validate(async(valid, fields) => {
+  await formEl.validate((valid, fields) => {
     if (valid) {
-      const res = await CustomerAdd(ruleForm)
-      console.log();
-      
       console.log('submit!')
     } else {
       console.log('error submit!', fields)

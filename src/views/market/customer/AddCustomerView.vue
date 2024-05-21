@@ -87,7 +87,7 @@ const ruleForm = reactive<CustomerAddType>({
         gender: null,
         idCard: '',
         relation: '',
-        address:''
+        address: ''
     }]
 })
 const rules = reactive<FormRules<CustomerAddType>>({
@@ -168,7 +168,6 @@ const del = async () => {
     }
 }
 //添加潜在客户
-
 const submitForm = async (formEl: FormInstance | undefined) => {
     if (!formEl) return
     await formEl.validate(async (valid, fields) => {
