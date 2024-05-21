@@ -1,20 +1,23 @@
 <template>
     <!-- 资讯登记 -->
     <el-card style="margin-top: 15px" class="section">
-        <div class='body'>
-            <div class="body-title">
-                <div>老人姓名： 张国峰</div>
-                <div>性别：男</div>
-                <div>身份证号：32030293023033</div>
-                <div>老人状况： 健康</div>
-            </div>
-            <div class="body-title-size">
-                <div>家属姓名： 张笑天</div>
-                <div>联系方式：1776288238</div>
-                <div>房间需求：需要干净整洁的单人间</div>
-                <div>意向描述：需要尽快办理入住手续</div>
-            </div>
-        </div>
+        <el-form :model="states" label-width="100px" style="display: flex;align-items: center;">
+            <el-form-item label="咨询人姓名：">
+                <el-input v-model="states.name" style="width: 180px" placeholder="请输入咨询人姓名" />
+            </el-form-item>
+            <el-form-item label="老人姓名：">
+                <el-input v-model="states.customerName" style="width: 180px" placeholder="请输入老人姓名" />
+            </el-form-item>
+            <el-form-item label="回访状态：">
+                <el-select v-model="states.state" style="width: 180px" placeholder="请选择">
+                    <el-option label="待回访" :value="0"></el-option>
+                    <el-option label="已回访" :value="1"></el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" @click='inquire'>查询</el-button>
+            </el-form-item>
+        </el-form>
     </el-card>
     <el-card style="margin-top: 15px" class="section">
         <div style="margin: 10px 0">
@@ -22,29 +25,30 @@
         </div>
         <!-- 表格 -->
         <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
-            <template #operate>
-                <el-button type="primary" text>编辑</el-button>
-                <el-button type="primary" text @click="del">删除</el-button>
-                <el-button type="primary" text @click="particulars">详情</el-button>
-                <el-button type="primary" text @click="router.push('/dashboard/returnLeg')">回访记录</el-button>
+            <template #operate="{data}">
+                <el-button type="primary" text @click="edit(data.id)">编辑</el-button>
+                <el-button type="primary" text @click="del(data.id)">删除</el-button>
+                <el-button type="primary" text @click="particulars(data.id)">详情</el-button>
+                <el-button type="primary" text @click="record(data.id)">回访记录</el-button>
             </template>
         </MayTable>
-        <Pagination :total="50"></Pagination>
+        <Pagination @page="holedpage" @pszie="holedpsize"  :total="total"></Pagination>
 
     </el-card>
     <div class="title-btn">
         <el-button>返回</el-button>
     </div>
-    <AddRelation v-if="dialogVisible" @close="Holedclose"></AddRelation>
+    <AddRelation v-if="dialogVisible" @close="Holedclose" :ids="ids"></AddRelation>
 
-    <Particulars v-if="dialogVisibles" @close="Holedcloses"></Particulars>
+    <Particulars v-if="dialogVisibles" @close="Holedcloses" :editId="editId"></Particulars>
 </template>
 <script lang="ts" setup>
 import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
-import AffiliatedView from '@/database/AffiliatedView.json'
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
 import { useRouter } from 'vue-router'
+import { getMarketList,deleteMarket} from '@/service/market/marketApi'
+import type { market } from '@/service/market/marketType'
 const router = useRouter()
 const AddRelation = defineAsyncComponent(() => import('@/components/dialog/consult/AddConsult.vue'))
 const Particulars = defineAsyncComponent(() => import('@/components/dialog/consult/particulars.vue'))
@@ -58,45 +62,70 @@ const data = reactive({
             label: '序号'
         },
         {
-            prop: 'name',
+            prop: 'type',
             label: '咨询类型'
         },
         {
-            prop: 'address',
+            prop: 'customerName',
+            label: '老人姓名'
+        },
+        
+        {
+            prop: 'source',
             label: '咨询渠道'
         },
         {
-            prop: 'manager',
+            prop: 'name',
             label: '咨询人'
         },
         {
-            prop: 'phone',
+            prop: 'mobile',
             label: '联系方式'
         },
         {
-            prop: 'username',
+            prop: 'relation',
             label: '与老人关系'
         },
         {
-            prop: 'userpass',
+            prop: 'addAccountName',
             label: '登记人'
         },
         {
-            prop: 'userpass',
-            label: '计划回访日期'
+            prop: 'visitTime',
+            label: '计划回访日期',
+            width:'160px'
         },
         {
-            prop: 'userpass',
+            prop: 'stateName',
             label: '回访状态'
         },
 
 
     ]
 })
-const getlist = () => {
-    setTimeout(() => {
-        data.tableData = AffiliatedView
-    }, 1000)
+
+const states = reactive<market>({
+    page: 1,
+    pageSize: 10,
+    name: '', //资讯人姓名
+    customerName: '', //老人姓名
+    mobile: '', //手机号
+    state: null, //0:待回访,1:已回访
+    customerId: null//潜在客户id
+})
+// 查询
+const inquire=()=>{
+    states.page=1
+    getlist()
+}
+const total = ref(0)
+//资讯登记列表
+const getlist = async () => {
+    let res: any = await getMarketList(states)
+    if (res?.code === 10000) {
+        data.tableData = res.data.list
+        total.value = res.data.counts
+    }
 }
 // 新增资讯
 const dialogVisible = ref(false)
@@ -104,28 +133,72 @@ const addRelation = () => {
     dialogVisible.value = true
 }
 
+//编辑咨询
+const ids = ref<any>(null)
+const edit = (id:number)=>{
+    dialogVisible.value = true
+    ids.value = id
+}
+//咨询添加/编辑
 const Holedclose = (val: any) => {
     dialogVisible.value = val
+    ids.value = 0
+    if(val){
+        dialogVisible.value = false
+        getlist()
+    }
 }
 
-//资讯详情
-const dialogVisibles = ref(false)
 
-const particulars = () => {
+//资讯详情
+const editId = ref<any>(0)
+const dialogVisibles = ref(false)
+const particulars = (id:number) => {
     dialogVisibles.value = true
+    editId.value = id
 }
 const Holedcloses = (val: any) => {
 
     dialogVisibles.value = val
 }
-const del = async () => {
+
+
+
+//删除资讯
+const del = async (id:number) => {
     let res = await getMessageBox('是否确认删除该咨询', '删除后将不可恢复')
     if (res) {
-        ElMessage.success('删除成功')
+        let res:any = await deleteMarket(id).catch(()=>{})
+        if(res?.code==10000){
+            getlist()
+            ElMessage.success('删除成功')
+        }
     } else {
         ElMessage.info('取消删除')
     }
 }
+
+//回访记录
+const record =(id:number)=>{
+    router.push({
+        path:'/market/question/callback',
+        query:{
+            id:id
+        }
+    })
+}
+
+// 分页
+const holedpage =(val:any)=>{
+    states.page=val
+    getlist()
+}
+const holedpsize =(val:any)=>{
+    states.pageSize=val
+    getlist()
+}
+
+
 onMounted(() => {
     getlist()
 })
@@ -137,24 +210,6 @@ onMounted(() => {
     background-color: #fff;
 }
 
-.body {
-    display: flex;
-
-    .body-title {
-        div {
-            margin-top: 10px;
-        }
-    }
-
-    .body-title-size {
-        margin-left: 400px;
-
-        div {
-            margin-top: 10px;
-            margin-bottom: 10px;
-        }
-    }
-}
 
 .title-text {
     margin: 40px;

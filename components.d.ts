@@ -21,6 +21,7 @@ declare module 'vue' {
     AvatarUpload: typeof import('./src/components/upload/AvatarUpload.vue')['default']
     BedDialog: typeof import('./src/components/dialog/care/BedDialog.vue')['default']
     BerthDialog: typeof import('./src/components/dialog/config/BerthDialog.vue')['default']
+    CallbackDlalog: typeof import('./src/components/dialog/market/CallbackDlalog.vue')['default']
     CollectionDialog: typeof import('./src/components/dialog/financial/CollectionDialog.vue')['default']
     CooperativeDialog: typeof import('./src/components/dialog/market/CooperativeDialog.vue')['default']
     DeployDialog: typeof import('./src/components/dialog/config/DeployDialog.vue')['default']
