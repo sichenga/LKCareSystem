@@ -1,27 +1,30 @@
 <template>
   <div style="margin: 10px 0">
     <el-button type="primary" @click="isdialog = true">新增家属</el-button>
-    <RelationDialog @close="close" v-if="isdialog"></RelationDialog>
+    <RelationDialog @close="close" v-if="isdialog" :data="editdata"></RelationDialog>
   </div>
   <!-- 表格 -->
-  <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
-    <template #operate>
-      <el-button type="primary" text>编辑</el-button>
-      <el-button type="primary" text @click="del">删除</el-button>
+  <MayTable :tableData="ruleForm.family" :tableItem="data.tableItem">
+    <template #operate="{ data, index }">
+      <el-button type="primary" text @click="edit(data, index)">编辑</el-button>
+      <el-button type="primary" text @click="del(index)">删除</el-button>
     </template>
   </MayTable>
-  <Pagination :total="50"></Pagination>
+  <Pagination :total="total"></Pagination>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
-import AffiliatedView from '@/database/AffiliatedView.json'
+import { ref, reactive, onMounted, defineAsyncComponent, inject } from 'vue'
 import RelationDialog from '@/components/dialog/RelationDialog.vue'
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
-
+import type { AddElderlyRequest } from '@/service/old/OldType'
+const ruleForm = inject<AddElderlyRequest>('ruleForm')!
 const isdialog = ref(false)
+// 编辑家属数据
+const editdata = ref({})
+const total = ref(ruleForm.family.length)
 const data = reactive({
   tableData: [] as any,
   tableItem: [
@@ -34,49 +37,56 @@ const data = reactive({
       label: '姓名'
     },
     {
-      prop: 'address',
+      prop: 'gender',
       label: '性别'
     },
     {
-      prop: 'manager',
+      prop: 'idCard',
       label: '身份证号码'
     },
     {
-      prop: 'phone',
+      prop: 'mobile',
       label: '联系电话'
     },
     {
-      prop: 'username',
+      prop: 'address',
       label: '联系地址'
     },
     {
-      prop: 'userpass',
+      prop: 'relation',
       label: '与老人关系'
     }
   ]
 })
-const getlist = () => {
-  setTimeout(() => {
-    data.tableData = AffiliatedView
-  }, 1000)
-}
+
 // 关闭弹窗
 const close = () => {
   isdialog.value = false
+  if (editdata.value) {
+    editdata.value = {}
+    total.value = ruleForm.family.length
+  }
 }
 // 删除
-const del = async () => {
+const del = async (index: number) => {
   let res = await getMessageBox('是否确认删除该家属', '删除后将不可恢复')
   console.log(11112, res)
   if (res) {
+    ruleForm.family.splice(index, 1)
+    total.value = ruleForm.family.length
     ElMessage.success('删除成功')
   } else {
     ElMessage.info('取消删除')
   }
 }
-onMounted(() => {
-  getlist()
-})
+
+// 编辑
+const edit = (data: any, index: number) => {
+  editdata.value = { data, index }
+  isdialog.value = true
+  // console.log(1111, editdata.value)
+}
+onMounted(() => {})
 </script>
 <style lang="less" scoped>
 .el-input {

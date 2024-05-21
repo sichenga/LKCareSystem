@@ -147,7 +147,11 @@ const amend = async (id: any) => {
   console.log('修改', res)
   switch (userStore.model.type) {
     case 1:
+<<<<<<< HEAD
       router.push(`/company/list/edit/${id}`)
+=======
+      router.push(`/company/list/add?id=${id}`)
+>>>>>>> 2d9188962b4a58c9f48e10609a48407bfff823d6
       break
     case 2:
       isdialog.value = true

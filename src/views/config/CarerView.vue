@@ -1,33 +1,33 @@
 <template>
     <!-- 护工管理 -->
     <el-card style="max-width: 100%">
-        <el-form :inline="true" :model="formInline" class="demo-form-inline">
+        <el-form :inline="true" :model="states" class="demo-form-inline">
             <el-form-item label="护工姓名:">
-                <el-input v-model="formInline.user" placeholder="请输入" clearable />
+                <el-input v-model="states.name" placeholder="请输入" clearable />
             </el-form-item>
             <el-form-item label="联系方式:">
-                <el-input v-model="formInline.user" placeholder="请输入" clearable />
+                <el-input v-model="states.mobile" placeholder="请输入" clearable />
             </el-form-item>
             <el-form-item label="所属岗位:">
-                <el-select v-model="formInline.region" placeholder="请选择" clearable>
-
+                <el-select v-model="states.roleId" placeholder="请选择" style="width: 240px">
+                    <el-option v-for="item in options" :key="item.id" :label="item.name" :value="item.id" />
                 </el-select>
             </el-form-item>
             <el-form-item label="老人姓名:">
-                <el-input v-model="formInline.user" placeholder="请输入" clearable />
+                <el-input v-model="states.name" placeholder="请输入" clearable />
             </el-form-item>
             <el-form-item>
-                <el-button type="primary">查询</el-button>
+                <el-button type="primary" @click="search">查询</el-button>
                 <el-button>重置</el-button>
             </el-form-item>
         </el-form>
     </el-card>
     <el-card style="max-width: 100%" class="card">
-        <el-button type="primary"  @click="isdialog = true">新增</el-button>
+        <el-button type="primary" @click="isdialog = true">新增</el-button>
         <WorkersDialog @close="close" v-if="isdialog"></WorkersDialog>
         <MayTable :tableData="data.tableData" :tableItem="data.tableItem" :identifier="identifier">
-            <template #operate>
-                <el-button type="primary" text @click="del">删除</el-button>
+            <template #operate="{ data }">
+                <el-button type="primary" text @click="del(data.id)">删除</el-button>
             </template>
         </MayTable>
         <Pagination :total="50"></Pagination>
@@ -35,17 +35,20 @@
 </template>
 
 <script lang="ts" setup>
-import { ref,reactive,defineAsyncComponent,onMounted } from 'vue'
-import WorkersView from '@/database/WorkersView.json'
+import { ref, reactive, defineAsyncComponent, onMounted } from 'vue'
+
+import { staffList,carerDelete } from '@/service/staff/StaffApi'
+import { RoleList } from '@/service/role/RoleApi'
+import type { StaffListParams } from '@/service/staff/StaffType'
 import WorkersDialog from '@/components/dialog/config/WorkersDialog.vue';
-const identifier='Workers'
+
+import { getMessageBox } from '@/utils/utils'
+import { ElMessage } from 'element-plus'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
-const formInline = reactive({
-    user: '',
-    region: '',
-    date: '',
-})
+const identifier = 'Workers'
+//岗位 角色
+const options: any = ref('')
 const data = reactive({
 
     tableData: [] as any,
@@ -55,7 +58,7 @@ const data = reactive({
             label: '序号'
         },
         {
-            prop:'image',
+            prop: 'photo',
             label: '头像'
         },
         {
@@ -63,11 +66,11 @@ const data = reactive({
             label: '姓名'
         },
         {
-            prop: 'tel',
+            prop: 'mobile',
             label: '联系方式'
         },
         {
-            prop: 'station',
+            prop: 'roles',
             label: '所属岗位'
         },
         {
@@ -76,41 +79,77 @@ const data = reactive({
         },
     ]
 })
-
-const getlist = () => {
-    setTimeout(() => {
-        data.tableData = WorkersView
-    }, 1000)
-}
-onMounted(() => {
+// 查询
+const search = () => {
+    states.page = 1
     getlist()
+}
+const states = reactive<StaffListParams>({
+    page: 1,
+    pageSize: 5,
+    name: '', //护工姓名
+    mobile: '',//联系方式
+    idCard: undefined,//身份证号
+    departmentId: null, //部门id
+    roleId: null,//岗位id
+    enable: null, //状态
+    carer: 1, //是否是护工1是
 })
+
+const getlist = async () => {
+    let res: any = await staffList(states)
+    if (res.code === 10000) {
+        data.tableData = res.data.list
+
+    }
+
+}
+//角色
+const getRoleList = async () => {
+    let res: any = await RoleList()
+    if (res.code === 10000) {
+        options.value = res.data.list
+    }
+}
+
 //弹出框
 const isdialog = ref(false)
-const close = () => {
-  isdialog.value = false
+const close = (val:boolean) => {
+    isdialog.value = val
+    if(val){
+        isdialog.value = false
+        getlist() //护工
+    }
 }
-//删除
-import { getMessageBox } from '@/utils/utils'
-import { ElMessage } from 'element-plus'
-const del = async () => {
-  let res = await getMessageBox('是否确认删除该护工', '删除后将不可恢复')
-  console.log(1111, res)
-  if (res) {
-    ElMessage.success('删除成功')
-  } else {
-    ElMessage.info('取消删除')
-  }
+
+//删除护工
+const del = async (id: number) => {
+    let res = await getMessageBox('是否确认删除该护工', '删除后将不可恢复')
+    if (res) {
+        let item: any = await carerDelete(id)
+        if (item?.code === 10000) {
+            getlist()
+            ElMessage.success('删除成功')
+        }
+    } else {
+        ElMessage.info('取消删除')
+    }
 }
+onMounted(() => {
+    getlist() //护工
+    getRoleList() //角色
+})
 </script>
 
 <style lang="less" scoped>
 .card {
     margin-top: 20px;
 }
+
 .el-button {
     margin-bottom: 20px;
 }
+
 .demo-form-inline .el-input {
     --el-input-width: 200px;
 }
