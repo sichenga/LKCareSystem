@@ -4,7 +4,10 @@
       class="demo-ruleForm" :size="formSize" status-icon>
       <el-form-item label="姓名" prop="name">
         <el-input v-model="ruleForm.name" />
+
       </el-form-item>{{ ruleForm.id }}{{ props.formData.id }}
+
+
       <el-form-item label="联系电话" prop="mobile">
         <el-input v-model="ruleForm.mobile" placeholder="请输入联系电话" />
       </el-form-item>
@@ -36,13 +39,13 @@
   </el-dialog>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, onMounted, defineEmits, defineProps } from 'vue'
+import { ref, reactive, onMounted, defineEmits, defineProps, watch } from 'vue'
 import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
 const formSize = ref<ComponentSize>('default')
-const props = defineProps(['formData'])
+const props = defineProps(['formData', 'sign'])
 const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive<any>({
-  id: props.formData.id,
+  id: 0,
   name: '',
   mobile: '',
   gender: null,
@@ -64,13 +67,15 @@ const ruleForm = reactive<any>({
 })
 
 // 回显数据
-if (props.formData) {
-  console.log(props.formData);
+if (props.sign == 2) {
   Object.assign(ruleForm, props.formData)
-} else {
-  ruleForm.id = 0
+} else if (props.sign == 1) {
+  Object.keys(ruleForm).forEach(key => {
+    if (key !== 'id') { // 保留'id'字段，因为它是常量
+      ruleForm[key] = '';
+    }
+  });
 }
-
 
 
 const rules = reactive<FormRules<any>>({
@@ -99,12 +104,13 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   await formEl.validate((valid, fields) => {
     if (valid) {
-      if (ruleForm.id == 0) {
+      if (props.sign == 1) {
         console.log('添加', ruleForm);
+
         emit('addFamilyMember', ruleForm);
-      } else {
-        emit('updateFamilyMember', ruleForm);
+      } else if (props.sign == 2) {
         console.log('修改', ruleForm);
+        emit('updateFamilyMember', ruleForm);
       }
       dialogVisible.value = false;
     } else {

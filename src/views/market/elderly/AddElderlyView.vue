@@ -23,9 +23,9 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, toRefs, onMounted, defineAsyncComponent, provide } from 'vue'
-const OldMessage = defineAsyncComponent(() => import('@/components/addold/OldMessage.vue'))
-const OldRelation = defineAsyncComponent(() => import('@/components/addold/OldRelation.vue'))
-const OldHealth = defineAsyncComponent(() => import('@/components/addold/OldHealth.vue'))
+const OldMessage = defineAsyncComponent(() => import('@/components/addold/oldmessage.vue'))
+const OldRelation = defineAsyncComponent(() => import('@/components/addold/oldrelation.vue'))
+const OldHealth = defineAsyncComponent(() => import('@/components/addold/oldhealth.vue'))
 import { addElderly } from '@/service/old/OldApi'
 import type { AddElderlyRequest } from '@/service/old/OldType'
 const activeName = ref('first')
