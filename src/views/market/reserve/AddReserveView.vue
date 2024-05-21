@@ -47,7 +47,7 @@
         </div>
         <!-- 按钮 -->
         <div class="btn">
-            <el-button type="primary">保存暂不提交</el-button> 
+            <el-button type="primary">保存暂不提交</el-button>
             <el-button type="primary">保存并提交</el-button>
             <el-button @click="cancel">取消</el-button>
         </div>
@@ -127,12 +127,14 @@ const cancel = () => {
     margin-left: 40px;
     width: 400px;
     position: relative;
+
     .download {
         position: absolute;
         top: -0.1px;
         left: 120px;
     }
 }
+
 .btn {
     text-align: center;
     margin-top: 50px;

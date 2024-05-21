@@ -4,7 +4,10 @@
       class="demo-ruleForm" :size="formSize" status-icon>
       <el-form-item label="姓名" prop="name">
         <el-input v-model="ruleForm.name" />
-      </el-form-item>{{ props.sign }}
+
+      </el-form-item>{{ ruleForm.id }}{{ props.formData.id }}
+
+
       <el-form-item label="联系电话" prop="mobile">
         <el-input v-model="ruleForm.mobile" placeholder="请输入联系电话" />
       </el-form-item>
@@ -22,8 +25,8 @@
       </el-form-item>
       <el-form-item label="性别" prop="gender">
         <el-radio-group v-model="ruleForm.gender">
-          <el-radio :value="1">男</el-radio>
-          <el-radio :value="0">女</el-radio>
+          <el-radio :value="0">男</el-radio>
+          <el-radio :value="1">女</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item label="联系地址" prop="address">
@@ -50,8 +53,20 @@ const ruleForm = reactive<any>({
   mobile: '',
   gender: null,
   idCard: '',
-  relation: '',
-  address: ''
+  status: '',
+  roomRequire: '',
+  content: '',
+  state: 1,
+  source: '在线咨询',
+  family: [{
+    name: '',
+    mobile: '',
+    gender: null,
+    idCard: '',
+    relation: '', // 现在可以安全地使用 relation，因为它在 FamilyMember 接口中定义了
+    address: ''
+  }]
+
 })
 
 // 回显数据
@@ -85,6 +100,7 @@ const rules = reactive<FormRules<any>>({
   address: [
     { required: true, message: '请输入联系地址', trigger: 'blur' },
   ],
+
 })
 
 const submitForm = async (formEl: FormInstance | undefined) => {
