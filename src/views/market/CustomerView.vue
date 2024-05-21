@@ -33,7 +33,7 @@
             <template #operate="scope">
                 <el-button type="primary" text>编辑</el-button>
                 <el-button type="primary" text @click="details(scope.data.id)">详情</el-button>
-                <el-button type="primary" text @click="router.push('/dashboard/consult')">咨询登记</el-button>
+                <el-button type="primary" text @click="register(scope.data.id)">咨询登记</el-button>
                 <el-button type="primary" text @click="handleDelete(scope.data.id)">删除</el-button>
             </template>
         </MayTable>
@@ -50,6 +50,7 @@ import { CustomerList, CustomerDelete } from "@/service/market/CustomerApi"
 import type { CustomerParams } from "@/service/market/CustomerType"
 import { ElMessage } from 'element-plus'
 import { useRouter } from 'vue-router'
+import type { number } from 'echarts/core'
 const router = useRouter()
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
@@ -140,6 +141,17 @@ const handleDelete = async (id: any) => {
         ElMessage.info('取消删除')
     }
 }
+
+// 咨询登记
+const register =(id:number)=>{
+    router.push({
+        path:'/market/question',
+        query:{
+            id:id
+        }
+    })
+}
+
 //分页
 const page = (val: number) => {
     formInline.page = val

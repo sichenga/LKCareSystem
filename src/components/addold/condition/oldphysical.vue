@@ -19,16 +19,16 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, toRefs, onMounted, defineAsyncComponent } from 'vue'
+import { ref, reactive, toRefs, onMounted, defineAsyncComponent, inject } from 'vue'
 
 import { getCheckupItemsList } from '@/service/old/OldApi'
-import type {} from '@/service/old/OldType'
+import type { AddElderlyRequest } from '@/service/old/OldType'
 const MatTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 import type { UploadProps, UploadUserFile } from 'element-plus'
-
 import UploadImg from '@/components/upload/UploadImg.vue'
 import { useUserStore } from '@/stores'
 const userStore = useUserStore()
+const ruleForm = inject<AddElderlyRequest>('ruleForm')!
 const uploadadd = import.meta.env.VITE_BASE_UPLOAD_ADD
 const fileList = ref<UploadUserFile[]>([])
 const header = {
@@ -58,7 +58,10 @@ const getlist = async () => {
 const OldPhysical = (val: any, data: any, index: number) => {
   console.log(val, data, index)
   data.picture = val
-  
+  ruleForm.checkups[index] = {
+    name: data.name,
+    picture: val
+  }
 }
 onMounted(() => {
   getlist()

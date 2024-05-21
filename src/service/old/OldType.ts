@@ -14,8 +14,9 @@ interface CheckupsItem {
   name: string
   picture: string
 }
-
-interface FamilyItem {
+// 添加家属信息
+export interface FamilyItem {
+  id?: number
   name: string
   mobile: string
   idCard: string

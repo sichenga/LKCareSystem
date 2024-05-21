@@ -2,7 +2,7 @@
     <!-- //回访记录 -->
     <!-- dialog写在market文件夹下 -->
     <el-card style="margin-top: 15px" class="section">
-        <div class='body'>
+        <div class="body">
             <div class="body-title">
                 <div>咨询类型：{{ params.type }}</div>
                 <div>咨询渠道：{{ params.source }}</div>
@@ -20,27 +20,33 @@
     </el-card>
     <el-card style="margin-top: 15px" class="section">
         <div class="title">
-            <div>
-                <span>▋</span> 回访记录
-            </div>
+            <div><span>▋</span> 回访记录</div>
             <div>
                 <el-button type="primary" @click="addVisit">新增回访</el-button>
             </div>
         </div>
-        <el-timeline style="width: 500px;margin-top: 50px;">
-            <el-timeline-item v-for="(activity, index) in activities" :key="index" :timestamp="activity.timestamp" @click="modification(activity)">
-
+        <el-timeline style="width: 500px; margin-top: 50px">
+            <el-timeline-item v-for="(activity, index) in activities.list" :key="index" :timestamp="activity.timestamp">
                 <template #dot>
-                    <el-image :src="image+activity.addAccountPhoto" fit="cover" />
+                    <el-image :src="image + activity.addAccountPhoto" fit="cover" />
                 </template>
                 <template #default>
-                   <div >
-                    {{ activity.content }}
-                   </div>
+                    <div @click="modification(activity)">
+                        {{ activity.addTime }}
+                        <div style="height: 15px;">
+                        </div>
+                        <div style="color: #a8abb2;">
+                            {{ activity.content }}
+                        </div>
+                    </div>
+      
+                </template>
+                <template #a="scoped">
+                    {{ scoped }}
+                    <el-button type="danger">Danger</el-button>
                 </template>
             </el-timeline-item>
         </el-timeline>
-
     </el-card>
     <div class="title-btn">
         <el-button @click="returnold">返回</el-button>
@@ -49,16 +55,18 @@
     <CallbackDlalog v-if="dialogVisible" @close="handlClose" :datas="datas"></CallbackDlalog>
 </template>
 <script lang="ts" setup>
-import { onMounted, reactive ,defineAsyncComponent, ref,nextTick} from 'vue'
+import { onMounted, reactive, defineAsyncComponent, ref, nextTick } from 'vue'
 import { getquestionlist, followupList } from '@/service/market/marketApi'
-import type {followup } from '@/service/market/marketType'
+import type { followup } from '@/service/market/marketType'
 
-import { useRoute,useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
 const router = useRouter()
-const CallbackDlalog = defineAsyncComponent(() => import('@/components/dialog/market/CallbackDlalog.vue'))
-const image = import.meta.env.VITE_BASE_URL+'/'
+const CallbackDlalog = defineAsyncComponent(
+    () => import('@/components/dialog/market/CallbackDlalog.vue')
+)
+const image = import.meta.env.VITE_BASE_URL + '/'
 //获取单挑咨询
 const params = reactive<any>({})
 const getlist = async () => {
@@ -76,54 +84,51 @@ const states = reactive<followup>({
 })
 
 //回访记录字段
-const activities = reactive<any>([])
+const activities = reactive<any>({
+    list: []
+})
 // 获取回访记录列表
 const questionlist = async () => {
+
     let res: any = await followupList(states)
     if (res?.code == 10000) {
-        console.log(res);
-        res.data.list.forEach((item: any) => {
-            console.log(item);
-            activities.push({
-                id:item.id,
-                content: item.content,
-                timestamp: item.callbackTime,
-                addAccountPhoto:item.addAccountPhoto
-            })
 
-        })
-
+        activities.list = res.data.list.map((item: any) => ({
+            id: item.id,
+            content: "回访记录：" + item.content,
+            timestamp: "计划回访日期：" + item.callbackTime,
+            addAccountPhoto: item.addAccountPhoto,
+            addTime: item.addTime
+        }))
     }
+
 }
 
 //添加回访记录
 const dialogVisible = ref(false)
 const addVisit = () => {
-    dialogVisible.value=true
-    datas.value=0
-}  
+    dialogVisible.value = true
+    datas.value = 0
+}
 // 修改
 const datas = ref<any>([])
-const modification=(data:any)=>{
-        datas.value=data
-        dialogVisible.value=true
-    
+const modification = (data: any) => {
+    datas.value = data
+    dialogVisible.value = true
 }
-const handlClose = async (val:any)=>{
-    dialogVisible.value=val
-    if(val){
-        dialogVisible.value=false 
-        questionlist()//咨询回访记录列表
-      
-       
+const handlClose = async (val: any) => {
+    dialogVisible.value = val
+    if (val) {
+        dialogVisible.value = false
+        questionlist() //咨询回访记录列表
     }
 }
 onMounted(() => {
-    getlist()//获取单挑咨询
-    questionlist()//咨询回访记录列表
+    getlist() //获取单挑咨询
+    questionlist() //咨询回访记录列表
 })
 
-const returnold = ()=>{
+const returnold = () => {
     router.push('/market/question')
 }
 </script>
@@ -153,13 +158,12 @@ const returnold = ()=>{
 }
 
 :deep(.el-timeline-item__dot) {
-
     margin: -15px !important;
 }
 
 :deep(.el-timeline-item__wrapper) {
     top: -20px;
-    left: 30px
+    left: 30px;
 }
 
 .title {
@@ -168,17 +172,13 @@ const returnold = ()=>{
     justify-content: space-between;
 
     span {
-        color: #409EFF;
+        color: #409eff;
     }
 }
-
-
 
 .el-timeline {
     margin-top: 20px;
 }
-
-
 
 .title-btn {
     margin: 40px 720px;
@@ -189,18 +189,15 @@ const returnold = ()=>{
     }
 }
 
-
-
-
 .button {
     width: 92px;
     height: 40px;
 }
 
-:deep(.el-image){
+:deep(.el-image) {
     border-radius: 50%;
     width: 30px;
     height: 30px;
-    margin-right:100px ;
+    margin-right: 100px;
 }
 </style>
