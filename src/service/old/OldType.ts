@@ -1,6 +1,6 @@
 interface Health {
-  oldillness: string | Array<string>
-  nowillness: string | Array<string>
+  oldillness: any
+  nowillness: any
   otherillness: string | Array<string>
   otherCase: string | Array<string>
 }
@@ -27,6 +27,7 @@ export interface FamilyItem {
 
 // 老人添加  /api/elderly/add
 export interface AddElderlyRequest {
+  id?: number | undefined
   name: string
   mobile: string
   photo: null

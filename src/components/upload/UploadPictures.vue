@@ -8,6 +8,7 @@
     :on-success="handleSuccess"
     :on-remove="handleRemove"
     list-type="picture"
+    :show-file-list="props.showfile"
   >
     <el-button type="primary">{{ props.text }}</el-button>
     <template #tip>
@@ -41,6 +42,10 @@ const props = defineProps({
   text: {
     type: String,
     default: '上传图片'
+  },
+  showfile: {
+    type: Boolean,
+    default: true
   }
 })
 const fileList = ref<UploadUserFile[]>([])

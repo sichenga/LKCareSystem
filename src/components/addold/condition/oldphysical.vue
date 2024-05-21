@@ -2,6 +2,7 @@
   <div>
     <div class="size"><span>▋</span> 老人自理情况</div>
     {{ state.tableData }}
+    <!-- {{ ruleForm.checkups }} -->
     <MatTable
       :tableData="state.tableData"
       :tableItem="state.tableItem"
@@ -9,11 +10,13 @@
       :identifier="'oldphysical'"
     >
       <template #operate="{ data, index }">
-        <UploadImg
+        <UploadPictures
           :title="'上传资料'"
-          :showlist="false"
+          :showfile="false"
+          :istip="false"
+          :limit="3"
           @upload="(file: any) => OldPhysical(file, data, index)"
-        ></UploadImg>
+        ></UploadPictures>
       </template>
     </MatTable>
   </div>
@@ -25,12 +28,12 @@ import { getCheckupItemsList } from '@/service/old/OldApi'
 import type { AddElderlyRequest } from '@/service/old/OldType'
 const MatTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 import type { UploadProps, UploadUserFile } from 'element-plus'
-import UploadImg from '@/components/upload/UploadImg.vue'
+import UploadPictures from '@/components/upload/UploadPictures.vue'
 import { useUserStore } from '@/stores'
+import { stat } from 'fs'
 const userStore = useUserStore()
 const ruleForm = inject<AddElderlyRequest>('ruleForm')!
 const uploadadd = import.meta.env.VITE_BASE_UPLOAD_ADD
-const fileList = ref<UploadUserFile[]>([])
 const header = {
   Authorization: userStore.token
 }
@@ -53,15 +56,26 @@ const getlist = async () => {
   if (res?.code === 10000) {
     state.tableData = res.data.list
   }
+  if (ruleForm.id) {
+    state.tableData = state.tableData.map((item: any) => ({
+      ...item,
+      picture: ruleForm.checkups
+        .filter((val: any) => val.name === item.name)
+        .map((val: any) => val.picture)
+    }))
+  }
 }
 // 处理老人自理情况数据
 const OldPhysical = (val: any, data: any, index: number) => {
   console.log(val, data, index)
-  data.picture = val
-  ruleForm.checkups[index] = {
+  data.picture = [...(data.picture || ''), val?.url]
+
+  console.log(111, data.picture, data.name)
+
+  ruleForm.checkups.push({
     name: data.name,
-    picture: val
-  }
+    picture: val?.url
+  })
 }
 onMounted(() => {
   getlist()
