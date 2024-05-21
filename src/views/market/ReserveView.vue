@@ -30,7 +30,6 @@
     <el-card style="max-width: 100%;margin-top: 20px;">
         <el-button type="primary" style="margin-bottom: 20px;" @click="isdialog = true">新增</el-button>
         <ReserveDialog @close="close" v-if="isdialog"></ReserveDialog>
-
         <!-- 表格 -->
         <MayTable :tableData="data.tableData" :tableItem="data.tableItem" :identifier="identifier">
             <template #operate>
