@@ -26,7 +26,8 @@
             </div>
             <el-button type="primary" @click='addRelation' style="margin-bottom: 20px;">新增家属</el-button>
             <AddRelation :formData="data.formData" @updateFamilyMember="updateFamilyMember"
-                @addFamilyMember="addFamilyMember" v-if="dialogVisible" @close="Holedclose"></AddRelation>
+                @addFamilyMember="addFamilyMember" :sign="data.sign" v-if="dialogVisible" @close="Holedclose">
+            </AddRelation>
             <!-- 表格 -->
             <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
                 <template #operate="{ data }">
@@ -34,7 +35,7 @@
                     <el-button type="primary" text @click="del(data.id)">删除</el-button>
                 </template>
             </MayTable>
-            <Pagination :total="data.token"></Pagination>
+            <Pagination :total="data.token" ></Pagination>
             <div class="family">
                 <span>▋</span>需求总结
             </div>
@@ -80,7 +81,7 @@ const ruleForm = reactive<CustomerAddType>({
     content: '',
     state: 1,
     source: '在线咨询',
-    family: []
+    family: [],
 })
 const rules = reactive<FormRules<CustomerAddType>>({
     name: [
@@ -104,6 +105,7 @@ const rules = reactive<FormRules<CustomerAddType>>({
 })
 
 const data = reactive({
+    sign: undefined as any,
     formData: [] as any,
     token: undefined,
     tableData: [] as any,
@@ -141,7 +143,9 @@ const data = reactive({
 })
 
 const dialogVisible = ref(false)
+// 添加
 const addRelation = () => {
+    data.sign = 1
     dialogVisible.value = true
 }
 
@@ -167,6 +171,7 @@ const del = async (id: number) => {
 
 // 编辑
 const edit = async (familyMember: any) => {
+    data.sign = 2
     // 复制当前选中的家属信息到ruleForm.family中
     const familyIndex = ruleForm.family.findIndex((item: any) => item.id === familyMember.id);
     console.log(familyIndex);
@@ -174,10 +179,7 @@ const edit = async (familyMember: any) => {
     if (familyIndex !== -1) {
         dialogVisible.value = true;
         Object.assign(ruleForm.family[familyIndex], familyMember);
-
         data.formData = familyMember;
-
-        // ruleForm.family = familyMember;
     }
 };
 
@@ -219,7 +221,11 @@ const getData = async () => {
         }
     }
 }
+
+// 添加
 const addFamilyMember = (newFamilyMember: any) => {
+    console.log('添加');
+
     if (newFamilyMember) {
         if (!data.id) {
             ruleForm.family.push(newFamilyMember);
@@ -233,7 +239,9 @@ const addFamilyMember = (newFamilyMember: any) => {
     }
 
 }
+// 修改
 const updateFamilyMember = (updatedFamilyMember: any) => {
+    console.log('修改');
     if (updatedFamilyMember) {
         const index = ruleForm.family.findIndex((item: any) => item.id === updatedFamilyMember.id);
         if (index !== -1) {
