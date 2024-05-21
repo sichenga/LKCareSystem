@@ -17,7 +17,7 @@ import Oldcondition from '@/components/addold/condition/oldcondition.vue'
 // const OldPhysical = defineAsyncComponent(
 //   () => import('@/components/addold/condition/OldPhysical.vue')
 // )
-import OldPhysical from '@/components/addold/condition/oldphysical.vue'
+import OldPhysical from '@/components/addold/condition/oldhysical.vue'
 </script>
 <style lang="less" scoped>
 .title-btn {

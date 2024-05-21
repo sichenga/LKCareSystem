@@ -1,9 +1,10 @@
 <template>
   <div>
     <div class="size"><span>▋</span> 老人自理情况</div>
+    <!-- {{ ruleForm.selfCares }} -->
+    {{ state.tableData }}
     <MatTable :tableData="state.tableData" :tableItem="state.tableItem" style="width: 760px">
       <template #operate="{ data, index }">
-        <!-- {{ data }} {{ index }} -->
         <el-radio-group v-model="data.val" @change="change(data, index)">
           <el-radio
             v-for="item in state.LableData"
@@ -21,11 +22,10 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, toRefs, onMounted, defineAsyncComponent, inject } from 'vue'
+import { ref, reactive, onMounted, defineAsyncComponent, inject } from 'vue'
 const MatTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 import { getSelfcareList } from '@/service/old/OldApi'
 import type { AddElderlyRequest } from '@/service/old/OldType'
-const checkList = ref([])
 const ruleForm: any = inject<AddElderlyRequest>('ruleForm')!
 const state: any = reactive({
   LableData: [
@@ -60,6 +60,12 @@ const getlist = async () => {
   console.log('自理列表', res)
   if (res?.code == 10000) {
     state.tableData = res.data.list
+  }
+  if (ruleForm.id) {
+    state.tableData = state.tableData.map((item: any) => ({
+      ...item,
+      val: ruleForm.selfCares.find((fitem: any) => fitem.name == item.name)?.val
+    }))
   }
 }
 // 选择老人自理情况

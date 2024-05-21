@@ -27,13 +27,7 @@
         <el-button type="primary" text @click="del(scope.data.id)">删除</el-button>
       </template>
     </MayTable>
-    <Pagination
-      :total="data.total"
-      @page="page"
-      @psize="psize"
-      :page="params.page"
-      :pszie="params.page"
-    ></Pagination>
+    <Pagination :total="data.total" @page="page" @psize="psize" :page="params.page" :pszie="params.page"></Pagination>
   </el-card>
 </template>
 <script lang="ts" setup>
@@ -115,7 +109,7 @@ const del = async (id: any) => {
   switch (userStore.model.type) {
     case 1:
       if (res) {
-        const res: any = await companydelete(id).catch(() => {})
+        const res: any = await companydelete(id).catch(() => { })
         if (res.code == 10000) {
           ElMessage.success('删除成功')
           getcompanylist()
@@ -126,7 +120,7 @@ const del = async (id: any) => {
       break
     case 2:
       if (res) {
-        const res: any = await companydelete(id).catch(() => {})
+        const res: any = await companydelete(id).catch(() => { })
         if (res.code == 10000) {
           ElMessage.success('删除成功')
           getcompanylist()
@@ -147,7 +141,7 @@ const amend = async (id: any) => {
   console.log('修改', res)
   switch (userStore.model.type) {
     case 1:
-      router.push(`/company/list/add?id=${id}`)
+      router.push(`/company/list/edit/${id}`)
       break
     case 2:
       isdialog.value = true

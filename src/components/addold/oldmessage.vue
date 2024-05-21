@@ -20,7 +20,14 @@
         </el-radio-group>
       </el-form-item>
       <el-form-item label="出生日期：" prop="birthday">
-        <MayTimePicker style="width: 100%" @change="selecttime"></MayTimePicker>
+        {{ ruleForm.birthday }}
+        <MayTimePicker
+          style="width: 100%"
+          @change="selecttime"
+          :remtime="ruleForm.birthday"
+          :value-format="'YYYY-MM-DD'"
+          :format="'YYYY-MM-DD'"
+        ></MayTimePicker>
       </el-form-item>
       <el-form-item label="籍贯：" prop="nativePlace">
         <el-select v-model="ruleForm.nativePlace" placeholder="请选择">
@@ -91,7 +98,11 @@
       <el-form-item class="demo-ruleForm-but"> </el-form-item>
     </div>
     <div class="images">
-      <UploadPictures :style="{ width: '150px', height: '150px' }"></UploadPictures>
+      <UploadPictures
+        :style="{ width: '150px', height: '150px' }"
+        @upload="(val) => (ruleForm.photo = val)"
+        :editdata="ruleForm.photo"
+      ></UploadPictures>
     </div>
   </el-form>
 </template>

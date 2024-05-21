@@ -33,15 +33,21 @@
     </div>
     <!-- 表格 -->
     <MayTable :tableData="data.tableData" :tableItem="data.tableItem" :identifier="identifier">
-      <template #operate>
-        <el-button type="primary" text>编辑</el-button>
+      <template #operate="{ data }">
+        <el-button type="primary" text @click="edit(data.id)">编辑</el-button>
         <el-button type="primary" text>档案管理</el-button>
-        <el-button type="primary" text>排班管理</el-button>
-        <el-button type="primary" text @click="del">删除</el-button>
+        <el-button type="primary" text @click="getwork">排班管理</el-button>
+        <el-button type="primary" text @click="del(data.id)">删除</el-button>
         <el-button type="primary" text>计划任务</el-button>
       </template>
     </MayTable>
-    <Pagination :total="50"></Pagination>
+    <Pagination
+      :total="total"
+      :page="formInline.page"
+      :pageSize="formInline.pageSize"
+      @page="getpage"
+      @pize="getpize"
+    ></Pagination>
   </el-card>
 </template>
 <script lang="ts" setup>
@@ -52,8 +58,9 @@ import { ElMessage } from 'element-plus'
 const router = useRouter()
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
-import { getElderlyList } from '@/service/old/OldApi'
+import { getElderlyList, deleteElderly } from '@/service/old/OldApi'
 import type { ListElderlyRequest } from '@/service/old/OldType'
+const total = ref(0)
 const formInline = reactive<ListElderlyRequest>({
   page: 1,
   pageSize: 5,
@@ -71,7 +78,7 @@ const data = reactive({
       label: '序号'
     },
     {
-      prop: 'image',
+      prop: 'photo',
       label: '头像'
     },
     {
@@ -100,16 +107,21 @@ const getlist = async () => {
   let res: any = await getElderlyList(formInline)
   console.log('老人列表', res)
   if (res?.code === 10000) {
+    total.value = res.data.counts
     data.tableData = res.data.list
   }
 }
 
 // 删除
-const del = async () => {
+const del = async (id: number) => {
   let res = await getMessageBox('是否删除老人？', '删除后将不可恢复')
   console.log(11112, res)
   if (res) {
-    ElMessage.success('删除成功')
+    let del: any = await deleteElderly(id)
+    if (del?.code === 10000) {
+      ElMessage.success('删除成功')
+      getlist()
+    }
   } else {
     ElMessage.info('取消删除')
   }
@@ -118,6 +130,27 @@ const del = async () => {
 const add = () => {
   router.push('/market/elderly/add')
 }
+// 编辑
+const edit = (id: number) => {
+  router.push({
+    path: `/market/elderly/edit/${id}`
+  })
+}
+// 分页
+const getpage = (page: number) => {
+  formInline.page = page
+  getlist()
+}
+const getpize = (pize: number) => {
+  formInline.pageSize = pize
+  getlist()
+}
+
+// 排班管理
+const getwork = () => {
+  router.push('/market/elderly/work')
+}
+
 onMounted(() => {
   getlist()
 })

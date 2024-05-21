@@ -12,7 +12,7 @@
   </el-upload>
 </template>
 <script lang="ts" setup>
-import { ref, defineProps, defineEmits } from 'vue'
+import { ref, defineProps, defineEmits, watch } from 'vue'
 import { Plus } from '@element-plus/icons-vue'
 import type { UploadProps } from 'element-plus'
 
@@ -26,10 +26,23 @@ const props = defineProps({
         height: '65px'
       }
     }
+  },
+  editdata: {
+    type: String,
+    default: ''
   }
 })
 console.log(props.style)
-
+// 数据回显
+watch(
+  () => props.editdata,
+  (newval) => {
+    if (newval) {
+      imageUrl.value = newval
+    }
+  },
+  { immediate: true }
+)
 const action = import.meta.env.VITE_BASE_UPLOAD_ADD || ''
 const ImageUrls = import.meta.env.VITE_BASE_URL + '/' || ''
 const emit = defineEmits(['upload', 'uploadrem'])

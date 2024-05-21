@@ -7,14 +7,13 @@ body,
   height: 100%;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-  .el-overlay{
-    position: relative;
-    z-index: 99999999;
+  /* box-sizing: border-box; */
+  .el-overlay {
+    /* position: absolute; */
+    z-index: 9999 !important;
   }
 }
 
 .el-form-item {
   align-items: center;
 }
-
