@@ -14,7 +14,10 @@
       <el-form-item label="与老人关系" prop="relation">
         <el-select v-model="ruleForm.relation" placeholder="请选择与老人关系">
           <el-option label="父子关系" value="父子关系" />
-          <el-option label="爷孙关系" value="爷孙关系" />
+          <el-option label="父女关系" value="父女关系" />
+          <el-option label="母子关系" value="母子关系" />
+          <el-option label="母女关系" value="母女关系" />
+          <el-option label="其他" value="其他" />
         </el-select>
       </el-form-item>
       <el-form-item label="性别" prop="gender">
