@@ -26,7 +26,7 @@
             </div>
         </div>
         <el-timeline style="width: 500px; margin-top: 50px">
-            <el-timeline-item v-for="(activity, index) in activities.list" :key="index" :timestamp="activity.timestamp">
+            <el-timeline-item v-for="(activity, index) in activities.list" :key="index" :timestamp="'计划回访日期：' +activity.timestamp">
                 <template #dot>
                     <el-image :src="image + activity.addAccountPhoto" fit="cover" />
                 </template>
@@ -36,15 +36,14 @@
                         <div style="height: 15px;">
                         </div>
                         <div style="color: #a8abb2;">
-                            {{ activity.content }}
+                            {{ "回访记录：" +activity.content }}
                         </div>
                     </div>
-      
+                    <div class="button-size" @click="del(activity.id)">
+                        <el-button type="danger">删除</el-button>
+                    </div>
                 </template>
-                <template #a="scoped">
-                    {{ scoped }}
-                    <el-button type="danger">Danger</el-button>
-                </template>
+    
             </el-timeline-item>
         </el-timeline>
     </el-card>
@@ -56,11 +55,11 @@
 </template>
 <script lang="ts" setup>
 import { onMounted, reactive, defineAsyncComponent, ref, nextTick } from 'vue'
-import { getquestionlist, followupList } from '@/service/market/marketApi'
+import { getquestionlist, followupList,followupdelete } from '@/service/market/marketApi'
 import type { followup } from '@/service/market/marketType'
-
+import { getMessageBox } from '@/utils/utils'
 import { useRoute, useRouter } from 'vue-router'
-
+import { ElMessage } from 'element-plus'
 const route = useRoute()
 const router = useRouter()
 const CallbackDlalog = defineAsyncComponent(
@@ -95,8 +94,8 @@ const questionlist = async () => {
 
         activities.list = res.data.list.map((item: any) => ({
             id: item.id,
-            content: "回访记录：" + item.content,
-            timestamp: "计划回访日期：" + item.callbackTime,
+            content:  item.content,
+            timestamp:  item.callbackTime,
             addAccountPhoto: item.addAccountPhoto,
             addTime: item.addTime
         }))
@@ -122,6 +121,24 @@ const handlClose = async (val: any) => {
         dialogVisible.value = false
         questionlist() //咨询回访记录列表
     }
+}
+// 删除咨询记录
+const del =async (id:number)=>{
+    let res = await getMessageBox('是否删除潜在客户？', '删除后将不可恢复')
+    if (res) {
+        const res: any = await followupdelete(id)
+        console.log('删除', res);
+        if (res.code == 10000) {
+            questionlist() //咨询回访记录列表
+            ElMessage.success('删除成功')
+        } else {
+            ElMessage.error(res.msg)
+        }
+
+    } else {
+        ElMessage.info('取消删除')
+    }
+        
 }
 onMounted(() => {
     getlist() //获取单挑咨询
@@ -199,5 +216,11 @@ const returnold = () => {
     width: 30px;
     height: 30px;
     margin-right: 100px;
+}
+.button-size{
+    position: absolute;
+    // margin-left: 100px;
+    right: 0;
+    top:25px;
 }
 </style>

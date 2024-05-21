@@ -50,7 +50,6 @@ import { CustomerList, CustomerDelete } from "@/service/market/CustomerApi"
 import type { CustomerParams } from "@/service/market/CustomerType"
 import { ElMessage } from 'element-plus'
 import { useRouter } from 'vue-router'
-import type { number } from 'echarts/core'
 const router = useRouter()
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))

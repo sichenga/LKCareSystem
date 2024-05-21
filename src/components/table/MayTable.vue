@@ -31,7 +31,11 @@
       </template>
 
       <template v-else-if="props.identifier == 'administration' && item.prop == 'image'" v-slot="{ row }">
-        <el-image style="width: 50px; height: 50px" :src="row.image" fit="cover" />
+        <el-image style="width: 50px; height: 50px" :src="upload+row.image" fit="cover" />
+      </template>
+      <!-- 入院管理 -->
+      <template v-else-if="props.identifier == 'Hospitalized' && item.prop == 'elderlyPhoto'" v-slot="{ row }">
+        <el-image style="width: 50px; height: 50px" :src="upload+row.image" fit="cover" />
       </template>
 
       <!-- 出入院管理>老人管理>新增>健康信息 -->
@@ -39,7 +43,7 @@
         <el-image v-for="item in row.image" :key="item" style="width: 40px; height: 40px" :src="item" fit="cover" />
       </template>
       <!-- 日期格式 -->
-      <template v-else-if="item.prop === 'updateTime'" v-slot="{ row }">
+      <template v-else-if="item.prop === 'updateTime'||item.prop === 'addTime'" v-slot="{ row }">
         <span>{{ mons(row.updateTime).format('YYYY-MM-DD') }}</span>
       </template>
       <!-- 时间格式 -->

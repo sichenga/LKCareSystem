@@ -32,3 +32,14 @@ export interface AddFollowup{
   content: string
 }
 
+
+// 入院列表
+export interface order{
+  page: number
+  pageSize: number
+  name?: string //老人姓名
+  mobile?: string //手机号
+  idCard?: string //身份证号
+  begId?: number | null //床位号
+  state?: number | null //状态
+}

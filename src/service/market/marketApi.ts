@@ -1,5 +1,5 @@
 import {get,post,del,put} from '@/utils/request'
-import type {market,Addmarket,followup,AddFollowup} from '@/service/market/marketType'
+import type {market,Addmarket,followup,AddFollowup,order} from '@/service/market/marketType'
 //资讯列表
 export const getMarketList = (params: market) => {
   return get('/api/question/list', params)
@@ -42,4 +42,16 @@ export const followupAdd = (data: AddFollowup) => {
 //修改信息回访
 export const followupupdate = (data: AddFollowup) => {
   return put('/api/followup/update',data)
+}
+
+
+
+//入院列表
+export const orderList = (params: order) => {
+  return get('/api/order/list',params)
+}
+
+//删除入院
+export const orderDelete = (id: number) => {
+  return del('/api/order/delete/'+id)
 }
