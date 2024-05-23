@@ -1,28 +1,15 @@
 <template>
-  <el-table
-    :data="props.tableData"
-    border
-    style="width: 100%"
-    :header-cell-style="{
-      background: '#f9f9f9',
-      color: '#000000',
-      height: '50px'
-    }"
-  >
+  <el-table :data="props.tableData" border style="width: 100%" :header-cell-style="{
+    background: '#f9f9f9',
+    color: '#000000',
+    height: '50px'
+  }">
     <el-table-column type="selection" width="55" v-if="isMultiple" />
-    <el-table-column
-      v-for="(item, index) in props.tableItem"
-      :key="index"
-      :prop="item.prop"
-      :label="item.label"
-      :width="item.width"
-    >
-      <template v-if="item.prop == 'photo' || item.prop == 'qrcode'" v-slot="{ row }">
-        <el-image
-          style="width: 50px; height: 50px"
-          v-if="row.photo || row.qrcode"
-          :src="upload + (row.photo || row.qrcode)"
-        />
+    <el-table-column v-for="(item, index) in props.tableItem" :key="index" :prop="item.prop" :label="item.label"
+      :width="item.width">
+      <template v-if="item.prop == 'photo' || item.prop == 'qrcode' || item.prop == 'elderlyPhoto'" v-slot="{ row }">
+        <el-image style="width: 50px; height: 50px" v-if="row.photo || row.qrcode || row.elderlyPhoto"
+          :src="upload + (row.photo || row.qrcode || row.elderlyPhoto)" />
       </template>
 
       <!-- 所属岗位      角色数据 -->
@@ -30,31 +17,16 @@
         <span>{{ rolename(row.roles) }}</span>
       </template>
 
-      <template
-        v-else-if="props.identifier == 'administration' && item.prop == 'image'"
-        v-slot="{ row }"
-      >
+      <template v-else-if="props.identifier == 'administration' && item.prop == 'image'" v-slot="{ row }">
         <el-image style="width: 50px; height: 50px" :src="row.image" fit="cover" />
       </template>
 
       <!-- 出入院管理>老人管理>新增>健康信息 -->
-      <template
-        v-else-if="props.identifier == 'oldphysical' && item.prop == 'image'"
-        v-slot="{ row }"
-      >
-        <el-image
-          v-for="item in row.image"
-          :key="item"
-          style="width: 40px; height: 40px"
-          :src="item"
-          fit="cover"
-        />
+      <template v-else-if="props.identifier == 'oldphysical' && item.prop == 'image'" v-slot="{ row }">
+        <el-image v-for="item in row.image" :key="item" style="width: 40px; height: 40px" :src="item" fit="cover" />
       </template>
       <!-- 日期格式 -->
-      <template
-        v-else-if="item.prop === 'updateTime' || item.prop === 'visitTime'"
-        v-slot="{ row }"
-      >
+      <template v-else-if="item.prop === 'updateTime' || item.prop === 'visitTime'" v-slot="{ row }">
         <span>{{ mons(row.updateTime || row.visitTime).format('YYYY-MM-DD') }}</span>
       </template>
 
@@ -67,12 +39,7 @@
         {{ row.gender == '1' ? '男' : '女' }}
       </template>
       <template v-else-if="item.prop == 'picture'" v-slot="{ row }">
-        <el-image
-          class="picture"
-          v-for="(pic, index) in row?.picture"
-          :key="index"
-          :src="upload + pic"
-        />
+        <el-image class="picture" v-for="(pic, index) in row?.picture" :key="index" :src="upload + pic" />
       </template>
     </el-table-column>
 
