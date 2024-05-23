@@ -36,9 +36,9 @@
       <template #operate="{ data }">
         <el-button type="primary" text @click="edit(data.id)">编辑</el-button>
         <el-button type="primary" text>档案管理</el-button>
-        <el-button type="primary" text @click="getwork">排班管理</el-button>
+        <el-button type="primary" text @click="getwork(data.id)">排班管理</el-button>
         <el-button type="primary" text @click="del(data.id)">删除</el-button>
-        <el-button type="primary" text>计划任务</el-button>
+        <el-button type="primary" text @click="getschedule(data.id)">计划任务</el-button>
       </template>
     </MayTable>
     <Pagination
@@ -147,10 +147,19 @@ const getpize = (pize: number) => {
 }
 
 // 排班管理
-const getwork = () => {
-  router.push('/market/elderly/work')
+const getwork = (id: number) => {
+  router.push({
+    path: `/market/elderly/work`,
+    query: { id }
+  })
 }
-
+// 任务计划
+const getschedule = (id: number) => {
+  router.push({
+    path: `/market/elderly/schedule`,
+    query: { id }
+  })
+}
 onMounted(() => {
   getlist()
 })

@@ -9,7 +9,7 @@ import locale from 'element-plus/es/locale/lang/zh-cn'
 import 'element-plus/dist/index.css'
 import '@/utils/browserPatch'
 import '@/permission'
-const app = createApp(App)
+export const app = createApp(App)
 app.use(ElementPlus, {
   locale
 })
