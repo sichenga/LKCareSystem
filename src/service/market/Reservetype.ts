@@ -13,6 +13,7 @@ interface files {
 }
 
 export interface ReservationAddParams {
+  id: number,
   elderlyId: any
   name: string
   mobile: string
