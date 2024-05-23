@@ -107,11 +107,13 @@ const data = reactive({
     },
     {
       prop: 'startDate',
-      label: '开始日期'
+      label: '开始日期',
+      width: '120'
     },
     {
       prop: 'addTime',
-      label: '预定时长（月）'
+      label: '预定时长（月）',
+      width: '180'
     },
     {
       prop: 'amount',
@@ -123,12 +125,13 @@ const data = reactive({
     },
     {
       prop: 'startDate',
-      label: '登记日期'
+      label: '登记日期',
+      width: '120'
     },
-    {
-      prop: 'stateName',
-      label: '状态'
-    }
+    // {
+    //   prop: 'stateName',
+    //   label: '状态'
+    // }
   ]
 })
 

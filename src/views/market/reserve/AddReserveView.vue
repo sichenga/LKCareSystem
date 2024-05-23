@@ -26,7 +26,7 @@
                     @change="handleChange" />
             </el-form-item>
             <el-form-item label="开始日期:" prop="startDate">
-                <MaystartDatePicker @change="change" style="width: 479px;"></MaystartDatePicker>
+                <MaystartDatePicker @change="change" :remtime="remtime" style="width: 479px;"></MaystartDatePicker>
             </el-form-item>
             <el-form-item label="预定时长（天）:" prop="day">
                 <el-input v-model="params.day" placeholder="请输入预定时长" />
@@ -64,6 +64,7 @@ import MaystartDatePicker from '@/components/timepicker/MaystartDatePicker.vue'
 const router = useRouter()
 const route = useRoute()
 const getUploadPictures = ref<UploadUserFile[]>([])
+const remtime =ref<string>('')
 const UploadVideo = defineAsyncComponent(() => import('@/components/upload/UploadVideo.vue'))
 const formSize = ref<ComponentSize>('default')
 const ruleFormRef = ref<FormInstance>()
@@ -164,13 +165,18 @@ const getData = async () => {
         Object.assign(params, res.data)
         // 上传协议回显
         if (res.data.files) {
-            console.log(res.data.files);
+
             getUploadPictures.value = res.data.files.map((item: any) => {
                 return {
                     url: item.file,
                     name: item.file
                 }
             })
+        }
+        // 时间回显
+        console.log(res.data.startDate);
+        if(res.data.startDate){
+            remtime.value = res.data.startDate
         }
     }
 }
