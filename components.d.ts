@@ -16,6 +16,7 @@ declare module 'vue' {
     AddNightDialog: typeof import('./src/components/dialog/care/AddNightDialog.vue')['default']
     AddRegInfoDialog: typeof import('./src/components/dialog/medicalcare/AddRegInfoDialog.vue')['default']
     AddRelation: typeof import('./src/components/dialog/market/AddRelation.vue')['default']
+    AddWork: typeof import('./src/components/dialog/old/elderly/AddWork.vue')['default']
     AdmissionDialog: typeof import('./src/components/dialog/financial/AdmissionDialog.vue')['default']
     AffDialog: typeof import('./src/components/dialog/care/AffDialog.vue')['default']
     AvatarUpload: typeof import('./src/components/upload/AvatarUpload.vue')['default']

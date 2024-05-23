@@ -30,7 +30,7 @@ export interface AddElderlyRequest {
   id?: number | undefined
   name: string
   mobile: string
-  photo: null
+  photo: string
   gender: number
   birthday: string
   nativePlace: string

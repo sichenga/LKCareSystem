@@ -22,7 +22,6 @@
       <el-form-item label="出生日期：" prop="birthday">
         {{ ruleForm.birthday }}
         <MayTimePicker
-          style="width: 100%"
           @change="selecttime"
           :remtime="ruleForm.birthday"
           :value-format="'YYYY-MM-DD'"

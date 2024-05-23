@@ -126,7 +126,7 @@ const gethouse = async () => {
   let house = await getbuildingList()
   let beds = await gethouselist()
   console.log(house.concat(beds))
-  let tree: any = TreeData(house.concat(beds))
+  let tree: any = TreeData([...house, ...beds])
   console.log(1111, tree)
   treedata.value = tree
 }
