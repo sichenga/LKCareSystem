@@ -68,7 +68,6 @@ declare module 'vue' {
     MayDateTimePicker: typeof import('./src/components/timepicker/MayDateTimePicker.vue')['default']
     MayDialog: typeof import('./src/components/dialog/maydialog/MayDialog.vue')['default']
     MayPagination: typeof import('./src/components/pagination/MayPagination.vue')['default']
-    MaystartDatePicker: typeof import('./src/components/timepicker/MaystartDatePicker.vue')['default']
     MayTable: typeof import('./src/components/table/MayTable.vue')['default']
     MayTimePicker: typeof import('./src/components/timepicker/MayTimePicker.vue')['default']
     Oldcase: typeof import('./src/components/addold/condition/oldcase.vue')['default']
