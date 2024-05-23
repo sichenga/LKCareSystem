@@ -78,7 +78,7 @@ export const buildingList = () => get('/api/building/list')
 export const houseupdate = (data: houseaddType) => put('/api/house/update',data)
       
 // 床位列表 /api/beds/list
-export const getBedsList = (params: BedsList) => get('/api/beds/list', params)
+export const getBedsList = (params?: BedsList) => get('/api/beds/list', params)
 
 // 删除床位 /api/beds/delete/2
 export const delBeds = (id: number) => del('/api/beds/delete/' + id)

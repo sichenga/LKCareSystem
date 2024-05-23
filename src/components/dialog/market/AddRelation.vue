@@ -4,10 +4,7 @@
       class="demo-ruleForm" :size="formSize" status-icon>
       <el-form-item label="姓名" prop="name">
         <el-input v-model="ruleForm.name" />
-
-      </el-form-item>{{ ruleForm.id }}{{ props.formData.id }}
-
-
+      </el-form-item>
       <el-form-item label="联系电话" prop="mobile">
         <el-input v-model="ruleForm.mobile" placeholder="请输入联系电话" />
       </el-form-item>
@@ -66,7 +63,6 @@ const ruleForm = reactive<any>({
     relation: '', // 现在可以安全地使用 relation，因为它在 FamilyMember 接口中定义了
     address: ''
   }]
-
 })
 
 // 回显数据

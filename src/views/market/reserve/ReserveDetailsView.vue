@@ -4,13 +4,13 @@
         <div class="user_content">
             <!-- 头像 -->
             <div class="form">
-                <el-image style="margin-top: 5px; width: 50px; height: 50px" :src="url" />
+                <el-image style="margin-top: 5px; width: 50px; height: 50px" :src="imageUrl" />
                 <el-form label-width="120px" label-position="left" style="max-width: 600px; margin-left: 30px">
                     <div class="box">
                         <div>
-                            <el-form-item label="老人姓名：">张三 </el-form-item>
-                            <el-form-item label="身份证/护照号：">32062371887128122 </el-form-item>
-                            <el-form-item label="床位号：">301-02</el-form-item>
+                            <el-form-item label="老人姓名：">{{ data.list.elderlyName }} </el-form-item>
+                            <el-form-item label="身份证/护照号：">{{ data.list.elderlyIdCard }}</el-form-item>
+                            <el-form-item label="床位号：">{{ data.list.begName }}</el-form-item>
                         </div>
                     </div>
                 </el-form>
@@ -26,31 +26,33 @@
         </div>
         <el-form label-position="left" label-width="auto" style="max-width: 600px; margin-left: 40px; ">
             <el-form-item label="预定人姓名：">
-                张三丰
+                {{ data.list.name }}
             </el-form-item>
             <el-form-item label="预定人电话：">
-                1776808982
+                {{ data.list.mobile }}
             </el-form-item>
             <el-form-item label="与老人关系：">
-                父子
+                {{ data.list.relation }}
             </el-form-item>
             <el-form-item label="预定床位：">
-                501-2
+                {{ data.list.begName }}
             </el-form-item>
             <el-form-item label="开始日期：">
-                2020-02-09
+                {{ data.list.startDate }}
             </el-form-item>
             <el-form-item label="预定时长（月）：">
-                4
+                {{ data.list.addTime }}
             </el-form-item>
             <el-form-item label="定金应收：">
-                4000.00
+                {{ data.list.amount }}
             </el-form-item>
         </el-form>
         <div class="title">
             <div><i>▋</i> 预定协议</div>
         </div>
-        <el-image style="width: 160px; height: 230px;margin-left: 40px; " :src="url" fit="fill" />
+        <span v-for="(item, index) in url" :key="index" style="">
+            <el-image style="width: 150px; height: 200px;margin-left: 40px; " :src="upload+'/'+item.file " fit="fill" />
+        </span>
         <div style="margin-top: 20px ;text-align: center">
             <el-button @click="back">返回</el-button>
         </div>
@@ -58,10 +60,33 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
-import { useRouter } from 'vue-router'
+import { reservationget } from "@/service/market/ReserveApi"
+import { useRouter, useRoute } from 'vue-router'
 const router = useRouter()
-const url = ref('https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg')
-
+const route = useRoute()
+const upload = import.meta.env.VITE_BASE_URL
+const imageUrl = ref('')
+const url:any= ref([])
+const data = reactive({
+    list: [] as any
+})
+//获取单条数据
+const getData = async () => {
+    const id: any = route.params.id
+    if (id) {
+        const res: any = await reservationget(id)
+        console.log('单条数据', res);
+        if (res.code == 10000) {
+            data.list = res.data
+            imageUrl.value = upload + '/' + res.data.elderlyPhoto
+            url.value = res.data.files
+            console.log(333, url.value);
+        }
+    }
+}
+onMounted(() => {
+    getData()
+})
 
 // 返回
 const back = () => {
