@@ -22,7 +22,8 @@
                 </el-select>
             </el-form-item>
             <el-form-item label="预定床位:" prop="begId">
-                <el-cascader style="width: 499px;" :options="options" :props="props" @change="handleChange" />
+                <el-cascader v-model="params.begId" style="width: 499px;" :options="options" :props="props"
+                    @change="handleChange" />
             </el-form-item>
             <el-form-item label="开始日期:" prop="startDate">
                 <MaystartDatePicker v-model="params.startDate" style="width: 479px;"></MaystartDatePicker>
@@ -54,7 +55,7 @@ import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
 import { ElMessage } from 'element-plus'
 import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
 import { ConfigBuildingList, getHouseList, getBedsList } from "@/service/config/ConfigApi"
-import { reservationAdd,reservationget } from "@/service/market/ReserveApi"
+import { reservationAdd, reservationget, reservationUpdate } from "@/service/market/ReserveApi"
 import type { ReservationAddParams } from "@/service/market/Reservetype"
 import type { UploadUserFile } from 'element-plus'
 import { useRouter, useRoute } from 'vue-router'
@@ -77,21 +78,21 @@ const params = reactive<ReservationAddParams>({
     files: []
 })
 const rules = reactive<FormRules<ReservationAddParams>>({
-    name: [
-        { required: true, message: '请输入预定人姓名', trigger: 'blur' },
-    ],
-    mobile: [{ required: true, message: '请输入预定人电话', trigger: 'change', },
-    ],
-    relation: [{ required: true, message: '请输入与老人关系', trigger: 'change', },
-    ],
-    begId: [{ required: true, message: '请输入预定床位', trigger: 'change', },
-    ],
-    startDate: [{ required: true, message: '请输入开始日期', trigger: 'change', },
-    ],
-    day: [{ required: true, message: '请输入预定时长', trigger: 'change', },
-    ],
-    amount: [{ required: true, message: '请输入定金应收', trigger: 'change', },
-    ],
+    // name: [
+    //     { required: true, message: '请输入预定人姓名', trigger: 'blur' },
+    // ],
+    // mobile: [{ required: true, message: '请输入预定人电话', trigger: 'change', },
+    // ],
+    // relation: [{ required: true, message: '请输入与老人关系', trigger: 'change', },
+    // ],
+    // begId: [{ required: true, message: '请输入预定床位', trigger: 'change', },
+    // ],
+    // startDate: [{ required: true, message: '请输入开始日期', trigger: 'change', },
+    // ],
+    // day: [{ required: true, message: '请输入预定时长', trigger: 'change', },
+    // ],
+    // amount: [{ required: true, message: '请输入定金应收', trigger: 'change', },
+    // ],
 })
 
 // 增加上传协议
@@ -116,13 +117,24 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     if (!formEl) return
     await formEl.validate(async (valid, fields) => {
         if (valid) {
-            const res: any = await reservationAdd(params)
-            if (res.code === 10000) {
-                ElMessage.success('添加成功')
-                router.push('/market/reserve')
-            } else {
-                ElMessage.error(res.msg)
-            }
+           
+            
+                const res: any = await reservationAdd(params)
+                if (res.code === 10000) {
+                    ElMessage.success('添加成功')
+                    router.push('/market/reserve')
+                } else {
+                    ElMessage.error(res.msg)
+                }
+          
+                // const res8: any = await reservationUpdate(params)
+                // if (res.code === 10000) {
+                //     ElMessage.success('修改成功')
+                //     router.push('/market/reserve')
+                // } else {
+                //     ElMessage.error(res.msg)
+                // }
+            
             console.log(1111, params)
         } else {
             console.log('error submit!', fields)
@@ -130,15 +142,25 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     })
 }
 
-const id = ref(0)
 
 // 数据回显
-const getData=async ()=>{
-        console.log(id.value);
-        
-    // const res = await reservationget(id)
+const getData = async () => {
+    let id = route.params?.id
+    console.log(444,id);
+    if (!id) return false
+    const res: any = await reservationget(Number(id)).catch(() => { })
+    if (res.code === 10000) {
+        console.log('单条数据', res);
+        Object.assign(params, res.data)
+    }
 }
 
+// 老人id
+const elderlyId=()=>{
+    let id = route.query.id
+    console.log(111,route.query.id);
+    
+}
 
 // 取消
 const cancel = () => {
@@ -192,14 +214,14 @@ const reserve = async () => {
         }));
     }
     let tree = convertToTree(building, 0)
-    console.log('数据', tree);
+    // console.log('数据', tree);
     options.value = tree
 }
 
 // 楼栋列表
 const buildingList = async () => {
     const res: any = await ConfigBuildingList()
-    console.log('楼栋列表', res);
+    // console.log('楼栋列表', res);
     if (res.code == 10000) {
         return res.data.list
     }
@@ -207,7 +229,7 @@ const buildingList = async () => {
 // 房间列表
 const houseList = async () => {
     const res: any = await getHouseList()
-    console.log('房间列表', res);
+    // console.log('房间列表', res);
     if (res.code === 10000) {
         return res.data.list
     }
@@ -215,7 +237,7 @@ const houseList = async () => {
 // 床位列表
 const bedList = async () => {
     const res: any = await getBedsList()
-    console.log('床位列表', res);
+    // console.log('床位列表', res);
     if (res.code === 10000) {
         return res.data.list
     }
@@ -226,6 +248,7 @@ onMounted(() => {
     // 预定
     reserve()
     getData()
+    elderlyId()
 })
 </script>
 <style lang="less" scoped>

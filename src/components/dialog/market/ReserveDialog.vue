@@ -1,3 +1,4 @@
+<!-- 选择老人 -->
 <template>
     <el-dialog v-model="dialogVisible" title="选择老人" width="70%" @close="close">
         <el-form :inline="true" :model="states" class="demo-form-inline">
@@ -82,7 +83,10 @@ const getlist = async () => {
 }
 //选择老人
 const select = (id: number) => {
-    router.push(`/market/reserve/edit/${id}`)
+    router.push({
+        path:'/market/reserve/add',
+        query:{id}
+    })
 }
 onMounted(() => {
     getlist() //老人列表

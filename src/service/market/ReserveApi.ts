@@ -17,3 +17,8 @@ export const reservationDelete = (id: number) => {
 export const reservationAdd = (data: ReservationAddParams) => {
   return post('/api/reservation/add', data)
 }
+
+// 预定信息修改
+export const reservationUpdate = (data: ReservationAddParams) => {
+  return put('/api/reservation/update', data)
+}
