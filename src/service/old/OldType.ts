@@ -56,7 +56,7 @@ export interface ListElderlyRequest {
   page: number
   pageSize: number
   name: string
-  idCard: number | undefined
+  idCard: number | undefined |string
   begId: number | undefined
   state: number | undefined
 }

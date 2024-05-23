@@ -1,46 +1,105 @@
 <template>
-    <el-dialog v-model="dialogVisible" title="新增出院申请" width="500" @close="close">
-        <el-form ref="ruleFormRef" style="max-width: 600px" :model="ruleForm" :rules="rules" label-width="auto"
-            class="demo-ruleForm" :size="formSize" status-icon>
-            <el-form-item label="老人：" prop="name">
-                <el-button type="primary">请选择</el-button>
-            </el-form-item>
-            <el-form-item label="出院原因：" prop="name">
-                <el-input v-model="ruleForm.name" style="width: 300px" :rows="2" type="textarea"
-                    placeholder="Please input" />
-            </el-form-item>
-            <el-form-item label="预计时间：" prop="name">
-                <el-select v-model="ruleForm.oldman" placeholder="请选择" style="width: 300px">
-                    <el-option v-for="item in bedlist" :key="item" :label="item" :value="item" />
-                </el-select>
-            </el-form-item>
-
-        </el-form>
-        <template #footer>
-            <div class="dialog-footer">
-                <el-button @click="close">取消</el-button>
-                <el-button type="primary" @click="close(true)"> 确定 </el-button>
+    <el-dialog v-model="dialogVisible" title="选择老人" width="700" @close="close">
+        <el-form :inline="true" :model="states" class="demo-form-inline">
+            <div class="form-size">
+                <el-form-item label="姓名:">
+                    <el-input v-model="states.name" placeholder="请输入" clearable />
+                </el-form-item>
+                <el-form-item label="身份证号码:">
+                    <el-input v-model="states.idCard" placeholder="请输入" clearable />
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary" @click="()=>{states.page=1;getlist()}">查询</el-button>
+                    <el-button>重置</el-button>
+                </el-form-item>
             </div>
-        </template>
+        </el-form>
+        <MayTable :tableData="data.tableData" :tableItem="data.tableItem" :identifier="identifier">
+            <template #operate="{data}">
+                <el-button type="primary" @click="select(data.id)">选择</el-button>
+            </template>
+        </MayTable>
+
     </el-dialog>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, onMounted, defineEmits } from 'vue'
-import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
-const formSize = ref<ComponentSize>('default')
-const ruleFormRef = ref<FormInstance>()
-const ruleForm = reactive<any>({})
-const rules = reactive<FormRules<any>>({})
+import { ref, reactive, onMounted, defineEmits, defineAsyncComponent } from 'vue'
+const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
+import { getElderlyList } from '@/service/old/OldApi'
+import {useRouter } from 'vue-router'
+import type{ ListElderlyRequest } from '@/service/old/OldType'
+const router= useRouter()
 const dialogVisible = ref(true)
-const oldmanlist = ref([])
-const bedlist = ref([])
+
+//唯一标识
+const identifier = 'ToHospitalDialog'
+const data = reactive({
+    tableData: [] as any,
+    tableItem: [
+        {
+            prop: 'photo',
+            label: '头像',
+            width: '100px'
+        },
+
+        {
+            prop: 'name',
+            label: '姓名',
+            width: '100px'
+        },
+        {
+            prop: 'gender',
+            label: '性别'
+        },
+        {
+            prop: 'idCard',
+            label: '身份证号',
+            width: '200px'
+        },
+    ],
+})
+
+
 const emit = defineEmits(['close'])
+
 const close = (close: boolean = false) => {
     emit('close', close)
 }
+const states = reactive<ListElderlyRequest>({
+    page: 1,
+    pageSize: 10,
+    begId: undefined,
+    state: undefined,
+    name: '',//老人姓名
+    idCard: '', //身份证号
+})
+// 老人列表
+const getlist = async () => {
+    let res: any = await getElderlyList(states)
+
+    if (res.code == 10000) {
+        data.tableData = res.data.list
+    }
+}
+//选择老人
+const select=(id:number)=>{
+    router.push({
+        path:"/market/hospitalized/order",
+        query:{
+            id:id
+        }
+    })
+}
+onMounted(() => {
+    getlist() //老人列表
+})
 </script>
 <style lang="less" scoped>
 .el-input {
-    width: 300px;
+    width: 140px;
+}
+
+.form-size {
+    display: flex;
 }
 </style>

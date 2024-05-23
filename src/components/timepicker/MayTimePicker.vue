@@ -35,7 +35,7 @@ const props = defineProps({
 })
 
 //时间回显
-const times = ref('2024-05-10 12:00')
+const times = ref('')
 watch(
   () => props.remtime,
   (newValue) => {

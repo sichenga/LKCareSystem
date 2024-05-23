@@ -43,3 +43,20 @@ export interface order{
   begId?: number | null //床位号
   state?: number | null //状态
 }
+
+//入院添加
+export interface orderAdds{
+  elderlyId:number| null, //护理Id
+  begId: number|null, //床位ID
+  begPrice?: number|null, //床位单价
+  days?: number|null, //入住天数
+  startDate: string, //入住日期
+  foodPrice?:number|null, // 套餐单价
+  servicePrice?: number|null, //护理费
+  cashPledge?: number|null, //押金
+  livingPrice?: number|null, // 一次性生活费
+  payDays?: number|null, //入院费用核定天数  分几期付款
+  state: number|null, // 保存暂不提交 0  保存并提交1
+  services:number[],
+  files:string[]  //合同协议
+}

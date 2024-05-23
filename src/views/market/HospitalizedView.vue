@@ -1,21 +1,21 @@
 <template>
    <!-- <div>入院管理</div> -->
    <el-card style="max-width: 100%">
-      <el-form :inline="true" :model="formInline" class="demo-form-inline">
+      <el-form :inline="true" :model="states" class="demo-form-inline">
          <el-form-item label="老人姓名">
-            <el-input v-model="formInline.user" placeholder="请输入" clearable />
+            <el-input v-model="states.name" placeholder="请输入" clearable />
          </el-form-item>
          <el-form-item label="身份证号码">
-            <el-input v-model="formInline.user" placeholder="请输入" clearable />
+            <el-input v-model="states.idCard" placeholder="请输入" clearable />
          </el-form-item>
          <el-form-item label="床位">
-            <el-select v-model="formInline.region" placeholder="请选择" clearable>
+            <el-select v-model="states.begId" placeholder="请选择" clearable>
                <el-option label="Zone one" value="shanghai" />
                <el-option label="Zone two" value="beijing" />
             </el-select>
          </el-form-item>
          <el-form-item label="状态">
-            <el-select v-model="formInline.region" placeholder="请选择" clearable>
+            <el-select v-model="states.state" placeholder="请选择" clearable>
                <el-option label="Zone one" value="shanghai" />
                <el-option label="Zone two" value="beijing" />
             </el-select>
@@ -33,9 +33,10 @@
          <template #operate="{data}">
             <el-button type="primary" text>编辑</el-button>
             <el-button type="primary" text @click="del(data.id)">删除</el-button>
-            <el-button type="primary" text>提交入院</el-button>
             <el-button type="primary" text>详情</el-button>
-            <el-button type="primary" text @click="cancel">取消入院</el-button>
+            <el-button type="primary" v-if="data.state==0" text>提交入院</el-button>
+    
+            <el-button type="primary" v-else @click="cancel" text>取消入院</el-button>
          </template>
       </MayTable>
       <Pagination @page="handPage" @psize="handPsize" :total="counts"></Pagination>
@@ -54,11 +55,6 @@ import { getMessageBox } from '@/utils/utils'
 
 const identifier='Hospitalized'
 
-const formInline = reactive({
-   user: '',
-   region: '',
-   date: '',
-})
 const isdialog = ref(false)
 const data = reactive({
    tableData: [] as any,
@@ -118,13 +114,12 @@ const states = reactive<order>({
 const counts = ref(0)
 const getlist = async () => {
    let res: any = await orderList(states)
-   console.log(res)
    if (res?.code == 10000) {
       data.tableData = res.data.list
       counts.value=res.data.counts
    }
 
-}
+} 
 // 关闭弹窗
 const close = () => {
    isdialog.value = false
@@ -132,7 +127,6 @@ const close = () => {
 //取消入院
 const cancel = async()=>{
    let res = await getMessageBox('是否确认取消此入住申请？', '删除后将不可恢复')
-   console.log(11112, res)
    if (res) {
       ElMessage.success('取消入院成功')
    }
@@ -140,7 +134,6 @@ const cancel = async()=>{
 // 删除
 const del = async (id:number) => {
    let res = await getMessageBox('是否确认删除此入住', '删除后将不可恢复')
-   console.log(11112, res)
    if (res) {
       let _res:any = await orderDelete(id)
       if(_res.code==10000){

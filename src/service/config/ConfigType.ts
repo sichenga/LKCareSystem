@@ -67,7 +67,7 @@ export interface houseupdateType {
 export interface BedsList {
   page: number
   pageSize: number
-  houseId: number
+  houseId: number |null
 }
 // 床位添加  /api/beds/add
 export interface BedsAdd {

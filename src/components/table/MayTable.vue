@@ -8,6 +8,7 @@
       color: '#000000',
       height: '50px'
     }"
+     @selection-change="handleSelectionChange"
   >
     <el-table-column type="selection" width="55" v-if="isMultiple" />
     <el-table-column
@@ -35,7 +36,7 @@
       </template>
       <!-- 入院管理 -->
       <template v-else-if="props.identifier == 'Hospitalized' && item.prop == 'elderlyPhoto'" v-slot="{ row }">
-        <el-image style="width: 50px; height: 50px" :src="upload+row.image" fit="cover" />
+        <el-image style="width: 50px; height: 50px" :src="upload+row.elderlyPhoto" fit="cover" />
       </template>
 
       <!-- 出入院管理>老人管理>新增>健康信息 -->
@@ -51,14 +52,23 @@
           fit="cover"
         />
       </template>
+      <!-- 入院老人订单合计 -->
+      <template
+        v-else-if="item.prop === 'price'"
+        v-slot="{ row }"
+
+      >
+        <span>{{ row.price}}</span>
+      </template>
       <!-- 日期格式 -->
       <template
-        v-else-if="item.prop === 'updateTime' || item.prop === 'visitTime'"
+        v-else-if="item.prop === 'updateTime' || item.prop === 'visitTime'||item.prop === 'addTime'"
         v-slot="{ row }"
       >
         <span>{{ mons(row.updateTime || row.visitTime).format('YYYY-MM-DD') }}</span>
       </template>
 
+      
       <!-- 奖励积分 -->
       <template v-else-if="item.prop === 'input'" v-slot="{}">
         <input type="text" />
@@ -77,7 +87,7 @@
       </template>
     </el-table-column>
 
-    <!-- 是否有input框 -->
+    
     <el-table-column :label="props.label" v-if="props.label">
       <template v-slot="scope">
         <slot name="custom" :data="scope.row"></slot>
@@ -92,11 +102,13 @@
   </el-table>
 </template>
 <script lang="ts" setup>
-import { defineProps } from 'vue'
+import { defineProps, ref,defineEmits } from 'vue'
 import type { PropType } from 'vue'
 import type { TableItem } from '@/Type/table'
 import moment from 'moment'
+const Emits = defineEmits(['serveListIs'])
 const upload = import.meta.env.VITE_BASE_URL + '/'
+
 const mons = moment
 const props = defineProps({
   tableData: {
@@ -128,6 +140,11 @@ const props = defineProps({
 })
 const rolename = (data: any) => {
   return data.map((item: any) => item?.name).toString()
+}
+// 多选
+const handleSelectionChange = (val: any[]) => {
+  console.log('多选返回值',val);
+  Emits('serveListIs',val)
 }
 </script>
 <style lang="less" scoped>
