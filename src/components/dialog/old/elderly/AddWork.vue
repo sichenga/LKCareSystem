@@ -11,9 +11,9 @@
     >
       <el-form-item label="姓名：" prop="name" class="reset">
         <el-input v-model="params.name" placeholder="请输入姓名" />
-        <div>
-          <el-button type="primary">查询</el-button>
-          <el-button>重置</el-button>
+        <div class="query">
+          <el-button type="primary" @click="querywork">查询</el-button>
+          <el-button @click="resetwork">重置</el-button>
         </div>
       </el-form-item>
       <el-form-item>
@@ -105,6 +105,16 @@ const getstalist = async () => {
     data.tableData = res.data.list
   }
 }
+
+// 查询列表
+const querywork = () => {
+  getstalist()
+}
+// 重置
+const resetwork = () => {
+  params.name = ''
+  getstalist()
+}
 const emit = defineEmits(['close'])
 // 关闭弹框
 const close = (close: boolean = false) => {
@@ -150,5 +160,8 @@ onMounted(() => {
   .el-input {
     width: 230px;
   }
+}
+.query {
+  margin-left: 15px;
 }
 </style>

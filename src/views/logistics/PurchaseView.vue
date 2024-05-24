@@ -14,7 +14,7 @@
         <el-button type="primary" text @click="getifno(data.id)">查看详情</el-button>
       </template>
     </MayTable>
-    <Pagination @page="pageChenge" @psize="pageSizeChenge" :total="states.total"></Pagination>
+    <Pagination @page="pageChenge" @psize="pageSizeChenge" :page="states.page" :psize="states.pageSize" :total="states.total"></Pagination>
   </el-card>
 </template>
 <script lang="ts" setup>

@@ -50,11 +50,13 @@ import { ElMessage } from 'element-plus'
 const formSize = ref<ComponentSize>('default')
 const ruleFormRef = ref<FormInstance>()
 //编辑id
-const props = defineProps(['ids'])
+const props = defineProps(['ids','customerId'])
+
 const time=ref('')
 //添加咨询
 const ruleForm = reactive<Addmarket>({
-  customerId: 48,
+  //潜在客户老人id
+  customerId: props.customerId,
   type: "",
   source: "",
   name: "",

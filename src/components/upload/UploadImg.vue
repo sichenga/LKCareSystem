@@ -8,6 +8,7 @@
     :on-exceed="handleExceed"
     :on-success="handleAvatarSuccess"
     :show-file-list="props.showlist"
+    
   >
     <template #trigger>
       <el-button type="primary">{{ props.title }}</el-button>
@@ -17,6 +18,7 @@
 <script lang="ts" setup>
 import { ref, reactive, onMounted, defineProps, defineEmits } from 'vue'
 const action = import.meta.env.VITE_BASE_UPLOAD_ADD || ''
+
 import { genFileId } from 'element-plus'
 import type { UploadInstance, UploadProps, UploadRawFile } from 'element-plus'
 import { useUserStore } from '@/stores'
@@ -33,7 +35,8 @@ const props = defineProps({
   title: {
     type: String,
     default: '上传图片'
-  }
+  },
+
 })
 const upload = ref<UploadInstance>()
 // 替换文件
@@ -55,4 +58,10 @@ const handleAvatarSuccess: UploadProps['onSuccess'] = (response) => {
 }
 // const
 </script>
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+  .avatar{
+    width: 100px;
+    height: 100px;
+    margin-top: 60px;
+  }
+</style>

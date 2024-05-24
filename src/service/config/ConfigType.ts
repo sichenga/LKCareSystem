@@ -38,6 +38,7 @@ export interface HouseViewType {
   page: number
   pageSize: number
   name: string
+  buildingId: number | undefined
 }
 //添加房间 房间修改
 export interface houseaddType {
@@ -46,7 +47,7 @@ export interface houseaddType {
   type: number | null
   name: string
   beds: number | string
-  picture: string|null
+  picture: string | null
 }
 //获取房间类型
 export interface getHouseType {
@@ -67,7 +68,7 @@ export interface houseupdateType {
 export interface BedsList {
   page: number
   pageSize: number
-  houseId: number
+  houseId: number |null
 }
 // 床位添加  /api/beds/add
 export interface BedsAdd {
@@ -87,4 +88,3 @@ export interface HouseList {
   addAccountId?: number
   pid?: number
 }
-

@@ -1,20 +1,20 @@
 <template>
-  <!-- 外出申请 -->
+  <!-- 外出申请  外出登记-->
   <el-card>
-    <el-form :inline="true" :model="formInline" class="demo-form-inline">
+    <el-form :inline="true" :model="params" class="demo-form-inline">
       <el-form-item label="老人姓名：">
-        <el-input v-model="formInline.user" placeholder="请输入" clearable />
+        <el-input v-model="params.name" placeholder="请输入" clearable />
       </el-form-item>
       <el-form-item label="审批状态：">
-        <el-select v-model="formInline.region" placeholder="请选择" size="large" style="width: 240px">
-          <el-option v-for="item in data.statelist" :key="item.value" :label="item.label" :value="item.value" />
+        <el-select v-model="params.state" placeholder="请选择" size="large" style="width: 240px">
+          <el-option v-for="item in statelist" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
       </el-form-item>
       <el-form-item label="创建时间：">
-        <TimePicker></TimePicker>
+        <TimePicker @change="handlChange"></TimePicker>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary">查询</el-button>
+        <el-button type="primary" @click="sond">查询</el-button>
         <el-button>重置</el-button>
       </el-form-item>
     </el-form>
@@ -25,29 +25,31 @@
       <AffDialog @close="close" v-if="isdialog"></AffDialog>
     </div>
     <!-- 表格 -->
-    <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
-      <template #operate>
-        <el-button type="primary" text>编辑</el-button>
-        <el-button type="primary" text @click="btn">查看详情</el-button>
+    <MayTable :tableData="data.tableData" :tableItem="data.tableItem" :identifier="identifier">
+      <template #operate="{data}">
+        <el-button type="primary" text @click="compile(data.id)">编辑</el-button>
+        <el-button type="primary" text @click="del(data.id)">删除</el-button>
+        <el-button type="primary" text @click="btn(data.id)">查看详情</el-button>
       </template>
     </MayTable>
-    <Pagination :total="50"></Pagination>
+    <Pagination @page="handlPage" @pszie="handlPsize" :page="params.page" :psize="params.pageSize" :total="total"></Pagination>
   </el-card>
 </template>
 <script lang="ts" setup>
 import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
-import AffiliatedView from '@/database/AffiliatedView.json'
+
 import AffDialog from '@/components/dialog/care/AffDialog.vue'
 import { useRouter } from 'vue-router'
+import { getList,DelgetList } from '@/service/care/gooutApi'
+import type { Goout } from '@/service/care/gooutType'
+import { getMessageBox } from '@/utils/utils'
+import { ElMessage } from 'element-plus'
 const router = useRouter()
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
 const TimePicker = defineAsyncComponent(() => import('@/components/timepicker/MayTimePicker.vue'))
-const formInline = reactive({
-  user: '',
-  region: '',
-  date: ''
-})
+
+const identifier = 'GoOut'
 const isdialog = ref(false)
 const data = reactive({
   tableData: [] as any,
@@ -57,36 +59,54 @@ const data = reactive({
       label: '序号'
     },
     {
-      prop: 'name',
+      prop: 'elderlyName',
       label: '老人姓名'
     },
     {
-      prop: 'address',
+      prop: 'begName',
       label: '床位号'
     },
     {
-      prop: 'manager',
+      prop: 'addAccountName',
       label: '陪同人员姓名'
     },
     {
-      prop: 'phone',
+      prop: 'mobile',
       label: '陪同人员手机号'
     },
     {
-      prop: 'username',
+      prop: 'startTime',
       label: '外出时间'
     },
     {
-      prop: 'userpass',
+      prop: 'state',
       label: '审批状态'
     }
   ],
-  statelist: [] as any
 })
-const getlist = () => {
-  setTimeout(() => {
-    data.tableData = AffiliatedView
-  }, 1000)
+//审批状态
+  const statelist= [{value:0,label:'待审批'},{value:1,label:'审批通过'},{value:2,label:'审批拒绝'},] as any
+
+const params = reactive<Goout>({
+  page: 1,
+  pageSize: 10,
+  name: '',//老人姓名
+  accountId: null,//登记人iD
+  state: null, //状态
+  beginDate: '',//开始时间yyyy-MM-dd
+  endDate: '',//结束时间yyyy-MM-dd
+})
+
+
+//外出登记列表
+const total = ref(0)
+const getlistData = async () => {
+  let res: any = await getList(params)
+
+  if (res?.code == 10000) {
+    data.tableData = res.data.list
+    total.value=res.data.counts
+  }
 }
 // 关闭弹窗
 const close = () => {
@@ -97,13 +117,57 @@ const close = () => {
 const add = () => {
   router.push('/care/goout/add')
 }
-// 详情
-const btn = () => {
-  router.push('/care/goout/details/id')
+//编辑外出
+const compile=(id:number)=>{
+  router.push({
+    path:'/care/goout/add',
+    query:{
+      id:id
+    }
+  })
 }
-
+// 详情
+const btn = (id:number) => {
+  router.push({
+    path:'/care/goout/details/id',
+    query:{
+      id:id
+    }
+  })
+}
+const handlChange=(val:any)=>{
+    params.endDate= val
+}
+// 分页
+const handlPage=(val:any)=>{
+  params.page=val
+  getlistData() //外出登记列表
+}
+const handlPsize=(val:any)=>{
+  params.pageSize=val
+  getlistData() //外出登记列表
+}
+// 删除
+const del = async (id:number) => {
+   let res = await getMessageBox('是否确认删除此外出申请', '删除后将不可恢复')
+   if (res) {
+      let _res:any = await DelgetList(id)
+      if(_res.code==10000){
+        getlistData() //外出登记列表
+         ElMessage.success('删除成功')
+      }
+      
+   } else {
+      ElMessage.info('取消删除')
+   }
+}
+// 查询
+const sond =()=>{
+  params.page=1
+  getlistData() //外出登记列表
+}
 onMounted(() => {
-  getlist()
+  getlistData() //外出登记列表
 })
 </script>
 <style lang="less" scoped>

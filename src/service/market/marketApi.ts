@@ -1,5 +1,5 @@
 import {get,post,del,put} from '@/utils/request'
-import type {market,Addmarket,followup,AddFollowup} from '@/service/market/marketType'
+import type {market,Addmarket,followup,AddFollowup,order,orderAdds} from '@/service/market/marketType'
 //资讯列表
 export const getMarketList = (params: market) => {
   return get('/api/question/list', params)
@@ -43,3 +43,32 @@ export const followupAdd = (data: AddFollowup) => {
 export const followupupdate = (data: AddFollowup) => {
   return put('/api/followup/update',data)
 }
+
+
+
+//入院列表
+export const orderList = (params: order) => {
+  return get('/api/order/list',params)
+}
+
+//删除入院
+export const orderDelete = (id: number) => {
+  return del('/api/order/delete/'+id)
+}
+
+//添加入院
+export const orderAdd = (data: orderAdds) => {
+  return post('/api/order/add',data)
+}
+
+//根据id获取老人单挑数据
+export const orderGet = (id: number) => {
+  return get('/api/order/get/'+id)
+}
+
+//修改入院老人
+
+export const orderupdate= (data:any) => {
+  return put('/api/order/update',data)
+}
+

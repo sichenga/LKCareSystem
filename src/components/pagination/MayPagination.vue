@@ -13,7 +13,7 @@ const emit = defineEmits(['page', 'psize'])
 
 let data = reactive<PaginationConfig>({
   page: 1,
-  psize: 5,
+  psize: 10,
   total: 0
 })
 const props = defineProps({

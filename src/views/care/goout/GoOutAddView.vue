@@ -1,32 +1,32 @@
 <template>
   <!-- 新增外出 -->
   <el-card>
-    <el-form ref="ruleFormRef" style="max-width: 400px" :model="ruleForm" :rules="rules" label-width="auto"
-      class="demo-ruleForm" :size="formSize" status-icon>
-      <el-form-item label="老人姓名" prop="name">
-        <el-select v-model="ruleForm.name" clearable placeholder="请选择" style="width: 300px">
-          <el-option v-for="item in data.oldlist" :key="item.value" :label="item.label" :value="item.value" />
+    <el-form ref="ruleFormRef" style="max-width: 400px" :model="ruleForm" label-width="auto" class="demo-ruleForm"
+      :size="formSize" status-icon>
+      <el-form-item label="选择外出老人">
+        <el-select v-model="ruleForm.elderlyId" clearable placeholder="请选择" style="width: 300px">
+          <el-option v-for="item in data.oldlist" :key="item.id" :label="item.name" :value="item.id" />
         </el-select>
       </el-form-item>
-      <el-form-item label="外出时间" prop="name">
-        <DateTimePicke style="width: 300px"></DateTimePicke>
+      <el-form-item label="外出时间">
+        <DateTimePicke style="width: 300px" @change="handlChange" :times="times"></DateTimePicke>
       </el-form-item>
-      <el-form-item label="陪同人员类型" prop="name">
-        <el-select v-model="ruleForm.name" clearable placeholder="请选择" style="width: 300px">
-          <el-option v-for="item in data.typelist" :key="item.value" :label="item.label" :value="item.value" />
+      <el-form-item label="陪同人员类型">
+        <el-select v-model="ruleForm.relation" clearable placeholder="请选择" style="width: 300px">
+          <el-option v-for="item in typelist" :key="item" :label="item" :value="item" />
         </el-select>
       </el-form-item>
-      <el-form-item label="陪同人员姓名" prop="name">
+      <el-form-item label="陪同人员姓名">
         <el-input v-model="ruleForm.name" placeholder="请输入" />
       </el-form-item>
-      <el-form-item label="陪同人员电话" prop="name">
-        <el-input v-model="ruleForm.name" placeholder="请输入" />
+      <el-form-item label="陪同人员电话">
+        <el-input v-model="ruleForm.mobile" placeholder="请输入" />
       </el-form-item>
-      <el-form-item label="陪同人员地址" prop="name">
-        <el-input v-model="ruleForm.name" placeholder="请输入" />
+      <el-form-item label="陪同人员地址">
+        <el-input v-model="ruleForm.address" placeholder="请输入" />
       </el-form-item>
-      <el-form-item label="外出原因" prop="name">
-        <el-input v-model="ruleForm.name" :rows="2" placeholder="请输入原因" type="textarea" style="width: 300px" />
+      <el-form-item label="外出原因">
+        <el-input v-model="ruleForm.content" :rows="2" placeholder="请输入原因" type="textarea" style="width: 300px" />
       </el-form-item>
     </el-form>
   </el-card>
@@ -38,39 +38,94 @@
 <script lang="ts" setup>
 import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
 import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
-import { useRouter } from 'vue-router'
+import { ElMessage } from 'element-plus'
+import { useRouter, useRoute } from 'vue-router'
+import { AddGooutList, goOutList, UpdateGoout } from '@/service/care/gooutApi'
+import { getElderlyList } from '@/service/old/OldApi'
+import type { AddGoout } from '@/service/care/gooutType'
 const router = useRouter()
+const route = useRoute()
+
 const DateTimePicke = defineAsyncComponent(
   () => import('@/components/timepicker/MayDateTimePicker.vue')
 )
 const formSize = ref<ComponentSize>('default')
 const ruleFormRef = ref<FormInstance>()
-const ruleForm = reactive<any>({
-  name: '',
-  region: '',
-  count: '',
-  date1: '',
-  date2: '',
-  delivery: false,
-  location: '',
-  type: [],
-  resource: '',
-  desc: ''
+const ruleForm = reactive<AddGoout>({
+  elderlyId: null, //老人Id
+  startTime: '',//开始时间yyyy-MM-dd
+  endTime: '', //结束时间yyyy-MM-dd
+  mobile: '', //手机号联系方式
+  address: '', //去处 地址
+  content: '', //出去理由
+  relation: '', //关系
+  name: '' //老人姓名
 })
-const data = reactive({
+//时间回显
+const times = ref<any>([])
+const goOutListData = async () => {
+  if (route.query.id) {
+    let id = Number(route.query.id)
+    let res: any = await goOutList(id)
+    console.log(res);
+    if (res?.code == 10000) {
+      times.value.push(res.data.startTime, res.data.endTime)
+      Object.assign(ruleForm, res.data)
+    }
+  }
+
+}
+//开始结束日期
+const handlChange = (val: any) => {
+  ruleForm.startTime = val[0]
+  ruleForm.endTime = val[1]
+}
+const data = reactive<any>({
   oldlist: [] as any,
-  typelist: [] as any
+
 })
+const typelist = ['父子', '母子', '父女', '母女', '兄弟', '姐妹', '朋友', '其他', '本人', '护理人员']
 // 取消提交
 const cancel = () => {
   router.push('/care/goout')
 }
-// 提交表单
-const add = () => {
-  cancel()
-}
 
-const rules = reactive<FormRules<any>>({})
+
+// 提交表单
+const add = async () => {
+  let res: any;
+  if (route.query.id) {
+    res = await UpdateGoout(ruleForm)
+  } else {
+    res = await AddGooutList(ruleForm)
+  }
+
+  if (res?.code == 10000) {
+    router.push('/care/goout')
+    ElMessage.success(route.query.id ? '修改成功' : '添加成功')
+
+  }
+}
+const Dataold = reactive({
+  page: 1,
+  pageSize: 9999,
+  name: '',
+  idCard: undefined,
+  begId: undefined,
+  state: undefined,
+})
+const getOldList = async () => {
+  let res: any = await getElderlyList(Dataold)
+
+  if (res?.code == 10000) {
+    data.oldlist = res.data.list
+  }
+
+}
+onMounted(() => {
+  getOldList()//老人列表
+  goOutListData()//获取单挑外出列表
+})
 </script>
 <style lang="less" scoped>
 .el-input {

@@ -3,7 +3,7 @@
   <div>
     <el-tabs v-model="activeName" type="card" class="demo-tabs">
       <el-card>
-        {{ ruleForm }}
+<!--        {{ ruleForm }}-->
         <el-tab-pane label="基本信息" name="first">
           <OldMessage ref="RefOldMessage"></OldMessage>
         </el-tab-pane>
@@ -37,7 +37,7 @@ const RefOldMessage = ref()
 const ruleForm = reactive<AddElderlyRequest>({
   name: '',
   mobile: '',
-  photo: null,
+  photo: '',
   gender: 1,
   birthday: '',
   nativePlace: '',
@@ -77,7 +77,6 @@ const add = async () => {
     //   oldillness: ruleForm.health.oldillness.join(',') || '',
     //   nowillness: ruleForm.health.nowillness.join(',') || ''
     // }
-
     // obj.selfCares = ruleForm.selfCares.filter((item: any) => item !== null)
     let obj = {
       ...ruleForm,
@@ -98,8 +97,10 @@ const add = async () => {
     console.log('增加老人', res)
     if (res?.code === 10000) {
       ElMessage.success(ruleForm.id ? '编辑成功' : '新增成功')
-      router.push('/market/elderly')
+     await  router.push('/market/elderly')
     }
+  }else{
+    ElMessage.error('请完善基本信息')
   }
 }
 // 数据回显

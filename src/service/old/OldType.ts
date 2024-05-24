@@ -56,7 +56,14 @@ export interface ListElderlyRequest {
   page: number
   pageSize: number
   name: string
-  idCard: number | undefined
+  idCard: number | undefined |string
   begId: number | undefined
   state: number | undefined
+}
+// 老人信息
+export interface ElderlyItem {
+  name: string
+  idCard: string
+  begName: string
+  photo: string
 }

@@ -38,7 +38,7 @@
     <div class="title-btn">
         <el-button>返回</el-button>
     </div>
-    <AddRelation v-if="dialogVisible" @close="Holedclose" :ids="ids"></AddRelation>
+    <AddRelation v-if="dialogVisible" @close="Holedclose" :ids="ids" :customerId="customerId"></AddRelation>
 
     <Particulars v-if="dialogVisibles" @close="Holedcloses" :editId="editId"></Particulars>
 </template>
@@ -46,9 +46,13 @@
 import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
-import { useRouter } from 'vue-router'
+import { useRoute,useRouter } from 'vue-router'
 import { getMarketList,deleteMarket} from '@/service/market/marketApi'
 import type { market } from '@/service/market/marketType'
+const route = useRoute()
+const customerId=ref<any>(null)
+customerId.value =route.query.id
+
 const router = useRouter()
 const AddRelation = defineAsyncComponent(() => import('@/components/dialog/consult/AddConsult.vue'))
 const Particulars = defineAsyncComponent(() => import('@/components/dialog/consult/particulars.vue'))

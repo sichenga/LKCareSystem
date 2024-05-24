@@ -1,7 +1,7 @@
 <template>
   <!-- <div>
-    {{ time }}
-  </div> -->
+        开始日期:
+    </div> -->
   <el-date-picker
     v-model="times"
     type="datetime"
@@ -15,6 +15,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, onMounted, defineProps, defineEmits, watch } from 'vue'
+// 父传子 传递参数
 const props = defineProps({
   size: {
     type: String,
@@ -24,18 +25,20 @@ const props = defineProps({
     type: String,
     default: ''
   },
+  // 展示的日期格式
   format: {
     type: String,
-    default: 'YYYY-MM-DD HH:mm'
+    default: 'YYYY-MM-DD'
   },
+  // 绑定值的日期格式
   valueFormat: {
     type: String,
-    default: 'YYYY-MM-DD HH:mm'
+    default: 'YYYY-MM-DD'
   }
 })
 
 //时间回显
-const times = ref('')
+const times = ref('2024-05-10 12:00')
 watch(
   () => props.remtime,
   (newValue) => {
