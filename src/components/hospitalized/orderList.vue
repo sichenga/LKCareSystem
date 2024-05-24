@@ -34,7 +34,7 @@
             </div>
         </div>
         <div class="content-sizes">
-            <el-form ref="ruleFormRef" :model="ruleForm"  class="demo-ruleForm" size status-icon>
+            <el-form ref="ruleFormRef" :model="ruleForm" class="demo-ruleForm" size status-icon>
                 <div class="font-sizes">
                     <span class="color-szie">▋</span>
                     <span class="option">订单总费用</span>
@@ -68,7 +68,7 @@
                     <UploadImg :showlist="false" @upload="handlUpload"></UploadImg>
                     <el-button class="button-sizess">下载预定协议</el-button>
                     <div class="demo-image__preview">
-                        <img  v-for="(item, index) in img" :key="index" :src="Image+item" class="avatar" />
+                        <img v-for="(item, index) in img" :key="index" :src="Image + item" class="avatar" />
                     </div>
                 </el-form-item>
                 <el-form-item class="button-size">
@@ -76,10 +76,10 @@
                     <el-button type="primary" @click="sond">
                         上一步
                     </el-button>
-                    <el-button type="primary" @click="submitForm(ruleFormRef, 1)">
+                    <el-button type="primary" @click="submitForm(1)">
                         保存暂不提交
                     </el-button>
-                    <el-button type="primary" @click="submitForm(ruleFormRef, 2)">
+                    <el-button type="primary" @click="submitForm(2)">
                         保存并提交
                     </el-button>
                     <el-button>返回</el-button>
@@ -95,6 +95,7 @@ import { useRouter, useRoute } from 'vue-router'
 import { getElderly } from '@/service/old/OldApi'
 import { orderAdd } from '@/service/market/marketApi'
 import { ElMessage } from 'element-plus'
+import { orderGet, orderupdate } from '@/service/market/marketApi'
 import type { orderAdds } from '@/service/market/marketType'
 import UploadImg from '@/components/upload/UploadImg.vue'
 const router = useRouter()
@@ -104,6 +105,11 @@ const emits = defineEmits(['isshou'])
 const Image = import.meta.env.VITE_BASE_URL + '/'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const ruleFormRef = ref<FormInstance>()
+
+
+// 编辑回显数据
+const params = ref<any>([])
+
 const data = reactive({
     tableData: [] as any,
     tableItem: [
@@ -159,26 +165,41 @@ const data = reactive({
 
 // 保存
 // emits('isshou', 1)
-const submitForm = async (formEl: any | undefined, index: number) => {
-    if (!formEl) return
-    await formEl.validate(async (valid: any, fields: any) => {
-        if (valid) {
-            let res: any;
-            if (index == 1) {
-                ruleForm.state = 0 //表示保存暂不提交
-                res = await orderAdd(ruleForm).catch(() => { })
-            } else {
-                ruleForm.state = 1 //表示保存并提交
-                res = await orderAdd(ruleForm).catch(() => { })
-            }
-            if (res?.code == 10000) {
-                router.push('/market/hospitalized')
-                ElMessage.success(index == 1 ? '保存暂不提交成功' : '保存并提交成功')
-            }
+const submitForm = async (index: number) => {
+
+    let res: any;
+    if (params.value.id) {
+        if (index == 1) {
+            //修改老人
+            ruleForm.state = 0 //表示保存暂不提交
+            res = await orderupdate(ruleForm)
         } else {
-            console.log('error submit!', fields)
+            //修改老人
+            ruleForm.state = 1 //表示保存并提交
+            console.log(ruleForm);
+            res = await orderupdate(ruleForm)
         }
-    })
+        if (res?.code == 10000) {
+            router.push('/market/hospitalized')
+            ElMessage.success(index == 1 ? '编辑暂不提交成功' : '编辑并提交成功')
+        }
+
+    } else {
+        if (index == 1) {
+            ruleForm.state = 0 //表示保存暂不提交
+            res = await orderAdd(ruleForm).catch(() => { })
+        } else {
+            ruleForm.state = 1 //表示保存并提交
+            res = await orderAdd(ruleForm).catch(() => { })
+        }
+        if (res?.code == 10000) {
+            router.push('/market/hospitalized')
+            ElMessage.success(index == 1 ? '保存暂不提交成功' : '保存并提交成功')
+        }
+    }
+
+
+
 }
 // 返回
 const sond = () => {
@@ -287,10 +308,23 @@ const handlUpload = (val: any) => {
     img.value.push(val)
     ruleForm.files = img.value.map((item: any) => ({ file: item }))
 }
+//获取单挑入院列表
+const getOrderlist = async () => {
+    let ids = Number(route.query.ids)
+    let res: any = await orderGet(ids)
+    if (res?.code == 10000) {
+        params.value = res.data
+        img.value = res.data.files.map((item: any) => (item.file))
+    }
+}
+
+
+
 onMounted(() => {
     getElderlyList()// 获取老人信息
     getPrioce()//合计 订单费用入院费用
     getPrioces()//入院费用核定 费用核定
+    getOrderlist()//获取单挑入院列表
 })
 
 </script>
@@ -360,7 +394,7 @@ onMounted(() => {
 
 :deep(.el-upload) {
     position: absolute;
-    top:0
+    top: 0
 }
 
 .button-sizess {
@@ -368,9 +402,11 @@ onMounted(() => {
     top: 0;
     left: 100px
 }
-.demo-image__preview{
+
+.demo-image__preview {
     margin-top: 80px;
-    .avatar{
+
+    .avatar {
         width: 80px;
         height: 80px;
     }

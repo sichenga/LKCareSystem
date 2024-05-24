@@ -60,3 +60,15 @@ export const orderDelete = (id: number) => {
 export const orderAdd = (data: orderAdds) => {
   return post('/api/order/add',data)
 }
+
+//根据id获取老人单挑数据
+export const orderGet = (id: number) => {
+  return get('/api/order/get/'+id)
+}
+
+//修改入院老人
+
+export const orderupdate= (data:any) => {
+  return put('/api/order/update',data)
+}
+

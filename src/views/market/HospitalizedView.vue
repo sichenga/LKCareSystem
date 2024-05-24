@@ -10,18 +10,17 @@
          </el-form-item>
          <el-form-item label="床位">
             <el-select v-model="states.begId" placeholder="请选择" clearable>
-               <el-option label="Zone one" value="shanghai" />
-               <el-option label="Zone two" value="beijing" />
+               <el-option v-for="item in DataBedList" :key="item" :label="item.name" :value="item.id" />
             </el-select>
          </el-form-item>
          <el-form-item label="状态">
             <el-select v-model="states.state" placeholder="请选择" clearable>
-               <el-option label="Zone one" value="shanghai" />
-               <el-option label="Zone two" value="beijing" />
+               <el-option label="已入院" value="1" />
+               <el-option label="未入院" value="0" />
             </el-select>
          </el-form-item>
          <el-form-item>
-            <el-button type="primary">查询</el-button>
+            <el-button type="primary" @click="sonds">查询</el-button>
             <el-button>重置</el-button>
          </el-form-item>
       </el-form>
@@ -31,30 +30,31 @@
       <ToHospitalDialog v-if="isdialog" @close="close"></ToHospitalDialog>
       <MayTable :tableData="data.tableData" :tableItem="data.tableItem" :identifier="identifier">
          <template #operate="{data}">
-            <el-button type="primary" text>编辑</el-button>
+            <el-button type="primary" text @click="compile(data.id)">编辑</el-button>
             <el-button type="primary" text @click="del(data.id)">删除</el-button>
-            <el-button type="primary" text>详情</el-button>
+            <el-button type="primary" text @click="details(data.id)">详情</el-button>
             <el-button type="primary" v-if="data.state==0" text>提交入院</el-button>
     
             <el-button type="primary" v-else @click="cancel" text>取消入院</el-button>
          </template>
       </MayTable>
-      <Pagination @page="handPage" @psize="handPsize" :total="counts"></Pagination>
+      <Pagination @page="handPage" @psize="handPsize" :page="states.page" :psize="states.pageSize" :total="counts"></Pagination>
    </el-card>
 </template>
 
 <script lang='ts' setup>
 import { reactive, toRefs, ref, onMounted, defineAsyncComponent } from 'vue'
 import { ElMessage } from 'element-plus'
-import { orderList,orderDelete} from '@/service/market/marketApi'
+import { orderList,orderDelete,orderGet} from '@/service/market/marketApi'
+import {getBedsList} from "@/service/config/ConfigApi"
 import type { order } from '@/service/market/marketType'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
 const ToHospitalDialog = defineAsyncComponent(() => import('@/components/dialog/market/ToHospitalDialog.vue'))
 import { getMessageBox } from '@/utils/utils'
-
+import {useRouter} from 'vue-router'
 const identifier='Hospitalized'
-
+const router=useRouter()
 const isdialog = ref(false)
 const data = reactive({
    tableData: [] as any,
@@ -120,6 +120,11 @@ const getlist = async () => {
    }
 
 } 
+// 查询
+const sonds=()=>{
+   states.page=1
+   getlist()
+}
 // 关闭弹窗
 const close = () => {
    isdialog.value = false
@@ -145,6 +150,41 @@ const del = async (id:number) => {
       ElMessage.info('取消删除')
    }
 }
+//编辑入院老人
+const compile=async (id:number)=>{
+ 
+   let res:any=await orderGet(id)
+
+   if(res?.code==10000){
+      router.push({
+         path:"/market/hospitalized/order",
+         query:{
+            id:res.data.elderlyId,
+            ids:id
+         }
+      })
+   }
+ }
+ //床位列表
+ const paramse=reactive({
+   page:1,
+   pageSize:1000,
+   houseId:null
+ })
+ const DataBedList=ref<any>([])
+ const getBedList=async()=>{
+   let res:any=await getBedsList(paramse)
+   console.log(res);
+   if(res?.code==10000){
+      DataBedList.value=res.data.list
+   }
+ } 
+//  入院详情
+const details=(id:number)=>{
+   router.push({
+      path:"/market/hospitalized/details/"+id,
+   })
+}
 // 分页
 const handPage=(val:any)=>{
    states.page=val
@@ -155,7 +195,8 @@ const handPsize=(val:any)=>{
    getlist()
 }
 onMounted(() => {
-   getlist()
+   getlist()//入院列表
+   getBedList()//床位列表
 })
 </script>
 

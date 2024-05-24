@@ -4,10 +4,16 @@
     value-format="YYYY-MM-DD HH:mm" @change="handleChange" />
 </template>
 <script lang="ts" setup>
-import { ref, reactive, onMounted, defineEmits } from 'vue'
+import { ref, reactive, onMounted, defineEmits,defineProps,watch } from 'vue'
+const params = defineProps(['times'])
 const emits = defineEmits(['change'])
-const time = ref('')
-
+const time = ref<any>([])
+console.log(params.times);
+watch(params.times,(val)=>{
+  console.log('回显日期',val);
+  
+  time.value=val
+},{deep:true,immediate:true})
 // 选择日期时间
 const handleChange = (value: string) => {
   console.log(value)

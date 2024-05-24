@@ -33,7 +33,6 @@
             </div>
         </div>
         <div class="content-sizes">
-            {{ruleForm}}
             <el-form ref="ruleFormRef" style="max-width: 400px" :model="ruleForm" :rules="rules" label-width="auto"
                 class="demo-ruleForm" size status-icon>
                 <div class="font-sizes">
@@ -58,7 +57,7 @@
                         :max="10000000000" placeholder="请输入" />
                     </el-form-item>
                     <el-form-item label="入住日期:" prop="startDate">
-                        <MayTimePicker @change="handlChange"></MayTimePicker>
+                        <MayTimePicker @change="handlChange" :remtime="params.startDate" :valueFormat="'YYYY-MM-DD'"></MayTimePicker>
                     </el-form-item>
 
                 </div>
@@ -131,6 +130,7 @@ import type { FormInstance, FormRules } from 'element-plus'
 import { getElderly } from '@/service/old/OldApi'
 import { getBedsList } from '@/service/config/ConfigApi'
 import type { BedsList } from '@/service/config/ConfigType'
+import { orderGet} from '@/service/market/marketApi'
 import  type{orderAdds} from '@/service/market/marketType'
 import hospitalizedDialog from '@/components/dialog/hospitalized/hospitalizedDialog.vue'
 import { useRouter, useRoute } from 'vue-router'
@@ -142,6 +142,10 @@ const emits = defineEmits(['isshou'])
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const MayTimePicker = defineAsyncComponent(() => import('@/components/timepicker/MayTimePicker.vue'))
 const ruleFormRef = ref<FormInstance>()
+
+// 编辑回显数据
+const params = ref<any>([])
+
 const data = reactive({
     tableData: [] as any,
     tableItem: [
@@ -208,13 +212,10 @@ const rules = reactive<FormRules<orderAdds>>({
 // 下一部
 const submitForm = async (formEl: any | undefined) => {
     if (!formEl) return
-    await formEl.validate((valid: any, fields: any) => {
+    await formEl.validate((valid: any) => {
         if (valid) {
-            console.log('submit!')
             emits('isshou', 1)
-        } else {
-            console.log('error submit!', fields)
-        }
+        } 
     })
 }
 // 返回
@@ -223,9 +224,7 @@ const sond = () => {
 }
 // 入住时间
 const handlChange=(val:any)=>{
-        ruleForm.startDate=val
-      
-        
+    ruleForm.startDate=val
 }
 // 获取老人单挑信息
 const DataElder = ref<any>([])
@@ -247,7 +246,6 @@ const handlClose = (val:any)=>{
 }
 //选择的服务数据
 const serveList = (val:any)=>{
- 
     data.tableDatas=val
     ruleForm.services=val.map((item:any)=>({serviceId:item.id}))
 }
@@ -263,7 +261,6 @@ const stats = reactive<BedsList>({
 const DataBedsList = ref<any>([])
 const getElderlyLists = async () => {
     let res: any = await getBedsList(stats).catch(() => { })
-    console.log(res);
     if (res?.code == 10000) {
         DataBedsList.value = res.data.list.map((item: any) => ({
             id: item.id,
@@ -273,10 +270,24 @@ const getElderlyLists = async () => {
 
     }
 }
-
+//获取单挑入院列表
+const getOrderlist=async()=>{
+    let ids=Number(route.query.ids)
+    let res:any=await orderGet(ids)
+    if(res?.code==10000){
+        params.value=res.data
+        data.tableDatas=res.data.services.map((item:any)=>({
+            name:item.serviceName,
+            content:item.serviceContent,
+            elderlyName:item.elderlyName
+        }))
+        Object.assign(ruleForm,res.data)
+    }
+}
 onMounted(() => {
     getElderlyL()// 获取老人单挑信息
     getElderlyLists()//床位列表
+    getOrderlist()//获取单挑入院列表
 })
 
 </script>

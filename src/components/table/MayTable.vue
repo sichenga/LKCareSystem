@@ -60,6 +60,25 @@
       >
         <span>{{ row.price}}</span>
       </template>
+         <!-- 入院状态 -->
+         <template
+        v-else-if="item.prop === 'state' && props.identifier=='Hospitalized'"
+        v-slot="{ row }"
+
+      >
+        <span>{{ row.state?'已入院':'未入院'}}</span>
+      </template>
+
+        <!-- 外出状态 -->
+        <template
+        v-else-if="item.prop === 'state' && props.identifier=='GoOut'"
+        v-slot="{ row }"
+
+      >
+        <span v-if="row.state==0">待审批</span>
+        <span v-if="row.state==1">审批通过</span>
+        <span v-else-if="row.state==2">审批拒绝</span>
+      </template>
       <!-- 日期格式 -->
       <template
         v-else-if="item.prop === 'updateTime' || item.prop === 'visitTime'||item.prop === 'addTime'"

@@ -48,7 +48,7 @@
       </template>
     </MayTable>
     <!-- 分页 -->
-    <Pagination @page="Holdepage" @psize="Holdepsize"  :total="total"></Pagination>
+    <Pagination @page="Holdepage" @psize="Holdepsize" :page="states.page" :psize="states.pageSize" :total="total"></Pagination>
   </el-card>
 </template>
 

@@ -29,7 +29,7 @@ const isshou = ref(0)
 const holseIsshou=(val:any)=>{
    isshou.value=val
 }
-const ruleForm = reactive<orderAdds>({
+let ruleForm = reactive<orderAdds>({
     elderlyId: Number(route.query.id), //老人Id
     begId: null, //床位ID
     begPrice: null, //床位单价

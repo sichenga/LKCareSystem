@@ -8,45 +8,30 @@
     <el-form :model="form" label-position="left" label-width="130px" style="max-width: 100%; margin-top: 30px">
       <el-form-item label="*老人信息" style="align-items: flex-start">
         <div class="oldinfo">
-          <el-form :inline="true" label-position="left" label-width="auto" class="demo-form-inline" style="width: 60%">
+          <el-form :inline="true" label-position="left" label-width="auto" class="demo-form-inline" style="width: 67%">
             <el-form-item label="头像：">
-              <el-avatar :size="20" :src="circleUrl" />
+              <el-avatar :size="20" :src="upload+circleUrl" />
             </el-form-item>
-            <el-form-item label="身份证号："> 293923019912 </el-form-item>
-            <el-form-item label="房间号："> 1楼501室 </el-form-item>
-            <el-form-item label="姓名：" class="gray"> 张武 </el-form-item>
-            <el-form-item label="联系电话："> 1882783923 </el-form-item>
-            <el-form-item label="床位号："> 501-1 </el-form-item>
-            <el-form-item label="性别：" class="gray"> 男 </el-form-item>
-            <el-form-item label="家庭地址："> 上海市普陀区1000号 </el-form-item>
+            <el-form-item label="身份证号："> {{oldData.idCard}} </el-form-item>
+            <el-form-item label="房间号："> {{states.houseName}} </el-form-item>
+            <el-form-item label="姓名：" class="gray"> {{oldData.name}} </el-form-item>
+            <el-form-item label="联系电话："> {{oldData.mobile}} </el-form-item>
+            <el-form-item label="床位号："> {{states.begName}} </el-form-item>
+            <el-form-item label="性别：" class="gray"> {{oldData.gender?'男':'女'}} </el-form-item>
+
+
+            <el-form-item label="家庭地址："> {{states.buildingName}} </el-form-item>
           </el-form>
         </div>
-      </el-form-item>
-      <el-form-item label="*更换床位为"> 605-02 </el-form-item>
-      <el-form-item label="*更换原因">
-        605-02室友睡觉打呼噜，严重影响睡眠质量，需要更换房间！
-      </el-form-item>
+      </el-form-item >
+      <el-form-item style="margin-top: 80px;" label="陪同人类型："> {{states.relation}} </el-form-item>
+      <el-form-item label="陪同人姓名：">{{states.name}}</el-form-item>
+      <el-form-item label="陪同人电话："> {{states.mobile}} </el-form-item>
+      <el-form-item label="陪同人地址：">{{states.address}}</el-form-item>
+      <el-form-item label="外出时间："> {{states.startTime}} </el-form-item>
+      <el-form-item label="计划返回时间：">{{states.endTime}}</el-form-item>
+      <el-form-item label="外出原因："> {{states.content}} </el-form-item>
     </el-form>
-    <div class="title top">
-      <span><span style="color: #00b1ff">▋</span>审批流</span>
-    </div>
-    <el-steps class="mb-4 steps" style="margin-top: 30px" :space="200" simple>
-      <el-step title="张晓雅">
-        <template #icon>
-          <el-avatar :size="30" :src="circleUrl" />
-        </template>
-      </el-step>
-      <el-step title="李梅">
-        <template #icon>
-          <el-avatar :size="30" :src="circleUrl" />
-        </template>
-      </el-step>
-      <el-step title="汪峰" :icon="Picture">
-        <template #icon>
-          <el-avatar :size="30" :src="circleUrl" />
-        </template>
-      </el-step>
-    </el-steps>
     <div class="title top">
       <span><span style="color: #00b1ff">▋</span>日志</span>
     </div>
@@ -54,33 +39,62 @@
     <el-steps direction="vertical" class="stp">
       <el-step>
         <template #icon>
-          <el-avatar :size="24" :src="circleUrl" />
+          <el-avatar :size="24" :src="upload+circleUrl" />
         </template>
         <template #description>
-          <div>20200303</div>
-          <div>张三 提交了床位更换申请</div>
+          <div>{{states.startTime}}</div>
+          <div style="margin-top: 12px;">{{states.elderlyName}} 登记了外出</div>
+          <div style="margin-top: 12px;font-size: 18px;">老人的状况不错，可以外出！</div>
+          <div style="margin-top: 12px">
+            <el-image style="width: 80px; height: 80px;margin:20px 20px 0 0;"
+              :src="upload+states.elderlyPhoto" fit="cover" />
+          </div>
         </template>
       </el-step>
-      <el-step title="Step 2" />
-      <el-step title="Step 3" />
+      <el-step class="s" />
+      <div class='box'>
+
+      </div>
     </el-steps>
-    <el-button style="margin: 0 auto; display: block">返回</el-button>
+    <el-button style="margin: 0 auto; display: block" @click="router.push('/care/goout')">返回</el-button>
   </el-card>
 </template>
 <script lang="ts" setup>
 import { ref, reactive, onMounted } from 'vue'
-import { Edit, Picture, UploadFilled } from '@element-plus/icons-vue'
-const form = reactive({
-  name: '',
-  region: '',
-  date1: '',
-  date2: '',
-  delivery: false,
-  type: [],
-  resource: '',
-  desc: ''
+import { goOutList } from '@/service/care/gooutApi'
+import {getElderly} from '@/service/old/OldApi'
+import {useRoute,useRouter} from 'vue-router'
+const upload = import.meta.env.VITE_BASE_URL + '/'
+const route = useRoute()
+const router = useRouter()
+const form = reactive({})
+const circleUrl = ref('')
+
+const states = ref<any>([])
+//获取单挑外出记录
+const DataOutList=async()=>{
+  let id = Number(route.query.id)
+  let res:any =await goOutList(id)
+  console.log(res);
+  if(res?.code==10000){
+    states.value=res.data
+    circleUrl.value=res.data.elderlyPhoto
+  }
+}
+//获取老人
+const oldData=ref<any>([])
+const oldList = async()=>{
+
+  let res:any =await getElderly(states.value.elderlyId)
+  console.log('老人',res);
+  if(res?.code==10000){
+    oldData.value=res.data
+  }
+}
+onMounted(async ()=>{
+  await DataOutList()//获取单挑外出记录
+  await oldList() //老人信息
 })
-const circleUrl = ref('https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png')
 </script>
 <style lang="less" scoped>
 .title {
@@ -145,5 +159,13 @@ const circleUrl = ref('https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726
   :deep(.el-step__title) {
     padding: 0;
   }
+}
+
+.s {
+  display: none;
+}
+
+.box {
+  height: 180px;
 }
 </style>
