@@ -6,7 +6,6 @@ import { TreeData } from '@/utils/utils'
 import { getListForUser } from '@/service/account/AccountApi'
 import type { Model } from '@/Type/pinia/user'
 import type { Login as LoginType } from '@/service/admin/AdminType'
-import router from '@/router'
 import { getMessageBox } from '@/utils/utils'
 import { useRouter } from 'vue-router'
 export const useUserStore = defineStore(
@@ -42,14 +41,14 @@ export const useUserStore = defineStore(
     const Login = async (data: LoginType) => {
       const res: any = await login(data).catch(() => {})
       console.log('登录', res)
-      if (res.code === 10000) {
+      if (res?.code === 10000) {
         token.value = res.data.token
         model.value = res.data.model
         ElMessage.success('登录成功')
         await getUserAuth()
         router.push('/')
       } else {
-        ElMessage.error(res.msg)
+        ElMessage.error(res?.msg)
       }
     }
     // 获取用户权限

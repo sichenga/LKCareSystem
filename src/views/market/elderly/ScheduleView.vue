@@ -1,6 +1,6 @@
 <template>
   <!-- dialog写在market文件夹下 -->
-
+  {{ form.type }}
   <el-card>
     <div>计划任务</div>
     <el-radio-group v-model="form.type">
@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, toRefs, ref, onMounted } from 'vue'
+import { reactive, toRefs, ref, onMounted, provide } from 'vue'
 import { useRoute } from 'vue-router'
 import { elderlyTaskgetTask } from '@/service/old/elderlytask/ElderlyTaskApi'
 import MayTable from '@/components/table/MayTable.vue'
@@ -38,13 +38,8 @@ const date: any = reactive({
 })
 
 const form: any = reactive({
-  elderlyId: 0,
-  serviceId: 0,
-  startTime: '',
-  endTime: '',
-  week: '',
-  day: '',
-  type: '日循环'
+  type: '日循环',
+  typedata: ''
 })
 const data = reactive({
   tableData: [] as any,
@@ -102,6 +97,7 @@ const getlist = async (typedata: any = '') => {
             item1.type == form.type && item1.startTime.split(':')[0] == disposetime(String(index))
         )
       }
+      obj.min = disposetime(String(index))
       arr.push(obj)
     })
     data.tableData = arr
@@ -111,19 +107,22 @@ const getlist = async (typedata: any = '') => {
 // 选择类型
 const selectdata = (val: string) => {
   console.log(val)
-  let str = ''
+  // let str = ''
   let obj = { label: '', prop: 'time', width: '100px' }
-  if (val == '日循环' ) {
+  if (val == '日循环') {
     data.tableItem = [obj, { label: '', prop: 'task' }]
-    str = ''
+    form.typedata = ''
   } else if (val == '周循环') {
     data.tableItem = [obj, ...date.week.map((item: any) => ({ label: item, prop: item }))]
-    str = 'week'
+    form.typedata = 'week'
   } else {
-    data.tableItem = [obj, ...date.month.map((item: any) => ({ label: item, prop: item }))]
-    str = 'month'
+    data.tableItem = [
+      obj,
+      ...date.month.map((item: any) => ({ label: item, prop: item, width: '180px' }))
+    ]
+    form.typedata = 'month'
   }
-  getlist(str)
+  getlist(form.typedata)
 }
 
 // 处理时间
@@ -137,6 +136,30 @@ const Api = () => {
 onMounted(() => {
   Api()
 })
+// 传递方法
+provide('getsch', getlist)
+provide('schtype', form)
 </script>
 
-<style scoped></style>
+<style lang="less" scoped>
+:deep(.el-table) {
+  --el-fill-color-light: none;
+}
+
+// 设置position 使得 子元素不与其产生新的层叠关系
+:deep(.el-table) {
+  th.el-table__cell,
+  td.el-table__cell {
+    position: static;
+    padding: 0;
+  }
+}
+:deep(.el-table) {
+  .cell {
+    position: relative;
+    height: 60px;
+    width: 100%;
+    overflow: visible;
+  }
+}
+</style>

@@ -17,6 +17,7 @@
     "default-passive-events": "^2.0.0",
     "echarts": "^5.5.0",
     "element-plus": "2.6",
+    "fastool": "^0.1.8",
     "file-saver": "^2.0.5",
     "less": "^4.2.0",
     "moment": "^2.30.1",

@@ -10,7 +10,6 @@ import type {
   NursingServiceAdd,
   BedsList,
   BedsAdd
-
 } from './ConfigType'
 
 // 房间类型列表
@@ -46,7 +45,7 @@ export const Buildingupdate = (data: RuleForm) => put('/api/building/update', da
 export const delBuilding = (id: number) => del('/api/building/delete/' + id)
 
 //护理服务列表 /api/nursingService/list
-export const ConfigNursingServiceList = (params: NursingServiceList) =>
+export const ConfigNursingServiceList = (params?: NursingServiceList) =>
   get('/api/nursingService/list', params)
 
 //删除护理服务  /api/nursingService/delete/5
@@ -75,8 +74,8 @@ export const HouseTypeList = (data: getHouseType) => get('/api/housetype/list', 
 export const buildingList = () => get('/api/building/list')
 
 //房间修改
-export const houseupdate = (data: houseaddType) => put('/api/house/update',data)
-      
+export const houseupdate = (data: houseaddType) => put('/api/house/update', data)
+
 // 床位列表 /api/beds/list
 export const getBedsList = (params?: BedsList) => get('/api/beds/list', params)
 
@@ -88,4 +87,3 @@ export const addBeds = (data: BedsAdd) => post('/api/beds/add', data)
 
 // 床位修改 /api/beds/update
 export const updateBeds = (data: BedsAdd) => put('/api/beds/update', data)
-

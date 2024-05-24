@@ -76,6 +76,7 @@ import { ref,onMounted,reactive,defineAsyncComponent   } from 'vue'
 import IndustryView from '@/database/IndustryView.json'
 import IndustryDialog from '@/components/dialog/config/IndustryDialog.vue';
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
+const ProjectDialog =defineAsyncComponent(() => import('@/components/dialog/ProjectDialog.vue'))
 import { useRouter } from 'vue-router'
 const router = useRouter()
 // do not use same name with ref

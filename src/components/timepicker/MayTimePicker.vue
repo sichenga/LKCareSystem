@@ -2,8 +2,16 @@
   <!-- <div>
     {{ time }}
   </div> -->
-  <el-date-picker v-model="times" type="datetime" placeholder="请选择" :format="props.format" :value-format="valueFormat"
-    editable :size="props.size" @change="handleChange" />
+  <el-date-picker
+    v-model="times"
+    type="datetime"
+    placeholder="请选择"
+    :format="props.format"
+    :value-format="valueFormat"
+    editable
+    :size="props.size"
+    @change="handleChange"
+  />
 </template>
 <script lang="ts" setup>
 import { ref, reactive, onMounted, defineProps, defineEmits, watch } from 'vue'
@@ -23,7 +31,7 @@ const props = defineProps({
   valueFormat: {
     type: String,
     default: 'YYYY-MM-DD HH:mm'
-  },
+  }
 })
 
 //时间回显

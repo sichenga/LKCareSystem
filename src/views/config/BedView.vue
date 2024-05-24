@@ -81,7 +81,7 @@ const data = reactive({
       label: '创建日期'
     },
     {
-      prop: 'condition',
+      prop: 'state',
       label: '状态'
     }
   ]
@@ -231,5 +231,8 @@ onMounted(async () => {
 }
 .el-card {
   height: 100%;
+}
+.el-button {
+  margin-bottom: 0;
 }
 </style>
