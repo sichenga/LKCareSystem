@@ -10,7 +10,7 @@ body,
   /* box-sizing: border-box; */
   .el-overlay {
     /* position: absolute; */
-    z-index: 9999 !important;
+    /* z-index: 9999 !important; */
   }
 }
 

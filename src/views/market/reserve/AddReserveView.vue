@@ -115,6 +115,9 @@ const picturerem = (val: any) => {
         if (item.file == val) {
             params.files.splice(index, 1);
             return true;
+        }else if(item.file == val.url){
+            params.files.splice(index, 1);
+            return true;
         }
         return false;
     });
