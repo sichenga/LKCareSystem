@@ -81,7 +81,7 @@ const data = reactive({
       label: '创建日期'
     },
     {
-      prop: 'condition',
+      prop: 'state',
       label: '状态'
     }
   ]
@@ -126,7 +126,7 @@ const gethouse = async () => {
   let house = await getbuildingList()
   let beds = await gethouselist()
   console.log(house.concat(beds))
-  let tree: any = TreeData(house.concat(beds))
+  let tree: any = TreeData([...house, ...beds])
   console.log(1111, tree)
   treedata.value = tree
 }
@@ -231,5 +231,8 @@ onMounted(async () => {
 }
 .el-card {
   height: 100%;
+}
+.el-button {
+  margin-bottom: 0;
 }
 </style>

@@ -88,11 +88,13 @@ const close = (close: boolean = false) => {
 }
 // 生成二维码
 const createQRCode = () => {
-  qrcode.toDataURL(form.name, function (err, url) {
-    if (err) throw err
-    console.log(url)
-    codedata.value = url
-  })
+  if (form.name) {
+    qrcode.toDataURL(form.name, function (err, url) {
+      if (err) throw err
+      // console.log(url)
+      codedata.value = url
+    })
+  }
 }
 </script>
 <style lang="less" scoped></style>

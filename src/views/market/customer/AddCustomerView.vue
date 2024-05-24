@@ -35,7 +35,7 @@
                     <el-button type="primary" text @click="del(data.id)">删除</el-button>
                 </template>
             </MayTable>
-            <Pagination :total="data.token" ></Pagination>
+            <Pagination :total="data.token"></Pagination>
             <div class="family">
                 <span>▋</span>需求总结
             </div>

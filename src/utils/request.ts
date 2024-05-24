@@ -1,6 +1,9 @@
 import axios from 'axios'
 import type { AxiosRequestConfig, AxiosResponse } from 'axios'
+// 引入pinia userStore模块
 import { useUserStore } from '@/stores'
+// 引入element-plus
+import { ElMessage } from 'element-plus'
 interface McAxiosRequestConfig extends AxiosRequestConfig {
   extraConfig?: {
     tokenRetryCount: number // 标记当前请求的csrf token重试次数
@@ -42,7 +45,7 @@ instance.interceptors.response.use(
 
     if (err.message === 'Network Error') {
       console.log('Network Error')
-
+      ElMessage.error('网络异常')
       return
     }
     if (err.message.includes('timeout')) {

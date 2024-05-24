@@ -4,95 +4,102 @@
         <div class="title">
             <div><i>▋</i> 预定信息</div>
         </div>
-        <el-form :inline="true" label-position="top" ref="ruleFormRef" :model="ruleForm" :rules="rules"
-            label-width="auto" class="demo-ruleForm" :size="formSize" status-icon>
+        <el-form :inline="true" label-position="top" ref="ruleFormRef" :model="params" :rules="rules" label-width="auto"
+            class="demo-ruleForm" :size="formSize" status-icon>
             <el-form-item label="预定人姓名：" prop="name">
-                <el-input v-model="ruleForm.name" />
+                <el-input v-model="params.name" placeholder="请输入姓名" />
             </el-form-item>
-            <el-form-item label="预定人电话:" prop="name">
-                <el-input v-model="ruleForm.name" />
+            <el-form-item label="预定人电话:" prop="mobile">
+                <el-input v-model="params.mobile" placeholder="请输入预定人电话" />
             </el-form-item>
-            <el-form-item label="与老人关系:" prop="region">
-                <el-select v-model="ruleForm.region" placeholder="请选择">
-                    <el-option label="Zone one" value="shanghai" />
-                    <el-option label="Zone two" value="beijing" />
+            <el-form-item label="与老人关系:" prop="relation">
+                <el-select v-model="params.relation" placeholder="请选择">
+                    <el-option label="父子关系" value="父子关系" />
+                    <el-option label="父女关系" value="父女关系" />
+                    <el-option label="母子关系" value="母子关系" />
+                    <el-option label="母女关系" value="母女关系" />
+                    <el-option label="其他" value="其他" />
                 </el-select>
             </el-form-item>
-            <el-form-item label="预定床位:" prop="region">
-                <el-select v-model="ruleForm.region" placeholder="请选择">
-                    <el-option label="Zone one" value="shanghai" />
-                    <el-option label="Zone two" value="beijing" />
-                </el-select>
+            <el-form-item label="预定床位:" prop="begId">
+                <el-cascader style="width: 499px;" :options="options" :props="props" @change="handleChange" />
             </el-form-item>
-            <el-form-item label="开始日期:" prop="region">
-                <el-select v-model="ruleForm.region" placeholder="请选择">
-                    <el-option label="Zone one" value="shanghai" />
-                    <el-option label="Zone two" value="beijing" />
-                </el-select>
+            <el-form-item label="开始日期:" prop="startDate">
+                <MaystartDatePicker v-model="params.startDate" style="width: 479px;"></MaystartDatePicker>
             </el-form-item>
-            <el-form-item label="预定时长（天）:" prop="name">
-                <el-input v-model="ruleForm.name" />
+            <el-form-item label="预定时长（天）:" prop="day">
+                <el-input v-model="params.day" placeholder="请输入预定时长" />
             </el-form-item>
-            <el-form-item label="定金应收:" prop="name">
-                <el-input v-model="ruleForm.name" />
+            <el-form-item label="定金应收:" prop="amount">
+                <el-input v-model="params.amount" placeholder="请输入定金应收" />
             </el-form-item>
         </el-form>
         <div class="title" style="margin-top: 20px;">
             <div><i>▋</i> 预定协议</div>
         </div>
         <div class="box">
-            <UploadPictures :limit="3" :istip="false" :text="'上传协议'" class="uploadpic" @upload="pictureupload"
-                @uploadrem="picturerem" :showlist="getUploadPictures"></UploadPictures>
+            <UploadImg :title="'上传协议'" class="uploadpic" @upload="pictureupload" @uploadrem="picturerem"></UploadImg>
             <el-button class="download">下载预定协议</el-button>
         </div>
         <!-- 按钮 -->
         <div class="btn">
             <el-button type="primary">保存暂不提交</el-button>
-            <el-button type="primary">保存并提交</el-button>
+            <el-button type="primary" @click="submitForm(ruleFormRef)">保存并提交</el-button>
             <el-button @click="cancel">取消</el-button>
         </div>
     </el-card>
 </template>
 <script lang="ts" setup>
 import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
+import { ElMessage } from 'element-plus'
 import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
+import { ConfigBuildingList, getHouseList, getBedsList } from "@/service/config/ConfigApi"
+import { reservationAdd,reservationget } from "@/service/market/ReserveApi"
+import type { ReservationAddParams } from "@/service/market/Reservetype"
 import type { UploadUserFile } from 'element-plus'
 import { useRouter, useRoute } from 'vue-router'
+import MaystartDatePicker from '@/components/timepicker/MaystartDatePicker.vue'
 const router = useRouter()
+const route = useRoute()
 const getUploadPictures = ref<UploadUserFile[]>([])
-const UploadPictures = defineAsyncComponent(() => import('@/components/upload/UploadPictures.vue'))
-interface RuleForm {
-    name: string
-    region: string
-}
+const UploadImg = defineAsyncComponent(() => import('@/components/upload/UploadImg.vue'))
 const formSize = ref<ComponentSize>('default')
 const ruleFormRef = ref<FormInstance>()
-const ruleForm = reactive<RuleForm>({
-    name: 'Hello',
-    region: '',
+const params = reactive<ReservationAddParams>({
+    elderlyId: route.params.id,
+    name: '',
+    mobile: '',
+    relation: '',
+    begId: undefined,
+    startDate: '',
+    day: undefined,
+    amount: undefined,
+    files: []
 })
-const rules = reactive<FormRules<RuleForm>>({
+const rules = reactive<FormRules<ReservationAddParams>>({
     name: [
-        { required: true, message: 'Please input Activity name', trigger: 'blur' },
-        { min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur' },
+        { required: true, message: '请输入预定人姓名', trigger: 'blur' },
     ],
-    region: [
-        {
-            required: true,
-            message: 'Please select Activity zone',
-            trigger: 'change',
-        },
+    mobile: [{ required: true, message: '请输入预定人电话', trigger: 'change', },
+    ],
+    relation: [{ required: true, message: '请输入与老人关系', trigger: 'change', },
+    ],
+    begId: [{ required: true, message: '请输入预定床位', trigger: 'change', },
+    ],
+    startDate: [{ required: true, message: '请输入开始日期', trigger: 'change', },
+    ],
+    day: [{ required: true, message: '请输入预定时长', trigger: 'change', },
+    ],
+    amount: [{ required: true, message: '请输入定金应收', trigger: 'change', },
     ],
 })
 
-// 增加机构图片
+// 增加上传协议
 const pictureupload = (val: any) => {
-    console.log(val)
-    // params.picture = (params.picture ? params.picture + ',' : '') + val?.url
-    // console.log(params.picture)
+    params.files.push({ file: val });
 }
 
-// 移除机构图片
+// 移除上传协议
 const picturerem = (val: any) => {
     console.log(val)
     // console.log()
@@ -102,10 +109,124 @@ const picturerem = (val: any) => {
     //     .join(',')
     // console.log(1111, params.picture)
 }
+
+
+// 提交
+const submitForm = async (formEl: FormInstance | undefined) => {
+    if (!formEl) return
+    await formEl.validate(async (valid, fields) => {
+        if (valid) {
+            const res: any = await reservationAdd(params)
+            if (res.code === 10000) {
+                ElMessage.success('添加成功')
+                router.push('/market/reserve')
+            } else {
+                ElMessage.error(res.msg)
+            }
+            console.log(1111, params)
+        } else {
+            console.log('error submit!', fields)
+        }
+    })
+}
+
+const id = ref(0)
+
+// 数据回显
+const getData=async ()=>{
+        console.log(id.value);
+        
+    // const res = await reservationget(id)
+}
+
+
 // 取消
 const cancel = () => {
     router.push('/market/reserve')
 }
+
+// 级联选择器
+
+const props = {
+    children: 'children',
+    value: 'id',
+    label: 'name',
+}
+
+const handleChange = (value: any) => {
+    console.log(value);
+    if (value.length == 4) {
+        params.begId = value[value.length - 1];
+        console.log(params.begId);
+    } else {
+        params.begId = undefined;
+    }
+}
+
+const options = ref([])
+
+// 预定床位
+const reserve = async () => {
+    // 楼栋列表
+    let building = await buildingList()
+    // 房间列表
+    let house = await houseList()
+    // 床位列表
+    let bed = await bedList()
+
+    function convertToTree(flatData: any, pid: number = 0) {
+        const children = flatData.filter((node: any) => node.pid == pid);
+        if (!children.length) {
+            return house.filter((item: any) => item.buildingId == pid).map((item: any) => ({
+                id: item.id,
+                name: item.name,
+                pid: item.buildingId,
+                children: bed.filter((bitem: any) => bitem.houseId == item.id).map((sitem: any) => ({
+                    id: sitem.id, name: sitem.name
+                }))
+            }))
+        }
+        return children.map((node: any) => ({
+            ...node,
+            children: convertToTree(flatData, node.id)
+        }));
+    }
+    let tree = convertToTree(building, 0)
+    console.log('数据', tree);
+    options.value = tree
+}
+
+// 楼栋列表
+const buildingList = async () => {
+    const res: any = await ConfigBuildingList()
+    console.log('楼栋列表', res);
+    if (res.code == 10000) {
+        return res.data.list
+    }
+}
+// 房间列表
+const houseList = async () => {
+    const res: any = await getHouseList()
+    console.log('房间列表', res);
+    if (res.code === 10000) {
+        return res.data.list
+    }
+}
+// 床位列表
+const bedList = async () => {
+    const res: any = await getBedsList()
+    console.log('床位列表', res);
+    if (res.code === 10000) {
+        return res.data.list
+    }
+}
+
+
+onMounted(() => {
+    // 预定
+    reserve()
+    getData()
+})
 </script>
 <style lang="less" scoped>
 .title {

@@ -4,7 +4,7 @@
     class="upload-demo"
     :action="action"
     :headers="headers"
-    :limit="1"
+    :limit="3"
     :on-exceed="handleExceed"
     :on-success="handleAvatarSuccess"
     :show-file-list="props.showlist"

@@ -30,7 +30,7 @@ export interface AddElderlyRequest {
   id?: number | undefined
   name: string
   mobile: string
-  photo: null
+  photo: string
   gender: number
   birthday: string
   nativePlace: string
@@ -59,4 +59,11 @@ export interface ListElderlyRequest {
   idCard: number | undefined |string
   begId: number | undefined
   state: number | undefined
+}
+// 老人信息
+export interface ElderlyItem {
+  name: string
+  idCard: string
+  begName: string
+  photo: string
 }

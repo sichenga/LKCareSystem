@@ -8,10 +8,10 @@ body,
   margin: 0;
   padding: 0;
   /* box-sizing: border-box; */
-  .el-overlay {
-    /* position: absolute; */
-    z-index: 9999 !important;
-  }
+  /* .el-overlay { */
+  /* position: absolute; */
+  /* z-index: 9999 !important; */
+  /* } */
 }
 
 .el-form-item {

@@ -31,7 +31,7 @@ import { useApperStore, useUserStore } from '@/stores'
 const apperStore = useApperStore()
 const userStore = useUserStore()
 // 头像
-const circleUrl = ref('https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png')
+const circleUrl = ref('https://s21.ax1x.com/2024/05/08/pkVm8qH.jpg')
 // 左侧菜单状态切换
 const change = () => {
   apperStore.menuStatechange()
