@@ -104,6 +104,7 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     ServeDialog: typeof import('./src/components/dialog/config/ServeDialog.vue')['default']
     SupplierDialog: typeof import('./src/components/dialog/diet/SupplierDialog.vue')['default']
+    TemperatureDialog: typeof import('./src/components/dialog/medicalcare/TemperatureDialog.vue')['default']
     ToHospitalDialog: typeof import('./src/components/dialog/market/ToHospitalDialog.vue')['default']
     TopMenu: typeof import('./src/components/menu/TopMenu.vue')['default']
     UploadImg: typeof import('./src/components/upload/UploadImg.vue')['default']
