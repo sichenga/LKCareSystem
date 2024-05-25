@@ -35,8 +35,8 @@
 
 <script lang='ts' setup>
 import { reactive, toRefs, ref, onMounted, defineAsyncComponent } from 'vue'
-import { BloodSugarList } from "@/service/medicalcare/BloodSugarApi"
-import type { bloodSugarlistParams } from "@/service/medicalcare/BloodSugarType"
+import { BloodSugarList } from "@/service/medicalcare/MedicalcareApi"
+import type { bloodSugarlistParams } from "@/service/medicalcare/MedicalcareType"
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
 import BloodSugarDialog from '@/components/dialog/medicalcare/BloodSugarDialog.vue'
