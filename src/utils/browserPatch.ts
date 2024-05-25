@@ -1,4 +1,3 @@
-
 ;(function () {
   if (typeof EventTarget !== 'undefined') {
     const func = EventTarget.prototype.addEventListener

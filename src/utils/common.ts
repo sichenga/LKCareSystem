@@ -12,7 +12,7 @@ export const AddMenu = () => {
 
 // 文字处理
 export const firstUpperCase = (str: string) => {
-  let text = str  
+  let text = str
   if (text.includes('Beg-details')) {
     text = text.replace('Beg-details', 'Details')
   }
@@ -83,17 +83,17 @@ const getRouter = (data?: any, tree: any = [], url: string = '') => {
     if (item.url && item.children) {
       item.children.forEach((child: any) => {
         if (child.url) {
-          console.log(
-            child.name,
-            child.url,
-            `../views/${url ? url + '/' : ''}${item.url}/${firstUpperCase(child.pathName)}View.vue`
-          )
-          console.log(
-            child.name,
-            model[
-              `../views/${url ? url + '/' : ''}${item.url}/${firstUpperCase(child.pathName)}View.vue`
-            ]
-          )
+          // console.log(
+          //   child.name,
+          //   child.url,
+          //   `../views/${url ? url + '/' : ''}${item.url}/${firstUpperCase(child.pathName)}View.vue`
+          // )
+          // console.log(
+          //   child.name,
+          //   model[
+          //     `../views/${url ? url + '/' : ''}${item.url}/${firstUpperCase(child.pathName)}View.vue`
+          //   ]
+          // )
           const menu = {
             path: `${url ? url + '/' : ''}${item.url}/${child.url}`,
             name: child.pathName + child.id,
@@ -101,7 +101,7 @@ const getRouter = (data?: any, tree: any = [], url: string = '') => {
               model[
                 `../views/${url ? url + '/' : ''}${item.url.includes('branch') ? 'company' : item.url}/${firstUpperCase(child.pathName)}View.vue`
               ],
-            meat: {
+            meta: {
               title: child.name
             }
           }
