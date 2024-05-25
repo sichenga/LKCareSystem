@@ -24,6 +24,7 @@
 import { ref, reactive, onMounted, defineEmits } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import { getElderlyList } from "@/service/old/OldApi"
+import {TemperatureAdd} from '@/service/medicalcare/MedicalcareApi'
 const ruleFormRef = ref<FormInstance>()
 
 
@@ -63,7 +64,7 @@ const oldListDate=async()=>{
 }
 // 确定
 const confirm=()=>{
-  
+
 }
 onMounted(()=>{
   oldListDate()//老人列表

@@ -7,6 +7,6 @@ export const TemperatureList = (params?: MedicalcareParams) => {
 }
 
 // 添加体温记录
-export const TemperatureAdd = (params?: Temperature) => {
-  return post('/api/temperature/add', params || {})
+export const TemperatureAdd = (data?: Temperature) => {
+  return post('/api/temperature/add', data || {})
 }
