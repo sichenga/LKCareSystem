@@ -2,7 +2,7 @@
   <!-- 楼层管理 -->
   <el-card style="max-width: 100%">
     <el-button type="primary" @click="addBuild">新增楼层</el-button>
-    <FloorDialog @close="close" v-if="isdialog" :pid="pid" :id="id"></FloorDialog>
+    <FloorDialog @close="close" v-if="isdialog" :list="list"  :pid="pid" :id="id"></FloorDialog>
     <el-tree
       style="max-width: 600px"
       :data="dataSource"
@@ -74,15 +74,18 @@ const add = (data: any) => {
   if (data) {
     id.value = 0
     pid.value = data.id
+    list.value={}
   }
   isdialog.value = true
 }
 //修改楼栋
+const list: any = ref({})
 const id: any = ref({})
 const modification = (data: any) => {
   if (data) {
     id.value = data.id
     pid.value = data.pid
+    list.value=data
   }
   isdialog.value = true
 }
@@ -91,6 +94,7 @@ const addBuild = () => {
   isdialog.value = true
   id.value = 0
   pid.value = 0
+  list.value={}
 }
 onMounted(() => {
   buildingList()
@@ -99,18 +103,16 @@ onMounted(() => {
 
 <style lang="less" scoped>
 .custom-tree-node {
-  width: 400px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  span:last-child {
-    margin-left: 5px;
-  }
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+    padding-right: 8px;
 }
 
 :deep(.el-tree-node__content) {
-  margin-bottom: 5px;
-  height: 35px;
+    margin-bottom: 5px;
+    height: 35px;
 }
 </style>

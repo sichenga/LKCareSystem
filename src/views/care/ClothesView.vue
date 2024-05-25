@@ -33,6 +33,7 @@
       <template #operate="{ data }">
         <el-button type="primary" text @click="particulars(data.id)">详情</el-button>
         <el-button type="primary" text @click="edit(data.id)">编辑</el-button>
+        <el-button type="primary" text @click="handleDelete(data.id)">删除</el-button>
       </template>
     </MayTable>
     <Pagination :total="data.total" @page="page" @psize="psize" :page="formInline.page" :pszie="formInline.pageSize">
@@ -41,12 +42,14 @@
   <!-- 详情 -->
   <WashparticularsDialog v-if="isdialog" :id="details" @close="close"></WashparticularsDialog>
   <!-- 添加 -->
-  <ClothesDialog v-if="dialogVisible" :bar="bar" :id="editid" @close="close"></ClothesDialog>
+  <ClothesDialog v-if="dialogVisible" :id="editid" @close="close"></ClothesDialog>
 </template>
 <script lang="ts" setup>
 import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
-import { clothesList,clothesDelete } from '@/service/care/ClothesApi'
+import { clothesList, clothesDelete } from '@/service/care/ClothesApi'
 import type { ClothesListparams } from '@/service/care/ClothesType'
+import { getMessageBox } from '@/utils/utils'
+import { ElMessage } from 'element-plus'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
 const TimePicker = defineAsyncComponent(() => import('@/components/timepicker/MayTimePicker.vue'))
@@ -129,7 +132,6 @@ const editid = ref(0)
 const edit = (val: any) => {
   dialogVisible.value = true
   editid.value = val
-  bar.value = false
 }
 
 // 详情
@@ -141,10 +143,26 @@ const particulars = (id: number) => {
 
 // 添加
 const dialogVisible = ref(false)
-const bar = ref(false)
 const add = () => {
   dialogVisible.value = true
-  bar.value = true
+  editid.value = 0
+}
+
+// 删除
+const handleDelete = async (id: any) => {
+  console.log('删除', id)
+  let res = await getMessageBox('是否确认删除该供应商', '删除后将不可恢复')
+  if (res) {
+    const res: any = await clothesDelete(id).catch(() => { })
+    if (res.code == 10000) {
+      ElMessage.success('删除成功')
+      getlist()
+    } else {
+      ElMessage.error(res.msg)
+    }
+  } else {
+    ElMessage.info('取消删除')
+  }
 }
 
 

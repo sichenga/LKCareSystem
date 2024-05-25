@@ -76,6 +76,7 @@ const close = (isclose: boolean) => {
 // 新增
 const add = () => {
   isdialog.value = true
+  servicedata.value={}
 }
 
 // 编辑
