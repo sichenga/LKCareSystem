@@ -34,6 +34,8 @@ export const useUserStore = defineStore(
     const ingredient = ref([])
 
     const ingredients = (val: any) => {
+      console.log(val);
+      
       ingredient.value = val
     }
 

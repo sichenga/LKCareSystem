@@ -27,7 +27,7 @@
     </el-form>
   </el-card>
   <el-card style="margin-top: 15px">
-    <el-button type="primary" @click="add" style="margin-bottom: 20px;">添加</el-button>
+    <el-button type="primary" @click="add" style="margin-bottom: 20px;">添加洗衣错衣</el-button>
     <!-- 表格 -->
     <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
       <template #operate="{ data }">

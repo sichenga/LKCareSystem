@@ -2,15 +2,9 @@
   <!-- 楼层管理 -->
   <el-card style="max-width: 100%">
     <el-button type="primary" @click="addBuild">新增楼层</el-button>
-    <FloorDialog @close="close" v-if="isdialog" :list="list"  :pid="pid" :id="id"></FloorDialog>
-    <el-tree
-      style="max-width: 600px"
-      :data="dataSource"
-      show-checkbox
-      node-key="id"
-      :expand-on-click-node="false"
-      :props="{ label: 'name', children: 'children' }"
-    >
+    <FloorDialog @close="close" v-if="isdialog" :list="list" :pid="pid" :id="id"></FloorDialog>
+    <el-tree style="max-width: 600px" :data="dataSource" show-checkbox node-key="id" :expand-on-click-node="false"
+      :props="{ label: 'name', children: 'children' }">
       <template #default="{ node, data }">
         <span class="custom-tree-node">
           <span>{{ node.label }}</span>
@@ -37,7 +31,7 @@ import { convertToTree } from '@/utils/treeUtils'
 const dataSource = ref<any[]>([])
 // 楼层管理
 const buildingList = async () => {
-  let res: any = await ConfigBuildingList().catch(() => {})
+  let res: any = await ConfigBuildingList().catch(() => { })
   console.log('楼层管理', res)
 
   if (res.code === 10000) {
@@ -58,7 +52,7 @@ const close = (val: boolean) => {
 const del = async (id: any) => {
   let res = await getMessageBox('是否确认删除该楼层', '删除后将不可恢复')
   if (res) {
-    let list: any = await delBuilding(id).catch(() => {})
+    let list: any = await delBuilding(id).catch(() => { })
     if (list.code === 10000) {
       buildingList()
       ElMessage.success('删除成功')
@@ -74,7 +68,7 @@ const add = (data: any) => {
   if (data) {
     id.value = 0
     pid.value = data.id
-    list.value={}
+    list.value = {}
   }
   isdialog.value = true
 }
@@ -85,7 +79,7 @@ const modification = (data: any) => {
   if (data) {
     id.value = data.id
     pid.value = data.pid
-    list.value=data
+    list.value = data
   }
   isdialog.value = true
 }
@@ -94,7 +88,7 @@ const addBuild = () => {
   isdialog.value = true
   id.value = 0
   pid.value = 0
-  list.value={}
+  list.value = {}
 }
 onMounted(() => {
   buildingList()
@@ -103,16 +97,16 @@ onMounted(() => {
 
 <style lang="less" scoped>
 .custom-tree-node {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 14px;
-    padding-right: 8px;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  padding-right: 8px;
 }
 
 :deep(.el-tree-node__content) {
-    margin-bottom: 5px;
-    height: 35px;
+  margin-bottom: 5px;
+  height: 35px;
 }
 </style>

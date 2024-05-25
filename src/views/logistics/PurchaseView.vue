@@ -61,7 +61,7 @@ const states = ref({
   pageSize: 5,
   total: 0
 })
-// 列表
+// 采购申请列表
 const getlist = async () => {
   let res: any = await getPurchaseList(states.value)
   if (res.code == 10000) {
@@ -78,7 +78,7 @@ const pageSizeChenge = (val: any) => {
   states.value.pageSize = val
   getlist()
 }
-
+// 采购申请删除
 const del = async () => {
   let res = await getMessageBox('是否确认删除该采购申请', '删除后将不可恢复')
 
@@ -110,7 +110,7 @@ const getifno = (id: any) => {
   })
 }
 onMounted(() => {
-  getlist()
+  getlist()// 采购申请列表
 })
 </script>
 <style lang="less" scoped>
