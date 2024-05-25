@@ -1,21 +1,21 @@
 <template>
   <el-dialog v-model="dialogVisible" title="新增/编辑药品" width="500" @close="close">
-    <el-form ref="ruleFormRef" style="max-width: 368px" :model="ruleForm" :rules="rules" label-width="auto"
+    <el-form ref="ruleFormRef" style="max-width: 368px" :model="ruleForm"  label-width="auto"
       class="demo-ruleForm" size status-icon>
 
-      <el-form-item label="请选择测量体温的老人" prop="name" class="Special_line">
+      <el-form-item label="请选择测量体温的老人"  class="Special_line">
         <el-select v-model="ruleForm.name" placeholder="请选择" size="large">
           <el-option v-for="item in oldList" :key="item.id" :label="item.name" :value="item.id" />
         </el-select>
       </el-form-item>
-      <el-form-item label="老人体温" prop="name">
-        <el-input v-model="ruleForm.name" />
+      <el-form-item label="老人体温" >
+        <el-input v-model="ruleForm.val" />
       </el-form-item>
     </el-form>
     <template #footer>
       <div class="dialog-footer">
         <el-button @click="close">取消</el-button>
-        <el-button type="primary" @click="close(true)"> 确定 </el-button>
+        <el-button type="primary" @click="confirm"> 确定 </el-button>
       </div>
     </template>
   </el-dialog>
@@ -31,7 +31,7 @@ const ruleForm = reactive<any>({
   elderlyId: null,
   val: ''
 })
-const rules = reactive<FormRules<any>>({})
+
 const dialogVisible = ref(true)
 const emit = defineEmits(['close'])
 const close = (close: boolean = false) => {
@@ -60,6 +60,10 @@ const oldListDate=async()=>{
         name:item.name
     }))
   }
+}
+// 确定
+const confirm=()=>{
+  
 }
 onMounted(()=>{
   oldListDate()//老人列表
