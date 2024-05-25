@@ -3,12 +3,7 @@
     <div class="size"><span>▋</span> 老人自理情况</div>
     {{ state.tableData }}
     <!-- {{ ruleForm.checkups }} -->
-    <MatTable
-      :tableData="state.tableData"
-      :tableItem="state.tableItem"
-      style="width: 1160px"
-      :identifier="'oldphysical'"
-    >
+    <MatTable :tableData="state.tableData" :tableItem="state.tableItem" :identifier="'oldphysical'">
       <template #operate="{ data, index }">
         <UploadPictures
           :title="'上传资料'"
@@ -22,21 +17,13 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, toRefs, onMounted, defineAsyncComponent, inject } from 'vue'
+import { reactive, onMounted, defineAsyncComponent, inject } from 'vue'
 
 import { getCheckupItemsList } from '@/service/old/OldApi'
 import type { AddElderlyRequest } from '@/service/old/OldType'
 const MatTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
-import type { UploadProps, UploadUserFile } from 'element-plus'
 import UploadPictures from '@/components/upload/UploadPictures.vue'
-import { useUserStore } from '@/stores'
-import { stat } from 'fs'
-const userStore = useUserStore()
 const ruleForm = inject<AddElderlyRequest>('ruleForm')!
-const uploadadd = import.meta.env.VITE_BASE_UPLOAD_ADD
-const header = {
-  Authorization: userStore.token
-}
 const state: any = reactive({
   tableData: [],
   tableItem: [

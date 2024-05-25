@@ -19,6 +19,7 @@
     :span-method="objectSpanMethod"
     :show-header="props.isShowHeader"
     :row-style="cellstyle"
+    @selection-change="handleSelectionChange"
   >
     <el-table-column type="selection" width="55" v-if="isMultiple" />
     <el-table-column
@@ -46,12 +47,18 @@
         >
       </template>
 
-      <template v-else-if="props.identifier == 'administration' && item.prop == 'image'" v-slot="{ row }">
-        <el-image style="width: 50px; height: 50px" :src="upload+row.image" fit="cover" />
+      <template
+        v-else-if="props.identifier == 'administration' && item.prop == 'image'"
+        v-slot="{ row }"
+      >
+        <el-image style="width: 50px; height: 50px" :src="upload + row.image" fit="cover" />
       </template>
       <!-- 入院管理 -->
-      <template v-else-if="props.identifier == 'Hospitalized' && item.prop === 'elderlyPhoto'" v-slot="{ row }">
-        <el-image style="width: 50px; height: 50px" :src="upload+row.elderlyPhoto" fit="cover" />
+      <template
+        v-else-if="props.identifier == 'Hospitalized' && item.prop === 'elderlyPhoto'"
+        v-slot="{ row }"
+      >
+        <el-image style="width: 50px; height: 50px" :src="upload + row.elderlyPhoto" fit="cover" />
       </template>
 
       <!-- 出入院管理>老人管理>新增>健康信息 -->
@@ -68,41 +75,33 @@
         />
       </template>
       <!-- 入院老人订单合计 -->
+      <template v-else-if="item.prop === 'price'" v-slot="{ row }">
+        <span>{{ row.price }}</span>
+      </template>
+      <!-- 入院状态 -->
       <template
-        v-else-if="item.prop === 'price'"
+        v-else-if="item.prop === 'state' && props.identifier == 'Hospitalized'"
         v-slot="{ row }"
-
       >
-        <span>{{ row.price}}</span>
-      </template>
-         <!-- 入院状态 -->
-         <template
-        v-else-if="item.prop === 'state' && props.identifier=='Hospitalized'"
-        v-slot="{ row }"
-
-      >
-        <span>{{ row.state?'已入院':'未入院'}}</span>
+        <span>{{ row.state ? '已入院' : '未入院' }}</span>
       </template>
 
-        <!-- 外出状态 -->
-        <template
-        v-else-if="item.prop === 'state' && props.identifier=='GoOut'"
-        v-slot="{ row }"
-
-      >
-        <span v-if="row.state==0">待审批</span>
-        <span v-if="row.state==1">审批通过</span>
-        <span v-else-if="row.state==2">审批拒绝</span>
+      <!-- 外出状态 -->
+      <template v-else-if="item.prop === 'state' && props.identifier == 'GoOut'" v-slot="{ row }">
+        <span v-if="row.state == 0">待审批</span>
+        <span v-if="row.state == 1">审批通过</span>
+        <span v-else-if="row.state == 2">审批拒绝</span>
       </template>
       <!-- 日期格式 -->
       <template
-        v-else-if="item.prop === 'updateTime' || item.prop === 'visitTime'||item.prop === 'addTime'"
+        v-else-if="
+          item.prop === 'updateTime' || item.prop === 'visitTime' || item.prop === 'addTime'
+        "
         v-slot="{ row }"
       >
         <span>{{ mons(row.updateTime || row.visitTime).format('YYYY-MM-DD') }}</span>
       </template>
 
-      
       <!-- 奖励积分 -->
       <template v-else-if="item.prop === 'input'" v-slot="{}">
         <input type="text" />
@@ -156,7 +155,6 @@
       </template>
     </el-table-column>
 
-    
     <el-table-column :label="props.label" v-if="props.label">
       <template v-slot="scope">
         <slot name="custom" :data="scope.row"></slot>
@@ -171,13 +169,13 @@
   </el-table>
 </template>
 <script lang="ts" setup>
-import { defineProps, ref,defineEmits } from 'vue'
+import { defineProps, ref, defineEmits } from 'vue'
 import type { PropType } from 'vue'
 import type { TableItem } from '@/Type/table'
 import month from '@/database/date/month.json'
 import week from '@/database/date/week.json'
 import moment from 'moment'
-const Emits = defineEmits(['serveListIs','close'])
+const Emits = defineEmits(['serveListIs', 'close'])
 const upload = import.meta.env.VITE_BASE_URL + '/'
 const mons = moment
 // 周
@@ -315,8 +313,8 @@ const selectsch = (row: any, prop: any) => {
 }
 // 多选
 const handleSelectionChange = (val: any[]) => {
-  console.log('多选返回值',val);
-  Emits('serveListIs',val)
+  console.log('多选返回值', val)
+  Emits('serveListIs', val)
 }
 </script>
 

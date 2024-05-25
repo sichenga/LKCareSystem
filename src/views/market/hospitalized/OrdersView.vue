@@ -18,7 +18,7 @@
 </template>
 
 <script lang='ts' setup>
-import { reactive, toRefs, ref, onMounted,provide } from 'vue'
+import { reactive, ref,provide } from 'vue'
 import Hospitalized from '@/components/hospitalized/hospitalizedList.vue'
 import  type{orderAdds} from '@/service/market/marketType'
 import {  useRoute } from 'vue-router'
@@ -44,7 +44,9 @@ let ruleForm = reactive<orderAdds>({
     services: [], //选择服务ID
     files: []  //合同协议 证书
 })
+// 向子组件提供数据
 provide('ruleForm',ruleForm)
+
 </script>
 
 <style lang="less" scoped>

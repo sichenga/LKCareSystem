@@ -3,7 +3,7 @@
     <div class="size"><span>▋</span> 老人自理情况</div>
     <!-- {{ ruleForm.selfCares }} -->
     {{ state.tableData }}
-    <MatTable :tableData="state.tableData" :tableItem="state.tableItem" style="width: 760px">
+    <MatTable :tableData="state.tableData" :tableItem="state.tableItem">
       <template #operate="{ data, index }">
         <el-radio-group v-model="data.val" @change="change(data, index)">
           <el-radio
