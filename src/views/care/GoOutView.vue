@@ -1,7 +1,7 @@
 <template>
   <!-- 外出申请  外出登记-->
   <el-card>
-    <el-form :inline="true" :model="params" class="demo-form-inline">
+    <el-form :inline="true"  :model="params" class="demo-form-inline">
       <el-form-item label="老人姓名：">
         <el-input v-model="params.name" placeholder="请输入" clearable />
       </el-form-item>
@@ -166,7 +166,9 @@ const sond =()=>{
   params.page=1
   getlistData() //外出登记列表
 }
+
 onMounted(() => {
+
   getlistData() //外出登记列表
 })
 </script>

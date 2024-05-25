@@ -8,7 +8,7 @@
         :size="formSize"
         status-icon
       >
-        <MayTable @selection-change="handleSelectionChange" :tableData="data.tableData" :tableItem="data.tableItem" :isoperate='isoperate' :isMultiple='isMultiple' >
+        <MayTable @serveListIs="handleSelectionChange" :tableData="data.tableData" :tableItem="data.tableItem" :isoperate='isoperate' :isMultiple='isMultiple' >
               
         </MayTable>
       </el-form>
@@ -32,12 +32,7 @@ const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
 const isoperate = ref(false)
 const isMultiple = ref(true)
-const props = defineProps({
-  editid: {
-    type: Number,
-    default: 0
-  }
-})
+
 
 const params: Supplier = reactive({
 
@@ -119,9 +114,10 @@ const handleSelectionChange = (val: any[]) => {
 
   multipleSelection.value = val
 }
-
+//获取食材
 const gerFoodList = async () => {
   let res: any = await FoodList(params)
+
   if (res.code === 10000) {
     params.total = res.data.counts
     data.tableData = res.data.list
