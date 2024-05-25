@@ -89,7 +89,7 @@ const data = reactive({
 
 const params = reactive<Goout>({
   page: 1,
-  pageSize: 10,
+  pageSize: 5,
   name: '',//老人姓名
   accountId: null,//登记人iD
   state: null, //状态

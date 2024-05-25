@@ -37,7 +37,8 @@
         <el-button text type="primary" @click="del(data.id)">删除</el-button>
       </template>
     </MayTable>
-    <Pagination :total="50"></Pagination>
+    <Pagination :total="data.total" @page="page" @psize="psize" :page="formInline.page" :pszie="formInline.page">
+    </Pagination>
   </el-card>
 </template>
 <script lang="ts" setup>
@@ -64,6 +65,7 @@ const formInline = reactive<PatrolList>({
 })
 const isdialog = ref(false)
 const data = reactive({
+  total: undefined as any,
   tableData: [] as any,
   tableItem: [
     {
@@ -100,6 +102,7 @@ const getlist = async () => {
   console.log('夜巡列表', res)
   if (res?.code === 10000) {
     data.tableData = res.data.list
+    data.total = res.data.counts
   }
 }
 // 搜索
@@ -155,6 +158,16 @@ const del = async (id: number) => {
   } else {
     ElMessage.info('取消删除')
   }
+}
+
+//分页
+const page = (val: number) => {
+  formInline.page = val
+  getlist()
+}
+const psize = (val: number) => {
+  formInline.pageSize = val
+  getlist()
 }
 onMounted(() => {
   getaddresslist()

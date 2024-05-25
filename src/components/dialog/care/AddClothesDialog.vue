@@ -46,12 +46,12 @@ import type { ClothesAddParams } from "@/service/care/ClothesType"
 import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
 import type { UploadUserFile } from 'element-plus'
 const upload = import.meta.env.VITE_BASE_URL
-const props = defineProps(['id', 'bar'])
+const props = defineProps(['id'])
 const getUploadPictures = ref<UploadUserFile[]>([])
 const formSize = ref<ComponentSize>('default')
 const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive<ClothesAddParams>({
-  id: 0,
+  id: props.id,
   elderlyId: null,
   content: "",
   title: '',
@@ -107,7 +107,6 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 const pictureupload = (val: any) => {
   ruleForm.pictures.push({ file: val.url });
   console.log(ruleForm);
-
 }
 
 // 移除图片
@@ -131,37 +130,27 @@ const picturerem = (val: any) => {
 }
 // 数据回显
 const getData = async () => {
-  if (props.bar == true) {
-    ruleForm.id = 0
-    ruleForm.elderlyId = null
-    ruleForm.content = ''
-    ruleForm.title = ''
-    ruleForm.type = ''
-    ruleForm.state = ''
-    ruleForm.pictures = []
-  } else {
-    let id = props.id
-    if (id) {
-      console.log(id);
-      const res: any = await clothesget(id)
-      if (res.code == 10000) {
-        Object.assign(ruleForm, res.data)
-        console.log('单挑数据', res);
-        console.log(ruleForm);
-        if (ruleForm.pictures) {
-          getUploadPictures.value = res.data.pictures.map((item: any) => {
-            return {
-              url: upload + "/" + item.file,
-              name: item.file
-            }
-          })
-        }
+  let id = props.id
+  if (id) {
+    console.log(id);
+    const res: any = await clothesget(id)
+    if (res.code == 10000) {
+      Object.assign(ruleForm, res.data)
+      console.log('单挑数据', res);
+      console.log(ruleForm);
+      if (ruleForm.pictures) {
+        getUploadPictures.value = res.data.pictures.map((item: any) => {
+          return {
+            url: upload + "/" + item.file,
+            name: item.file
+          }
+        })
       }
     }
   }
-
-
 }
+
+
 
 onMounted(() => {
   getData()
