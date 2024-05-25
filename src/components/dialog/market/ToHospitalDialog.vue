@@ -1,5 +1,6 @@
 <template>
-    <el-dialog v-model="dialogVisible" title="选择老人" width="700" @close="close">
+    <el-dialog v-model="dialogVisible" title="选择老人" width="35%" @close="close">
+
         <el-form :inline="true" :model="states" class="demo-form-inline">
             <div class="form-size">
                 <el-form-item label="姓名:">

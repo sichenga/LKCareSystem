@@ -29,19 +29,11 @@
         <el-button type="primary" @click="close(true)">确定</el-button>
       </div>
     </template>
-  </el-dialog> -->
-  <MayDialog :title="'新增护理服务'" @close="close">
+</el-dialog> -->
+  <MayDialog :title="ruleForm.id==0?'新增护理服务':'编辑护理服务'" @close="close">
     <template #dialog>
-      <el-form
-        ref="ruleFormRef"
-        style="max-width: 600px"
-        :model="ruleForm"
-        :rules="rules"
-        label-width="auto"
-        class="demo-ruleForm"
-        :size="formSize"
-        status-icon
-      >
+      <el-form ref="ruleFormRef" style="max-width: 600px" :model="ruleForm" :rules="rules" label-width="auto"
+        class="demo-ruleForm" :size="formSize" status-icon>
         <el-form-item label="服务名称" prop="name">
           <el-input v-model="ruleForm.name" />
         </el-form-item>
@@ -71,7 +63,7 @@ const ruleForm = reactive<NursingServiceAdd>({
 const props = defineProps({
   data: {
     type: Object,
-    default: () => {}
+    default: () => { }
   }
 })
 
@@ -107,13 +99,13 @@ const rules = reactive<FormRules<NursingServiceAdd>>({
 // 确定提交
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
-  const valid = await formEl.validate().catch(() => {})
+  const valid = await formEl.validate().catch(() => { })
   if (valid) {
     let res: any
     if (!ruleForm.id) {
-      res = await addNursingService(ruleForm).catch(() => {})
+      res = await addNursingService(ruleForm).catch(() => { })
     } else {
-      res = await updateNursingService(ruleForm).catch(() => {})
+      res = await updateNursingService(ruleForm).catch(() => { })
     }
     console.log('增加', res)
     if (res?.code == 10000) {

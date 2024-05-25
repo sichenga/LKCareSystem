@@ -39,7 +39,7 @@
         <el-button type="primary" text>转入院</el-button>
       </template>
     </MayTable>
-    <Pagination :total="data.token" @page="page" @psize="psize" :page="formInline.page" :pszie="formInline.page">
+    <Pagination :total="data.token" @page="page" @psize="psize" :page="formInline.page" :pszie="formInline.pageSize">
     </Pagination>
   </el-card>
 </template>
@@ -57,7 +57,7 @@ const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
 const formInline = reactive<ReservationParams>({
   page: 1,
-  pageSize: 10,
+  pageSize: 5,
   name: '',
   idCard: '',
   mobile: '',
@@ -107,11 +107,13 @@ const data = reactive({
     },
     {
       prop: 'startDate',
-      label: '开始日期'
+      label: '开始日期',
+      width: '120'
     },
     {
       prop: 'addTime',
-      label: '预定时长（月）'
+      label: '预定时长（月）',
+      width: '180'
     },
     {
       prop: 'amount',
@@ -123,12 +125,13 @@ const data = reactive({
     },
     {
       prop: 'startDate',
-      label: '登记日期'
+      label: '登记日期',
+      width: '120'
     },
-    {
-      prop: 'stateName',
-      label: '状态'
-    }
+    // {
+    //   prop: 'stateName',
+    //   label: '状态'
+    // }
   ]
 })
 

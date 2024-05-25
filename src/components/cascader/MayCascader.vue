@@ -31,8 +31,11 @@ const value = ref()
 watch(
   () => props.emitid,
   (newval) => {
+    console.log(1111, newval)
+
     if (newval) {
       value.value = newval
+      console.log(value.value)
     } else {
       value.value = null
     }

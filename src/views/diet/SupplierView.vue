@@ -54,6 +54,7 @@ const data = reactive({
   ]
 })
 const params = reactive<Supplier>({
+  total:0,
   pageSize: 5,
   page: 1
 })

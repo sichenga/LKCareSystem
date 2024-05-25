@@ -1,16 +1,10 @@
 <template>
+  <!-- 部门管理 -->
   <el-card class="box-card">
     <el-button type="primary" @click="add">添加部门</el-button>
     <DepartmentTree v-if="isdialog" @close="close" :deppid="deppid" :depid="depid"></DepartmentTree>
-    <el-tree
-      class="tree"
-      style="max-width: 400px"
-      :data="dataSource"
-      show-checkbox
-      node-key="id"
-      :expand-on-click-node="false"
-      :props="{ children: 'children', label: 'name' }"
-    >
+    <el-tree class="tree" style="max-width: 400px" :data="dataSource" show-checkbox node-key="id"
+      :expand-on-click-node="false" :props="{ children: 'children', label: 'name' }">
       <template #default="{ node, data }">
         <span class="custom-tree-node">
           <span>{{ node.label }}</span>
@@ -41,7 +35,7 @@ const isdialog = ref(false)
 // 部门列表
 const dataSource = ref<DepartmentListParams[]>([])
 const getlist = async () => {
-  let res: any = await departmentList().catch(() => {})
+  let res: any = await departmentList().catch(() => { })
   console.log('部门列表', res)
   if (res?.code === 10000) {
     dataSource.value = TreeData(res.data.list)
@@ -96,22 +90,27 @@ const close = (isrefresh: boolean) => {
 .box-card {
   width: 100%;
   height: 100%;
+
   :deep(.el-card__body) {
     height: 100%;
   }
 }
+
 .tree {
   margin-top: 50px;
 }
+
 .custom-tree-node {
   width: 400px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+
   span:last-child {
     margin-left: 15px;
   }
 }
+
 :deep(.el-tree-node__content) {
   margin-bottom: 15px;
   height: 35px;

@@ -1,4 +1,3 @@
-
 <template>
   <!-- 详情资讯 -->
   <el-dialog v-model="dialogVisibles" title="详情" width="500" @close="close">

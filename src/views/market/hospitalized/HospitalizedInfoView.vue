@@ -2,7 +2,7 @@
    <div>
       <div class="content-sizes">
          <div class="font-sizes ">
-            <span class="color-szie">▋</span>
+            <span class="color-size">▋</span>
             <span class="option">申请信息</span>
          </div>
 
@@ -27,7 +27,7 @@
       </div>
       <div class="content-sizes">
          <div class="font-sizes ">
-            <span class="color-szie">▋</span>
+            <span class="color-size">▋</span>
             <span class="option">老人信息</span>
          </div>
 
@@ -60,7 +60,7 @@
       </div>
       <div class="content-sizes">
          <div class="font-sizes ">
-            <span class="color-szie">▋</span>
+            <span class="color-size">▋</span>
             <span class="option">订单信息</span>
          </div>
 
@@ -105,7 +105,7 @@
       </div>
       <div class="content-sizes">
          <div class="font-sizes ">
-            <span class="color-szie">▋</span>
+            <span class="color-size">▋</span>
             <span class="option">财务信息</span>
          </div>
 
@@ -250,7 +250,7 @@ onMounted(async () => {
    .font-sizes {
       font-size: 14px;
 
-      .color-szie {
+      .color-size {
          color: #409EFF;
       }
 

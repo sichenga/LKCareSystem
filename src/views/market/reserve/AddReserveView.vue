@@ -22,10 +22,12 @@
                 </el-select>
             </el-form-item>
             <el-form-item label="预定床位:" prop="begId">
-                <el-cascader style="width: 499px;" :options="options" :props="props" @change="handleChange" />
+                <el-cascader v-model="params.begId" style="width: 499px;" :options="options" :props="props"
+                    @change="handleChange" />
             </el-form-item>
             <el-form-item label="开始日期:" prop="startDate">
-                <MaystartDatePicker v-model="params.startDate" style="width: 479px;"></MaystartDatePicker>
+                <MayTimePicker @change="change" :remtime="remtime" :format="'YYYY-MM-DD'" :valueFormat="'YYYY-MM-DD'"
+                    style="width: 479px;"></MayTimePicker>
             </el-form-item>
             <el-form-item label="预定时长（天）:" prop="day">
                 <el-input v-model="params.day" placeholder="请输入预定时长" />
@@ -38,12 +40,13 @@
             <div><i>▋</i> 预定协议</div>
         </div>
         <div class="box">
-            <UploadImg :title="'上传协议'" class="uploadpic" @upload="pictureupload" @uploadrem="picturerem"></UploadImg>
+            <UploadVideo :text="'上传协议'" :limit="3" :showlist="getUploadPictures" class="uploadpic"
+                @upload="pictureupload" @uploadrem="picturerem"></UploadVideo>
             <el-button class="download">下载预定协议</el-button>
         </div>
         <!-- 按钮 -->
         <div class="btn">
-            <el-button type="primary">保存暂不提交</el-button>
+            <el-button type="primary" @click="save">保存暂不提交</el-button>
             <el-button type="primary" @click="submitForm(ruleFormRef)">保存并提交</el-button>
             <el-button @click="cancel">取消</el-button>
         </div>
@@ -54,19 +57,21 @@ import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
 import { ElMessage } from 'element-plus'
 import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
 import { ConfigBuildingList, getHouseList, getBedsList } from "@/service/config/ConfigApi"
-import { reservationAdd,reservationget } from "@/service/market/ReserveApi"
+import { reservationAdd, reservationget, reservationUpdate } from "@/service/market/ReserveApi"
 import type { ReservationAddParams } from "@/service/market/Reservetype"
 import type { UploadUserFile } from 'element-plus'
 import { useRouter, useRoute } from 'vue-router'
-import MaystartDatePicker from '@/components/timepicker/MaystartDatePicker.vue'
+import MayTimePicker from '@/components/timepicker/MayTimePicker.vue'
 const router = useRouter()
 const route = useRoute()
 const getUploadPictures = ref<UploadUserFile[]>([])
-const UploadImg = defineAsyncComponent(() => import('@/components/upload/UploadImg.vue'))
+const remtime = ref<string>('')
+const UploadVideo = defineAsyncComponent(() => import('@/components/upload/UploadVideo.vue'))
 const formSize = ref<ComponentSize>('default')
 const ruleFormRef = ref<FormInstance>()
 const params = reactive<ReservationAddParams>({
-    elderlyId: route.params.id,
+    id: 0,
+    elderlyId: undefined,
     name: '',
     mobile: '',
     relation: '',
@@ -94,51 +99,100 @@ const rules = reactive<FormRules<ReservationAddParams>>({
     ],
 })
 
+// 时间
+const change = (val: any) => {
+    params.startDate = val
+}
+
 // 增加上传协议
 const pictureupload = (val: any) => {
-    params.files.push({ file: val });
+    params.files.push({ file: val.url });
 }
 
 // 移除上传协议
 const picturerem = (val: any) => {
-    console.log(val)
-    // console.log()
-    // params.picture = params.picture
-    //     .split(',')
-    //     .filter((item: any) => item !== val)
-    //     .join(',')
-    // console.log(1111, params.picture)
+    const hasFile = params.files.some((item, index) => {
+        if (item.file == val) {
+            params.files.splice(index, 1);
+            return true;
+        }else if(item.file == val.url){
+            params.files.splice(index, 1);
+            return true;
+        }
+        return false;
+    });
+    if (!hasFile) {
+        console.log('文件未找到，无法移除');
+    }
 }
 
+const save = () => {
+    console.log(params);
+}
 
 // 提交
 const submitForm = async (formEl: FormInstance | undefined) => {
     if (!formEl) return
     await formEl.validate(async (valid, fields) => {
         if (valid) {
-            const res: any = await reservationAdd(params)
-            if (res.code === 10000) {
-                ElMessage.success('添加成功')
-                router.push('/market/reserve')
+            if (params.id == 0) {
+                const res: any = await reservationAdd(params)
+                if (res.code === 10000) {
+                    ElMessage.success('添加成功')
+                    router.push('/market/reserve')
+                } else {
+                    ElMessage.error(res.msg)
+                }
             } else {
-                ElMessage.error(res.msg)
+                const res: any = await reservationUpdate(params)
+                if (res.code === 10000) {
+                    ElMessage.success('修改成功')
+                    router.push('/market/reserve')
+                } else {
+                    ElMessage.error(res.msg)
+                }
             }
-            console.log(1111, params)
         } else {
             console.log('error submit!', fields)
         }
     })
 }
 
-const id = ref(0)
 
 // 数据回显
-const getData=async ()=>{
-        console.log(id.value);
-        
-    // const res = await reservationget(id)
+const getData = async () => {
+    let id = route.params?.id
+    if (!id) return false
+    const res: any = await reservationget(Number(id)).catch(() => { })
+    if (res.code === 10000) {
+        console.log('单条数据', res);
+        Object.assign(params, res.data)
+        // 上传协议回显
+        if (res.data.files) {
+
+            getUploadPictures.value = res.data.files.map((item: any) => {
+                return {
+                    url: item.file,
+                    name: item.file
+                }
+            })
+        }
+        // 时间回显
+        console.log(res.data.startDate);
+        if (res.data.startDate) {
+            remtime.value = res.data.startDate
+        }
+    }
 }
 
+// 老人id
+const elderlyId = () => {
+    let elderlyId = route.query.id
+    if (elderlyId) {
+        params.elderlyId = Number(elderlyId)
+        params.id = 0
+    }
+}
 
 // 取消
 const cancel = () => {
@@ -192,14 +246,14 @@ const reserve = async () => {
         }));
     }
     let tree = convertToTree(building, 0)
-    console.log('数据', tree);
+    // console.log('数据', tree);
     options.value = tree
 }
 
 // 楼栋列表
 const buildingList = async () => {
     const res: any = await ConfigBuildingList()
-    console.log('楼栋列表', res);
+    // console.log('楼栋列表', res);
     if (res.code == 10000) {
         return res.data.list
     }
@@ -207,7 +261,7 @@ const buildingList = async () => {
 // 房间列表
 const houseList = async () => {
     const res: any = await getHouseList()
-    console.log('房间列表', res);
+    // console.log('房间列表', res);
     if (res.code === 10000) {
         return res.data.list
     }
@@ -215,7 +269,7 @@ const houseList = async () => {
 // 床位列表
 const bedList = async () => {
     const res: any = await getBedsList()
-    console.log('床位列表', res);
+    // console.log('床位列表', res);
     if (res.code === 10000) {
         return res.data.list
     }
@@ -226,6 +280,7 @@ onMounted(() => {
     // 预定
     reserve()
     getData()
+    elderlyId()
 })
 </script>
 <style lang="less" scoped>

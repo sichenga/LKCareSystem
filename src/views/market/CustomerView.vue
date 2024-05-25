@@ -9,7 +9,7 @@
                 <el-input v-model="formInline.idCard" placeholder="请输入身份证号" clearable />
             </el-form-item>
             <el-form-item label="创建日期:" style="width: 240px;">
-                <MayTimePicker v-model="formInline.beginDate"></MayTimePicker>
+                <MayTimePicker @change="change"></MayTimePicker>
             </el-form-item>
             <el-form-item label="状态:" style="width: 240px;">
                 <el-select v-model="formInline.state" placeholder="请选择">
@@ -118,6 +118,10 @@ const getlist = async () => {
     data.tableData = res.data.list
     data.token = res.data.counts
   }
+}
+// 时间
+const change = (val: any) => {
+    formInline.beginDate = val
 }
 // 关闭弹窗
 const close = () => {

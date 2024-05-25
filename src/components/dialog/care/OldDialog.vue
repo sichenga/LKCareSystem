@@ -1,6 +1,5 @@
-<!-- 选择老人 -->
 <template>
-    <el-dialog v-model="dialogVisible" title="选择老人" width="70%" @close="close">
+    <el-dialog v-model="dialogVisible" title="选择老人" width="700" @close="close">
         <el-form :inline="true" :model="states" class="demo-form-inline">
             <div class="form-size">
                 <el-form-item label="姓名:">
@@ -11,16 +10,15 @@
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="() => { states.page = 1; getlist() }">查询</el-button>
-                    <el-button>重置</el-button>
+                    <el-button @click="resetForm()">重置</el-button>
                 </el-form-item>
             </div>
         </el-form>
-        <MayTable :tableData="data.tableData" :tableItem="data.tableItem" :identifier="identifier">
+        <MayTable :tableData="data.tableData" :autoWidth="'120px'" :tableItem="data.tableItem" :identifier="identifier">
             <template #operate="{ data }">
                 <el-button type="primary" @click="select(data.id)">选择</el-button>
             </template>
         </MayTable>
-        <div style="height: 30px;"></div>
     </el-dialog>
 </template>
 <script lang="ts" setup>
@@ -60,10 +58,9 @@ const data = reactive({
 })
 
 
-const emit = defineEmits(['close'])
-
+const emit = defineEmits(['closes','id'])
 const close = (close: boolean = false) => {
-    emit('close', close)
+    emit('closes', close)
 }
 const states = reactive<ListElderlyRequest>({
     page: 1,
@@ -76,18 +73,22 @@ const states = reactive<ListElderlyRequest>({
 // 老人列表
 const getlist = async () => {
     let res: any = await getElderlyList(states)
-
     if (res.code == 10000) {
         data.tableData = res.data.list
     }
 }
 //选择老人
 const select = (id: number) => {
-    router.push({
-        path:'/market/reserve/add',
-        query:{id}
-    })
+    close(false)
+    emit('id', id)
 }
+
+// 重置
+const resetForm = (() => {
+    states.name = ''
+    states.idCard = undefined
+})
+
 onMounted(() => {
     getlist() //老人列表
 })

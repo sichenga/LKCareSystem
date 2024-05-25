@@ -1,6 +1,7 @@
 <template>
    <!-- <div>入院管理</div> -->
    <el-card style="max-width: 100%">
+
       <el-form :inline="true" :model="states" class="demo-form-inline">
          <el-form-item label="老人姓名">
             <el-input v-model="states.name" placeholder="请输入" clearable />
@@ -9,9 +10,7 @@
             <el-input v-model="states.idCard" placeholder="请输入" clearable />
          </el-form-item>
          <el-form-item label="床位">
-            <el-select v-model="states.begId" placeholder="请选择" clearable>
-               <el-option v-for="item in DataBedList" :key="item" :label="item.name" :value="item.id" />
-            </el-select>
+           <MayCascader :options="DataBedList" @change="BedSelect"></MayCascader>
          </el-form-item>
          <el-form-item label="状态">
             <el-select v-model="states.state" placeholder="请选择" clearable>
@@ -43,7 +42,7 @@
 </template>
 
 <script lang='ts' setup>
-import { reactive, toRefs, ref, onMounted, defineAsyncComponent } from 'vue'
+import { reactive, ref, onMounted, defineAsyncComponent } from 'vue'
 import { ElMessage } from 'element-plus'
 import { orderList,orderDelete,orderGet} from '@/service/market/marketApi'
 import {getBedsList} from "@/service/config/ConfigApi"
@@ -51,6 +50,7 @@ import type { order } from '@/service/market/marketType'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
 const ToHospitalDialog = defineAsyncComponent(() => import('@/components/dialog/market/ToHospitalDialog.vue'))
+const MayCascader = defineAsyncComponent(() => import('@/components/cascader/MayCascader.vue'))
 import { getMessageBox } from '@/utils/utils'
 import {useRouter} from 'vue-router'
 const identifier='Hospitalized'
@@ -142,7 +142,7 @@ const del = async (id:number) => {
    if (res) {
       let _res:any = await orderDelete(id)
       if(_res.code==10000){
-         getlist()
+        await  getlist()
          ElMessage.success('删除成功')
       }
       
@@ -156,7 +156,7 @@ const compile=async (id:number)=>{
    let res:any=await orderGet(id)
 
    if(res?.code==10000){
-      router.push({
+     await router.push({
          path:"/market/hospitalized/order",
          query:{
             id:res.data.elderlyId,
@@ -194,6 +194,12 @@ const handPsize=(val:any)=>{
    states.pageSize=val
    getlist()
 }
+
+// 选择床位
+const BedSelect = (val:number) =>{
+   states.begId=val
+}
+
 onMounted(() => {
    getlist()//入院列表
    getBedList()//床位列表

@@ -42,7 +42,7 @@ const props = defineProps({
   depid: {
     type: Number,
     default: 0
-  }
+  },
 })
 const formSize = ref<ComponentSize>('default')
 const ruleFormRef = ref<FormInstance>()

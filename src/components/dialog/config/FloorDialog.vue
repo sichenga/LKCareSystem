@@ -1,5 +1,5 @@
 <template>
-  <el-dialog v-model="dialogVisible" :title="params.id?'修改楼层':'新增楼层'" width="500" @close="close">
+  <el-dialog v-model="dialogVisible" :title="params.id ? '修改楼层' : '新增楼层'" width="500" @close="close">
     <el-form ref="ruleFormRef" style="max-width: 400px" :model="ruleForm" :rules="rules" label-width="auto"
       class="demo-ruleForm" :size="formSize" status-icon>
       <el-form-item label="楼层号" prop="name">
@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref, defineProps } from 'vue'
+import { reactive, ref, defineProps, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
 import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
 import { BuildingAdd, Buildingupdate } from '@/service/config/ConfigApi'
@@ -31,6 +31,12 @@ const params = defineProps({
   id: {
     type: Number,
     default: 0
+  },
+  list: {
+    type: Object,
+    default: () => {
+      return {}
+    }
   }
 })
 
@@ -56,16 +62,16 @@ const ruleForm = reactive<RuleForm>({
 
 // 添加
 const add = async () => {
-  let res:any;
+  let res: any;
   if (params.id) {
-    res = await Buildingupdate(ruleForm).catch(()=>{})
+    res = await Buildingupdate(ruleForm).catch(() => { })
   } else {
-     res = await BuildingAdd(ruleForm).catch(()=>{}) 
+    res = await BuildingAdd(ruleForm).catch(() => { })
   }
   if (res.code == 10000) {
-      ElMessage.success(res.data.id==0?'添加成功':'修改成功')
-      emit('close', true)
-    }
+    ElMessage.success(res.data.id == 0 ? '添加成功' : '修改成功')
+    emit('close', true)
+  }
 
 }
 
@@ -75,6 +81,17 @@ const emit = defineEmits(['close'])
 const close = (close: boolean = false) => {
   emit('close', close)
 }
+// 回显数据
+const getData = () => {
+  if (params.list) {
+    Object.assign(ruleForm, params.list)
+  }
+}
+
+onMounted(() => {
+  getData()
+})
+
 </script>
 
 <style lang="less" scoped></style>

@@ -36,11 +36,11 @@
         <div class="content-sizes">
             <el-form ref="ruleFormRef" :model="ruleForm" class="demo-ruleForm" size status-icon>
                 <div class="font-sizes">
-                    <span class="color-szie">▋</span>
+                    <span class="color-size">▋</span>
                     <span class="option">订单总费用</span>
                     <span class="option">({{ ruleForm.startDate }} 至 {{ ruleForm.startDate }})</span>
                 </div>
-                <div class="margin-szie">
+                <div class="margin-size">
                     <MayTable :tableData="data.tableDatas" :tableItem="data.tableItems" :isoperate="false">
                         <template #operate="{ data }">
                             <div>
@@ -51,17 +51,17 @@
                 </div>
 
                 <div class="font-sizes">
-                    <span class="color-szie">▋</span>
+                    <span class="color-size">▋</span>
                     <span class="option">入院费用核定</span>
                     <span class="option">({{ ruleForm.startDate }} 至 {{ ruleForm.startDate }})</span>
                 </div>
-                <div class="margin-szie">
+                <div class="margin-size">
                     <MayTable :tableData="data.tableDatais" :tableItem="data.tableItemis" :isoperate="false">
 
                     </MayTable>
                 </div>
                 <div class="font-sizes">
-                    <span class="color-szie">▋</span>
+                    <span class="color-size">▋</span>
                     <span class="option">上传合同</span>
                 </div>
                 <el-form-item>
@@ -360,7 +360,7 @@ onMounted(() => {
 
 }
 
-.margin-szie {
+.margin-size {
     margin-top: 20px;
     margin-bottom: 50px;
 }
@@ -378,7 +378,7 @@ onMounted(() => {
     .font-sizes {
         font-size: 14px;
 
-        .color-szie {
+        .color-size {
             color: #409EFF;
         }
 
