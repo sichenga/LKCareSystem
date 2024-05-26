@@ -8,8 +8,10 @@ export interface MedicalcareParams {
   begId: string | null //床位Id
 }
 
+// 添加
 export interface Temperature {
-  elderlyId: number
+  id: number
+  elderlyId: number | null
   val: string
 }
 
