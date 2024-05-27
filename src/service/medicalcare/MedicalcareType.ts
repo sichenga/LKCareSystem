@@ -20,5 +20,7 @@ export interface bloodSugarlistParams {
   page: number
   pageSize: number
   name: string
+  beginDate: string //开始时间yyyy-MM-dd
+  endDate: string //结束时间
   begId: number | null
 }
