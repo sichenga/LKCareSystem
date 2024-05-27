@@ -2,26 +2,27 @@
   <!-- 夜巡管理 -->
   <el-card>
     <AddNightDialog v-if="isdialog" @close="close"></AddNightDialog>
-    <el-form :inline="true" :model="formInline" class="demo-form-inline">
-      <el-form-item label="上报人：">
+    <el-form ref="Refnight" :inline="true" :model="formInline" class="demo-form-inline">
+      <el-form-item label="上报人：" prop="name">
         <el-input v-model="formInline.name" placeholder="请输入" clearable />
       </el-form-item>
-      <el-form-item label="巡检地址：">
+      <el-form-item label="巡检地址：" prop="address">
         <el-select v-model="formInline.address" clearable placeholder="请选择" style="width: 240px" size="large">
           <el-option v-for="item in data.sitelist" :key="item.id" :label="item.name" :value="item.id" />
         </el-select>
       </el-form-item>
-      <el-form-item label="巡检上报时间：">
-        <TimePicker @change="timechange"></TimePicker>
+      <el-form-item label="巡检上报时间：" prop="beginDate">
+        <MayTimeSelect @change="tiemchange" :isrange="true" :startTime="formInline.beginDate" :endTime="formInline.endDate">
+        </MayTimeSelect>
       </el-form-item>
-      <el-form-item label="巡检状态：">
+      <el-form-item label="巡检状态：" prop="state">
         <el-select v-model="formInline.state" clearable placeholder="请选择" style="width: 240px" size="large">
           <el-option v-for="item in data.statelist" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="search">查询</el-button>
-        <el-button>重置</el-button>
+        <el-button @click="reset">重置</el-button>
       </el-form-item>
     </el-form>
   </el-card>
@@ -49,10 +50,12 @@ import { addresslist } from '@/service/address/AddressApi'
 import type { PatrolList, AddressSelect } from '@/service/patrol/PatrolType'
 import { getMessageBox } from '@/utils/utils'
 import { useRouter } from 'vue-router'
+import MayTimeSelect from '@/components/timepicker/MayTimeSelect.vue'
+const Refnight = ref()
 const router = useRouter()
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
-const TimePicker = defineAsyncComponent(() => import('@/components/timepicker/MayTimePicker.vue'))
+
 const AddNightDialog = defineAsyncComponent(() => import('@/components/dialog/care/AddNightDialog.vue'))
 const formInline = reactive<PatrolList>({
   page: 1,
@@ -111,11 +114,10 @@ const search = () => {
   getlist()
 }
 
-// 选择时间
-const timechange = (val: string) => {
-  console.log(val)
-
-  formInline.endDate = val
+// 巡检上报时间
+const tiemchange = (val: any) => {
+  formInline.beginDate = val[0] || ''
+  formInline.endDate = val[1] || ''
 }
 
 // 地址列表
@@ -134,6 +136,13 @@ const location = () => {
 // 增加
 const add = () => {
   isdialog.value = true
+}
+// 重置
+const reset = () => {
+  formInline.page = 1
+  formInline.endDate = ''
+  Refnight.value?.resetFields()
+  getaddresslist()
 }
 
 // 关闭弹窗

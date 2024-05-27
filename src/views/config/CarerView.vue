@@ -1,31 +1,31 @@
 <template>
     <!-- 护工管理 -->
     <el-card style="max-width: 100%">
-        <el-form :inline="true" :model="states" class="demo-form-inline">
-            <el-form-item label="护工姓名:">
+        <el-form ref="Refcarer" :inline="true" :model="states" class="demo-form-inline">
+            <el-form-item label="护工姓名:" prop="name">
                 <el-input v-model="states.name" placeholder="请输入" clearable />
             </el-form-item>
-            <el-form-item label="联系方式:">
+            <el-form-item label="联系方式:" prop="mobile">
                 <el-input v-model="states.mobile" placeholder="请输入" clearable />
             </el-form-item>
-            <el-form-item label="所属岗位:">
+            <el-form-item label="所属岗位:" prop="roleId">
                 <el-select v-model="states.roleId" placeholder="请选择" style="width: 240px">
                     <el-option v-for="item in options" :key="item.id" :label="item.name" :value="item.id" />
                 </el-select>
             </el-form-item>
-            <el-form-item label="老人姓名:">
+            <el-form-item label="老人姓名:" prop="name">
                 <el-input v-model="states.name" placeholder="请输入" clearable />
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="search">查询</el-button>
-                <el-button>重置</el-button>
+                <el-button @click="reset">重置</el-button>
             </el-form-item>
         </el-form>
     </el-card>
     <el-card style="max-width: 100%" class="card">
         <el-button type="primary" @click="isdialog = true">新增</el-button>
         <WorkersDialog @close="close" v-if="isdialog"></WorkersDialog>
-        
+
         <MayTable :tableData="data.tableData" :tableItem="data.tableItem" :identifier="identifier">
             <template #operate="{ data }">
                 <el-button type="primary" text @click="del(data.id)">删除</el-button>
@@ -38,7 +38,7 @@
 <script lang="ts" setup>
 import { ref, reactive, defineAsyncComponent, onMounted } from 'vue'
 
-import { staffList,carerDelete } from '@/service/staff/StaffApi'
+import { staffList, carerDelete } from '@/service/staff/StaffApi'
 import { RoleList } from '@/service/role/RoleApi'
 import type { StaffListParams } from '@/service/staff/StaffType'
 import WorkersDialog from '@/components/dialog/config/WorkersDialog.vue';
@@ -48,6 +48,7 @@ import { ElMessage } from 'element-plus'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
 const identifier = 'Workers'
+const Refcarer = ref()
 //岗位 角色
 const options: any = ref('')
 const data = reactive({
@@ -96,7 +97,12 @@ const states = reactive<StaffListParams>({
     enable: null, //状态
     carer: 1, //是否是护工1是
 })
-
+// 重置
+const reset = () => {
+    states.page = 1
+    Refcarer.value?.resetFields()
+    getlist()
+}
 const getlist = async () => {
     let res: any = await staffList(states)
     if (res.code === 10000) {
@@ -115,9 +121,9 @@ const getRoleList = async () => {
 
 //弹出框
 const isdialog = ref(false)
-const close = (val:boolean) => {
+const close = (val: boolean) => {
     isdialog.value = val
-    if(val){
+    if (val) {
         isdialog.value = false
         getlist() //护工
     }

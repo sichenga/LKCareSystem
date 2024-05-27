@@ -2,17 +2,17 @@
   <!-- dialog写在market文件夹下 -->
   <!-- 预定登记 -->
   <el-card style="max-width: 100%">
-    <el-form :inline="true" :model="formInline" class="demo-form-inline">
-      <el-form-item label="老人姓名">
+    <el-form ref="Refreserve" :inline="true" :model="formInline" class="demo-form-inline">
+      <el-form-item label="老人姓名" prop="name">
         <el-input v-model="formInline.name" placeholder="请输入" clearable />
       </el-form-item>
-      <el-form-item label="身份证号码">
+      <el-form-item label="身份证号码" prop="idCard">
         <el-input v-model="formInline.idCard" placeholder="请输入" clearable />
       </el-form-item>
-      <el-form-item label="预定床位">
-        <MayCascader :options="BuildRoom" @change="RommId"> </MayCascader>
+      <el-form-item label="预定床位" prop="begId">
+        <MayCascader :options="data.beddata" @change="bedselect" :emitid="Number(formInline.begId)"></MayCascader>
       </el-form-item>
-      <el-form-item label="预定状态">
+      <el-form-item label="预定状态" prop="mobile">
         <el-select v-model="formInline.mobile" placeholder="请选择" clearable>
           <el-option label="Zone one" value="shanghai" />
           <el-option label="Zone two" value="beijing" />
@@ -20,7 +20,7 @@
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="search">查询</el-button>
-        <el-button>重置</el-button>
+        <el-button @click="reset">重置</el-button>
       </el-form-item>
     </el-form>
   </el-card>
@@ -53,7 +53,8 @@ import ReserveDialog from '@/components/dialog/market/ReserveDialog.vue';
 import { useRouter } from 'vue-router'
 import MayCascader from '@/components/cascader/MayCascader.vue'
 import { useBuildStroe } from '@/stores/mobule/build'
-const useBuild = useBuildStroe()
+const Refreserve = ref()
+const getUserInfo = useBuildStroe()
 const router = useRouter()
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
@@ -134,9 +135,15 @@ const data = reactive({
     //   prop: 'stateName',
     //   label: '状态'
     // }
-  ]
+  ],
+  beddata: [] as any
 })
-
+// 重置
+const reset = () => {
+  formInline.page = 1
+  Refreserve.value?.resetFields()
+  getList()
+}
 //弹出框
 const isdialog = ref(false)
 const close = (val: boolean) => {
@@ -185,7 +192,14 @@ const search = () => {
   formInline.page = 1
   getList()
 }
-
+// 获取床位列表
+const bedlist = async () => {
+  data.beddata = await getUserInfo.getBuildListData()
+}
+// 选择床位
+const bedselect = (val: any) => {
+  formInline.begId = val
+}
 // 分页
 const page = (val: number) => {
   formInline.page = val
@@ -198,19 +212,8 @@ const psize = (val: number) => {
 onMounted(() => {
   getList()
   // 预定
-  BuildList()
+  bedlist()
 })
-
-// 预定床位
-const BuildRoom = ref([])
-const BuildList = async () => {
-  let res: any = await useBuild.getBuildListData()
-  BuildRoom.value = res
-}
-//选择的房间
-const RommId = (val: any) => {
-  formInline.begId = val
-}
 
 </script>
 
