@@ -1,12 +1,14 @@
 <template>
-  <el-dialog v-model="dialogVisible" :title="props.id?'修改':'添加'" width="500" @close="close">
+  <el-dialog v-model="dialogVisible" :title="props.data.id?'修改':'添加'" width="500" @close="close">
     <el-form ref="ruleFormRef" style="max-width: 368px" :model="ruleForm" :rules="rules" label-width="auto"
       class="demo-ruleForm" size status-icon>
 
       <el-form-item label="请选择测量体温的老人" prop="elderlyId" class="Special_line">
-        <el-select v-model="ruleForm.elderlyId" placeholder="请选择" size="large">
-          <el-option v-for="item in oldList" :key="item.id" :label="item.name" :value="item.id" />
-        </el-select>
+        <div v-if="OldName" @click="select">
+          {{ OldName }}
+        </div>
+        <el-button v-else type="primary" @click="select">选择老人</el-button>
+        <OldDialog v-if="idOld"  @id="oldid"></OldDialog>
       </el-form-item>
       <el-form-item label="老人体温" prop="val">
         <el-input v-model="ruleForm.val" />
@@ -23,20 +25,18 @@
 <script lang="ts" setup>
 import { ref, reactive, onMounted, defineEmits,defineProps } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
-import { getElderlyList } from "@/service/old/OldApi"
+import {getElderly} from '@/service/old/OldApi'
 import { TemperatureAdd,GetTemperature,TemperatureUpdate } from '@/service/medicalcare/MedicalcareApi'
 import { ElMessage } from 'element-plus'
 const ruleFormRef = ref<FormInstance>()
 const  props=defineProps({
-    id:{
-      type:Number,
-      default: 0
-    }
+  data: {
+    type: Object,
+    default: ()=>{}
+  }
 })
-console.log(props.id);
 
-//老人
-let oldList = ref<any>([])
+
 
 const ruleForm = reactive<any>({
   elderlyId: null,
@@ -56,50 +56,47 @@ const emit = defineEmits(['close'])
 const close = (close: boolean = false) => {
   emit('close', close)
 }
-//获取老人列表
-const params = reactive({
-  page: 1,
-  pageSize: 999,
-  name: '',
-  idCard: undefined,
-  begId: undefined,
-  state: undefined
-})
-//老人列表
-const oldListDate = async () => {
-  let res: any = await getElderlyList(params)
-  if (res?.code == 10000) {
-    oldList.value = res.data.list.map((item: any) => ({
-      id: item.id,
-      name: item.name
-    }))
-  }
+// 选择老人
+const idOld = ref(false)
+const select = () => {
+  idOld.value = true
 }
-//查询单挑体温
-const TemperatureList=async()=>{
-  let res:any =await GetTemperature(props.id)
+const OldName = ref('')
+const oldid = async(id: number) => {
+    console.log(id);
+    if (id) {
+        let res: any = await getElderly(id)
+        if (res?.code == 10000) {
+            idOld.value = false
+            OldName.value = res.data.name
+        }
+        ruleForm.elderlyId = id
+        ElMessage.success('选择老人成功')
+    }
+}
 
-  if(res?.code==10000){
-    Object.assign(ruleForm,res.data)    
+// 数据回显
+const Editold = async () => {
+  if (props.data) {
+      OldName.value =props.data.elderlyName
+      Object.assign(ruleForm,props.data)
   }
-
 }
 //确定
 const confirm = async () => {
   let res:any;
-  if(props.id){
+  if(props.data.id){
     res= await TemperatureUpdate(ruleForm)
   }else{
     res = await TemperatureAdd(ruleForm)
   }
   if (res?.code == 10000) {
-    ElMessage.success(props.id?'修改成功':'添加成功')
+    ElMessage.success(props.data.id?'修改成功':'添加成功')
     close(true)
   }
 }
 onMounted(async() => {
- await oldListDate()//老人列表
- await TemperatureList() //单挑体温
+ await Editold() //单挑体温
 })
 </script>
 <style lang="less" scoped>

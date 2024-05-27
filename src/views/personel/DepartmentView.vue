@@ -2,9 +2,22 @@
   <!-- 部门管理 -->
   <el-card class="box-card">
     <el-button type="primary" @click="add">添加部门</el-button>
-    <DepartmentTree v-if="isdialog" @close="close" :deppid="deppid" :depid="depid"></DepartmentTree>
-    <el-tree class="tree" style="max-width: 400px" :data="dataSource" show-checkbox node-key="id"
-      :expand-on-click-node="false" :props="{ children: 'children', label: 'name' }">
+    <DepartmentTree
+      v-if="isdialog"
+      @close="close"
+      :deppid="deppid"
+      :depid="depid"
+      :depname="depname"
+    ></DepartmentTree>
+    <el-tree
+      class="tree"
+      style="max-width: 400px"
+      :data="dataSource"
+      show-checkbox
+      node-key="id"
+      :expand-on-click-node="false"
+      :props="{ children: 'children', label: 'name' }"
+    >
       <template #default="{ node, data }">
         <span class="custom-tree-node">
           <span>{{ node.label }}</span>
@@ -20,7 +33,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, toRefs, ref, onMounted, defineAsyncComponent } from 'vue'
+import { ref, onMounted, defineAsyncComponent } from 'vue'
 import { Delete, Edit, Plus } from '@element-plus/icons-vue'
 import { TreeData } from '@/utils/utils'
 import { getMessageBox } from '@/utils/utils'
@@ -31,11 +44,12 @@ const DepartmentTree = defineAsyncComponent(
 )
 const depid = ref<number>(0)
 const deppid = ref<number>(0)
+const depname = ref<string>('')
 const isdialog = ref(false)
 // 部门列表
 const dataSource = ref<DepartmentListParams[]>([])
 const getlist = async () => {
-  let res: any = await departmentList().catch(() => { })
+  let res: any = await departmentList().catch(() => {})
   console.log('部门列表', res)
   if (res?.code === 10000) {
     dataSource.value = TreeData(res.data.list)
@@ -46,7 +60,6 @@ onMounted(() => {
 })
 // 增加部门
 const add = (data: DepartmentListParams) => {
-  // console.log(1111, data)
   if (data?.id) {
     deppid.value = data.id
   }
@@ -56,6 +69,7 @@ const add = (data: DepartmentListParams) => {
 const emit = (data: DepartmentListParams) => {
   console.log(data)
   depid.value = data.id
+  depname.value = data.name
   isdialog.value = true
 }
 // 删除部门

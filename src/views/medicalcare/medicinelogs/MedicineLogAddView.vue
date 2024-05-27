@@ -1,11 +1,19 @@
 <template>
   <!-- 新增用药登记 -->
   <el-card style="margin-top: 15px">
-    <AddRegInfoDialog v-if="isdialog" @close="close"></AddRegInfoDialog>
-    <el-form :model="formInline" class="demo-form-inline">
-      <el-form-item label="登记日期："> <TimePicker></TimePicker> </el-form-item>
-      <el-form-item label="家属姓名：">
-        <el-input v-model="formInline.user" placeholder="请输入" clearable />
+    <AddRegInfoDialog v-if="isdialog" @close="close" :remdata="remdata"></AddRegInfoDialog>
+    <el-form :model="formInline" class="demo-form-inline" :rules="rules" ref="ruleFormRef">
+      <el-form-item label="登记日期：" prop="addTime">
+        <TimePicker
+          @click="selectTime"
+          :remtime="date"
+          :valueFormat="format"
+          :format="format"
+        ></TimePicker>
+      </el-form-item>
+
+      <el-form-item label="家属姓名：" prop="familyName">
+        <el-input v-model="formInline.familyName" placeholder="请输入" clearable />
       </el-form-item>
     </el-form>
     <div style="margin: 20px 0">
@@ -14,31 +22,57 @@
     </div>
     <!-- 表格 -->
     <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
-      <template #operate>
-        <el-button type="primary" text @click="edit">编辑</el-button>
-        <el-button type="primary" text @click="del">删除</el-button>
+      <template #operate="{ data, index }">
+        <el-button type="primary" text @click="edit(data)">编辑</el-button>
+        <el-button type="primary" text @click="del(index)">删除</el-button>
       </template>
     </MayTable>
     <div class="button">
-      <el-button type="primary">保存</el-button>
-      <el-button>取消</el-button>
+      <el-button type="primary" @click="submitForm(ruleFormRef)">保存</el-button>
+      <el-button @click="getback">取消</el-button>
     </div>
   </el-card>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
-import AffiliatedView from '@/database/AffiliatedView.json'
+import { ref, reactive, onMounted, defineAsyncComponent, provide } from 'vue'
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
+import type { FormRules, FormInstance } from 'element-plus'
+import { DrugsAdd } from '@/service/medicalcare/MedicalcareApi'
+import type { DrugsAddParams } from '@/service/medicalcare/MedicalcareType'
+import { useRoute, useRouter } from 'vue-router'
+const route = useRoute()
+const router = useRouter()
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const TimePicker = defineAsyncComponent(() => import('@/components/timepicker/MayTimePicker.vue'))
 const AddRegInfoDialog = defineAsyncComponent(
   () => import('@/components/dialog/medicalcare/AddRegInfoDialog.vue')
 )
-const formInline = reactive({
-  user: '',
-  region: '',
-  date: ''
+import moment from 'moment'
+const date = moment(new Date()).format('YYYY-MM-DD')
+const format = 'YYYY-MM-DD'
+const ruleFormRef = ref<FormInstance>()
+const formInline = reactive<DrugsAddParams>({
+  id: null,
+  elderlyId: Number(route.query?.id),
+  addTime: date,
+  familyName: ''
+})
+const rules = reactive<FormRules<DrugsAddParams>>({
+  addTime: [
+    {
+      required: true,
+      message: '请选择输入日期',
+      trigger: 'change'
+    }
+  ],
+  familyName: [
+    {
+      required: true,
+      message: '请输入姓名',
+      trigger: 'blur'
+    }
+  ]
 })
 const isdialog = ref(false)
 const data = reactive({
@@ -53,27 +87,27 @@ const data = reactive({
       label: '药品名称'
     },
     {
-      prop: 'address',
+      prop: 'counts',
       label: '数量'
     },
     {
-      prop: 'manager',
+      prop: 'expTime',
       label: '有效期'
     },
     {
-      prop: 'phone',
+      prop: 'sum',
       label: '剂量'
     },
     {
-      prop: 'username',
+      prop: 'remarks',
       label: '服法'
     }
   ]
 })
-const getlist = () => {
-  setTimeout(() => {
-    data.tableData = AffiliatedView
-  }, 1000)
+
+// 选择时间
+const selectTime = (val: string) => {
+  formInline.addTime = val
 }
 // 关闭弹窗
 const close = () => {
@@ -85,23 +119,45 @@ const add = () => {
   isdialog.value = true
 }
 // 编辑
-const edit = () => {
-  add()
+const remdata = ref({})
+const edit = (data: any) => {
+  remdata.value = data
+  isdialog.value = true
 }
 
 // 删除
-const del = async () => {
+const del = async (index: number) => {
   let res = await getMessageBox('是否确认删除该条记录', '删除后将不可恢复')
   console.log(11112, res)
   if (res) {
+    data.tableData.splice(index, 1)
     ElMessage.success('删除成功')
   } else {
     ElMessage.info('取消删除')
   }
 }
-onMounted(() => {
-  getlist()
-})
+// 返回
+const getback = () => {
+  router.push('/medicalcare/medicinelogs')
+}
+// 提交表单
+const submitForm = async (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+  const valid = await formEl.validate().catch(() => {})
+  if (valid) {
+    await data.tableData.forEach(async (item: any) => {
+      let res = await DrugsAdd({
+        ...formInline,
+        ...item
+      })
+      console.log('添加', res)
+    })
+    router.push('/medicalcare/medicinelogs')
+    ElMessage.success('添加成功')
+  }
+}
+// 向后代提供数据
+provide('tableData', data.tableData)
 </script>
 <style lang="less" scoped>
 .el-input {

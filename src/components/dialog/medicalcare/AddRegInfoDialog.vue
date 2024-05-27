@@ -9,13 +9,14 @@
       class="demo-ruleForm"
       :size="formSize"
       status-icon
+      label-position="left"
     >
-      <el-form-item label="药品名称" prop="name">
+      <el-form-item label="药品名称:" prop="name">
         <el-input v-model="ruleForm.name" />
       </el-form-item>
-      <el-form-item label="数量" prop="name" class="Special_line">
-        <el-input v-model="ruleForm.name" />
-        <el-select v-model="ruleForm.name" placeholder="请选择" size="large">
+      <el-form-item label="数量:" prop="counts" class="Special_line">
+        <el-input v-model="ruleForm.counts" />
+        <el-select v-model="ruleForm.unit" placeholder="请选择">
           <el-option
             v-for="item in dosage"
             :key="item.value"
@@ -24,12 +25,18 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="有效期" prop="name">
-        <el-input v-model="ruleForm.name" />
+      <el-form-item label="有效期:">
+        <TimePicker
+          @change="timeSelect"
+          style="width: 287px"
+          :format="format"
+          :value-format="format"
+          :remtime="ruleForm.expTime"
+        ></TimePicker>
       </el-form-item>
-      <el-form-item label="剂量" prop="name" class="Special_line">
-        <el-input v-model="ruleForm.name" />
-        <el-select v-model="ruleForm.name" placeholder="请选择" size="large">
+      <el-form-item label="剂量:" class="Special_line">
+        <el-input v-model="ruleForm.sum" />
+        <el-select v-model="ruleForm.norms" placeholder="请选择">
           <el-option
             v-for="item in nums"
             :key="item.value"
@@ -38,9 +45,9 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="服法" prop="name">
+      <el-form-item label="服法:">
         <el-input
-          v-model="ruleForm.name"
+          v-model="ruleForm.remarks"
           style="width: 300px"
           :rows="2"
           type="textarea"
@@ -51,25 +58,86 @@
     <template #footer>
       <div class="dialog-footer">
         <el-button @click="close">取消</el-button>
-        <el-button type="primary" @click="close(true)"> 确定 </el-button>
+        <el-button type="primary" @click="submitForm(ruleFormRef)"> 确定 </el-button>
       </div>
     </template>
   </el-dialog>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, onMounted, defineEmits } from 'vue'
+import {
+  ref,
+  reactive,
+  inject,
+  defineEmits,
+  defineAsyncComponent,
+  defineProps,
+  onMounted
+} from 'vue'
 import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
+import { ElMessage } from 'element-plus'
+import {} from '@/service/medicalcare/MedicalcareApi'
+import type { DrugsAddDrugsParams } from '@/service/medicalcare/MedicalcareType'
+// 日期格式
+const format = 'YYYY-MM-DD'
+const TimePicker = defineAsyncComponent(() => import('@/components/timepicker/MayTimePicker.vue'))
+const props = defineProps({
+  remdata: {
+    type: Object,
+    default: () => {}
+  }
+})
 const formSize = ref<ComponentSize>('default')
 const ruleFormRef = ref<FormInstance>()
 const nums = [{ value: '盒', label: '盒' }]
 const dosage = [{ value: '粒', label: '粒' }]
-const ruleForm = reactive<any>({})
-const rules = reactive<FormRules<any>>({})
+const ruleForm = reactive<DrugsAddDrugsParams>({
+  name: '',
+  counts: null,
+  unit: '盒',
+  expTime: '',
+  sum: null,
+  norms: '粒',
+  remarks: ''
+})
+const rules = reactive<FormRules<DrugsAddDrugsParams>>({
+  name: [{ required: true, message: '请输入药品名称', trigger: 'blur' }],
+  counts: [{ required: true, message: '请输入数量', trigger: 'blur' }],
+  expTime: [{ required: true, message: '请输入有效期', trigger: 'change' }]
+})
+// 使用 inject 来获取父组件传递的值
+const tableData = inject<any>('tableData')!
+console.log(1111, tableData)
+
+// 提交表单
+const submitForm = async (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+  const valid = await formEl.validate()
+  if (valid) {
+    // ruleForm.id = tableData.length + 1
+    tableData.push(ruleForm)
+    ElMessage.success('添加成功')
+    close(true)
+  }
+}
+// 关闭弹窗
 const dialogVisible = ref(true)
 const emit = defineEmits(['close'])
 const close = (close: boolean = false) => {
   emit('close', close)
 }
+// 选择有效期
+const timeSelect = (val: any) => {
+  ruleForm.expTime = val
+}
+// 数据回显
+const Echodata = () => {
+  if (props.remdata) {
+    Object.assign(ruleForm, props.remdata)
+  }
+}
+onMounted(() => {
+  Echodata()
+})
 </script>
 <style lang="less" scoped>
 .el-input {

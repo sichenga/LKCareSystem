@@ -12,7 +12,7 @@
   />
 </template>
 <script lang="ts" setup>
-import { ref, reactive, onMounted, defineProps, defineEmits } from 'vue'
+import { ref, reactive, onMounted, defineProps, defineEmits, watch } from 'vue'
 const emit = defineEmits(['change'])
 const props = defineProps({
   isrange: {
@@ -37,19 +37,32 @@ const props = defineProps({
   },
   startTime: {
     type: String,
-    default: '00:00'
+    default: ''
   },
   endTime: {
     type: String,
-    default: '23:00'
+    default: ''
   }
 })
-const value = ref<string | Array<string>>([props.startTime, props.endTime])
+const value = ref<string | Array<string>>(props.isrange ? [props.startTime, props.endTime] : '')
 // 选择时间
 const timeselect = (val: string) => {
   console.log(val)
   emit('change', val)
 }
+// 监听时间变化
+watch(
+  props,
+  (newVal) => {
+    console.log(newVal)
+    if (newVal.startTime == '' && newVal.endTime == '') {
+      value.value = ''
+    } else {
+      value.value = [newVal.startTime, newVal.endTime]
+    }
+  },
+  { deep: true }
+)
 </script>
 <style lang="less" scoped>
 .demo-range .el-date-editor {

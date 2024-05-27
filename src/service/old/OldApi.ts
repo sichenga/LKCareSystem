@@ -6,7 +6,7 @@ export const deleteElderly = (id: number) => del(`/api/elderly/delete/${id}`)
 // 老人添加  /api/elderly/add
 export const addElderly = (data: AddElderlyRequest) => post('/api/elderly/add', data)
 // 老人列表 /api/elderly/list
-export const getElderlyList = (params: ListElderlyRequest) => get('/api/elderly/list', params)
+export const getElderlyList = (params?: ListElderlyRequest) => get('/api/elderly/list', params)
 // 所有自理类目 /api/selfcare/list
 export const getSelfcareList = () => get('/api/selfcare/list')
 // 所有疾病类目 /api/disease/list

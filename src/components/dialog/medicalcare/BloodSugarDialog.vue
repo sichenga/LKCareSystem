@@ -3,7 +3,7 @@
     <el-dialog v-model="dialogVisible" :title="props.data.id>1?'修改血糖记录':'添加血糖记录'" width="500" @close="close">
         <el-form-item label="老人姓名：" prop="elderlyId">
 
-            <div v-if="OldName">
+            <div v-if="OldName" @click="select">
                 {{ OldName }}
             </div>
             <el-button v-else type="primary" @click="select">选择老人</el-button>
@@ -27,9 +27,10 @@
 <script lang="ts" setup>
 import { ref, reactive, defineEmits, onMounted, defineProps } from 'vue'
 import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
-import { BloodSugarAdd, BloodSugarGet, BloodSugarUpdate } from "@/service/medicalcare/MedicalcareApi"
+import { BloodSugarAdd, BloodSugarUpdate } from "@/service/medicalcare/MedicalcareApi"
 import { ElMessage } from 'element-plus'
 import {getElderly} from '@/service/old/OldApi'
+import OldDialog from "@/components/dialog/care/OldDialog.vue"
 import type { Temperature } from "@/service/medicalcare/MedicalcareType"
 const props = defineProps(['data'])
 const formSize = ref<ComponentSize>('default')

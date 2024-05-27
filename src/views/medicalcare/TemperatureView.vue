@@ -23,14 +23,14 @@
     </el-card>
     <el-button type="primary" style="margin-top: 20px;" @click='add'>新增体温</el-button>
 
-    <TemperatureDialog v-if="dialogVisible" @close="close" :id="ids"></TemperatureDialog>
+    <TemperatureDialog v-if="dialogVisible" @close="close" :data="datas"></TemperatureDialog>
 
     <el-card style="max-width: 100%" class="card">
         <!-- 表格 -->
         <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
             <template #operate="{ data }">
                 <el-button type="primary" size="small" text @click="del(data.id)">删除</el-button>
-                <el-button type="primary" size="small" text @click="record(data.id)">编辑</el-button>
+                <el-button type="primary" size="small" text @click="record(data)">编辑</el-button>
             </template>
         </MayTable>
         <Pagination @page="handlPage" @pSize="handlpSize" :page="params.page" :psize="params.pageSize" :total="counts"></Pagination>
@@ -110,15 +110,16 @@ const close = (val: any) => {
     }
 }
 
-let ids = ref(0)
+let datas = ref<any>({})
 // 添加
 const add=()=>{
-    ids.value=0
+    datas.value={}
     dialogVisible.value=true
 }
 // 编辑
-const record = (id: any) => {
-    ids.value = id
+const record = (data: any) => {
+
+    datas.value = data
     dialogVisible.value=true
 }
 // 删除

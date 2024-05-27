@@ -12,12 +12,10 @@
             <div>
               <div>老人姓名：</div>
               <div>身份证号：</div>
-              <div>护理等级：</div>
             </div>
             <div>
               <div>{{ DataElder.name }}</div>
               <div>{{ DataElder.idCard }}</div>
-              <div>{{ DataElder.eduLevel }}</div>
             </div>
           </div>
         </div>
@@ -50,14 +48,6 @@
         </div>
         <div class="margin-size">
           <el-form-item label="选择床位:" prop="begId">
-            <!-- <el-select v-model="ruleForm.begId" placeholder="请选择">
-              <el-option
-                v-for="item in DataBedsList"
-                :key="item.id"
-                :label="item.name"
-                :value="item.id"
-              />
-            </el-select> -->
             <MayCascader
               :options="DataBedsList"
               @change="bedselect"
@@ -193,6 +183,8 @@ const Image = import.meta.env.VITE_BASE_URL + '/'
 const router = useRouter()
 const route = useRoute()
 const ruleForm = inject<orderAdds>('ruleForm')!
+console.log(11111, ruleForm)
+
 const emits = defineEmits(['isshou'])
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const MayTimePicker = defineAsyncComponent(
@@ -321,9 +313,9 @@ const getElderlyLists = async () => {
 }
 //获取单挑入院列表
 const getOrderlist = async () => {
-  let ids = Number(route.query?.ids)
+  let ids = route.query?.ids
   if (ids) {
-    let res: any = await orderGet(ids)
+    let res: any = await orderGet(Number(ids))
     if (res?.code == 10000) {
       params.value = res.data
       data.tableDatas = res.data.services.map((item: any) => ({
