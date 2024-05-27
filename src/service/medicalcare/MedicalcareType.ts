@@ -1,5 +1,4 @@
 //  体温记录列表
-
 export interface MedicalcareParams {
   page: number
   pageSize: number
@@ -9,7 +8,17 @@ export interface MedicalcareParams {
   begId: string | null //床位Id
 }
 
+// 添加
 export interface Temperature {
-  elderlyId: number
+  id: number
+  elderlyId: number | null
   val: string
+}
+
+// 血糖记录列表
+export interface bloodSugarlistParams {
+  page: number
+  pageSize: number
+  name: string
+  begId: number | null
 }
