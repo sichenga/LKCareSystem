@@ -10,7 +10,7 @@
         <el-input v-model="formInline.idCard" placeholder="请输入" clearable />
       </el-form-item>
       <el-form-item label="预定床位">
-        <el-cascader :options="options" :props="props" @change="handleChange" />
+        <MayCascader :options="BuildRoom" @change="RommId"> </MayCascader>
       </el-form-item>
       <el-form-item label="预定状态">
         <el-select v-model="formInline.mobile" placeholder="请选择" clearable>
@@ -48,10 +48,12 @@ import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
 import { reservationList, reservationDelete } from "@/service/market/ReserveApi"
-import { ConfigBuildingList, getHouseList, getBedsList } from "@/service/config/ConfigApi"
 import type { ReservationParams } from "@/service/market/Reservetype"
 import ReserveDialog from '@/components/dialog/market/ReserveDialog.vue';
 import { useRouter } from 'vue-router'
+import MayCascader from '@/components/cascader/MayCascader.vue'
+import { useBuildStroe } from '@/stores/mobule/build'
+const useBuild = useBuildStroe()
 const router = useRouter()
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
@@ -196,84 +198,18 @@ const psize = (val: number) => {
 onMounted(() => {
   getList()
   // 预定
-  reserve()
+  BuildList()
 })
 
 // 预定床位
-// 级联选择器
-
-const props = {
-  children: 'children',
-  value: 'id',
-  label: 'name',
+const BuildRoom = ref([])
+const BuildList = async () => {
+  let res: any = await useBuild.getBuildListData()
+  BuildRoom.value = res
 }
-
-const handleChange = (value: any) => {
-  console.log(value);
-  if (value.length == 4) {
-    formInline.begId = value[value.length - 1];
-    console.log(formInline.begId);
-  } else {
-    formInline.begId = null;
-  }
-}
-
-const options = ref([])
-
-// 预定床位
-const reserve = async () => {
-  // 楼栋列表
-  let building = await buildingList()
-  // 房间列表
-  let house = await houseList()
-  // 床位列表
-  let bed = await bedList()
-
-  function convertToTree(flatData: any, pid: number = 0) {
-    const children = flatData.filter((node: any) => node.pid == pid);
-    if (!children.length) {
-      return house.filter((item: any) => item.buildingId == pid).map((item: any) => ({
-        id: item.id,
-        name: item.name,
-        pid: item.buildingId,
-        children: bed.filter((bitem: any) => bitem.houseId == item.id).map((sitem: any) => ({
-          id: sitem.id, name: sitem.name
-        }))
-      }))
-    }
-    return children.map((node: any) => ({
-      ...node,
-      children: convertToTree(flatData, node.id)
-    }));
-  }
-  let tree = convertToTree(building, 0)
-  console.log('数据', tree);
-  options.value = tree
-}
-
-// 楼栋列表
-const buildingList = async () => {
-  const res: any = await ConfigBuildingList()
-  console.log('楼栋列表', res);
-  if (res.code == 10000) {
-    return res.data.list
-  }
-}
-// 房间列表
-const houseList = async () => {
-  const res: any = await getHouseList()
-  console.log('房间列表', res);
-  if (res.code === 10000) {
-    return res.data.list
-  }
-}
-// 床位列表
-const bedList = async () => {
-  const res: any = await getBedsList()
-  console.log('床位列表', res);
-  if (res.code === 10000) {
-    return res.data.list
-  }
+//选择的房间
+const RommId = (val: any) => {
+  formInline.begId = val
 }
 
 </script>

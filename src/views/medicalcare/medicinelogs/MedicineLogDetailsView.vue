@@ -1,7 +1,7 @@
 <!-- 用药登记详情 -->
 <template>
   <el-card>
-    {{ data.tableData }}
+    <AddRegInfoDialog></AddRegInfoDialog>
     <div class="user_content">
       <!-- 头像 -->
       <el-image style="width: 80px; height: 80px" :src="upload + oldInfo?.photo" />
@@ -48,6 +48,9 @@ const Pagination = defineAsyncComponent(() => import('@/components/pagination/Ma
 import { getElderly } from '@/service/old/OldApi'
 import type {} from '@/service/medicalcare/MedicalcareType'
 import { DrugsListForElderly } from '@/service/medicalcare/MedicalcareApi'
+const AddRegInfoDialog = defineAsyncComponent(
+  () => import('@/components/dialog/medicalcare/AddRegInfoDialog.vue')
+)
 const upload = import.meta.env.VITE_BASE_URL + '/'
 // 老人信息
 const oldInfo = ref<any>()!
@@ -106,7 +109,6 @@ const getlist = async (id: number) => {
   let res: any = await DrugsListForElderly(id)
   if (res?.code === 10000) {
     total.value = res.data.list.length
-    data.DrugsList = res.data.list
     data.tableData = res.data.list.slice(
       (params.page - 1) * params.pageSize,
       params.page * params.pageSize
@@ -125,11 +127,7 @@ const getpsize = (val: number) => {
   getlist(Number(id))
 }
 // 编辑
-const edit = () => {
-  router.push({
-    path: '/AddRegisterInfo'
-  })
-}
+const edit = () => {}
 
 // 删除
 const del = async () => {
