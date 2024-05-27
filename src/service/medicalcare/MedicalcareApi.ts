@@ -5,10 +5,11 @@ import type {
   CheckRoomParams,
   CheckRoomAddParams,
   BloodPressureParams,
-  BloodPressureAddParams
+  BloodPressureAddParams,
+  bloodSugarlistParams
 } from '@/service/medicalcare/MedicalcareType'
 
-// 体温记录
+// 体温记录列表
 export const TemperatureList = (params?: MedicalcareParams) => {
   return get('/api/temperature/list', params || {})
 }
@@ -47,3 +48,38 @@ export const BloodPressureAdd = (data?: BloodPressureAddParams) =>
 // 血压记录修改 /api/bloodPressure/update
 export const BloodPressureUpdate = (data?: BloodPressureAddParams) =>
   put('/api/bloodPressure/update', data || {})
+// 添加体温记录
+export const TemperatureDelete = (id?: number) => {
+  return del('/api/temperature/delete/' + id)
+}
+// 单挑体温
+export const GetTemperature = (id?: number) => {
+  return get('/api/temperature/get/' + id)
+}
+// 修改体温记录
+export const TemperatureUpdate = (data?: Temperature) => {
+  return put('/api/temperature/update', data || {})
+}
+
+// 血糖记录列表
+export const BloodSugarList = (params: bloodSugarlistParams) => {
+  return get('/api/bloodSugar/list', params)
+}
+// 血糖记录添加
+export const BloodSugarAdd = (data: Temperature) => {
+  return post('/api/bloodSugar/add', data)
+}
+
+// 删除血糖记录信息
+export const BloodSugarDelete = (id: number) => {
+  return del(`/api/bloodSugar/delete/${id}`)
+}
+// 获取单条血糖记录信息
+export const BloodSugarGet = (id: number) => {
+  return get(`/api/bloodSugar/get/${id}`)
+}
+
+// 血糖记录修改
+export const BloodSugarUpdate = (data: Temperature) => {
+  return put('/api/bloodSugar/update', data)
+}

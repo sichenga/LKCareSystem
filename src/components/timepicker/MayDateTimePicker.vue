@@ -5,15 +5,21 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, onMounted, defineEmits,defineProps,watch } from 'vue'
-const params = defineProps(['times'])
+const params = defineProps({
+  times:{
+    type:Array,
+    default:()=>[]
+  }
+})
 const emits = defineEmits(['change'])
 const time = ref<any>([])
-console.log(params.times);
+console.log(1231,params.times);
 watch(params.times,(val)=>{
   console.log('回显日期',val);
-  
-  time.value=val
-},{deep:true,immediate:true})
+  if(val){
+    time.value=val
+  }
+},{immediate:true})
 // 选择日期时间
 const handleChange = (value: string) => {
   console.log(value)

@@ -7,10 +7,13 @@
                 <el-input v-model="params.name" placeholder="请输入" clearable />
             </el-form-item>
             <el-form-item label="床位:">
-                <el-select v-model="params.begId" placeholder="请选择">
-                    <el-option label="Zone one" value="shanghai" />
-                    <el-option label="Zone two" value="beijing" />
-                </el-select>
+                <!-- <el-select  placeholder="请选择">
+                    <el-cascader v-model="params.begId" :options="options" @change="handleChange" />
+                </el-select> -->
+                <MayCascader :options="BuildRoom" @change="RommId"> </MayCascader>
+            </el-form-item>
+            <el-form-item label="日期:">
+                <MayDateTimePicker @change="handleChange"> </MayDateTimePicker>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="inquire">查询</el-button>
@@ -20,7 +23,7 @@
     </el-card>
     <el-button type="primary" style="margin-top: 20px;" @click='add'>新增体温</el-button>
 
-    <TemperatureDialog v-if="dialogVisible" @close="close"></TemperatureDialog>
+    <TemperatureDialog v-if="dialogVisible" @close="close" :id="ids"></TemperatureDialog>
 
     <el-card style="max-width: 100%" class="card">
         <!-- 表格 -->
@@ -30,7 +33,7 @@
                 <el-button type="primary" size="small" text @click="record(data.id)">编辑</el-button>
             </template>
         </MayTable>
-        <Pagination :total="50"></Pagination>
+        <Pagination @page="handlPage" @pSize="handlpSize" :page="params.page" :psize="params.pageSize" :total="counts"></Pagination>
 
     </el-card>
 </template>
@@ -39,14 +42,15 @@
 import { reactive, toRefs, ref, onMounted, defineAsyncComponent } from 'vue'
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
-import { TemperatureList } from '@/service/medicalcare/MedicalcareApi'
+import { TemperatureList,TemperatureDelete } from '@/service/medicalcare/MedicalcareApi'
 import type {MedicalcareParams} from '@/service/medicalcare/MedicalcareType'
 import TemperatureDialog from '@/components/dialog/medicalcare/TemperatureDialog.vue'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
-import { useRouter } from 'vue-router';
-const router = useRouter()
-
+import  MayCascader   from '@/components/cascader/MayCascader.vue'
+import  MayDateTimePicker   from '@/components/timepicker/MayDateTimePicker.vue'
+import  {useBuildStroe} from '@/stores/mobule/build'
+const useBuild=useBuildStroe()
 const data = reactive({
     tableData: [] as any,
     tableItem: [
@@ -85,12 +89,13 @@ const params = reactive<MedicalcareParams>({
     begId: null //床位Id
 })
 //体温列表
+let counts = 0
 const getlist = async () => {
     let res: any = await TemperatureList(params)
-    console.log(res);
-    
+
     if (res?.code === 10000) {
         data.tableData = res.data.list
+        counts=res.data.counts
     }
 }
 
@@ -99,25 +104,35 @@ const dialogVisible = ref(false)
 
 const close = (val: any) => {
     dialogVisible.value = val
+    if(val==true){
+        dialogVisible.value = false
+        getlist()
+    }
 }
 
+let ids = ref(0)
 // 添加
 const add=()=>{
+    ids.value=0
     dialogVisible.value=true
 }
-// 查看记录
+// 编辑
 const record = (id: any) => {
-    console.log('查看记录', id);
-    router.push("/medicalcare/check-room/details/id")
+    ids.value = id
+    dialogVisible.value=true
 }
 // 删除
 const del = async (id: number) => {
 
     let res = await getMessageBox('是否确认删除此体温记录', '删除后将不可恢复')
     if (res) {
-        console.log(id);
 
-        ElMessage.success('删除成功')
+        let _del:any=await TemperatureDelete(id)
+        if(_del?.code==10000){
+            getlist()
+            ElMessage.success('删除成功')
+        }
+   
     } else {
         ElMessage.info('取消删除')
     }
@@ -127,8 +142,35 @@ const inquire=()=>{
     params.page=1
     getlist()
 }
-onMounted(() => {
+// 分页
+const handlPage=(val:any)=>{
+    params.page=val
     getlist()
+}
+const handlpSize=(val:any)=>{
+    params.pageSize=val
+    getlist()
+}
+// 床位
+const BuildRoom=ref([])
+const BuildList=async()=>{
+    let res:any=await useBuild.getBuildListData()
+    BuildRoom.value=res
+}
+//选择的房间
+const RommId = (val:any)=>{
+    params.begId=val
+}
+// 日期
+const handleChange =(val:any)=>{
+        params.beginDate=val[0]
+        params.endDate=val[1]
+        console.log(123,val);
+        
+}
+onMounted(() => {
+    getlist()//体温列表
+    BuildList()// 床位
 })
 </script>
 

@@ -151,7 +151,7 @@ const add = () => {
 // 删除
 const handleDelete = async (id: any) => {
   console.log('删除', id)
-  let res = await getMessageBox('是否确认删除该供应商', '删除后将不可恢复')
+  let res = await getMessageBox('是否确认删除该洗衣错衣', '删除后将不可恢复')
   if (res) {
     const res: any = await clothesDelete(id).catch(() => { })
     if (res.code == 10000) {
