@@ -103,3 +103,55 @@ export interface bloodSugarlistParams {
   name: string
   begId: number | null
 }
+// // 存药登记列表 /api/drugs/list
+export interface DrugsParams {
+  /**
+   * 床位ID
+   */
+  begId?: string
+  /**
+   * 开始时间yyyy-MM-dd
+   */
+  beginDate?: string
+  /**
+   * 结束时间yyyy-MM-dd
+   */
+  endDate?: string
+  /**
+   * 老人姓名
+   */
+  name?: string
+  /**
+   * 当前页
+   */
+  page?: number
+  /**
+   * 每页显示多少条
+   */
+  pageSize?: number
+}
+// 存药登记添加 /api/drugs/add
+export interface DrugsAddParams {
+  id: number | null
+  elderlyId: number | null
+  addTime: string
+  familyName: string
+  name?: string
+  counts?: number
+  unit?: number
+  expTime?: string
+  sum?: number
+  norms?: string
+  remarks?: string
+}
+// 新增药品
+export interface DrugsAddDrugsParams {
+  id?: number
+  name: string
+  counts: number | null
+  unit: string
+  expTime: string
+  sum: number | null
+  norms: string
+  remarks: string
+}

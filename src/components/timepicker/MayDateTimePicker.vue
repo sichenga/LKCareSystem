@@ -1,25 +1,62 @@
 <template>
-  <el-date-picker v-model="time" type="datetimerange" range-separator="-" start-placeholder="开始时间"
-    end-placeholder="结束时间" format="YYYY-MM-DD HH:mm:ss" date-format="YYYY/MM/DD" time-format="HH:mm:ss"
-    value-format="YYYY-MM-DD HH:mm" @change="handleChange" />
+  <el-date-picker
+    v-model="time"
+    type="datetimerange"
+    :range-separator="rangeSeparator"
+    :start-placeholder="startplaceholder"
+    :end-placeholder="endplaceholder"
+    :format="format"
+    :value-format="valueformat"
+    @change="handleChange"
+  />
 </template>
 <script lang="ts" setup>
-import { ref, reactive, onMounted, defineEmits,defineProps,watch } from 'vue'
+import { ref, reactive, onMounted, defineEmits, defineProps, watch } from 'vue'
 const params = defineProps({
-  times:{
-    type:Array,
-    default:()=>[]
+  statetime: {
+    type: String,
+    default: ''
+  },
+  endtime: {
+    type: String,
+    default: ''
+  },
+  startplaceholder: {
+    type: String,
+    default: '开始时间'
+  },
+  endplaceholder: {
+    type: String,
+    default: '结束时间'
+  },
+  rangeSeparator: {
+    type: String,
+    default: '-'
+  },
+  format: {
+    type: String,
+    default: 'YYYY-MM-DD HH:mm:ss'
+  },
+  valueformat: {
+    type: String,
+    default: 'YYYY-MM-DD HH:mm:ss'
   }
 })
 const emits = defineEmits(['change'])
 const time = ref<any>([])
-console.log(1231,params.times);
-watch(params.times,(val)=>{
-  console.log('回显日期',val);
-  if(val){
-    time.value=val
-  }
-},{immediate:true})
+console.log(1231, params)
+watch(
+  params,
+  (val) => {
+    console.log('回显日期', val)
+    if (params.statetime == '' && params.endtime == '') {
+      time.value = ''
+    } else {
+      time.value = [params.statetime, params.endtime]
+    }
+  },
+  { immediate: true, deep: true }
+)
 // 选择日期时间
 const handleChange = (value: string) => {
   console.log(value)

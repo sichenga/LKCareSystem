@@ -6,7 +6,9 @@ import type {
   CheckRoomAddParams,
   BloodPressureParams,
   BloodPressureAddParams,
-  bloodSugarlistParams
+  bloodSugarlistParams,
+  DrugsParams,
+  DrugsAddParams
 } from '@/service/medicalcare/MedicalcareType'
 
 // 体温记录列表
@@ -83,3 +85,15 @@ export const BloodSugarGet = (id: number) => {
 export const BloodSugarUpdate = (data: Temperature) => {
   return put('/api/bloodSugar/update', data)
 }
+// 存药登记列表 /api/drugs/list
+export const DrugsList = (params?: DrugsParams) => get('/api/drugs/list', params || {})
+// 获取老人存药记录 /api/drugs/listForElderly/25
+export const DrugsListForElderly = (id: number) => get(`/api/drugs/listForElderly/${id}`)
+// 获取单条存药登记信息 /api/drugs/get/3
+export const DrugsGet = (id: number) => get(`/api/drugs/get/${id}`)
+// 删除存药登记信息 /api/drugs/delete/2
+export const DrugsDelete = (id: number) => del(`/api/drugs/delete/${id}`)
+// 存药登记添加 /api/drugs/add
+export const DrugsAdd = (data: DrugsAddParams) => post('/api/drugs/add', data || {})
+// 存药登记信息修改 /api/drugs/update
+export const DrugsUpdate = (data: DrugsAddParams) => put('/api/drugs/update', data || {})

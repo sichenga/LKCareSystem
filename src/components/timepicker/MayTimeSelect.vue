@@ -57,6 +57,8 @@ watch(
     console.log(newVal)
     if (newVal.startTime == '' && newVal.endTime == '') {
       value.value = ''
+    } else {
+      value.value = [newVal.startTime, newVal.endTime]
     }
   },
   { deep: true }

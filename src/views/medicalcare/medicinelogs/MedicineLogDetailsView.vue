@@ -1,46 +1,62 @@
 <!-- 用药登记详情 -->
 <template>
   <el-card>
+    {{ data.tableData }}
     <div class="user_content">
       <!-- 头像 -->
-      <el-image style="width: 80px; height: 80px" :src="url" />
+      <el-image style="width: 80px; height: 80px" :src="upload + oldInfo?.photo" />
       <el-form
         label-width="120px"
         label-position="left"
         style="max-width: 600px; margin-left: 30px"
       >
-        <el-form-item label="老人：">张三 </el-form-item>
-        <el-form-item label="身份证号：">32062371887128122 </el-form-item>
-        <el-form-item label="床位">301-02</el-form-item>
+        <el-form-item label="老人：">{{ oldInfo?.name }} </el-form-item>
+        <el-form-item label="身份证号：">{{ oldInfo?.idCard }} </el-form-item>
+        <el-form-item label="床位">{{ oldInfo?.begName }}</el-form-item>
       </el-form>
     </div>
   </el-card>
   <el-card style="margin-top: 15px">
-    <div style="margin: 10px 0">
+    <!-- <div style="margin: 10px 0">
       <el-button type="primary" @click="add">新增</el-button>
-    </div>
+    </div> -->
     <!-- 表格 -->
     <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
       <template #operate>
         <el-button type="primary" text @click="edit">编辑</el-button>
         <el-button type="primary" text @click="del">删除</el-button>
-        <el-button type="primary" text @click="getinfo">查看详情</el-button>
       </template>
     </MayTable>
-    <Pagination :total="50"></Pagination>
+    <Pagination
+      :total="total"
+      :page="params.page"
+      :psize="params.pageSize"
+      @page="getpage"
+      @psize="getpsize"
+    ></Pagination>
   </el-card>
 </template>
 <script lang="ts" setup>
 import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
-import AffiliatedView from '@/database/AffiliatedView.json'
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 const router = useRouter()
+const route = useRoute()
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
-const url = ref('https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg')
-const isdialog = ref(false)
+import { getElderly } from '@/service/old/OldApi'
+import type {} from '@/service/medicalcare/MedicalcareType'
+import { DrugsListForElderly } from '@/service/medicalcare/MedicalcareApi'
+const upload = import.meta.env.VITE_BASE_URL + '/'
+// 老人信息
+const oldInfo = ref<any>()!
+const total = ref(0)
+const params = reactive({
+  page: 1,
+  pageSize: 5
+})
+let id = route.params?.id
 const data = reactive({
   tableData: [] as any,
   tableItem: [
@@ -49,47 +65,69 @@ const data = reactive({
       label: '序号'
     },
     {
-      prop: 'name',
-      label: '登记日期'
+      prop: 'addTime',
+      label: '登记时间'
     },
     {
-      prop: 'address',
-      label: '登记药品品种数'
+      prop: 'familyName',
+      label: '登记人'
     },
     {
-      prop: 'manager',
-      label: '经办人'
+      prop: 'counts',
+      label: '数量'
     },
     {
-      prop: 'phone',
-      label: '家属'
+      prop: 'expTime',
+      label: '有效期'
+    },
+    {
+      prop: 'sum',
+      label: '剂量'
+    },
+    {
+      prop: 'remarks',
+      label: '剂量'
     }
-  ]
+  ],
+  DrugsList: []
 })
-const getlist = () => {
-  setTimeout(() => {
-    data.tableData = AffiliatedView
-  }, 1000)
-}
+// 老人信息
+const getOlderInfo = async () => {
+  let res: any = await getElderly(Number(id))
+  console.log(res)
 
-// 新增
-const add = () => {
-  router.push({
-    path: '/medicalcare/medicinelogs/add'
-  })
+  if (res?.code === 10000) {
+    oldInfo.value = res.data
+    await getlist(Number(id))
+  }
 }
+// 老人存药记录
+const getlist = async (id: number) => {
+  let res: any = await DrugsListForElderly(id)
+  if (res?.code === 10000) {
+    total.value = res.data.list.length
+    data.DrugsList = res.data.list
+    data.tableData = res.data.list.slice(
+      (params.page - 1) * params.pageSize,
+      params.page * params.pageSize
+    )
+    // getPagination(res.data.list)
+  }
+}
+// 分页
 
+const getpage = (val: number) => {
+  params.page = val
+  getlist(Number(id))
+}
+const getpsize = (val: number) => {
+  params.pageSize = val
+  getlist(Number(id))
+}
 // 编辑
 const edit = () => {
   router.push({
     path: '/AddRegisterInfo'
-  })
-}
-
-// 查看详情
-const getinfo = () => {
-  router.push({
-    path: '/getregisterinfo'
   })
 }
 
@@ -103,8 +141,9 @@ const del = async () => {
     ElMessage.info('取消删除')
   }
 }
+
 onMounted(() => {
-  getlist()
+  getOlderInfo()
 })
 </script>
 <style lang="less" scoped>
