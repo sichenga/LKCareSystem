@@ -40,6 +40,7 @@ import { ConfigBuildingList, getHouseList, getBedsList } from "@/service/config/
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
 import BloodSugarDialog from '@/components/dialog/medicalcare/BloodSugarDialog.vue'
+
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
 import { useRouter } from 'vue-router';
@@ -93,6 +94,8 @@ onMounted(() => {
     getlist()
     // 预定
     reserve()
+
+    
 })
 //弹出框
 const dialogVisible = ref(false)

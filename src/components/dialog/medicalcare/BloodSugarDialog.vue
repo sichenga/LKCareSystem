@@ -1,6 +1,6 @@
 <template>
     <!-- 添加血糖记录-->
-    <el-dialog v-model="dialogVisible" title="添加血糖记录" width="500" @close="close">
+    <el-dialog v-model="dialogVisible" :title="ruleForm.id == 0 ? '添加血糖记录' : '编辑血糖记录'" width="500" @close="close">
         <el-button type="primary" style="margin-bottom: 30px;" @click="select">选择老人</el-button>
         <BloodOldDialog v-if="idOld" @closes="closes" @id="oldid"></BloodOldDialog>
         <el-form ref="ruleFormRef" style="max-width: 600px" :model="ruleForm" :rules="rules" label-width="auto"
@@ -48,14 +48,14 @@ const submitForm = async (formEl: FormInstance | undefined) => {
                 ElMessage.error('请选择老人')
             } else {
                 let res: any
-                if (ruleForm.id==0) {
+                if (ruleForm.id == 0) {
                     res = await BloodSugarAdd(ruleForm).catch(() => { })
                 } else {
                     res = await BloodSugarUpdate(ruleForm).catch(() => { })
                 }
                 if (res.code == 10000) {
                     close(true)
-                    ElMessage.success(ruleForm.id==0 ? '添加成功' : '修改成功')
+                    ElMessage.success(ruleForm.id == 0 ? '添加成功' : '修改成功')
                 } else {
                     ElMessage.error(res.msg)
                 }
