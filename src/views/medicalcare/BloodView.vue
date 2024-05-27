@@ -11,9 +11,12 @@
         <MayCascader :options="data.beddata" @change="bedSelect" :emitid="formInline.begId ? formInline.begId : 0">
         </MayCascader>
       </el-form-item>
-      <el-form-item label="查询时间:" prop="beginDate">
-        <MayTimeSelect @change="tiemchange" :isrange="true" :startTime="formInline.beginDate" :endTime="formInline.endDate">
-        </MayTimeSelect>
+      <el-form-item label="查询时间:">
+        <MayDateTimePicker
+          @change="timeSelect"
+          :statetime="formInline.beginDate"
+          :endtime="formInline.endDate"
+        ></MayDateTimePicker>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="inquire">查询</el-button>
@@ -44,7 +47,7 @@ import { ElMessage } from 'element-plus'
 import BloodDialog from '@/components/dialog/medicalcare/BloodDialog.vue'
 import { useBuildStroe } from '@/stores'
 import MayCascader from '@/components/cascader/MayCascader.vue'
-import MayTimeSelect from '@/components/timepicker/MayTimeSelect.vue'
+import MayDateTimePicker from '@/components/timepicker/MayDateTimePicker.vue'
 import { BloodPressureList, BloodPressureDelete } from '@/service/medicalcare/MedicalcareApi'
 import type { BloodPressureParams } from '@/service/medicalcare/MedicalcareType'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
@@ -158,6 +161,11 @@ const getpsize = (val: number) => {
 const inquire = () => {
   formInline.page = 1
   getlist()
+}
+// 选择日期
+const timeSelect = (val: any) => {
+  formInline.beginDate = val[0]
+  formInline.endDate = val[1]
 }
 onMounted(() => {
   getlist()

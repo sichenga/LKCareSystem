@@ -3,10 +3,10 @@
   <el-card>
     <el-form :inline="true" :model="formInline" class="demo-form-inline">
       <el-form-item label="老人：">
-        <el-input v-model="formInline.user" placeholder="请输入" clearable />
+        <el-input v-model="formInline.name" placeholder="请输入" clearable />
       </el-form-item>
       <el-form-item label="登记时间：">
-        <TimePicker></TimePicker>
+        <MayDateTimePicker></MayDateTimePicker>
       </el-form-item>
       <el-form-item>
         <el-button type="primary">查询</el-button>
@@ -15,27 +15,46 @@
     </el-form>
   </el-card>
   <el-card style="margin-top: 15px">
+    <div style="margin: 15px 0">
+      <el-button type="primary" @click="registerinfo">用药登记</el-button>
+      <AddMedicineLogDialog v-if="isdialog" @close="close"></AddMedicineLogDialog>
+    </div>
     <!-- 表格 -->
     <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
-      <template #operate>
-        <el-button type="primary" text @click="registerinfo">用药登记</el-button>
+      <template #operate="{ data }">
+        <el-button type="primary" text @click="details(data.elderlyId)">查看详情</el-button>
+        <el-button type="primary" text @click="project(data.id)">用药计划</el-button>
       </template>
     </MayTable>
-    <Pagination :total="50"></Pagination>
+    <Pagination
+      :total="total"
+      :page="formInline.page"
+      :pageSize="formInline.pageSize"
+      @page="getpage"
+      @psize="getpsize"
+    ></Pagination>
   </el-card>
 </template>
 <script lang="ts" setup>
 import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
 import { useRouter } from 'vue-router'
 const router = useRouter()
-import AffiliatedView from '@/database/AffiliatedView.json'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
-const TimePicker = defineAsyncComponent(() => import('@/components/timepicker/MayTimePicker.vue'))
-const formInline = reactive({
-  user: '',
-  region: '',
-  date: ''
+const MayDateTimePicker = defineAsyncComponent(
+  () => import('@/components/timepicker/MayDateTimePicker.vue')
+)
+import { DrugsList } from '@/service/medicalcare/MedicalcareApi'
+import type { DrugsParams } from '@/service/medicalcare/MedicalcareType'
+import AddMedicineLogDialog from '@/components/dialog/medicalcare/AddMedicineLogDialog.vue'
+const total = ref(0)
+const isdialog = ref(false)
+const formInline = reactive<DrugsParams>({
+  begId: '',
+  beginDate: '',
+  name: '',
+  page: 1,
+  pageSize: 5
 })
 const data = reactive({
   tableData: [] as any,
@@ -45,35 +64,69 @@ const data = reactive({
       label: '序号'
     },
     {
-      prop: 'name',
+      prop: 'elderlyName',
       label: '老人姓名'
     },
     {
-      prop: 'address',
+      prop: 'counts',
       label: '用药品种类'
     },
     {
-      prop: 'manager',
+      prop: 'addAccountName',
       label: '登记人'
     },
     {
-      prop: 'phone',
+      prop: 'addTime',
       label: '最新登记时间'
     }
   ]
 })
-const getlist = () => {
-  setTimeout(() => {
-    data.tableData = AffiliatedView
-  }, 1000)
+// 用药登记列表
+const getlist = async () => {
+  let res: any = await DrugsList(formInline)
+  console.log('用药登记列表', res)
+
+  if (res?.code === 10000) {
+    total.value = res.data.counts
+    data.tableData = res.data.list
+  }
 }
 // 用药登记
-const registerinfo = () => {
+const registerinfo = (id: number) => {
+  // router.push({
+  //   path: '/medicalcare/medicinelogs/add',
+  //   query:{id}
+  // })
+  isdialog.value = true
+}
+// 查看详情
+const details = (id: number) => {
   router.push({
-    path: '/medicalcare/medicinelogs/details/id'
+    path: `/medicalcare/medicinelogs/details/${id}`
   })
 }
-
+// 用药计划
+const project = (id: number) => {
+  router.push({
+    path: '/medicalcare/medicineplan/planset',
+    query: {
+      id
+    }
+  })
+}
+// 分页
+const getpage = (page: number) => {
+  formInline.page = page
+  getlist()
+}
+const getpsize = (pageSize: number) => {
+  formInline.pageSize = pageSize
+  getlist()
+}
+// 关闭弹窗
+const close = () => {
+  isdialog.value = false
+}
 onMounted(() => {
   getlist()
 })
