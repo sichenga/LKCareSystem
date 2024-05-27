@@ -1,8 +1,15 @@
 <template>
     <!-- 添加血糖记录-->
-    <el-dialog v-model="dialogVisible" title="添加血糖记录" width="500" @close="close">
-        <el-button type="primary" style="margin-bottom: 30px;" @click="select">选择老人</el-button>
-        <BloodOldDialog v-if="idOld" @closes="closes" @id="oldid"></BloodOldDialog>
+    <el-dialog v-model="dialogVisible" :title="props.data.id>1?'修改血糖记录':'添加血糖记录'" width="500" @close="close">
+        <el-form-item label="老人姓名：" prop="elderlyId">
+
+            <div v-if="OldName">
+                {{ OldName }}
+            </div>
+            <el-button v-else type="primary" @click="select">选择老人</el-button>
+            <OldDialog v-if="idOld" @closes="closes" @id="oldid"></OldDialog>
+        </el-form-item>
+
         <el-form ref="ruleFormRef" style="max-width: 600px" :model="ruleForm" :rules="rules" label-width="auto"
             class="demo-ruleForm" :size="formSize" status-icon>
             <el-form-item label="血糖" prop="val">
@@ -22,9 +29,9 @@ import { ref, reactive, defineEmits, onMounted, defineProps } from 'vue'
 import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
 import { BloodSugarAdd, BloodSugarGet, BloodSugarUpdate } from "@/service/medicalcare/MedicalcareApi"
 import { ElMessage } from 'element-plus'
+import {getElderly} from '@/service/old/OldApi'
 import type { Temperature } from "@/service/medicalcare/MedicalcareType"
-import BloodOldDialog from "./BloodOldDialog.vue"
-const props = defineProps(['id'])
+const props = defineProps(['data'])
 const formSize = ref<ComponentSize>('default')
 const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive<Temperature>({
@@ -48,14 +55,14 @@ const submitForm = async (formEl: FormInstance | undefined) => {
                 ElMessage.error('请选择老人')
             } else {
                 let res: any
-                if (ruleForm.id==0) {
+                if (ruleForm.id == 0) {
                     res = await BloodSugarAdd(ruleForm).catch(() => { })
                 } else {
                     res = await BloodSugarUpdate(ruleForm).catch(() => { })
                 }
                 if (res.code == 10000) {
                     close(true)
-                    ElMessage.success(ruleForm.id==0 ? '添加成功' : '修改成功')
+                    ElMessage.success(ruleForm.id == 0 ? '添加成功' : '修改成功')
                 } else {
                     ElMessage.error(res.msg)
                 }
@@ -67,12 +74,11 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 }
 // 回显数据
 const getData = async () => {
-    if (props.id) {
-        const res: any = await BloodSugarGet(props.id)
-        console.log('单挑数据', res);
-        if (res.code == 10000) {
-            Object.assign(ruleForm, res.data)
-        }
+    if (props.data) {
+
+        Object.assign(ruleForm, props.data)
+        OldName.value=props.data.elderlyName
+
     }
 }
 
@@ -87,9 +93,14 @@ const select = () => {
     idOld.value = true
 }
 // 老人id
-const oldid = (id: number) => {
+const OldName = ref('')
+const oldid = async(id: number) => {
     console.log(id);
     if (id) {
+        let res: any = await getElderly(id)
+        if (res?.code == 10000) {
+            OldName.value = res.data.name
+        }
         ruleForm.elderlyId = id
         ElMessage.success('选择老人成功')
     }

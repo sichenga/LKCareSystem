@@ -1,9 +1,17 @@
 <template>
   <el-dialog v-model="dialogVisible" :title="ruleForm.id == 0 ? '添加洗衣错衣' : '编辑洗衣错衣'" width="500" @close="close">
-    <el-button type="primary" @click="select" style="margin-bottom: 30px;">选择老人</el-button>
-    <OldDialog v-if="idOld" @closes="closes" @id="oldid"></OldDialog>
+
     <el-form ref="ruleFormRef" style="max-width: 600px" :model="ruleForm" :rules="rules" label-width="auto"
       class="demo-ruleForm" :size="formSize" status-icon>
+      <el-form-item label="老人姓名：" prop="elderlyId">
+        
+        <div v-if="OldName">
+          {{OldName}}
+        </div>
+        <el-button v-else type="primary" @click="select" >选择老人</el-button>
+        <OldDialog v-if="idOld" @closes="closes" @id="oldid"></OldDialog>
+      </el-form-item>
+
       <el-form-item label="标题" prop="title">
         <el-input v-model="ruleForm.title" />
       </el-form-item>
@@ -42,6 +50,7 @@ import OldDialog from "./OldDialog.vue"
 import { ElMessage } from 'element-plus'
 import UploadPictures from "@/components/upload/UploadPictures.vue"
 import { clothesAdd, clothesUpdate, clothesget } from "@/service/care/ClothesApi"
+import {getElderly} from '@/service/old/OldApi'
 import type { ClothesAddParams } from "@/service/care/ClothesType"
 import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
 import type { UploadUserFile } from 'element-plus'
@@ -69,6 +78,7 @@ const rules = reactive<FormRules<ClothesAddParams>>({
   ],
   content: [{ required: true, message: '请输入内容', trigger: 'blur' },
   ],
+  elderlyId: [{ required: true, message: '请选择老人', trigger: 'blur' }]
 })
 
 // 提交
@@ -76,25 +86,21 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   await formEl.validate(async (valid, fields) => {
     if (valid) {
-      if (ruleForm.elderlyId == null) {
-        ElMessage.error('请选择老人')
-      } else {
-        if (ruleForm.id === 0) {
-          const res: any = await clothesAdd(ruleForm)
-          if (res.code == 10000) {
-            ElMessage.success('添加成功')
-            close(true)
-          } else {
-            ElMessage.error('添加失败')
-          }
+      if (ruleForm.id === 0) {
+        const res: any = await clothesAdd(ruleForm)
+        if (res.code == 10000) {
+          ElMessage.success('添加成功')
+          close(true)
         } else {
-          const res: any = await clothesUpdate(ruleForm)
-          if (res.code == 10000) {
-            ElMessage.success('修改成功')
-            close(true)
-          } else {
-            ElMessage.error('修改成功')
-          }
+          ElMessage.error('添加失败')
+        }
+      } else {
+        const res: any = await clothesUpdate(ruleForm)
+        if (res.code == 10000) {
+          ElMessage.success('修改成功')
+          close(true)
+        } else {
+          ElMessage.error('修改成功')
         }
       }
     } else {
@@ -132,9 +138,10 @@ const picturerem = (val: any) => {
 const getData = async () => {
   let id = props.id
   if (id) {
-    console.log(id);
+
     const res: any = await clothesget(id)
     if (res.code == 10000) {
+      OldName.value=res.data.elderlyName
       Object.assign(ruleForm, res.data)
       console.log('单挑数据', res);
       console.log(ruleForm);
@@ -163,9 +170,15 @@ const select = () => {
 }
 
 // 老人id
-const oldid = (id: number) => {
+const OldName=ref('')
+const oldid =async (id: number) => {
   console.log(id);
   if (id) {
+    let res:any = await getElderly(id)
+    console.log(res);
+    if(res?.code==10000){
+      OldName.value=res.data.name
+    }
     ruleForm.elderlyId = id
     ElMessage.success('选择老人成功')
   }

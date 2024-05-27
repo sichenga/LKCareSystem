@@ -13,7 +13,7 @@
                 <MayCascader :options="BuildRoom" @change="RommId"> </MayCascader>
             </el-form-item>
             <el-form-item label="日期:">
-                <MayDateTimePicker @change="handleChange"> </MayDateTimePicker>
+                <MayDateTimePicker @change="handleChange"></MayDateTimePicker>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="inquire">查询</el-button>
@@ -92,7 +92,7 @@ const params = reactive<MedicalcareParams>({
 let counts = 0
 const getlist = async () => {
     let res: any = await TemperatureList(params)
-
+   
     if (res?.code === 10000) {
         data.tableData = res.data.list
         counts=res.data.counts

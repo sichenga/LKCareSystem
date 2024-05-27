@@ -57,7 +57,7 @@ export const useBuildStroe = defineStore(
           .filter((item: any) => item.pid === pid)
       }
       return children.map((node: any) => ({
-        ...node,
+        ...node, 
         children: convertToTree(flatData, node.id)
       }))
     }

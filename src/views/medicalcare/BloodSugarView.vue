@@ -20,7 +20,7 @@
         <!-- 表格 -->
         <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
             <template #operate="{ data }">
-                <el-button type="primary" text @click="edit(data.id)">编辑</el-button>
+                <el-button type="primary" text @click="edit(data)">编辑</el-button>
                 <el-button type="primary" text @click="handleDelete(data.id)">删除</el-button>
             </template>
         </MayTable>
@@ -28,7 +28,7 @@
         <Pagination :total="data.total" @page="page" @psize="psize" :page="formInline.page" :pszie="formInline.page">
         </Pagination>
         <!-- 新增 -->
-        <BloodSugarDialog v-if="dialogVisible" @close="close" :id="editid"></BloodSugarDialog>
+        <BloodSugarDialog v-if="dialogVisible" @close="close" :data="editid"></BloodSugarDialog>
     </el-card>
 </template>
 
@@ -116,9 +116,8 @@ const add = () => {
 
 // 编辑
 const editid = ref(0)
-const edit = (id: any) => {
-    console.log('编辑', id);
-    editid.value = id
+const edit = (data: any) => {
+    editid.value = data
     dialogVisible.value = true
 }
 //删除 
@@ -126,7 +125,6 @@ const handleDelete = async (id: any) => {
     let res = await getMessageBox('是否确认删除该血糖记录', '删除后将不可恢复')
     if (res) {
         const del: any = await BloodSugarDelete(id)
-        console.log('删除', del)
         if (del?.code === 10000) {
             ElMessage.success('删除成功')
             getlist()
