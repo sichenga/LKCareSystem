@@ -156,9 +156,13 @@ const psize = (val: number) => {
 
 // 日期
 const handleChange = (val: any) => {
-    formInline.beginDate = val[0]
-    formInline.endDate = val[1]
-    console.log(123, val);
+    if (Array.isArray(val) && val.length === 2) {
+        formInline.beginDate = val[0];
+        formInline.endDate = val[1];
+        console.log(123, val);
+    } else {
+        console.warn('接收到的日期范围不正确:', val);
+    }
 }
 
 // 床位

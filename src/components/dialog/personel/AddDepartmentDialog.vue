@@ -27,7 +27,7 @@
   </el-dialog>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, onMounted, defineProps } from 'vue'
+import { ref, reactive, defineProps } from 'vue'
 import { ElMessage } from 'element-plus'
 import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
 import type { AddDepartmentParams } from '@/service/staff/StaffType'
@@ -43,12 +43,16 @@ const props = defineProps({
     type: Number,
     default: 0
   },
+  depname: {
+    type: String,
+    default: ''
+  }
 })
 const formSize = ref<ComponentSize>('default')
 const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive<AddDepartmentParams>({
   id: props.depid,
-  name: '',
+  name: props.depname,
   pid: props.deppid
 })
 const rules = reactive<FormRules<AddDepartmentParams>>({
