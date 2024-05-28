@@ -26,6 +26,7 @@
   <el-card style="margin-top: 15px">
     <div style="margin: 10px 0">
       <el-button type="primary" @click="add">新增外出</el-button>
+      <OldSelectDialog v-if="dialogVisible" @close="handClose" :toPath="'/care/goout/add'"></OldSelectDialog>
       <AffDialog @close="close" v-if="isdialog"></AffDialog>
     </div>
     <!-- 表格 -->
@@ -48,6 +49,7 @@ import { getList, DelgetList } from '@/service/care/gooutApi'
 import type { Goout } from '@/service/care/gooutType'
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
+import OldSelectDialog from '@/components/dialog/OldSelect/OldSelectDialog.vue'
 const router = useRouter()
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
@@ -123,8 +125,14 @@ const close = () => {
 }
 
 // 新增外出
+const dialogVisible = ref(false)
+const handClose = (val:any)=>{
+  dialogVisible.value=val
+
+}
 const add = () => {
-  router.push('/care/goout/add')
+  // router.push('/care/goout/add')
+  dialogVisible.value=true
 }
 //编辑外出
 const compile = (id: number) => {

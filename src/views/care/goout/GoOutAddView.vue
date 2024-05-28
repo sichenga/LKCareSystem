@@ -4,9 +4,7 @@
     <el-form ref="ruleFormRef" style="max-width: 400px" :model="ruleForm" label-width="auto" class="demo-ruleForm"
       :size="formSize" status-icon>
       <el-form-item label="选择外出老人">
-        <el-select v-model="ruleForm.elderlyId" clearable placeholder="请选择" style="width: 300px">
-          <el-option v-for="item in data.oldlist" :key="item.id" :label="item.name" :value="item.id" />
-        </el-select>
+        <el-input v-model="data.oldlist" disabled />
       </el-form-item>
       <el-form-item label="外出时间">
         <DateTimePicke style="width: 300px" @change="handlChange" :times="times"></DateTimePicke>
@@ -41,7 +39,7 @@ import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
 import { ElMessage } from 'element-plus'
 import { useRouter, useRoute } from 'vue-router'
 import { AddGooutList, goOutList, UpdateGoout } from '@/service/care/gooutApi'
-import { getElderlyList } from '@/service/old/OldApi'
+import { getElderly } from '@/service/old/OldApi'
 import type { AddGoout } from '@/service/care/gooutType'
 const router = useRouter()
 const route = useRoute()
@@ -71,6 +69,7 @@ const goOutListData = async () => {
     if (res?.code == 10000) {
       times.value.push(res.data.startTime, res.data.endTime)
       Object.assign(ruleForm, res.data)
+      data.oldlist=res.data.elderlyName
     }
   }
 
@@ -106,20 +105,18 @@ const add = async () => {
 
   }
 }
-const Dataold = reactive({
-  page: 1,
-  pageSize: 9999,
-  name: '',
-  idCard: undefined,
-  begId: undefined,
-  state: undefined,
-})
-const getOldList = async () => {
-  let res: any = await getElderlyList(Dataold)
 
-  if (res?.code == 10000) {
-    data.oldlist = res.data.list
+const getOldList = async () => {
+  if (route.query.oldId) {
+    let oldId = Number(route.query.oldId)
+    ruleForm.elderlyId=oldId
+    let res: any = await getElderly(oldId)
+
+    if (res?.code == 10000) {
+      data.oldlist = res.data.name
+    }
   }
+
 
 }
 onMounted(() => {

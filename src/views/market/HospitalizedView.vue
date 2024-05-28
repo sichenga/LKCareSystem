@@ -1,7 +1,7 @@
 <template>
   <!-- <div>入院管理</div> -->
   <el-card style="max-width: 100%">
-    <el-form ref="Refhospitalized" :inline="true" :model="states" class="demo-form-inline">
+    <el-form ref="Hospitalised" :inline="true" :model="states" class="demo-form-inline">
       <el-form-item label="老人姓名" prop="name">
         <el-input v-model="states.name" placeholder="请输入" clearable />
       </el-form-item>
@@ -9,11 +9,11 @@
         <el-input v-model="states.idCard" placeholder="请输入" clearable />
       </el-form-item>
       <el-form-item label="床位" prop="begId">
-        <MayCascader
+        <MayCascades
           :options="data.beddata"
           @change="bedselect"
           :emitid="Number(states.begId)"
-        ></MayCascader>
+        ></MayCascades>
       </el-form-item>
       <el-form-item label="状态" prop="state">
         <el-select v-model="states.state" placeholder="请选择" clearable>
@@ -67,15 +67,15 @@ const Pagination = defineAsyncComponent(() => import('@/components/pagination/Ma
 const ToHospitalDialog = defineAsyncComponent(
   () => import('@/components/dialog/market/ToHospitalDialog.vue')
 )
-const MayCascader = defineAsyncComponent(() => import('@/components/cascader/MayCascader.vue'))
+const MayCascades = defineAsyncComponent(() => import('@/components/cascade/MayCascade.vue'))
 import { getMessageBox } from '@/utils/utils'
-import { useBuildStroe } from '@/stores'
+import { useBuildStroke } from '@/stores'
 import { useRouter } from 'vue-router'
 const identifier = 'Hospitalized'
 const router = useRouter()
 const Refhospitalized = ref()
 const isdialog = ref(false)
-const getUserInfo = useBuildStroe()
+const getUserInfo = useBuildStroke()
 const data = reactive({
   tableData: [] as any,
   tableItem: [

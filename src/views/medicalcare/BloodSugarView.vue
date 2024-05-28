@@ -28,7 +28,7 @@
         <!-- 表格 -->
         <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
             <template #operate="{ data }">
-                <el-button type="primary" text @click="edit(data.id)">编辑</el-button>
+                <el-button type="primary" text @click="edit(data)">编辑</el-button>
                 <el-button type="primary" text @click="handleDelete(data.id)">删除</el-button>
             </template>
         </MayTable>
@@ -36,7 +36,7 @@
         <Pagination :total="data.total" @page="page" @psize="psize" :page="formInline.page" :pszie="formInline.page">
         </Pagination>
         <!-- 新增 -->
-        <BloodSugarDialog v-if="dialogVisible" @close="close" :id="editid"></BloodSugarDialog>
+        <BloodSugarDialog v-if="dialogVisible" @close="close" :data="editid"></BloodSugarDialog>
     </el-card>
 </template>
 
@@ -51,8 +51,8 @@ import BloodSugarDialog from '@/components/dialog/medicalcare/BloodSugarDialog.v
 import MayDateTimePicker from '@/components/timepicker/MayDateTimePicker.vue'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
-import { useBuildStroe } from '@/stores/mobule/build'
-const getUserInfo = useBuildStroe()
+import { useBuildStroke } from '@/stores/mobule/build'
+const getUserInfo = useBuildStroke()
 const formInline = reactive<bloodSugarlistParams>({
     page: 1,
     pageSize: 5,
@@ -95,7 +95,7 @@ const data = reactive({
 // 血糖记录列表
 const getlist = async () => {
     const res: any = await BloodSugarList(formInline)
-    console.log('血糖记录列表', res);
+
     if (res.code == 10000) {
         data.tableData = res.data.list
         data.total = res.data.counts
@@ -127,9 +127,8 @@ const add = () => {
 
 // 编辑
 const editid = ref(0)
-const edit = (id: any) => {
-    console.log('编辑', id);
-    editid.value = id
+const edit = (data: any) => {
+    editid.value = data
     dialogVisible.value = true
 }
 //删除 
@@ -137,7 +136,6 @@ const handleDelete = async (id: any) => {
     let res = await getMessageBox('是否确认删除该血糖记录', '删除后将不可恢复')
     if (res) {
         const del: any = await BloodSugarDelete(id)
-        console.log('删除', del)
         if (del?.code === 10000) {
             ElMessage.success('删除成功')
             getlist()

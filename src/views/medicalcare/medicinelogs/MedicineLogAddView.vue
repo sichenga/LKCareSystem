@@ -59,7 +59,7 @@ const format = 'YYYY-MM-DD'
 const ruleFormRef = ref<FormInstance>()
 const formInline = reactive<DrugsAddParams>({
   id: null,
-  elderlyId: Number(route.query?.id),
+  elderlyId: Number(route.query?.oldId),
   addTime: date,
   familyName: ''
 })

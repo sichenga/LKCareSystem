@@ -2,13 +2,26 @@
   <!-- 排班管理 -->
   <AddWork v-if="iswodk" :worddata="worddata" @close="close"></AddWork>
   <!-- 任务管理 -->
-  <AddSchedule v-if="isschedule" @close="close" :schdata="Scheduledata" :startTime="startTime"></AddSchedule>
-  <el-table :data="props.tableData" border :header-cell-style="{
-    background: '#f9f9f9',
-    color: '#000000',
-    height: '50px'
-  }" :span-method="objectSpanMethod" :show-header="props.isShowHeader" :row-style="cellstyle"
-    @selection-change="handleSelectionChange">
+  <AddSchedule
+    v-if="isschedule"
+    @close="close"
+    :schdata="Scheduledata"
+    :startTime="startTime"
+  ></AddSchedule>
+  <el-table
+    :data="props.tableData"
+    border
+    v-loading="appStore.isLoading"
+    :header-cell-style="{
+      background: '#f9f9f9',
+      color: '#000000',
+      height: '50px'
+    }"
+    :span-method="objectSpanMethod"
+    :show-header="props.isShowHeader"
+    :row-style="cellstyle"
+    @selection-change="handleSelectionChange"
+  >
     <el-table-column type="selection" width="55" v-if="isMultiple" />
     <el-table-column v-for="(item, index) in props.tableItem" :key="index" :prop="item.prop" :label="item.label"
       :width="item.width">
@@ -43,19 +56,16 @@
       <template v-else-if="item.prop === 'state' && props.identifier == 'Hospitalized'" v-slot="{ row }">
         <span>{{ row.state ? '已入院' : '未入院' }}</span>
       </template>
-      <!-- 出院状态 -->
-      <template v-else-if="item.prop === 'state' && props.identifier == 'Diagnosis'" v-slot="{ row }">
-        <span>{{ row.state ? '已出院' : '待出院' }}</span>
-      </template>
-      <!-- 老人性别  -->
-      <template v-else-if="item.prop === 'elderlyGender'" v-slot="{ row }">
-        {{ row.elderlyGender == '1' ? '男' : '女' }}
-      </template>
+
       <!-- 外出状态 -->
       <template v-else-if="item.prop === 'state' && props.identifier == 'GoOut'" v-slot="{ row }">
         <span v-if="row.state == 0">待审批</span>
         <span v-if="row.state == 1">审批通过</span>
         <span v-else-if="row.state == 2">审批拒绝</span>
+      </template>
+      <!-- 院内活动 -->
+      <template v-else-if="item.prop === 'elderly'" v-slot="{ row }">
+        {{ row.elderly.map((item:any)=>(item.elderlyName)).toString() }}
       </template>
       <!-- 日期格式 -->
       <template v-else-if="
@@ -72,7 +82,6 @@
       <template v-else-if="item.prop === 'gender'" v-slot="{ row }">
         {{ row.gender == '1' ? '男' : '女' }}
       </template>
-      <!--  -->
       <template v-else-if="item.prop == 'picture'" v-slot="{ row }">
         <el-image class="picture" v-for="(pic, index) in row?.picture" :key="index" :src="upload + pic" />
       </template>
@@ -154,6 +163,8 @@ const mons = moment
 // 周
 const weekdata = week
 const monthdata = month
+import {useApperStore} from'@/stores'
+const appStore = useApperStore()
 import { CloseBold } from '@element-plus/icons-vue'
 import AddWork from '@/components/dialog/old/elderly/AddWork.vue'
 import AddSchedule from '@/components/dialog/old/elderly/AddSchedule.vue'

@@ -18,7 +18,8 @@
   <el-card style="margin-top: 15px">
     <div style="margin: 15px 0">
       <el-button type="primary" @click="registerinfo">用药登记</el-button>
-      <AddMedicineLogDialog v-if="isdialog" @close="close"></AddMedicineLogDialog>
+      <OldSelectDialog v-if="isdialog" @close="close" :toPath="'/medicalcare/medicinelogs/add'"></OldSelectDialog>
+
     </div>
     <!-- 表格 -->
     <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
@@ -43,7 +44,7 @@ const MayDateTimePicker = defineAsyncComponent(
 )
 import { DrugsList } from '@/service/medicalcare/MedicalcareApi'
 import type { DrugsParams } from '@/service/medicalcare/MedicalcareType'
-import AddMedicineLogDialog from '@/components/dialog/medicalcare/AddMedicineLogDialog.vue'
+import OldSelectDialog from '@/components/dialog/OldSelect/OldSelectDialog.vue'
 const total = ref(0)
 const isdialog = ref(false)
 const Refmedicinelogs = ref()

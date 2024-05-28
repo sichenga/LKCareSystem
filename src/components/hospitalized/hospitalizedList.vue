@@ -177,8 +177,8 @@ import { orderGet } from '@/service/market/marketApi'
 import type { orderAdds } from '@/service/market/marketType'
 import hospitalizedDialog from '@/components/dialog/hospitalized/hospitalizedDialog.vue'
 import { useRouter, useRoute } from 'vue-router'
-import { useBuildStroe } from '@/stores'
-const buildstore = useBuildStroe()
+import { useBuildStroke } from '@/stores'
+const buildstore = useBuildStroke()
 const Image = import.meta.env.VITE_BASE_URL + '/'
 const router = useRouter()
 const route = useRoute()

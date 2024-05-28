@@ -1,14 +1,16 @@
 import axios from 'axios'
 import type { AxiosRequestConfig, AxiosResponse } from 'axios'
 // 引入pinia userStore模块
-import { useUserStore } from '@/stores'
+import { useUserStore, useApperStore } from '@/stores'
 // 引入element-plus
 import { ElMessage } from 'element-plus'
+
 interface McAxiosRequestConfig extends AxiosRequestConfig {
   extraConfig?: {
     tokenRetryCount: number // 标记当前请求的csrf token重试次数
   }
 }
+
 const timeout = 60000 // 请求超时时间和延迟请求超时时间统一设置
 const config: McAxiosRequestConfig = {
   baseURL: import.meta.env.VITE_BASE_URL,
@@ -18,9 +20,10 @@ const config: McAxiosRequestConfig = {
   }
 }
 const instance = axios.create(config)
-
+// 请求拦截器
 instance.interceptors.request.use(async (config: any) => {
   const userStore = useUserStore()
+  const userAppStore = useApperStore()
   if (!config.extraConfig?.tokenRetryCount) {
     config.extraConfig = {
       tokenRetryCount: 0
@@ -30,14 +33,18 @@ instance.interceptors.request.use(async (config: any) => {
   if (config.url === '/api/upload/add') {
     ;(config.headers as any)['Content-Type'] = 'multipart/form-data'
   }
+  userAppStore.isLoading = true
   return config
 })
-
+// 响应拦截器
 instance.interceptors.response.use(
   (response) => {
+    const userAppStore = useApperStore()
+    userAppStore.isLoading = false
     return response.data
   },
   async (err: any) => {
+    const userAppStore = useApperStore()
     if (axios.isCancel(err)) {
       // 取消的请求，不报错
       return
@@ -65,6 +72,8 @@ instance.interceptors.response.use(
           break
       }
     }
+    console.log(11111,userAppStore.isLoading = false)
+    userAppStore.isLoading = false
     return err.response
   }
 )

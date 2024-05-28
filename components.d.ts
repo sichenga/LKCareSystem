@@ -8,6 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     ActDialog: typeof import('./src/components/dialog/care/ActDialog.vue')['default']
+    ActivityDialog: typeof import('./src/components/dialog/care/ActivityDialog.vue')['default']
     AddAccountDialog: typeof import('./src/components/dialog/AddAccountDialog.vue')['default']
     AddClothesDialog: typeof import('./src/components/dialog/care/AddClothesDialog.vue')['default']
     AddConsult: typeof import('./src/components/dialog/consult/AddConsult.vue')['default']
@@ -100,6 +101,7 @@ declare module 'vue' {
     OldMessage: typeof import('./src/components/addold/OldMessage.vue')['default']
     OldPhysical: typeof import('./src/components/addold/condition/OldPhysical.vue')['default']
     OldRelation: typeof import('./src/components/addold/OldRelation.vue')['default']
+    OldSelectDialog: typeof import('./src/components/dialog/OldSelect/OldSelectDialog.vue')['default']
     OrderList: typeof import('./src/components/hospitalized/orderList.vue')['default']
     OrganizationDialog: typeof import('./src/components/dialog/company/organizationDialog.vue')['default']
     OutRecord: typeof import('./src/components/Record/OutRecord.vue')['default']
@@ -130,5 +132,8 @@ declare module 'vue' {
     WashparticularsDialog: typeof import('./src/components/dialog/care/WashparticularsDialog.vue')['default']
     WelfareDialog: typeof import('./src/components/dialog/financial/WelfareDialog.vue')['default']
     WorkersDialog: typeof import('./src/components/dialog/config/WorkersDialog.vue')['default']
+  }
+  export interface ComponentCustomProperties {
+    vLoading: typeof import('element-plus/es')['ElLoadingDirective']
   }
 }

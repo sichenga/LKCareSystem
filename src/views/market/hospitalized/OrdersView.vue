@@ -2,15 +2,15 @@
    <!-- dialog写在market文件夹下 -->
    <div>
       <el-card>
-         <el-steps style="max-width: 200px;margin: 20px auto" :active="isshou" finish-status="success">
+         <el-steps style="max-width: 200px;margin: 20px auto" :active="isShou" finish-status="success">
             <el-step title="选择服务" />
             <el-step title="订单确定" />
          </el-steps>
          <div class="body-size-is">
             <!-- 选择服务 -->
-            <Hospitalized v-if="isshou == 0" @isshou="holseIsshou"></Hospitalized>
+            <Hospitalized v-if="isShou == 0" @isshou="houseShou"></Hospitalized>
             <!-- 订单确定 -->
-            <OrderList v-else @isshou="holseIsshou"></OrderList>
+            <OrderList v-else @isshou="houseShou"></OrderList>
          </div>
 
       </el-card>
@@ -24,10 +24,10 @@ import  type{orderAdds} from '@/service/market/marketType'
 import {  useRoute } from 'vue-router'
 import OrderList from '@/components/hospitalized/orderList.vue'
 const route = useRoute()
-const isshou = ref(0)
+const isShou = ref(0)
 
-const holseIsshou=(val:any)=>{
-   isshou.value=val
+const houseShou=(val:any)=>{
+   isShou.value=val
 }
 let ruleForm = reactive<orderAdds>({
     elderlyId: Number(route.query.id), //老人Id

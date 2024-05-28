@@ -2,18 +2,17 @@
   <!-- 血压记录 -->
   <!-- dialog写在medicalcare文件夹下 -->
   <el-card style="max-width: 100%">
-    <BloodDialog v-if="isdialog" @close="close" :roomid="editid"></BloodDialog>
-    <el-form ref="Refblood" :inline="true" :model="formInline" class="demo-form-inline">
-      <el-form-item label="老人:" prop="name">
+    <BloodDialog v-if="isdialog" @close="close" :data="editid"></BloodDialog>
+    <el-form :inline="true" :model="formInline" class="demo-form-inline">
+      <el-form-item label="老人:">
         <el-input v-model="formInline.name" placeholder="请输入" clearable />
       </el-form-item>
-      <el-form-item label="床位:" prop="begId">
+      <el-form-item label="床位:">
         <MayCascader
           :options="data.beddata"
           @change="bedSelect"
           :emitid="formInline.begId ? formInline.begId : 0"
-        >
-        </MayCascader>
+        ></MayCascader>
       </el-form-item>
       <el-form-item label="查询时间:">
         <MayDateTimePicker
@@ -35,7 +34,7 @@
     <!-- 表格 -->
     <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
       <template #operate="{ data }">
-        <el-button type="primary" text @click="edit(data.id)">编辑</el-button>
+        <el-button type="primary" text @click="edit(data)">编辑</el-button>
         <el-button type="primary" text @click="del(data.id)">删除</el-button>
       </template>
     </MayTable>
@@ -45,8 +44,7 @@
       :psize="formInline.pageSize"
       @page="getpage"
       @psize="getpsize"
-    >
-    </Pagination>
+    ></Pagination>
   </el-card>
 </template>
 
@@ -55,16 +53,16 @@ import { reactive, ref, onMounted, defineAsyncComponent } from 'vue'
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
 import BloodDialog from '@/components/dialog/medicalcare/BloodDialog.vue'
-import { useBuildStroe } from '@/stores'
+import { useBuildStroke } from '@/stores'
 import MayCascader from '@/components/cascader/MayCascader.vue'
 import MayDateTimePicker from '@/components/timepicker/MayDateTimePicker.vue'
 import { BloodPressureList, BloodPressureDelete } from '@/service/medicalcare/MedicalcareApi'
 import type { BloodPressureParams } from '@/service/medicalcare/MedicalcareType'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
-const getUserInfo = useBuildStroe()
-const Refblood = ref()
-const editid = ref(0)
+const getUserInfo = useBuildStroke()
+const editid = ref({})
+
 const formInline = reactive<BloodPressureParams>({
   begId: null,
   beginDate: '',
@@ -118,21 +116,14 @@ const getlist = async () => {
     data.tableData = res.data.list
   }
 }
-
-// 重置
-const reset = () => {
-  formInline.page = 1
-  Refblood.value?.resetFields()
-  formInline.endDate = ''
-  getlist()
-}
 // 增加
 const add = () => {
+  editid.value = {}
   isdialog.value = true
 }
 // 编辑
-const edit = (id: number) => {
-  editid.value = id
+const edit = (data: any) => {
+  editid.value = data
   isdialog.value = true
 }
 // 删除
@@ -166,6 +157,14 @@ const getpsize = (val: number) => {
 // 查询
 const inquire = () => {
   formInline.page = 1
+  getlist()
+}
+// 重置
+const reset = () => {
+  formInline.name = ''
+  formInline.beginDate = ''
+  formInline.endDate = ''
+  formInline.begId = null
   getlist()
 }
 // 选择日期

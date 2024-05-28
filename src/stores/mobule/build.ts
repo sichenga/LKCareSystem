@@ -1,13 +1,13 @@
 import { defineStore } from 'pinia'
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import { ConfigBuildingList, getHouseList, getBedsList } from '@/service/config/ConfigApi'
 
-export const useBuildStroe = defineStore(
+export const useBuildStroke = defineStore(
   'build',
   () => {
-    const buildList = ref([])
-    const houselist = ref([])
-    const bedlist = ref([])
+    const BuildList = ref([])
+    const HouseList = ref([])
+    const BedList = ref([])
     // 楼栋信息
     const getBuildList = async () => {
       const res: any = await ConfigBuildingList()
@@ -31,33 +31,33 @@ export const useBuildStroe = defineStore(
     }
     //  树形结构数据
     const getBuildListData = async () => {
-      buildList.value = await getBuildList()
-      houselist.value = await getHouseData()
-      bedlist.value = await getBedsData()
-      console.log(houselist.value)
-      return await convertToTree(buildList.value)
+      BuildList.value = await getBuildList()
+      HouseList.value = await getHouseData()
+      BedList.value = await getBedsData()
+      console.log(HouseList.value)
+      return await convertToTree(BuildList.value)
     }
 
     const convertToTree = (flatData: any, pid: number = 0) => {
       const children = flatData.filter((node: any) => node.pid === pid)
       if (!children.length) {
-        return houselist.value
+        return HouseList.value
           .map((item: any) => ({
             id: item.id,
             name: item.name,
             pid: item.buildingId,
-            children: bedlist.value
-              .map((chitem: any) => ({
-                id: chitem.id,
-                name: chitem.name,
-                pid: chitem.houseId
+            children: BedList.value
+              .map((chItem: any) => ({
+                id: chItem.id,
+                name: chItem.name,
+                pid: chItem.houseId
               }))
-              .filter((chitem: any) => chitem.pid === item.id)
+              .filter((FItem: any) => FItem.pid === item.id)
           }))
           .filter((item: any) => item.pid === pid)
       }
       return children.map((node: any) => ({
-        ...node,
+        ...node, 
         children: convertToTree(flatData, node.id)
       }))
     }

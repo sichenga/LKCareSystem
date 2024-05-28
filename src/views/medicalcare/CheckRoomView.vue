@@ -2,7 +2,7 @@
   <!-- 医生查房记录 -->
   <!-- dialog写在medicalcare文件夹下 -->
   <el-card style="max-width: 100%">
-    <CheckRoowDialog v-if="isdialog" @close="close" :roomid="roomid"></CheckRoowDialog>
+    <CheckRoowDialog v-if="isdialog" @close="close" :data="roomid"></CheckRoowDialog>
     <el-form :inline="true" :model="params" class="demo-form-inline" ref="RefChedkRoom">
       <el-form-item label="老人:" prop="name">
         <el-input v-model="params.name" placeholder="请输入" clearable />
@@ -35,7 +35,7 @@
     </div>
     <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
       <template #operate="{ data }">
-        <el-button type="primary" text @click="emit(data.id)">编辑</el-button>
+        <el-button type="primary" text @click="emit(data)">编辑</el-button>
         <el-button type="primary" text @click="del(data.id)">删除</el-button>
         <el-button type="primary" text @click="record(data.id)">查看记录</el-button>
       </template>
@@ -62,10 +62,10 @@ const Pagination = defineAsyncComponent(() => import('@/components/pagination/Ma
 import MayTimeSelect from '@/components/timepicker/MayTimeSelect.vue'
 import MayCascader from '@/components/cascader/MayCascader.vue'
 import { useRouter } from 'vue-router'
-import { useBuildStroe } from '@/stores'
+import { useBuildStroke } from '@/stores'
 import CheckRoowDialog from '@/components/dialog/medicalcare/CheckRoowDialog.vue'
 const RefChedkRoom = ref<FormInstance>()
-const getUserInfo = useBuildStroe()
+const getUserInfo = useBuildStroke()
 const router = useRouter()
 const total = ref(0)
 const data = reactive({
@@ -94,7 +94,7 @@ const data = reactive({
   ],
   beddata: [] as any
 })
-const roomid = ref<number>(0)
+const roomid = ref<any>({})
 const params = reactive<CheckRoomParams>({
   page: 1,
   pageSize: 5,
@@ -163,11 +163,12 @@ const tiemchange = (val: any) => {
 }
 // 增加
 const add = () => {
+  roomid.value={}
   isdialog.value = true
 }
 // 编辑
-const emit = (id: any) => {
-  roomid.value = id
+const emit = (data: any) => {
+  roomid.value = data
   isdialog.value = true
 }
 // 删除

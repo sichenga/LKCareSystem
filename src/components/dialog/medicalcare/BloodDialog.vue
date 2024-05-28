@@ -1,30 +1,13 @@
 <template>
-  <el-dialog
-    v-model="dialogVisible"
-    :title="!props.roomid ? '增加血压记录' : '编辑血压记录'"
-    width="500"
-    @close="close"
-  >
-    <el-form
-      ref="ruleFormRef"
-      style="max-width: 600px"
-      :model="ruleForm"
-      :rules="rules"
-      label-width="auto"
-      label-position="left"
-      class="demo-ruleForm"
-      :size="formSize"
-      status-icon
-    >
+  <el-dialog v-model="dialogVisible" :title="!props.data.id ? '增加血压记录' : '编辑血压记录'" width="500" @close="close">
+    <el-form ref="ruleFormRef" style="max-width: 600px" :model="ruleForm" :rules="rules" label-width="auto"
+      label-position="left" class="demo-ruleForm" :size="formSize" status-icon>
       <el-form-item label="选择老人：" prop="elderlyId">
-        <el-select
-          v-model="ruleForm.elderlyId"
-          clearable
-          placeholder="请选择老人"
-          style="width: 300px"
-        >
-          <el-option v-for="item in olddata" :key="item.id" :label="item.name" :value="item.id" />
-        </el-select>
+        <div v-if="OldName" @click="select">
+          {{ OldName }}
+        </div>
+        <el-button v-else type="primary" @click="select">选择老人</el-button>
+        <OldDialog v-if="idOld"  @id="oldid"></OldDialog>
       </el-form-item>
       <el-form-item label="血压：" prop="bloodPressure">
         <el-input v-model="ruleForm.bloodPressure" placeholder="请输入血压" />
@@ -44,15 +27,16 @@
 <script lang="ts" setup>
 import { ref, reactive, defineEmits, defineProps, onMounted } from 'vue'
 import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
-import { getElderlyList } from '@/service/old/OldApi'
+
 import { ElMessage } from 'element-plus'
+import OldDialog from "@/components/dialog/care/OldDialog.vue"
 import {
   BloodPressureAdd,
-  BloodPressureGet,
   BloodPressureUpdate
 } from '@/service/medicalcare/MedicalcareApi'
+import {getElderly} from '@/service/old/OldApi'
 import type { BloodPressureAddParams } from '@/service/medicalcare/MedicalcareType'
-const olddata = ref<any>([])
+
 const formSize = ref<ComponentSize>('default')
 const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive<BloodPressureAddParams>({
@@ -87,9 +71,9 @@ const rules = reactive<FormRules<BloodPressureAddParams>>({
 const dialogVisible = ref(true)
 const emit = defineEmits(['close'])
 const props = defineProps({
-  roomid: {
-    type: Number,
-    default: 0
+  data: {
+    type: Object,
+    default: ()=>{}
   }
 })
 // 关闭弹窗
@@ -99,7 +83,7 @@ const close = (close: boolean = false) => {
 // 提交表单
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
-  const valid = await formEl.validate().catch(() => {})
+  const valid = await formEl.validate().catch(() => { })
   if (valid) {
     let res: any
     if (!ruleForm.id) {
@@ -113,30 +97,35 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     }
   }
 }
-// 老人列表
-const getelderlylist = async () => {
-  const res: any = await getElderlyList()
-  console.log(res)
-  if (res?.code === 10000) {
-    olddata.value = res?.data.list.map((item: any) => ({
-      id: item.id,
-      name: item.name
-    }))
-  }
+// 选择老人
+const idOld = ref(false)
+const select = () => {
+  idOld.value = true
+}
+const OldName = ref('')
+const oldid = async(id: number) => {
+    console.log(id);
+    if (id) {
+        let res: any = await getElderly(id)
+        if (res?.code == 10000) {
+            idOld.value = false
+            OldName.value = res.data.name
+        }
+        ruleForm.elderlyId = id
+        ElMessage.success('选择老人成功')
+    }
 }
 
 // 数据回显
 const Editold = async () => {
-  if (props.roomid) {
-    let res: any = await BloodPressureGet(props.roomid)
-    if (res?.code === 10000) {
-      Object.assign(ruleForm, res?.data)
-    }
+  if (props.data) {
+      OldName.value =props.data.elderlyName
+      Object.assign(ruleForm,props.data)
   }
 }
 // 生命周期
 onMounted(() => {
-  getelderlylist()
+ 
   Editold()
 })
 // onMounted
