@@ -1,6 +1,6 @@
 <!-- 选择老人 -->
 <template>
-    <el-dialog v-model="dialogVisible" title="选择老人" width="70%" @close="close">
+    <el-dialog v-model="dialogVisible" title="选择老人" width="50%" @close="close">
         <el-form :inline="true" :model="states" class="demo-form-inline">
             <div class="form-size">
                 <el-form-item label="姓名:">
@@ -21,11 +21,12 @@
             </template>
         </MayTable>
         <div style="height: 30px;"></div>
-        <Pagination @page="handlPage" @pszie="handlPsize" :page="states.page" :psize="states.pageSize" :total="total"></Pagination>
+        <Pagination @page="handlPage" @pszie="handlPsize" :page="states.page" :psize="states.pageSize" :total="total">
+        </Pagination>
     </el-dialog>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, onMounted,defineProps, defineEmits, defineAsyncComponent } from 'vue'
+import { ref, reactive, onMounted, defineProps, defineEmits, defineAsyncComponent } from 'vue'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 import { getElderlyList } from '@/service/old/OldApi'
 import { useRouter } from 'vue-router'
@@ -35,9 +36,13 @@ const router = useRouter()
 const dialogVisible = ref(true)
 
 const porps = defineProps({
-    toPath:{
-        type:String,
-        default:''
+    toPath: {
+        type: String,
+        default: ''
+    },
+    skip: {
+        type: Boolean,
+        default: false
     }
 })
 
@@ -69,7 +74,7 @@ const data = reactive({
 })
 
 
-const emit = defineEmits(['close'])
+const emit = defineEmits(['close','id'])
 
 const close = (close: boolean = false) => {
     emit('close', close)
@@ -85,35 +90,40 @@ const states = reactive<ListElderlyRequest>({
 // 老人列表
 const total = ref(0)
 const getlist = async () => {
-    let res: any = await getElderlyList(states)
-    if (res.code == 10000) {
-        total.value=res.data.counts
+    let res: any = await getElderlyList(states).catch(() => { })
+    if (res?.code == 10000) {
+        total.value = res.data.counts
         data.tableData = res.data.list
     }
 }
 //分页
-const  handlPage=(val:any)=>{
-    states.page=val
+const handlPage = (val: any) => {
+    states.page = val
     getlist()
 }
-const  handlPsize=(val:any)=>{
-    states.pageSize=val
+const handlPsize = (val: any) => {
+    states.pageSize = val
     getlist()
 }
 //选择老人
 const select = (id: number) => {
+    if (porps.skip) {
+        close(false)
+        emit('id', id)
+    } else {
+        router.push({
+            path: porps.toPath,
+            query: {
+                oldId: id
+            }
+        })
+    }
 
-    router.push({
-        path:porps.toPath,
-        query:{
-            oldId:id
-        }
-    })
 }
 // 重置
-const reset = ()=>{
-    states.name=''
-    states.idCard=''
+const reset = () => {
+    states.name = ''
+    states.idCard = ''
 }
 onMounted(() => {
     getlist() //老人列表
