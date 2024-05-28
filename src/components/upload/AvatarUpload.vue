@@ -1,14 +1,10 @@
 <template>
-  <el-upload
-    class="avatar-uploader"
-    :action="action"
-    :headers="headers"
-    :show-file-list="false"
-    :on-success="handleAvatarSuccess"
-    :style="style"
-  >
+  <el-upload class="avatar-uploader" :action="action" :headers="headers" :show-file-list="false"
+    :on-success="handleAvatarSuccess" :style="style">
     <img v-if="imageUrl" :src="ImageUrls + imageUrl" class="avatar" />
-    <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
+    <el-icon v-else class="avatar-uploader-icon">
+      <Plus />
+    </el-icon>
   </el-upload>
 </template>
 <script lang="ts" setup>
@@ -91,6 +87,7 @@ const handleAvatarSuccess: UploadProps['onSuccess'] = (response, uploadFile) => 
   height: 100%;
   text-align: center;
 }
+
 .el-upload {
   width: 100%;
   height: 100%;

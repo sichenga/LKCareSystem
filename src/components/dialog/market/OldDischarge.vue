@@ -22,12 +22,10 @@
     </el-dialog>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, onMounted, defineEmits, defineAsyncComponent, defineProps } from 'vue'
+import { ref, reactive, onMounted, defineEmits, defineAsyncComponent } from 'vue'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 import { getElderlyList } from '@/service/old/OldApi'
-import { useRouter } from 'vue-router'
 import type { ListElderlyRequest } from '@/service/old/OldType'
-const router = useRouter()
 const dialogVisible = ref(true)
 //唯一标识
 const identifier = 'ToHospitalDialog'

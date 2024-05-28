@@ -40,6 +40,7 @@
 import { ref, reactive, defineEmits, onMounted, defineProps } from 'vue'
 import OldDialog from "./OldDialog.vue"
 import { ElMessage } from 'element-plus'
+import { getElderly } from '@/service/old/OldApi'
 import UploadPictures from "@/components/upload/UploadPictures.vue"
 import { clothesAdd, clothesUpdate, clothesget } from "@/service/care/ClothesApi"
 import type { ClothesAddParams } from "@/service/care/ClothesType"
@@ -135,6 +136,7 @@ const getData = async () => {
     console.log(id);
     const res: any = await clothesget(id)
     if (res.code == 10000) {
+      listold(res.data.elderlyId)
       Object.assign(ruleForm, res.data)
       console.log('单挑数据', res);
       console.log(ruleForm);
@@ -149,7 +151,13 @@ const getData = async () => {
     }
   }
 }
+const listold = async (id: any) => {
+  console.log(id);
 
+  const res = await getElderly(id)
+  console.log('单挑老人', res);
+
+}
 
 
 onMounted(() => {
@@ -163,13 +171,11 @@ const select = () => {
 }
 
 // 老人id
-const oldid = (id: number) => {
-  console.log(id);
+const oldid = (id: any) => {
   if (id) {
     ruleForm.elderlyId = id
     ElMessage.success('选择老人成功')
   }
-
 }
 
 // 关闭弹窗

@@ -78,7 +78,7 @@ const getlist = async () => {
     }
 }
 //选择老人
-const select = (id: number) => {
+const select = (id: any) => {
     close(false)
     emit('id', id)
 }

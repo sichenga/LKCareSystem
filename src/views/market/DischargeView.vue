@@ -125,13 +125,13 @@ const close = (val: boolean) => {
 // 新增
 const add = () => {
    isdialog.value = true
-   idetit.value=0
+   idetit.value = 0
 }
 // 编辑
-const idetit=ref(0)
+const idetit = ref(0)
 const edit = (id: number) => {
    isdialog.value = true
-   idetit.value=id
+   idetit.value = id
 }
 // 重置
 const Refdischarge = ref()
