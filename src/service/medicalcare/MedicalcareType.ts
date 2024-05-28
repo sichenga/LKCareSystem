@@ -157,3 +157,19 @@ export interface DrugsAddDrugsParams {
   norms: string
   remarks: string
 }
+// 用药计划添加 /api/drugPlan/add
+interface Plans {
+  time: string
+  content: string
+}
+export interface DrugsPlanAddParams {
+  drugId: number | null
+  startDate: string
+  plans: Array<Plans>
+}
+
+// 停止用药 /api/drugPlan/updateEndDate
+export interface DrugsPlanUpdateEndDateParams {
+  id: number | null
+  endDate: string
+}

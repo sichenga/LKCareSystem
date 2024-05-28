@@ -1,7 +1,12 @@
 <!-- 用药登记详情 -->
 <template>
   <el-card>
-    <AddRegInfoDialog></AddRegInfoDialog>
+    <AddRegInfoDialog
+      :remdata="remdata"
+      v-if="isdialog"
+      @close="close"
+      @regdata="regdata"
+    ></AddRegInfoDialog>
     <div class="user_content">
       <!-- 头像 -->
       <el-image style="width: 80px; height: 80px" :src="upload + oldInfo?.photo" />
@@ -22,9 +27,9 @@
     </div> -->
     <!-- 表格 -->
     <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
-      <template #operate>
-        <el-button type="primary" text @click="edit">编辑</el-button>
-        <el-button type="primary" text @click="del">删除</el-button>
+      <template #operate="{ data }">
+        <el-button type="primary" text @click="edit(data)">编辑</el-button>
+        <el-button type="primary" text @click="del(data.id)">删除</el-button>
       </template>
     </MayTable>
     <Pagination
@@ -47,7 +52,7 @@ const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
 import { getElderly } from '@/service/old/OldApi'
 import type {} from '@/service/medicalcare/MedicalcareType'
-import { DrugsListForElderly } from '@/service/medicalcare/MedicalcareApi'
+import { DrugsListForElderly, DrugsUpdate, DrugsDelete } from '@/service/medicalcare/MedicalcareApi'
 const AddRegInfoDialog = defineAsyncComponent(
   () => import('@/components/dialog/medicalcare/AddRegInfoDialog.vue')
 )
@@ -59,6 +64,7 @@ const params = reactive({
   page: 1,
   pageSize: 5
 })
+const isdialog = ref(false)
 let id = route.params?.id
 const data = reactive({
   tableData: [] as any,
@@ -101,12 +107,12 @@ const getOlderInfo = async () => {
 
   if (res?.code === 10000) {
     oldInfo.value = res.data
-    await getlist(Number(id))
+    await getlist()
   }
 }
 // 老人存药记录
-const getlist = async (id: number) => {
-  let res: any = await DrugsListForElderly(id)
+const getlist = async () => {
+  let res: any = await DrugsListForElderly(Number(id))
   if (res?.code === 10000) {
     total.value = res.data.list.length
     data.tableData = res.data.list.slice(
@@ -117,24 +123,45 @@ const getlist = async (id: number) => {
   }
 }
 // 分页
-
 const getpage = (val: number) => {
   params.page = val
-  getlist(Number(id))
+  getlist()
 }
 const getpsize = (val: number) => {
   params.pageSize = val
-  getlist(Number(id))
+  getlist()
 }
 // 编辑
-const edit = () => {}
+const remdata = ref({})
+const edit = (data: any) => {
+  remdata.value = data
+  isdialog.value = true
+}
+const regdata = async (val: any) => {
+  let res: any = await DrugsUpdate(val)
+  if (res?.code === 10000) {
+    ElMessage.success('编辑成功')
+    getlist()
+  }
+}
 
+// 关闭弹框
+const close = () => {
+  if (remdata.value) {
+    remdata.value = {}
+  }
+  isdialog.value = false
+}
 // 删除
-const del = async () => {
+const del = async (id: number) => {
   let res = await getMessageBox('是否确认删除该角色', '删除后将不可恢复')
   console.log(11112, res)
   if (res) {
-    ElMessage.success('删除成功')
+    let res: any = await DrugsDelete(id)
+    if (res?.code === 10000) {
+      ElMessage.success('删除成功')
+      getlist()
+    }
   } else {
     ElMessage.info('取消删除')
   }

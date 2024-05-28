@@ -29,7 +29,12 @@
       <el-button type="primary" @click="add">新增老人</el-button>
     </div>
     <!-- 表格 -->
-    <MayTable :identifier="identifier" :tableData="data.tableData" :tableItem="data.tableItem">
+    <MayTable
+      :identifier="identifier"
+      :tableData="data.tableData"
+      :tableItem="data.tableItem"
+      :auto-width="'450px'"
+    >
       <template #operate="{ data }">
         <el-button text type="primary" @click="edit(data.id)">编辑</el-button>
         <el-button text type="primary" @click="getarchives(data.id)">档案管理</el-button>

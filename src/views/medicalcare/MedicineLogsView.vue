@@ -24,7 +24,7 @@
     <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
       <template #operate="{ data }">
         <el-button type="primary" text @click="details(data.elderlyId)">查看详情</el-button>
-        <el-button type="primary" text @click="project(data.id)">用药计划</el-button>
+        <el-button type="primary" text @click="project(data.elderlyId)">用药计划</el-button>
       </template>
     </MayTable>
     <Pagination :total="total" :page="formInline.page" :pageSize="formInline.pageSize" @page="getpage"
@@ -50,6 +50,7 @@ const Refmedicinelogs = ref()
 const formInline = reactive<DrugsParams>({
   begId: '',
   beginDate: '',
+  endDate: '',
   name: '',
   page: 1,
   pageSize: 5,

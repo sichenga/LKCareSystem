@@ -96,6 +96,8 @@ const close = (isrefresh: boolean) => {
   if (isrefresh === true) {
     getlist()
   }
+  depid.value = 0
+  depname.value = ''
   isdialog.value = false
 }
 </script>
