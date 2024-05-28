@@ -4,11 +4,10 @@
     <el-form ref="ruleFormRef" style="max-width: 600px" :model="ruleForm" :rules="rules" label-width="auto"
       class="demo-ruleForm" :size="formSize" status-icon>
       <el-form-item label="老人姓名：" prop="elderlyId">
-        
-        <div v-if="OldName">
-          {{OldName}}
+        <div v-if="OldName" @click="select">
+          {{ OldName }}
         </div>
-        <el-button v-else type="primary" @click="select" >选择老人</el-button>
+        <el-button v-else type="primary" @click="select">选择老人</el-button>
         <OldDialog v-if="idOld" @closes="closes" @id="oldid"></OldDialog>
       </el-form-item>
 
@@ -48,9 +47,9 @@
 import { ref, reactive, defineEmits, onMounted, defineProps } from 'vue'
 import OldDialog from "./OldDialog.vue"
 import { ElMessage } from 'element-plus'
+import { getElderly } from '@/service/old/OldApi'
 import UploadPictures from "@/components/upload/UploadPictures.vue"
 import { clothesAdd, clothesUpdate, clothesget } from "@/service/care/ClothesApi"
-import {getElderly} from '@/service/old/OldApi'
 import type { ClothesAddParams } from "@/service/care/ClothesType"
 import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
 import type { UploadUserFile } from 'element-plus'
@@ -138,10 +137,9 @@ const picturerem = (val: any) => {
 const getData = async () => {
   let id = props.id
   if (id) {
-
     const res: any = await clothesget(id)
     if (res.code == 10000) {
-      OldName.value=res.data.elderlyName
+      OldName.value = res.data.elderlyName
       Object.assign(ruleForm, res.data)
       console.log('单挑数据', res);
       console.log(ruleForm);
@@ -156,7 +154,13 @@ const getData = async () => {
     }
   }
 }
+const listold = async (id: any) => {
+  console.log(id);
 
+  const res = await getElderly(id)
+  console.log('单挑老人', res);
+
+}
 
 
 onMounted(() => {
@@ -170,19 +174,18 @@ const select = () => {
 }
 
 // 老人id
-const OldName=ref('')
-const oldid =async (id: number) => {
+const OldName = ref('')
+const oldid = async (id: number) => {
   console.log(id);
   if (id) {
-    let res:any = await getElderly(id)
+    let res: any = await getElderly(id)
     console.log(res);
-    if(res?.code==10000){
-      OldName.value=res.data.name
+    if (res?.code == 10000) {
+      OldName.value = res.data.name
     }
     ruleForm.elderlyId = id
     ElMessage.success('选择老人成功')
   }
-
 }
 
 // 关闭弹窗

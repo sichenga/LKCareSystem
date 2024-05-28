@@ -4,7 +4,6 @@
         <el-form ref="ruleFormRef" style="max-width: 600px" :model="ruleForm" :rules="rules" label-width="auto"
             class="demo-ruleForm" :size="formSize" status-icon>
             <el-form-item label="老人：">
-                
                 <div v-if="data.name" @click="select">{{ data.name }}</div>
                 <div v-else><el-button type="primary" @click="select"  style="margin-right: 30px;">请选择</el-button></div>
             </el-form-item>
@@ -118,7 +117,7 @@ onMounted(() => {
 })
 
 // 关闭弹出
-const closes = (val: boolean) => {
+const closes = () => {
     olddialog.value = false
 }
 // 预计时间
