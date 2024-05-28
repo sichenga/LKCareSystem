@@ -51,8 +51,8 @@ import BloodSugarDialog from '@/components/dialog/medicalcare/BloodSugarDialog.v
 import MayDateTimePicker from '@/components/timepicker/MayDateTimePicker.vue'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
-import { useBuildStroe } from '@/stores/mobule/build'
-const getUserInfo = useBuildStroe()
+import { useBuildStroke } from '@/stores/mobule/build'
+const getUserInfo = useBuildStroke()
 const formInline = reactive<bloodSugarlistParams>({
     page: 1,
     pageSize: 5,

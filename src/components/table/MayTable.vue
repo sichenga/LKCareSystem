@@ -2,13 +2,26 @@
   <!-- 排班管理 -->
   <AddWork v-if="iswodk" :worddata="worddata" @close="close"></AddWork>
   <!-- 任务管理 -->
-  <AddSchedule v-if="isschedule" @close="close" :schdata="Scheduledata" :startTime="startTime"></AddSchedule>
-  <el-table :data="props.tableData" border :header-cell-style="{
-    background: '#f9f9f9',
-    color: '#000000',
-    height: '50px'
-  }" :span-method="objectSpanMethod" :show-header="props.isShowHeader" :row-style="cellstyle"
-    @selection-change="handleSelectionChange">
+  <AddSchedule
+    v-if="isschedule"
+    @close="close"
+    :schdata="Scheduledata"
+    :startTime="startTime"
+  ></AddSchedule>
+  <el-table
+    :data="props.tableData"
+    border
+    v-loading="appStore.isLoading"
+    :header-cell-style="{
+      background: '#f9f9f9',
+      color: '#000000',
+      height: '50px'
+    }"
+    :span-method="objectSpanMethod"
+    :show-header="props.isShowHeader"
+    :row-style="cellstyle"
+    @selection-change="handleSelectionChange"
+  >
     <el-table-column type="selection" width="55" v-if="isMultiple" />
     <el-table-column v-for="(item, index) in props.tableItem" :key="index" :prop="item.prop" :label="item.label"
       :width="item.width">
@@ -150,6 +163,8 @@ const mons = moment
 // 周
 const weekdata = week
 const monthdata = month
+import {useApperStore} from'@/stores'
+const appStore = useApperStore()
 import { CloseBold } from '@element-plus/icons-vue'
 import AddWork from '@/components/dialog/old/elderly/AddWork.vue'
 import AddSchedule from '@/components/dialog/old/elderly/AddSchedule.vue'

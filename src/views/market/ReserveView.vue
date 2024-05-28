@@ -67,9 +67,9 @@ import type { ReservationParams } from '@/service/market/Reservetype'
 import ReserveDialog from '@/components/dialog/market/ReserveDialog.vue'
 import { useRouter } from 'vue-router'
 import MayCascader from '@/components/cascader/MayCascader.vue'
-import { useBuildStroe } from '@/stores/mobule/build'
+import { useBuildStroke } from '@/stores/mobule/build'
 const Refreserve = ref()
-const getUserInfo = useBuildStroe()
+const getUserInfo = useBuildStroke()
 const router = useRouter()
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))

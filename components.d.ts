@@ -35,6 +35,7 @@ declare module 'vue' {
     CooperativeDialog: typeof import('./src/components/dialog/market/CooperativeDialog.vue')['default']
     DeployDialog: typeof import('./src/components/dialog/config/DeployDialog.vue')['default']
     DetailsDialog: typeof import('./src/components/dialog/DetailsDialog.vue')['default']
+    DischargeDialog: typeof import('./src/components/dialog/market/DischargeDialog.vue')['default']
     ECharts: typeof import('./src/components/food/ECharts.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElAvatar: typeof import('element-plus/es')['ElAvatar']
@@ -88,6 +89,7 @@ declare module 'vue' {
     OldCase: typeof import('./src/components/addold/condition/OldCase.vue')['default']
     OldCondition: typeof import('./src/components/addold/condition/OldCondition.vue')['default']
     OldDialog: typeof import('./src/components/dialog/care/OldDialog.vue')['default']
+    OldDischarge: typeof import('./src/components/dialog/market/OldDischarge.vue')['default']
     OldHealth: typeof import('./src/components/addold/OldHealth.vue')['default']
     OldMessage: typeof import('./src/components/addold/OldMessage.vue')['default']
     OldPhysical: typeof import('./src/components/addold/condition/OldPhysical.vue')['default']
@@ -123,5 +125,8 @@ declare module 'vue' {
     WashparticularsDialog: typeof import('./src/components/dialog/care/WashparticularsDialog.vue')['default']
     WelfareDialog: typeof import('./src/components/dialog/financial/WelfareDialog.vue')['default']
     WorkersDialog: typeof import('./src/components/dialog/config/WorkersDialog.vue')['default']
+  }
+  export interface ComponentCustomProperties {
+    vLoading: typeof import('element-plus/es')['ElLoadingDirective']
   }
 }

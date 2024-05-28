@@ -50,8 +50,8 @@ const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
 import MayCascader from '@/components/cascader/MayCascader.vue'
 import MayDateTimePicker from '@/components/timepicker/MayDateTimePicker.vue'
-import { useBuildStroe } from '@/stores/mobule/build'
-const getUserInfo = useBuildStroe()
+import { useBuildStroke } from '@/stores/mobule/build'
+const getUserInfo = useBuildStroke()
 const data = reactive({
     tableData: [] as any,
     tableItem: [
