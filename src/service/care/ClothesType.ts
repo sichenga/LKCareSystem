@@ -6,6 +6,7 @@ export interface ClothesListparams {
   beginDate: string
   type: string
   state: string
+  endDate: string
 }
 
 // 错衣缺衣信息添加

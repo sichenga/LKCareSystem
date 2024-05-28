@@ -12,7 +12,6 @@
           @change="timechange"
         ></MayDateTimePicker>
       </el-form-item>
-
       <el-form-item>
         <el-button type="primary" @click="getquery">查询</el-button>
         <el-button @click="reset">重置</el-button>

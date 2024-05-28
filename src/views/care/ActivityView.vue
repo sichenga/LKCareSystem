@@ -9,7 +9,6 @@
       <el-form-item label="上报时间：">
         <TimePicker></TimePicker>
       </el-form-item>
-
       <el-form-item>
         <el-button type="primary">查询</el-button>
         <el-button>重置</el-button>

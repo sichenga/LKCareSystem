@@ -1,14 +1,7 @@
 <template>
-  <el-date-picker
-    v-model="time"
-    type="datetimerange"
-    :range-separator="rangeSeparator"
-    :start-placeholder="startplaceholder"
-    :end-placeholder="endplaceholder"
-    :format="format"
-    :value-format="valueformat"
-    @change="handleChange"
-  />
+  <el-date-picker v-model="time" type="datetimerange" :range-separator="rangeSeparator"
+    :start-placeholder="startplaceholder" :end-placeholder="endplaceholder" :format="format" :value-format="valueformat"
+    @change="handleChange" />
 </template>
 <script lang="ts" setup>
 import { ref, reactive, onMounted, defineEmits, defineProps, watch } from 'vue'

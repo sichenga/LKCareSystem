@@ -10,14 +10,7 @@
         <el-input v-model="formInline.idCard" clearable placeholder="请输入" />
       </el-form-item>
       <el-form-item label="床位:" prop="begId">
-        <el-select v-model="formInline.begId">
-          <el-option
-            v-for="item in data.bedData"
-            :key="item.id"
-            :label="item.name"
-            :value="item.name"
-          />
-        </el-select>
+        <MayCascader :options="data.beddata" @change="bedselect" :emitid="Number(formInline.begId)"></MayCascader>
       </el-form-item>
       <el-form-item label="入住状况:" prop="state">
         <el-select v-model="formInline.state">
@@ -50,13 +43,8 @@
         <el-button text type="primary" @click="getschedule(data.id)">计划任务</el-button>
       </template>
     </MayTable>
-    <Pagination
-      :page="formInline.page"
-      :pageSize="formInline.pageSize"
-      :total="total"
-      @page="getPage"
-      @pize="getSize"
-    ></Pagination>
+    <Pagination :page="formInline.page" :pageSize="formInline.pageSize" :total="total" @page="getPage" @pize="getSize">
+    </Pagination>
   </el-card>
 </template>
 <script lang="ts" setup>
@@ -71,7 +59,8 @@ const Pagination = defineAsyncComponent(() => import('@/components/pagination/Ma
 import { getElderlyList, deleteElderly } from '@/service/old/OldApi'
 import type { ListElderlyRequest } from '@/service/old/OldType'
 import { getBedsList } from '@/service/config/ConfigApi'
-
+import { useBuildStroe } from '@/stores'
+const getUserInfo = useBuildStroe()
 const total = ref(0)
 const RefElderly = ref()
 const formInline = reactive<ListElderlyRequest>({
@@ -115,7 +104,7 @@ const data = reactive({
       label: '状态'
     }
   ],
-  bedData: [] as any
+  beddata: [] as any
 })
 // 老人列表
 const getList = async () => {
@@ -134,6 +123,7 @@ const getQuery = () => {
 // 重置
 const reset = () => {
   formInline.page = 1
+  console.log(RefElderly.value);
   RefElderly.value?.resetFields()
   getList()
 }
@@ -170,16 +160,13 @@ const getSize = (size: number) => {
   formInline.pageSize = size
   getList()
 }
+// 获取床位列表
+const bedlist = async () => {
+  data.beddata = await getUserInfo.getBuildListData()
+}
 // 床位列表
-const bedList = async () => {
-  let res: any = await getBedsList()
-  console.log('床位列表', res)
-  if (res?.code === 10000) {
-    data.bedData = res.data.list.map((item: any) => ({
-      id: item.id,
-      name: item.name
-    }))
-  }
+const bedselect = (val: any) => {
+  formInline.begId = val
 }
 
 // 排班管理
@@ -205,7 +192,7 @@ const getarchives = (id: number) => {
 }
 onMounted(() => {
   getList()
-  bedList()
+  bedlist()
 })
 </script>
 <style lang="less" scoped>

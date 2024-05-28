@@ -1,20 +1,22 @@
 <template>
   <!-- 洗衣错衣 -->
   <el-card>
-    <el-form :inline="true" :model="formInline" class="demo-form-inline">
-      <el-form-item label="发布人：">
+    <el-form ref="Refclothes" :inline="true" :model="formInline" class="demo-form-inline">
+      <el-form-item label="发布人：" prop="elderlyName">
         <el-input v-model="formInline.elderlyName" placeholder="请输入" clearable />
       </el-form-item>
-      <el-form-item label="发布时间：">
-        <TimePicker :valueFormat="'YYYY-MM-DD'" :format="'YYYY-MM-DD'" @change="change"></TimePicker>
+      <el-form-item label="发布时间：" prop="beginDate">
+        <MayTimeSelect @change="tiemchange" :isrange="true" :startTime="formInline.beginDate"
+          :endTime="formInline.endDate">
+        </MayTimeSelect>
       </el-form-item>
-      <el-form-item label="类型：">
+      <el-form-item label="类型：" prop="type">
         <el-select v-model="formInline.type" placeholder="请选择" style="width: 240px" size="large">
           <el-option :label="'缺衣'" :value="'缺衣'" />
           <el-option :label="'错衣'" :value="'错衣'" />
         </el-select>
       </el-form-item>
-      <el-form-item label="状态：">
+      <el-form-item label="状态：" prop="state">
         <el-select v-model="formInline.state" placeholder="请选择" style="width: 240px" size="large">
           <el-option :label="'已解决'" :value="'已解决'" />
           <el-option :label="'未解决'" :value="'未解决'" />
@@ -22,7 +24,7 @@
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="search">查询</el-button>
-        <el-button>重置</el-button>
+        <el-button @click="reset">重置</el-button>
       </el-form-item>
     </el-form>
   </el-card>
@@ -50,9 +52,9 @@ import { clothesList, clothesDelete } from '@/service/care/ClothesApi'
 import type { ClothesListparams } from '@/service/care/ClothesType'
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
+import MayTimeSelect from '@/components/timepicker/MayTimeSelect.vue'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
-const TimePicker = defineAsyncComponent(() => import('@/components/timepicker/MayTimePicker.vue'))
 const WashparticularsDialog = defineAsyncComponent(
   () => import('@/components/dialog/care/WashparticularsDialog.vue')
 )
@@ -64,12 +66,17 @@ const formInline = reactive<ClothesListparams>({
   beginDate: '',
   type: '',
   state: '',
+  endDate: ''
 })
-// 时间
-const change = (val: any) => {
-  formInline.beginDate = val
-}
 
+// 重置
+const Refclothes = ref()
+const reset = () => {
+  formInline.page = 1
+  Refclothes.value?.resetFields()
+  formInline.endDate = ''
+  getlist()
+}
 
 // 查询
 const search = () => {
@@ -164,7 +171,11 @@ const handleDelete = async (id: any) => {
     ElMessage.info('取消删除')
   }
 }
-
+// 创建时间
+const tiemchange = (val: any) => {
+  formInline.beginDate = val[0] || ''
+  formInline.endDate = val[1] || ''
+}
 
 // 关闭弹窗
 const close = (val: boolean) => {
