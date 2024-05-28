@@ -12,9 +12,14 @@
         <MayDateTimePicker @change="timeSelect" :statetime="formInline.beginDate" :endtime="formInline.endDate">
         </MayDateTimePicker>
       </el-form-item>
-      <el-form-item label="状态:" style="width: 240px;" prop="state">
+      <el-form-item label="状态:" style="width: 240px" prop="state">
         <el-select v-model="formInline.state" placeholder="请选择">
-          <el-option v-for="item in data.tables" :key="item.id" :label="item.lable" :value="item.id" />
+          <el-option
+            v-for="item in data.tables"
+            :key="item.id"
+            :label="item.lable"
+            :value="item.id"
+          />
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -30,7 +35,7 @@
       <AffDialog @close="close" v-if="isdialog"></AffDialog>
     </div>
     <!-- 表格 -->
-    <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
+    <MayTable :tableData="data.tableData" autoWidth="350px" :tableItem="data.tableItem">
       <template #operate="scope">
         <el-button type="primary" text @click="handleedit(scope.data.id)">编辑</el-button>
         <el-button type="primary" text @click="details(scope.data.id)">详情</el-button>
@@ -38,7 +43,13 @@
         <el-button type="primary" text @click="handleDelete(scope.data.id)">删除</el-button>
       </template>
     </MayTable>
-    <Pagination :total="data.token" @page="page" @psize="psize" :page="formInline.page" :pszie="formInline.page">
+    <Pagination
+      :total="data.token"
+      @page="page"
+      @psize="psize"
+      :page="formInline.page"
+      :pszie="formInline.page"
+    >
     </Pagination>
   </el-card>
 </template>
