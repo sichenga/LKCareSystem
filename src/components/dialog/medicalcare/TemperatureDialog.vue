@@ -8,7 +8,7 @@
           {{ OldName }}
         </div>
         <el-button v-else type="primary" @click="select">选择老人</el-button>
-        <OldDialog v-if="idOld"  @id="oldid"></OldDialog>
+        <OldSelectDialog v-if="idOld"  @id="oldid" @close="oldclose"></OldSelectDialog>
       </el-form-item>
       <el-form-item label="老人体温" prop="val">
         <el-input v-model="ruleForm.val" />
@@ -28,6 +28,8 @@ import type { FormInstance, FormRules } from 'element-plus'
 import {getElderly} from '@/service/old/OldApi'
 import { TemperatureAdd,GetTemperature,TemperatureUpdate } from '@/service/medicalcare/MedicalcareApi'
 import { ElMessage } from 'element-plus'
+import OldSelectDialog from '@/components/dialog/OldSelect/OldSelectDialog.vue'
+
 const ruleFormRef = ref<FormInstance>()
 const  props=defineProps({
   data: {
@@ -73,6 +75,9 @@ const oldid = async(id: number) => {
         ruleForm.elderlyId = id
         ElMessage.success('选择老人成功')
     }
+}
+const oldclose = () =>{
+  idOld.value = false
 }
 
 // 数据回显

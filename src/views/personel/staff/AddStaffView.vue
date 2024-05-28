@@ -1,18 +1,10 @@
 <template>
   <!-- 新增员工 编辑 -->
   <div class="box">
-    <el-form
-      ref="ruleFormRef"
-      style="max-width: 600px"
-      :model="ruleForm"
-      :rules="rules"
-      label-width="auto"
-      class="demo-ruleForm"
-      :size="formSize"
-      status-icon
-    >
+    <el-form ref="ruleFormRef" style="max-width: 600px" :model="ruleForm" :rules="rules" label-width="auto"
+      class="demo-ruleForm" :size="formSize" status-icon>
       <el-form-item label="员工头像:" prop="name">
-        <AvatarUpload></AvatarUpload>
+        <AvatarUpload @upload="pictureupload" :editdata="getUploadPictures"></AvatarUpload>
       </el-form-item>
       <el-form-item label="员工姓名:" prop="name">
         <el-input v-model="ruleForm.name" placeholder="请输入员工姓名" />
@@ -25,21 +17,11 @@
       </el-form-item>
       <el-form-item label="所属部门:" prop="departmentId">
         <el-select v-model="ruleForm.departmentId" placeholder="请选择">
-          <el-option
-            v-for="item in departmentData"
-            :key="item.id"
-            :label="item.name"
-            :value="item.id"
-          />
-        </el-select>
+          <el-option v-for="item in departmentData" :key="item.id" :label="item.name" :value="item.id" />
+        </el-select>{{ ruleForm }}
       </el-form-item>
       <el-form-item label="所属岗位:">
-        <el-select
-          v-model="ruleForm.roles"
-          multiple
-          placeholder="请选择所属岗位"
-          style="width: 240px"
-        >
+        <el-select v-model="ruleForm.roles" multiple placeholder="请选择所属岗位" style="width: 240px">
           <el-option v-for="item in Roles" :key="item.id" :label="item.name" :value="item.id" />
         </el-select>
       </el-form-item>
@@ -71,14 +53,14 @@ import type { RuleForm } from '@/service/staff/StaffType'
 import { staffAdd, departmentList, staffId, updateList } from '@/service/staff/StaffApi'
 import { RoleList } from '@/service/role/RoleApi'
 const route = useRoute()
-
+const getUploadPictures = ref<any>('')
 const router = useRouter()
 const AvatarUpload = defineAsyncComponent(() => import('@/components/upload/AvatarUpload.vue'))
 
 const formSize = ref<ComponentSize>('default')
 const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive<RuleForm>({
-  photo: '1.jpg',
+  photo: '',
   name: '', //姓名
   mobile: '', //手机号
   enable: null, //是否禁用
@@ -110,6 +92,12 @@ const rules = reactive<FormRules<RuleForm>>({
     }
   ]
 })
+// 员工头像
+const pictureupload = (val: any) => {
+  ruleForm.photo = val
+  console.log(ruleForm);
+}
+
 
 const resetForm = () => {
   router.push({
@@ -137,12 +125,12 @@ const RoleListData = async () => {
 const staffIds = async () => {
   if (route.query.id) {
     let ids = Number(route.query.id)
-    let res: any = await staffId(ids).catch(() => {})
+    let res: any = await staffId(ids).catch(() => { })
     console.log(res)
-
     if (res?.code === 10000) {
       Object.assign(ruleForm, res.data)
       ruleForm.roles = res.data.roles.map((item: any) => item.id)
+      getUploadPictures.value = res.data.photo
     }
   }
 }
@@ -152,33 +140,27 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   await formEl.validate(async (valid, fields) => {
     if (valid) {
-      ruleForm.roles = ruleForm.roles.map((item: any) => ({ id: item }))
-      if (route.query.id) {
+      // ruleForm.roles = ruleForm.roles.map((item: any) => ({ id: item }))
+      let obj = {
+        ...ruleForm,
+        roles: ruleForm.roles.map((item: any) => ({ id: item }))
+      }
+      let res: any
+      if (route.query?.id) {
         //修改员工
-        let res: any = await updateList(ruleForm)
+        res = await updateList(obj)
         console.log(res)
-        if (res.code == 10000) {
-          router.push({
-            path: '/personel/staff'
-          })
-          ElMessage.success({
-            message: '修改成功',
-            type: 'success'
-          })
-        }
       } else {
         //添加员工
-        let res: any = await staffAdd(ruleForm)
-
-        if (res.code == 10000) {
-          router.push({
-            path: '/personel/staff'
-          })
-          ElMessage.success({
-            message: '添加成功',
-            type: 'success'
-          })
-        }
+        res = await staffAdd(obj)
+      }
+      if (res?.code == 10000) {
+        router.push({
+          path: '/personel/staff'
+        })
+        ElMessage.success(route.query?.id ? '修改成功' : '添加成功')
+      } else {
+        ElMessage.error(res?.msg)
       }
     } else {
       console.log('error submit!', fields)

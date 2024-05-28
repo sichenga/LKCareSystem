@@ -7,7 +7,7 @@
                 {{ OldName }}
             </div>
             <el-button v-else type="primary" @click="select">选择老人</el-button>
-            <OldDialog v-if="idOld" @closes="closes" @id="oldid"></OldDialog>
+            <OldSelectDialog v-if="idOld" @close="closes" @id="oldid"></OldSelectDialog>
         </el-form-item>
 
         <el-form ref="ruleFormRef" style="max-width: 600px" :model="ruleForm" :rules="rules" label-width="auto"
@@ -30,7 +30,7 @@ import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
 import { BloodSugarAdd, BloodSugarUpdate } from "@/service/medicalcare/MedicalcareApi"
 import { ElMessage } from 'element-plus'
 import {getElderly} from '@/service/old/OldApi'
-import OldDialog from "@/components/dialog/care/OldDialog.vue"
+import OldSelectDialog from '@/components/dialog/OldSelect/OldSelectDialog.vue'
 import type { Temperature } from "@/service/medicalcare/MedicalcareType"
 const props = defineProps(['data'])
 const formSize = ref<ComponentSize>('default')
