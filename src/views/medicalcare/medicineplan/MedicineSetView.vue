@@ -1,34 +1,46 @@
 <template>
   <!-- 用药计划设置 -->
   <el-card>
-    <ProjectInfoDialog v-if="isdialog" :isinfo="isinfo" @close="close"></ProjectInfoDialog>
+    <ProjectInfoDialog
+      v-if="isdialog"
+      :isinfo="isinfo"
+      @close="close"
+      :drugId="drugId"
+    ></ProjectInfoDialog>
     <el-form label-width="auto">
-      <el-form-item label="老人"> 张三分 </el-form-item>
-      <el-form-item label="床位"> 501-2 </el-form-item>
+      <el-form-item label="老人"> {{ data.oldinfo?.name }} </el-form-item>
+      <el-form-item label="床位">{{ data.oldinfo?.begName }} </el-form-item>
       <el-form-item>
         <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
-          <template #operate>
-            <el-button type="primary" text @click="getinfo">设置</el-button>
-            <el-button type="primary" text @click="stop">停止用药</el-button>
+          <template #operate="{ data }">
+            <el-button type="primary" text @click="getinfo(data.id)">设置</el-button>
+            <el-button type="primary" text @click="stop(data.id)">停止用药</el-button>
           </template>
         </MayTable>
       </el-form-item>
     </el-form>
     <div class="button">
-      <el-button type="primary">保存</el-button>
-      <el-button>取消</el-button>
+      <el-button @click="goback">返回</el-button>
     </div>
   </el-card>
 </template>
 <script lang="ts" setup>
 import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
-import AffiliatedView from '@/database/AffiliatedView.json'
+import { useRoute, useRouter } from 'vue-router'
 const ProjectInfoDialog = defineAsyncComponent(
   () => import('@/components/dialog/medicalcare/ProjectInfoDialog.vue')
 )
+const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
+import { getElderly } from '@/service/old/OldApi'
+import type { ElderlyItem } from '@/service/old/OldType'
+import { DrugsListForPlan } from '@/service/medicalcare/MedicalcareApi'
+import type {} from '@/service/medicalcare/MedicalcareType'
 const isdialog = ref(false)
 const isinfo = ref(true)
-const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
+const route = useRoute()
+const router = useRouter()
+const id = route.query?.id
+const drugId = ref(0)
 const data = reactive({
   tableData: [] as any,
   tableItem: [
@@ -38,60 +50,79 @@ const data = reactive({
     },
     {
       prop: 'name',
-      label: '提交时间'
+      label: '药品名称'
     },
     {
-      prop: 'address',
-      label: '提交人'
+      prop: 'counts',
+      label: '数量'
     },
     {
-      prop: 'manager',
-      label: '接收人'
+      prop: 'expTime',
+      label: '有效期'
     },
     {
-      prop: 'phone',
-      label: '接收人联系方式'
+      prop: 'sum',
+      label: '剂量'
     },
     {
-      prop: 'username',
-      label: '任务数量'
+      prop: 'remarks',
+      label: '服法'
+    },
+    {
+      prop: 'plans',
+      label: '服药计划'
+    },
+    {
+      prop: 'startDate',
+      label: '开始时间'
+    },
+    {
+      prop: 'endDate',
+      label: '结束时间'
     }
   ],
-  statelist: [
-    {
-      id: 1,
-      name: '待接收'
-    },
-    {
-      id: 2,
-      name: '拒绝'
-    },
-    {
-      id: 3,
-      name: '已接收'
-    }
-  ]
+  oldinfo: {} as ElderlyItem
 })
-const getlist = () => {
-  setTimeout(() => {
-    data.tableData = AffiliatedView
-  }, 1000)
+// 获取老人信息
+const getOlderInfo = async () => {
+  let res: any = await getElderly(Number(id))
+  if (res?.code === 10000) {
+    data.oldinfo = res.data
+  }
+}
+// 获取老人用药计划列表
+const getlist = async () => {
+  let res: any = await DrugsListForPlan(Number(id))
+  console.log('用药计划', res)
+  if (res?.code === 10000) {
+    data.tableData = res.data.list
+  }
 }
 // 关闭弹窗
-const close = () => {
+const close = (isclose: boolean) => {
+  if (isclose === true) {
+    getlist()
+  }
   isdialog.value = false
 }
 // 设置服药计划
-const getinfo = () => {
+const getinfo = (id: number) => {
+  drugId.value = id
   isdialog.value = true
   isinfo.value = true
 }
 // 停止用药
-const stop = () => {
+const stop = (id: number) => {
+  drugId.value = id
   isdialog.value = true
   isinfo.value = false
 }
+// 返回
+const goback = () => {
+  router.push('/medicalcare/medicinelogs')
+}
 onMounted(() => {
+  getOlderInfo()
   getlist()
 })
 </script>

@@ -11,8 +11,12 @@
       </el-form-item>
       <el-form-item label="床位:" prop="begId">
         <el-select v-model="formInline.begId">
-          <el-option v-for="item in data.bedData" :key="item.id" :label="item.name" :value="item.name" />
-
+          <el-option
+            v-for="item in data.bedData"
+            :key="item.id"
+            :label="item.name"
+            :value="item.name"
+          />
         </el-select>
       </el-form-item>
       <el-form-item label="入住状况:" prop="state">
@@ -32,7 +36,12 @@
       <el-button type="primary" @click="add">新增老人</el-button>
     </div>
     <!-- 表格 -->
-    <MayTable :identifier="identifier" :tableData="data.tableData" :tableItem="data.tableItem">
+    <MayTable
+      :identifier="identifier"
+      :tableData="data.tableData"
+      :tableItem="data.tableItem"
+      :auto-width="'450px'"
+    >
       <template #operate="{ data }">
         <el-button text type="primary" @click="edit(data.id)">编辑</el-button>
         <el-button text type="primary" @click="getarchives(data.id)">档案管理</el-button>
@@ -166,9 +175,9 @@ const bedList = async () => {
   let res: any = await getBedsList()
   console.log('床位列表', res)
   if (res?.code === 10000) {
-    data.bedData = res.data.list.map((item:any)=>({
-      id:item.id,
-      name:item.name
+    data.bedData = res.data.list.map((item: any) => ({
+      id: item.id,
+      name: item.name
     }))
   }
 }

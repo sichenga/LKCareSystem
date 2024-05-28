@@ -8,7 +8,9 @@ import type {
   BloodPressureAddParams,
   bloodSugarlistParams,
   DrugsParams,
-  DrugsAddParams
+  DrugsAddParams,
+  DrugsPlanAddParams,
+  DrugsPlanUpdateEndDateParams
 } from '@/service/medicalcare/MedicalcareType'
 
 // 体温记录列表
@@ -97,3 +99,12 @@ export const DrugsDelete = (id: number) => del(`/api/drugs/delete/${id}`)
 export const DrugsAdd = (data: DrugsAddParams) => post('/api/drugs/add', data || {})
 // 存药登记信息修改 /api/drugs/update
 export const DrugsUpdate = (data: DrugsAddParams) => put('/api/drugs/update', data || {})
+// 用药计划添加 /api/drugPlan/add
+export const DrugPlanAdd = (data: DrugsPlanAddParams) => post('/api/drugPlan/add', data || {})
+// 获取老人用药计划列表 /api/drugs/listForPlan/25
+export const DrugsListForPlan = (id: number) => get(`/api/drugs/listForPlan/${id}`)
+// 停止用药 /api/drugPlan/updateEndDate
+export const DrugPlanUpdateEndDate = (data: DrugsPlanUpdateEndDateParams) =>
+  put('/api/drugPlan/updateEndDate', data || {})
+// 根据药品ID获取用药计划 /api/drugPlan/get/20
+export const DrugPlanGet = (id: number) => get(`/api/drugPlan/get/${id}`)

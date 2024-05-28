@@ -32,6 +32,7 @@ import { ElMessage } from 'element-plus'
 import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
 import type { AddDepartmentParams } from '@/service/staff/StaffType'
 import { addDepartment, updateDepartment } from '@/service/staff/StaffApi'
+// 父传子
 const props = defineProps({
   // 部门pid
   deppid: {
@@ -48,6 +49,7 @@ const props = defineProps({
     default: ''
   }
 })
+
 const formSize = ref<ComponentSize>('default')
 const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive<AddDepartmentParams>({
@@ -66,6 +68,7 @@ const rules = reactive<FormRules<AddDepartmentParams>>({
 })
 
 const dialogVisible = ref(true)
+// 子传父
 const emit = defineEmits(['close'])
 // 关闭
 const handleClose = (close: boolean = false) => {

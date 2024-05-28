@@ -153,6 +153,25 @@
       <template v-else-if="item.prop == 'state' && props.identifier == 'Workers'" v-slot="{ row }">
         <span>{{ row.state == 1 ? '已入住' : '未入住' }}</span>
       </template>
+      <!-- 用药时间 -->
+      <template v-else-if="item.prop === 'time'" v-slot="{ row }">
+        {{ row }}
+        <MayTimeSelect
+          @change="
+            (val) => {
+              row.time = val
+            }
+          "
+          style="width: 100%"
+        ></MayTimeSelect>
+      </template>
+      <!-- 用药剂量 -->
+      <template v-else-if="item.prop === 'content'" v-slot="{ row }">
+        <el-input v-model="row.content" />
+      </template>
+      <template v-else-if="item.prop === 'plans'" v-slot="{ row }">
+        <div v-for="item in row.plans" :key="item.id">{{ item.time }} : {{ item.content }}</div>
+      </template>
     </el-table-column>
 
     <el-table-column :label="props.label" v-if="props.label">
@@ -162,6 +181,9 @@
     </el-table-column>
 
     <el-table-column label="操作" v-if="props.isoperate" :width="props.autoWidth">
+      <template #header>
+        <slot name="header"></slot>
+      </template>
       <template v-slot="scope">
         <slot name="operate" :data="scope.row" :index="scope.$index"></slot>
       </template>
@@ -169,7 +191,7 @@
   </el-table>
 </template>
 <script lang="ts" setup>
-import { defineProps, ref, defineEmits } from 'vue'
+import { defineProps, ref, defineEmits, defineAsyncComponent } from 'vue'
 import type { PropType } from 'vue'
 import type { TableItem } from '@/Type/table'
 import month from '@/database/date/month.json'
@@ -184,6 +206,9 @@ const monthdata = month
 import { CloseBold } from '@element-plus/icons-vue'
 import AddWork from '@/components/dialog/old/elderly/AddWork.vue'
 import AddSchedule from '@/components/dialog/old/elderly/AddSchedule.vue'
+const MayTimeSelect = defineAsyncComponent(
+  () => import('@/components/timepicker/MayTimeSelect.vue')
+)
 import { deleteSchedule } from '@/service/old/schedule/ScheduleApi'
 import { ElMessage } from 'element-plus'
 const iswodk = ref(false)

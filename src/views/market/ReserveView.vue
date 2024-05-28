@@ -24,12 +24,17 @@
       </el-form-item>
     </el-form>
   </el-card>
-  <el-card style="max-width: 100%;margin-top: 20px;">
-    <el-button type="primary" style="margin-bottom: 20px;" @click="isdialog = true">新增</el-button>
+  <el-card style="max-width: 100%; margin-top: 20px">
+    <el-button type="primary" style="margin-bottom: 20px" @click="isdialog = true">新增</el-button>
     <ReserveDialog @close="close" v-if="isdialog"></ReserveDialog>
 
     <!-- 表格 -->
-    <MayTable :tableData="data.tableData" :tableItem="data.tableItem" :identifier="identifier">
+    <MayTable
+      :tableData="data.tableData"
+      :tableItem="data.tableItem"
+      :identifier="identifier"
+      :autoWidth="'530px'"
+    >
       <template #operate="{ data }">
         <el-button type="primary" text @click="edit(data.id)">编辑</el-button>
         <el-button type="primary" text>提交预定</el-button>
@@ -39,7 +44,13 @@
         <el-button type="primary" text>转入院</el-button>
       </template>
     </MayTable>
-    <Pagination :total="data.token" @page="page" @psize="psize" :page="formInline.page" :pszie="formInline.pageSize">
+    <Pagination
+      :total="data.token"
+      @page="page"
+      @psize="psize"
+      :page="formInline.page"
+      :pszie="formInline.pageSize"
+    >
     </Pagination>
   </el-card>
 </template>
@@ -47,9 +58,9 @@
 import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
-import { reservationList, reservationDelete } from "@/service/market/ReserveApi"
-import type { ReservationParams } from "@/service/market/Reservetype"
-import ReserveDialog from '@/components/dialog/market/ReserveDialog.vue';
+import { reservationList, reservationDelete } from '@/service/market/ReserveApi'
+import type { ReservationParams } from '@/service/market/Reservetype'
+import ReserveDialog from '@/components/dialog/market/ReserveDialog.vue'
 import { useRouter } from 'vue-router'
 import MayCascader from '@/components/cascader/MayCascader.vue'
 import { useBuildStroe } from '@/stores/mobule/build'
@@ -63,7 +74,7 @@ const formInline = reactive<ReservationParams>({
   name: '',
   idCard: '',
   mobile: '',
-  begId: null,
+  begId: null
 })
 
 const identifier = 'administration'
@@ -129,7 +140,7 @@ const data = reactive({
       prop: 'startDate',
       label: '登记日期',
       width: '120'
-    },
+    }
     // {
     //   prop: 'stateName',
     //   label: '状态'
@@ -148,7 +159,7 @@ const close = (val: boolean) => {
 
 // 编辑
 const edit = (id: any) => {
-  console.log(id);
+  console.log(id)
   router.push(`/market/reserve/edit/${id}`)
 }
 
@@ -169,7 +180,7 @@ const del = async (id: number) => {
 // 预定列表
 const getList = async () => {
   const res: any = await reservationList(formInline)
-  console.log('预定列表', res);
+  console.log('预定列表', res)
   if (res.code == 10000) {
     data.tableData = res.data.list
     data.token = res.data.counts
@@ -211,7 +222,6 @@ const BuildList = async () => {
 const RommId = (val: any) => {
   formInline.begId = val
 }
-
 </script>
 
 <style lang="less" scoped>

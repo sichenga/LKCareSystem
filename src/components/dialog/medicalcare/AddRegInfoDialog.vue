@@ -86,6 +86,7 @@ const props = defineProps({
     default: () => {}
   }
 })
+const emit = defineEmits(['close','regdata'])
 const formSize = ref<ComponentSize>('default')
 const ruleFormRef = ref<FormInstance>()
 const nums = [{ value: '盒', label: '盒' }]
@@ -105,23 +106,17 @@ const rules = reactive<FormRules<DrugsAddDrugsParams>>({
   expTime: [{ required: true, message: '请输入有效期', trigger: 'change' }]
 })
 // 使用 inject 来获取父组件传递的值
-const tableData = inject<any>('tableData')!
-console.log(1111, tableData)
-
 // 提交表单
 const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   const valid = await formEl.validate()
   if (valid) {
-    // ruleForm.id = tableData.length + 1
-    tableData.push(ruleForm)
-    ElMessage.success('添加成功')
+    emit('regdata', ruleForm)
     close(true)
   }
 }
 // 关闭弹窗
 const dialogVisible = ref(true)
-const emit = defineEmits(['close'])
 const close = (close: boolean = false) => {
   emit('close', close)
 }
