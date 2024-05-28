@@ -6,9 +6,11 @@
         <el-input v-model="formInline.elderlyName" placeholder="请输入" clearable />
       </el-form-item>
       <el-form-item label="发布时间：" prop="beginDate">
-        <MayTimeSelect @change="tiemchange" :isrange="true" :startTime="formInline.beginDate"
-          :endTime="formInline.endDate">
-        </MayTimeSelect>
+        <MayDateTimePicker
+          @change="timeSelect"
+          :statetime="formInline.beginDate"
+          :endtime="formInline.endDate"
+        ></MayDateTimePicker>
       </el-form-item>
       <el-form-item label="类型：" prop="type">
         <el-select v-model="formInline.type" placeholder="请选择" style="width: 240px" size="large">
@@ -52,7 +54,7 @@ import { clothesList, clothesDelete } from '@/service/care/ClothesApi'
 import type { ClothesListparams } from '@/service/care/ClothesType'
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
-import MayTimeSelect from '@/components/timepicker/MayTimeSelect.vue'
+import MayDateTimePicker from '@/components/timepicker/MayDateTimePicker.vue'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
 const WashparticularsDialog = defineAsyncComponent(
@@ -172,9 +174,9 @@ const handleDelete = async (id: any) => {
   }
 }
 // 创建时间
-const tiemchange = (val: any) => {
-  formInline.beginDate = val[0] || ''
-  formInline.endDate = val[1] || ''
+const timeSelect = (val: any) => {
+  formInline.beginDate = val[0]
+  formInline.endDate = val[1]
 }
 
 // 关闭弹窗

@@ -12,8 +12,11 @@
         </el-select>
       </el-form-item>
       <el-form-item label="巡检上报时间：" prop="beginDate">
-        <MayTimeSelect @change="tiemchange" :isrange="true" :startTime="formInline.beginDate" :endTime="formInline.endDate">
-        </MayTimeSelect>
+        <MayDateTimePicker
+          @change="timeSelect"
+          :statetime="formInline.beginDate"
+          :endtime="formInline.endDate"
+        ></MayDateTimePicker>
       </el-form-item>
       <el-form-item label="巡检状态：" prop="state">
         <el-select v-model="formInline.state" clearable placeholder="请选择" style="width: 240px" size="large">
@@ -50,7 +53,7 @@ import { addresslist } from '@/service/address/AddressApi'
 import type { PatrolList, AddressSelect } from '@/service/patrol/PatrolType'
 import { getMessageBox } from '@/utils/utils'
 import { useRouter } from 'vue-router'
-import MayTimeSelect from '@/components/timepicker/MayTimeSelect.vue'
+import MayDateTimePicker from '@/components/timepicker/MayDateTimePicker.vue'
 const Refnight = ref()
 const router = useRouter()
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
@@ -115,9 +118,9 @@ const search = () => {
 }
 
 // 巡检上报时间
-const tiemchange = (val: any) => {
-  formInline.beginDate = val[0] || ''
-  formInline.endDate = val[1] || ''
+const timeSelect = (val: any) => {
+  formInline.beginDate = val[0]
+  formInline.endDate = val[1]
 }
 
 // 地址列表

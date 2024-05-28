@@ -8,8 +8,9 @@
       <el-form-item label="身份证号：" prop="idCard">
         <el-input v-model="formInline.idCard" placeholder="请输入身份证号" clearable />
       </el-form-item>
-      <el-form-item label="创建日期:" style="width: 240px;" prop="beginDate">
-        <MayTimePicker @change="change"></MayTimePicker>
+      <el-form-item label="创建日期:"  prop="beginDate">
+        <MayDateTimePicker @change="timeSelect" :statetime="formInline.beginDate" :endtime="formInline.endDate">
+        </MayDateTimePicker>
       </el-form-item>
       <el-form-item label="状态:" style="width: 240px;" prop="state">
         <el-select v-model="formInline.state" placeholder="请选择">
@@ -44,7 +45,7 @@
 <script lang="ts" setup>
 import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
 import AffDialog from '@/components/dialog/care/AffDialog.vue'
-import MayTimePicker from '@/components/timepicker/MayTimePicker.vue'
+import MayDateTimePicker from '@/components/timepicker/MayDateTimePicker.vue'
 import { getMessageBox } from '@/utils/utils'
 import { CustomerList, CustomerDelete } from '@/service/market/CustomerApi'
 import type { CustomerParams } from '@/service/market/CustomerType'
@@ -130,8 +131,9 @@ const getlist = async () => {
   }
 }
 // 时间
-const change = (val: any) => {
-  formInline.beginDate = val
+const timeSelect = (val: any) => {
+  formInline.beginDate = val[0]
+  formInline.endDate = val[1]
 }
 // 关闭弹窗
 const close = () => {
