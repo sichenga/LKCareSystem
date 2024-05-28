@@ -5,7 +5,7 @@
       <el-button type="primary" @click="sond">创建采购申请</el-button>
     </div>
     <!-- 表格 -->
-    <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
+    <MayTable :tableData="data.tableData" :tableItem="data.tableItem" autoWidth="350px">
       <template #operate="{ data }">
         <el-button type="primary" text @click="del">删除</el-button>
         <el-button type="primary" text @click="edit">编辑</el-button>
@@ -14,7 +14,13 @@
         <el-button type="primary" text @click="getifno(data.id)">查看详情</el-button>
       </template>
     </MayTable>
-    <Pagination @page="pageChenge" @psize="pageSizeChenge" :page="states.page" :psize="states.pageSize" :total="states.total"></Pagination>
+    <Pagination
+      @page="pageChenge"
+      @psize="pageSizeChenge"
+      :page="states.page"
+      :psize="states.pageSize"
+      :total="states.total"
+    ></Pagination>
   </el-card>
 </template>
 <script lang="ts" setup>
@@ -110,7 +116,7 @@ const getifno = (id: any) => {
   })
 }
 onMounted(() => {
-  getlist()// 采购申请列表
+  getlist() // 采购申请列表
 })
 </script>
 <style lang="less" scoped>

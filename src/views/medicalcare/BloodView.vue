@@ -8,7 +8,11 @@
         <el-input v-model="formInline.name" placeholder="请输入" clearable />
       </el-form-item>
       <el-form-item label="床位:" prop="begId">
-        <MayCascader :options="data.beddata" @change="bedSelect" :emitid="formInline.begId ? formInline.begId : 0">
+        <MayCascader
+          :options="data.beddata"
+          @change="bedSelect"
+          :emitid="formInline.begId ? formInline.begId : 0"
+        >
         </MayCascader>
       </el-form-item>
       <el-form-item label="查询时间:">
@@ -35,7 +39,13 @@
         <el-button type="primary" text @click="del(data.id)">删除</el-button>
       </template>
     </MayTable>
-    <Pagination :total="total" :page="formInline.page" :psize="formInline.pageSize" @page="getpage" @psize="getpsize">
+    <Pagination
+      :total="total"
+      :page="formInline.page"
+      :psize="formInline.pageSize"
+      @page="getpage"
+      @psize="getpsize"
+    >
     </Pagination>
   </el-card>
 </template>
@@ -108,11 +118,7 @@ const getlist = async () => {
     data.tableData = res.data.list
   }
 }
-// 创建时间
-const tiemchange = (val: any) => {
-  formInline.beginDate = val[0] || ''
-  formInline.endDate = val[1] || ''
-}
+
 // 重置
 const reset = () => {
   formInline.page = 1

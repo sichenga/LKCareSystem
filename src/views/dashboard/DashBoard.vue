@@ -36,11 +36,14 @@ import TopMenu from '@/components/menu/TopMenu.vue'
   height: 100%;
   box-sizing: border-box;
   background-color: #333333;
-  transition: width 0.15s;
-  -webkit-transition: width 0.15s;
-  -moz-transition: width 0.15s;
-  -webkit-transition: width 0.15s;
-  -o-transition: width 0.15s;
+  will-change: transform;
+  backface-visibility: hidden;
+  transition: width 0.5s;
+  -webkit-transition: width 0.5s;
+  -moz-transition: width 0.5s;
+  -webkit-transition: width 0.5s;
+  -o-transition: width 0.5s;
+  animation: 0.5s linear !important;
 }
 
 .el-header {
@@ -59,40 +62,32 @@ import TopMenu from '@/components/menu/TopMenu.vue'
 // 收缩
 .shrink {
   width: 90px;
-  animation: hide 0.2s linear !important;
+  animation: hide 0.5s linear !important;
 }
 
 // 展开
 .unfold {
   width: 230px;
-  animation: show 0.2s linear !important;
+  animation: show 0.5s linear !important;
 }
 
 @keyframes hide {
   from {
-    width: 230px;
-
     filter: blur(3px);
   }
 
   to {
-    // width: 2.5vw;
-    width: 90px;
     filter: blur(5px);
   }
 }
 
 @keyframes show {
   from {
-    width: 90px;
     filter: blur(3px);
-    // width: 2.5vw;
   }
 
   to {
-    width: 230px;
     filter: blur(5px);
-    // width: 6.7vw;
   }
 }
 :deep(.el-scrollbar__view) {
