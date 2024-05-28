@@ -10,19 +10,26 @@
                     <el-input v-model="states.idCard" placeholder="请输入" clearable />
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary" @click="() => { states.page = 1; getlist() }">查询</el-button>
+                    <el-button type="primary" @click="search">查询</el-button>
                     <el-button @click="reset">重置</el-button>
                 </el-form-item>
             </div>
         </el-form>
-        <MayTable :tableData="data.tableData" :tableItem="data.tableItem" :identifier="identifier">
+        <MayTable @serveListIs="serveListIs" :tableData="data.tableData" :tableItem="data.tableItem" :isoperate="isoperate" :identifier="identifier" :isMultiple="porps.isMultiple">
             <template #operate="{ data }">
                 <el-button type="primary" @click="select(data.id)">选择</el-button>
             </template>
+
         </MayTable>
         <div style="height: 30px;"></div>
         <Pagination @page="handlPage" @pszie="handlPsize" :page="states.page" :psize="states.pageSize" :total="total">
         </Pagination>
+        <template #footer>
+            <div class="dialog-footer">
+                <el-button @click="close(false)">取消</el-button>
+                <el-button type="primary" @click="add"> 确定 </el-button>
+            </div>
+        </template>
     </el-dialog>
 </template>
 <script lang="ts" setup>
@@ -43,6 +50,14 @@ const porps = defineProps({
     skip: {
         type: Boolean,
         default: false
+    },
+    isMultiple: {
+        type: Boolean,
+        default: false
+    },
+    isoperate:{
+        type: Boolean,
+        default: true
     }
 })
 
@@ -50,8 +65,7 @@ const porps = defineProps({
 const identifier = 'ToHospitalDialog'
 const data = reactive({
     tableData: [] as any,
-    tableItem: [
-        {
+    tableItem: [    {
             prop: 'photo',
             label: '头像',
             width: '100px'
@@ -74,7 +88,7 @@ const data = reactive({
 })
 
 
-const emit = defineEmits(['close','id'])
+const emit = defineEmits(['close','id','serveList'])
 
 const close = (close: boolean = false) => {
     emit('close', close)
@@ -120,10 +134,25 @@ const select = (id: number) => {
     }
 
 }
+//搜索
+const search = ()=>{
+    states.page = 1; 
+    getlist() 
+}
 // 重置
 const reset = () => {
     states.name = ''
     states.idCard = ''
+}
+// 勾选老人的值
+let serve = ref([])
+const serveListIs=(val:any)=>{
+    console.log('勾选老人值',val);
+    serve.value=val
+}
+const add=()=>{
+    emit('serveList',serve.value)
+    emit('close', false)
 }
 onMounted(() => {
     getlist() //老人列表

@@ -25,13 +25,13 @@
   </el-card>
   <el-button type="primary" style="margin-top: 10px;" @click="add">添加老人活动</el-button>
 
-  <ActivityDialog v-if="dialogVisible" @close="handClose"></ActivityDialog>
+  <ActivityDialog v-if="dialogVisible" @close="handClose" :id="ids"></ActivityDialog>
   <el-card style="margin-top: 15px">
     <!-- 表格 -->
     <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
       <template #operate="{ data }">
         <el-button type="primary" text @click="getinfo">查看详情</el-button>
-        <el-button type="primary" text @click="del(data.id)">修改</el-button>
+        <el-button type="primary" text @click="compile(data.id)">编辑</el-button>
         <el-button type="primary" text @click="del(data.id)">删除</el-button>
       </template>
     </MayTable>
@@ -138,17 +138,24 @@ const TypeList = ref<any>([])
 const getPlayType = async () => {
   let res: any = await getPlayTypeList().catch(() => { })
   if (res?.code == 10000) {
-    console.log(res);
     TypeList.value = res.data.list
   }
 }
 
+const ids = ref(0)
+
 const dialogVisible = ref(false)
 // 添加
 const add = () => {
+  ids.value = 0
   dialogVisible.value=true
 }
+// 编辑
 
+const compile =(id:number)=>{
+  ids.value=id
+  dialogVisible.value=true
+}
 const handClose = (val:any)=>{
   dialogVisible.value=val
   if(val==true){

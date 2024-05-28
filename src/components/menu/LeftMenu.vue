@@ -1,11 +1,18 @@
 <template>
-
   <div class="title">
     <span v-if="!apperStore.statechange">{{ istype }}</span>
     <el-image v-else style="width: 80px; height: 50px" :src="url" />
   </div>
-  <el-menu class="el-menu-vertical-demo" :collapse="apperStore.statechange" :collapse-transition="false"
-    background-color="#333333" text-color="#ccc" active-text-color="#fff" :default-active="$route.fullPath" router>
+  <el-menu
+    class="el-menu-vertical-demo"
+    :collapse="apperStore.statechange"
+    :collapse-transition="false"
+    background-color="#333333"
+    text-color="#ccc"
+    active-text-color="#fff"
+    :default-active="$route.fullPath"
+    router
+  >
     <el-menu-item index="/home" v-if="userStore.model.type !== 3">
       <el-icon>
         <i class="iconfont icon"></i>
@@ -19,8 +26,11 @@
         <span>{{ item.name }}</span>
       </template>
       <el-menu-item-group>
-        <el-menu-item v-for="(chym, chindex) in item.children" :key="chindex + ''"
-          :index="'/' + item.url + '/' + chym.url">
+        <el-menu-item
+          v-for="(chym, chindex) in item.children"
+          :key="chindex + ''"
+          :index="'/' + item.url + '/' + chym.url"
+        >
           <i :class="{ iconfont: true, [chym.icon]: true }"></i>
           {{ chym.name }}
         </el-menu-item>
@@ -66,6 +76,7 @@ const istype = computed(() => {
 </script>
 <style lang="less" scoped>
 @import url('@/assets/leftMenu_icon/iconfont.css');
+@import url('@/assets/leftmenu_icon2/iconfont.css');
 
 .title {
   width: 100%;
@@ -83,7 +94,7 @@ const istype = computed(() => {
 
 .el-menu--collapse {
   width: 93px;
-  animation: hide 0.2s linear !important;
+  // animation: hide 0.2s linear !important;
 
   :deep(.el-sub-menu__title) {
     justify-content: center;

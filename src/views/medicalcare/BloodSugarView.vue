@@ -11,7 +11,11 @@
                 </MayCascader>
             </el-form-item>
             <el-form-item label="日期:" prop="beginDate">
-                <MayDateTimePicker @change="handleChange"> </MayDateTimePicker>
+                <MayDateTimePicker
+          @change="timeSelect"
+          :statetime="formInline.beginDate"
+          :endtime="formInline.endDate"
+        ></MayDateTimePicker>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="search">查询</el-button>
@@ -161,18 +165,11 @@ const psize = (val: number) => {
 }
 
 // 日期
-const handleChange = (val: any[]) => {
-    if (Array.isArray(val) && val.length === 2) {
-        formInline.beginDate = val[0];
-        formInline.endDate = val[1];
-        console.log(123, val);
-    } else {
-        // 如果接收到的值无效，可以清空日期字段，或者显示警告信息
-        formInline.beginDate = '';
-        formInline.endDate = '';
-        // ElMessage.warning('请选择有效的日期范围');
-    }
-};
+const timeSelect = (val: any) => {
+  formInline.beginDate = val[0]
+  formInline.endDate = val[1]
+}
+
 // 获取床位列表
 const bedlist = async () => {
     data.beddata = await getUserInfo.getBuildListData()

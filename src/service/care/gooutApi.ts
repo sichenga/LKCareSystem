@@ -42,3 +42,11 @@ export const getDeleteList =(id:number)=>{
 export const AddPlayAdd =(params:AddplayList)=>{
     return post('/api/play/add',params)
 }
+//获取单挑院内活动
+export const PlayList =(id:number)=>{
+    return get('/api/play/get/'+id)
+}
+// 修改院内活动列表  
+export const AddPlayUpdate =(params:AddplayList)=>{
+    return put('/api/play/update',params)
+}

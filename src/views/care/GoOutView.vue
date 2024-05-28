@@ -11,8 +11,11 @@
         </el-select>
       </el-form-item>
       <el-form-item label="创建时间：" prop="beginDate">
-        <MayTimeSelect @change="tiemchange" :isrange="true" :startTime="params.beginDate" :endTime="params.endDate">
-        </MayTimeSelect>
+        <MayDateTimePicker
+          @change="timeSelect"
+          :statetime="params.beginDate"
+          :endtime="params.endDate"
+        ></MayDateTimePicker>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="sond">查询</el-button>
@@ -50,7 +53,7 @@ import OldSelectDialog from '@/components/dialog/OldSelect/OldSelectDialog.vue'
 const router = useRouter()
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
-import MayTimeSelect from '@/components/timepicker/MayTimeSelect.vue'
+import MayDateTimePicker from '@/components/timepicker/MayDateTimePicker.vue'
 const Refgoout = ref()
 const identifier = 'GoOut'
 const isdialog = ref(false)
@@ -150,9 +153,9 @@ const btn = (id: number) => {
   })
 }
 // 创建时间
-const tiemchange = (val: any) => {
-  params.beginDate = val[0] || ''
-  params.endDate = val[1] || ''
+const timeSelect = (val: any) => {
+  params.beginDate = val[0]
+  params.endDate = val[1]
 }
 // 分页
 const handlPage = (val: any) => {

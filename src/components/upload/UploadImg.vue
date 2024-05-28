@@ -1,27 +1,19 @@
 <template>
-  <el-upload
-    ref="upload"
-    class="upload-demo"
-    :action="action"
-    :headers="headers"
-    :limit="3"
-    :on-exceed="handleExceed"
-    :on-success="handleAvatarSuccess"
-    :show-file-list="props.showlist"
-    
-  >
+  <el-upload v-model:file-list="fileList" ref="upload" class="upload-demo" :action="action" :headers="headers"
+    :limit="3" :on-exceed="handleExceed" :on-success="handleAvatarSuccess" :show-file-list="props.showlist">
     <template #trigger>
       <el-button type="primary">{{ props.title }}</el-button>
     </template>
   </el-upload>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, onMounted, defineProps, defineEmits } from 'vue'
+import { ref, reactive, onMounted, defineProps, defineEmits, watch } from 'vue'
 const action = import.meta.env.VITE_BASE_UPLOAD_ADD || ''
 
 import { genFileId } from 'element-plus'
 import type { UploadInstance, UploadProps, UploadRawFile } from 'element-plus'
 import { useUserStore } from '@/stores'
+
 const emits = defineEmits(['upload'])
 const userStore = useUserStore()
 const headers = {
@@ -36,8 +28,19 @@ const props = defineProps({
     type: String,
     default: '上传图片'
   },
-
+  files: {
+    type: Object,
+    default: () => { }
+  }
 })
+const fileList = ref<any>([
+
+])
+watch(props, (val) => {
+  console.log('图片回显',val.files);
+  fileList.value=val.files
+  
+},{deep:true})
 const upload = ref<UploadInstance>()
 // 替换文件
 const handleExceed: UploadProps['onExceed'] = (files) => {
@@ -50,18 +53,18 @@ const handleExceed: UploadProps['onExceed'] = (files) => {
 }
 // 传递数据
 const handleAvatarSuccess: UploadProps['onSuccess'] = (response) => {
-  console.log(response)
+  console.log('上传图片', response)
   if (response?.code === 10000) {
     emits('upload', response.data?.url)
   }
-  // imageUrl.value = URL.createObjectURL(uploadFile.raw!)
 }
+
 // const
 </script>
 <style lang="less" scoped>
-  .avatar{
-    width: 100px;
-    height: 100px;
-    margin-top: 60px;
-  }
+.avatar {
+  width: 100px;
+  height: 100px;
+  margin-top: 60px;
+}
 </style>

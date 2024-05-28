@@ -12,8 +12,9 @@
                 </el-select> -->
                 <MayCascader :options="data.beddata" @change="bedselect" :emitid="Number(params.begId)"></MayCascader>
             </el-form-item>
-            <el-form-item label="日期:">
-                <MayDateTimePicker @change="handleChange"></MayDateTimePicker>
+            <el-form-item label="日期:" prop="beginDate">
+                <MayDateTimePicker @change="timeSelect" :statetime="params.beginDate" :endtime="params.endDate">
+                </MayDateTimePicker>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="inquire">查询</el-button>
@@ -93,7 +94,7 @@ const params = reactive<MedicalcareParams>({
 let counts = 0
 const getlist = async () => {
     let res: any = await TemperatureList(params)
-   
+
     if (res?.code === 10000) {
         data.tableData = res.data.list
         counts = res.data.counts
@@ -102,10 +103,10 @@ const getlist = async () => {
 // 重置
 const Reftemperature = ref()
 const reset = () => {
-  params.page = 1
-  Reftemperature.value?.resetFields()
-  params.endDate = ''
-  getlist()
+    params.page = 1
+    Reftemperature.value?.resetFields()
+    params.endDate = ''
+    getlist()
 }
 //弹出框
 const dialogVisible = ref(false)
@@ -119,16 +120,22 @@ const close = (val: any) => {
 }
 
 let datas = ref<any>({})
+// 选择日期
+const timeSelect = (val: any) => {
+    params.beginDate = val[0]
+    params.endDate = val[1]
+}
+
 // 添加
-const add=()=>{
-    datas.value={}
-    dialogVisible.value=true
+const add = () => {
+    datas.value = {}
+    dialogVisible.value = true
 }
 // 编辑
 const record = (data: any) => {
 
     datas.value = data
-    dialogVisible.value=true
+    dialogVisible.value = true
 }
 // 删除
 const del = async (id: number) => {
@@ -167,13 +174,6 @@ const bedlist = async () => {
 // 选择床位
 const bedselect = (val: any) => {
     params.begId = val
-}
-// 日期
-const handleChange = (val: any) => {
-    params.beginDate = val[0]
-    params.endDate = val[1]
-    console.log(123, val);
-
 }
 onMounted(() => {
     getlist()//体温列表

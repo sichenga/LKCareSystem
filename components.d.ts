@@ -84,6 +84,7 @@ declare module 'vue' {
     MayTable: typeof import('./src/components/table/MayTable.vue')['default']
     MayTimePicker: typeof import('./src/components/timepicker/MayTimePicker.vue')['default']
     MayTimeSelect: typeof import('./src/components/timepicker/MayTimeSelect.vue')['default']
+    MyEditor: typeof import('./src/components/wangeditor/MyEditor.vue')['default']
     OldCase: typeof import('./src/components/addold/condition/OldCase.vue')['default']
     OldCondition: typeof import('./src/components/addold/condition/OldCondition.vue')['default']
     OldDialog: typeof import('./src/components/dialog/care/OldDialog.vue')['default']

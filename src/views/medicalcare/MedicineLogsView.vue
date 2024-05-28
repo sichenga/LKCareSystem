@@ -1,19 +1,16 @@
 <template>
   <!-- 用药登记 -->
   <el-card>
-    <el-form :inline="true" :model="formInline" class="demo-form-inline">
-      <el-form-item label="老人：">
+    <el-form ref="Refmedicinelogs" :inline="true" :model="formInline" class="demo-form-inline">
+      <el-form-item label="老人：" prop="name">
         <el-input v-model="formInline.name" placeholder="请输入" clearable />
       </el-form-item>
       <el-form-item label="登记时间：">
-        <MayDateTimePicker
-          :statetime="formInline.beginDate"
-          :endtime="formInline.endDate"
-          @change="timechange"
-        ></MayDateTimePicker>
+        <MayDateTimePicker @change="timeSelect" :statetime="formInline.beginDate" :endtime="formInline.endDate">
+        </MayDateTimePicker>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="getquery">查询</el-button>
+        <el-button type="primary">查询</el-button>
         <el-button @click="reset">重置</el-button>
       </el-form-item>
     </el-form>
@@ -31,13 +28,9 @@
         <el-button type="primary" text @click="project(data.elderlyId)">用药计划</el-button>
       </template>
     </MayTable>
-    <Pagination
-      :total="total"
-      :page="formInline.page"
-      :pageSize="formInline.pageSize"
-      @page="getpage"
-      @psize="getpsize"
-    ></Pagination>
+    <Pagination :total="total" :page="formInline.page" :pageSize="formInline.pageSize" @page="getpage"
+      @psize="getpsize">
+    </Pagination>
   </el-card>
 </template>
 <script lang="ts" setup>
@@ -54,13 +47,15 @@ import type { DrugsParams } from '@/service/medicalcare/MedicalcareType'
 import OldSelectDialog from '@/components/dialog/OldSelect/OldSelectDialog.vue'
 const total = ref(0)
 const isdialog = ref(false)
+const Refmedicinelogs = ref()
 const formInline = reactive<DrugsParams>({
   begId: '',
   beginDate: '',
   endDate: '',
   name: '',
   page: 1,
-  pageSize: 5
+  pageSize: 5,
+  endDate: ''
 })
 const data = reactive({
   tableData: [] as any,
@@ -87,6 +82,14 @@ const data = reactive({
     }
   ]
 })
+
+// 重置
+const reset = () => {
+  formInline.page = 1
+  Refmedicinelogs.value?.resetFields()
+  formInline.endDate = ''
+  getlist()
+}
 // 用药登记列表
 const getlist = async () => {
   let res: any = await DrugsList(formInline)
@@ -120,22 +123,10 @@ const project = (id: number) => {
     }
   })
 }
-// 查询时间
-const timechange = (val: any) => {
+// 登记时间
+const timeSelect = (val: any) => {
   formInline.beginDate = val[0]
   formInline.endDate = val[1]
-}
-// 查询
-const getquery = () => {
-  formInline.page = 1
-  getlist()
-}
-// 重置
-const reset = () => {
-  formInline.begId = ''
-  formInline.beginDate = ''
-  formInline.name = ''
-  getlist()
 }
 // 分页
 const getpage = (page: number) => {
