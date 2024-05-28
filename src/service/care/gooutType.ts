@@ -32,10 +32,17 @@ export interface playList {
 }
 
 // 添加院内活动
+interface Pictures {
+    picture:string
+}
+interface Elderly{
+    elderlyId:number
+}
 export interface AddplayList {
+    id:number
   title: string
   type: number|null
   content: string
-  elderly: number[]
-  pictures: string[]
+  elderly: Elderly[]
+  pictures: Pictures[]
 }

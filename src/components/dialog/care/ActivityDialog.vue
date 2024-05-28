@@ -1,5 +1,5 @@
 <template>
-    <el-dialog v-model="dialogVisible" :title="porpos.id?'修改院内活动':'增加院内活动'" width="500" @close="close">
+    <el-dialog v-model="dialogVisible" :title="porpos.id?'修改院内活动':'增加院内活动'" width="700" @close="close">
         <OldSelectDialog v-if="diaVisible" @close="closes" :isMultiple="isMultiple" :isoperate="isoperate"
             @serveList="serveList"></OldSelectDialog>
         <el-form ref="ruleFormRef" style="max-width: 600px" :model="ruleForm" :rules="rules" label-width="auto"
@@ -14,17 +14,18 @@
             </el-form-item>
             <el-form-item label="老人：" prop="elderly">
                 <!-- <el-input v-model="ruleForm.elderly" /> -->
-                <span v-if="OldName.length" >
+                <span v-if="OldName.length" @click="oldAdd">
                     {{ OldName }}
                 </span>
                 <el-button v-else type="primary" @click="oldAdd">选择老人</el-button>
 
             </el-form-item>
             <el-form-item label="精神慰藉内容：">
-                <el-input v-model="ruleForm.content" />
+                <!-- <el-input v-model="ruleForm.content" /> -->
+                <MyEditor @change="change" :content="content"></MyEditor>
             </el-form-item>
             <el-form-item label="上传图片：">
-                <UploadPictures @upload="upload" :files="files"></UploadPictures>
+                <UploadPictures @upload="upload" @uploadFile="uploadFile" :files="files"></UploadPictures>
             </el-form-item>
         </el-form>
         <template #footer>
@@ -39,7 +40,8 @@
 import { ref, reactive, defineEmits, onMounted,defineProps } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import { ElMessage } from 'element-plus'
-import { getPlayTypeList, AddPlayAdd,PlayList,AddPlayUpdate } from '@/service/care/gooutApi'
+import MyEditor from '@/components/wangeditor/MyEditor.vue'
+import { getPlayTypeList, AddPlayAdd,PlayList } from '@/service/care/gooutApi'
 import UploadPictures from '@/components/upload/UploadImg.vue'
 import type { AddplayList } from '@/service/care/gooutType'
 import OldSelectDialog from '@/components/dialog/OldSelect/OldSelectDialog.vue'
@@ -50,16 +52,20 @@ const porpos = defineProps({
         default:0
     }
 })
-console.log(porpos.id);
 
 const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive<AddplayList>({
+    id:porpos.id,
     title: '',
     type: null,
     content: '',
     elderly: [],
     pictures: [],
 })
+//富文本编辑器
+const change=(val:any)=>{
+    ruleForm.content=val
+}
 const rules = reactive<FormRules<AddplayList>>({
     title: [
         {
@@ -113,10 +119,17 @@ const closes = (val: any) => {
 }
 
 //图片
-const upImage = ref<any>([])
+
 const upload = (val: any) => {
-    upImage.value.push(val)
-    ruleForm.pictures = upImage.value.map((item: any) => ({ picture: item }))
+    console.log('图片',val);
+
+    ruleForm.pictures.push({
+        picture:val
+    })
+}
+// 删除图片
+const uploadFile = (val:any)=>{
+    ruleForm.pictures=ruleForm.pictures.filter((item:any)=>(val.name?item.picture!=val.name:item.picture!=val?.response.data.url))
 }
 // 勾选老人的值
 const OldName = ref([])
@@ -133,7 +146,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
     if (valid) {
         let res:any;
         if(porpos.id){
-            res = await AddPlayUpdate(ruleForm)
+            res = await AddPlayAdd(ruleForm)
         }else{  
             res = await AddPlayAdd(ruleForm)
         }
@@ -144,13 +157,18 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 
     }
 }
+
+//富文本编辑器回显
+const content = ref('')
 //获取单挑院内活动
 const files = ref([])
 const getList=async( )=>{
     if(porpos.id){
         let id=Number(porpos.id)
         let res:any=await PlayList(id)
+
         if(res?.code==10000){
+            content.value=res.data.content
             OldName.value=res.data.elderly.map((item:any)=>(item.elderlyName))
             files.value = res.data.pictures.map((item:any)=>({
                 name:item.picture,

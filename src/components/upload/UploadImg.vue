@@ -1,6 +1,6 @@
 <template>
   <el-upload v-model:file-list="fileList" ref="upload" class="upload-demo" :action="action" :headers="headers"
-    :limit="3" :on-exceed="handleExceed" :on-success="handleAvatarSuccess" :show-file-list="props.showlist">
+    :limit="3" :on-exceed="handleExceed" :on-success="handleAvatarSuccess" :on-remove="handleRemove" :show-file-list="props.showlist">
     <template #trigger>
       <el-button type="primary">{{ props.title }}</el-button>
     </template>
@@ -14,7 +14,7 @@ import { genFileId } from 'element-plus'
 import type { UploadInstance, UploadProps, UploadRawFile } from 'element-plus'
 import { useUserStore } from '@/stores'
 
-const emits = defineEmits(['upload'])
+const emits = defineEmits(['upload','uploadFile'])
 const userStore = useUserStore()
 const headers = {
   Authorization: userStore.token || ''
@@ -58,6 +58,13 @@ const handleAvatarSuccess: UploadProps['onSuccess'] = (response) => {
     emits('upload', response.data?.url)
   }
 }
+// 删除
+const handleRemove: UploadProps['onRemove'] = (uploadFile:any) => {
+  console.log('删除图片', uploadFile);
+  
+  emits('uploadFile', uploadFile)
+}
+
 
 // const
 </script>

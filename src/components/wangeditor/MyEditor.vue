@@ -44,7 +44,7 @@ const mode = 'default' // 或 'simple'
 // 编辑器实例，必须用 shallowRef
 const editorRef = shallowRef()
 // 内容 HTML
-const valueHtml = ref('<p>hello</p>')
+const valueHtml = ref('<p></p>')
 const toolbarConfig = {}
 const editorConfig: Partial<IEditorConfig> = {
   placeholder: '请输入内容...',

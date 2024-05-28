@@ -1,7 +1,7 @@
 <template>
   <!-- 院内活动 -->
   <el-card>
-    <ActDialog v-if="isdialog" @close="close"></ActDialog>
+    <ActDialog v-if="isdialog" @close="close" :id="infoId"></ActDialog>
     <el-form :inline="true" :model="params" class="demo-form-inline">
       <el-form-item label="分类" style="width: 250px;">
         <el-select v-model="params.type" placeholder="请选择">
@@ -19,18 +19,20 @@
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="search">查询</el-button>
-        <el-button>重置</el-button>
+        <el-button @click="delde">重置</el-button>
       </el-form-item>
     </el-form>
   </el-card>
-  <el-button type="primary" style="margin-top: 10px;" @click="add">添加老人活动</el-button>
 
   <ActivityDialog v-if="dialogVisible" @close="handClose" :id="ids"></ActivityDialog>
   <el-card style="margin-top: 15px">
+    
+    <el-button type="primary" style="margin-top: 10px;margin-bottom: 10px;" @click="add">添加老人活动</el-button>
+
     <!-- 表格 -->
     <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
       <template #operate="{ data }">
-        <el-button type="primary" text @click="getinfo">查看详情</el-button>
+        <el-button type="primary" text @click="getinfo(data.id)">查看详情</el-button>
         <el-button type="primary" text @click="compile(data.id)">编辑</el-button>
         <el-button type="primary" text @click="del(data.id)">删除</el-button>
       </template>
@@ -130,7 +132,9 @@ const search = () => {
 }
 
 // 查看详情
-const getinfo = () => {
+const infoId=ref(0)
+const getinfo = (id:number) => {
+  infoId.value = id
   isdialog.value = true
 }
 //活动分类列表
@@ -176,6 +180,10 @@ const del = async (id: number) => {
   } else {
     ElMessage.info('取消删除')
   }
+}
+// 重置
+const delde=()=>{
+  params.name=''
 }
 onMounted(() => {
   getlist() //院内活动列表
