@@ -55,14 +55,14 @@ import { reactive, ref, onMounted, defineAsyncComponent } from 'vue'
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
 import BloodDialog from '@/components/dialog/medicalcare/BloodDialog.vue'
-import { useBuildStroe } from '@/stores'
+import { useBuildStroke } from '@/stores'
 import MayCascader from '@/components/cascader/MayCascader.vue'
 import MayDateTimePicker from '@/components/timepicker/MayDateTimePicker.vue'
 import { BloodPressureList, BloodPressureDelete } from '@/service/medicalcare/MedicalcareApi'
 import type { BloodPressureParams } from '@/service/medicalcare/MedicalcareType'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
-const getUserInfo = useBuildStroe()
+const getUserInfo = useBuildStroke()
 const Refblood = ref()
 const editid = ref(0)
 const formInline = reactive<BloodPressureParams>({

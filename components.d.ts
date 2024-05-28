@@ -45,6 +45,7 @@ declare module 'vue' {
     ElContainer: typeof import('element-plus/es')['ElContainer']
     ElDatePicker: typeof import('element-plus/es')['ElDatePicker']
     ElDialog: typeof import('element-plus/es')['ElDialog']
+    ElFooter: typeof import('element-plus/es')['ElFooter']
     ElForm: typeof import('element-plus/es')['ElForm']
     ElFormItem: typeof import('element-plus/es')['ElFormItem']
     ElHeader: typeof import('element-plus/es')['ElHeader']
@@ -121,5 +122,8 @@ declare module 'vue' {
     WashparticularsDialog: typeof import('./src/components/dialog/care/WashparticularsDialog.vue')['default']
     WelfareDialog: typeof import('./src/components/dialog/financial/WelfareDialog.vue')['default']
     WorkersDialog: typeof import('./src/components/dialog/config/WorkersDialog.vue')['default']
+  }
+  export interface ComponentCustomProperties {
+    vLoading: typeof import('element-plus/es')['ElLoadingDirective']
   }
 }

@@ -62,10 +62,10 @@ const Pagination = defineAsyncComponent(() => import('@/components/pagination/Ma
 import MayTimeSelect from '@/components/timepicker/MayTimeSelect.vue'
 import MayCascader from '@/components/cascader/MayCascader.vue'
 import { useRouter } from 'vue-router'
-import { useBuildStroe } from '@/stores'
+import { useBuildStroke } from '@/stores'
 import CheckRoowDialog from '@/components/dialog/medicalcare/CheckRoowDialog.vue'
 const RefChedkRoom = ref<FormInstance>()
-const getUserInfo = useBuildStroe()
+const getUserInfo = useBuildStroke()
 const router = useRouter()
 const total = ref(0)
 const data = reactive({

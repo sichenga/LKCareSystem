@@ -41,7 +41,6 @@ import TopMenu from '@/components/menu/TopMenu.vue'
   transition: width 0.5s;
   -webkit-transition: width 0.5s;
   -moz-transition: width 0.5s;
-  -webkit-transition: width 0.5s;
   -o-transition: width 0.5s;
   animation: 0.5s linear !important;
 }

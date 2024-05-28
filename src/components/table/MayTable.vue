@@ -11,6 +11,7 @@
   <el-table
     :data="props.tableData"
     border
+    v-loading="appStore.isLoading"
     :header-cell-style="{
       background: '#f9f9f9',
       color: '#000000',
@@ -127,7 +128,9 @@
           <div class="item" v-for="item in row[item.prop]" :key="item.id">
             <el-avatar :size="30" :src="upload + item.staffPhoto" />
             <span>{{ item.staffName }}</span>
-            <el-icon class="close" @click.stop="del(item.id)"><CloseBold /></el-icon>
+            <el-icon class="close" @click.stop="del(item.id)">
+              <CloseBold />
+            </el-icon>
           </div>
         </div>
         <div v-else>
@@ -197,6 +200,7 @@ import type { TableItem } from '@/Type/table'
 import month from '@/database/date/month.json'
 import week from '@/database/date/week.json'
 import moment from 'moment'
+
 const Emits = defineEmits(['serveListIs', 'close'])
 const upload = import.meta.env.VITE_BASE_URL + '/'
 const mons = moment
@@ -204,13 +208,18 @@ const mons = moment
 const weekdata = week
 const monthdata = month
 import { CloseBold } from '@element-plus/icons-vue'
+import { useApperStore } from '@/stores'
+
+const appStore = useApperStore()
 import AddWork from '@/components/dialog/old/elderly/AddWork.vue'
 import AddSchedule from '@/components/dialog/old/elderly/AddSchedule.vue'
+
 const MayTimeSelect = defineAsyncComponent(
   () => import('@/components/timepicker/MayTimeSelect.vue')
 )
 import { deleteSchedule } from '@/service/old/schedule/ScheduleApi'
 import { ElMessage } from 'element-plus'
+
 const iswodk = ref(false)
 const isschedule = ref(false)
 const props = defineProps({
@@ -356,6 +365,7 @@ const handleSelectionChange = (val: any[]) => {
   align-items: center;
   position: relative;
   margin-bottom: 5px;
+
   span {
     margin-left: 5px;
   }
@@ -368,9 +378,11 @@ const handleSelectionChange = (val: any[]) => {
 
   color: black;
 }
+
 :deep(.el-table__cell) {
   position: relative;
 }
+
 .schitem {
   width: 100%;
   height: 100%;
@@ -383,11 +395,13 @@ const handleSelectionChange = (val: any[]) => {
   flex-direction: column;
   padding-left: 5px;
   z-index: 999;
+
   span {
     margin-top: 5px;
     color: #5799f9;
   }
 }
+
 .schsel {
   width: 100%;
   height: 100%;

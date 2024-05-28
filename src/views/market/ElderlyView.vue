@@ -58,9 +58,9 @@ const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
 import { getElderlyList, deleteElderly } from '@/service/old/OldApi'
 import type { ListElderlyRequest } from '@/service/old/OldType'
-import { getBedsList } from '@/service/config/ConfigApi'
-import { useBuildStroe } from '@/stores'
-const getUserInfo = useBuildStroe()
+import { useBuildStroke } from '@/stores'
+import MayCascader from '@/components/cascader/MayCascader.vue'
+const getUserInfo = useBuildStroke()
 const total = ref(0)
 const RefElderly = ref()
 const formInline = reactive<ListElderlyRequest>({
