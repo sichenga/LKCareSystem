@@ -2,19 +2,20 @@
     <!-- 血糖记录 -->
     <!-- dialog写在medicalcare文件夹下 -->
     <el-card style="max-width: 100%">
-        <el-form :inline="true" :model="formInline" class="demo-form-inline">
-            <el-form-item label="老人:">
+        <el-form ref="Refsugar" :inline="true" :model="formInline" class="demo-form-inline">
+            <el-form-item label="老人:" prop="name">
                 <el-input v-model="formInline.name" placeholder="请输入" clearable />
             </el-form-item>
-            <el-form-item label="预定床位">
-                <MayCascader :options="BuildRoom" @change="RommId"> </MayCascader>
+            <el-form-item label="预定床位" prop="begId">
+                <MayCascader :options="data.beddata" @change="bedselect" :emitid="Number(formInline.begId)">
+                </MayCascader>
             </el-form-item>
-            <el-form-item label="日期:">
+            <el-form-item label="日期:" prop="beginDate">
                 <MayDateTimePicker @change="handleChange"> </MayDateTimePicker>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="search">查询</el-button>
-                <el-button>重置</el-button>
+                <el-button @click="reset">重置</el-button>
             </el-form-item>
         </el-form>
     </el-card>
@@ -46,9 +47,8 @@ import BloodSugarDialog from '@/components/dialog/medicalcare/BloodSugarDialog.v
 import MayDateTimePicker from '@/components/timepicker/MayDateTimePicker.vue'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
-
 import { useBuildStroe } from '@/stores/mobule/build'
-const useBuild = useBuildStroe()
+const getUserInfo = useBuildStroe()
 const formInline = reactive<bloodSugarlistParams>({
     page: 1,
     pageSize: 5,
@@ -85,7 +85,8 @@ const data = reactive({
             prop: 'val',
             label: '血糖',
         }
-    ]
+    ],
+    beddata: [] as any
 })
 // 血糖记录列表
 const getlist = async () => {
@@ -98,7 +99,7 @@ const getlist = async () => {
 }
 onMounted(() => {
     getlist()
-    BuildList()// 床位
+    bedlist()
 })
 //弹出框
 const dialogVisible = ref(false)
@@ -141,6 +142,14 @@ const handleDelete = async (id: any) => {
         ElMessage.info('取消删除')
     }
 }
+
+// 重置
+const Refsugar = ref()
+const reset = () => {
+    formInline.page = 1
+    Refsugar.value?.resetFields()
+    getlist()
+}
 //分页
 const page = (val: number) => {
     formInline.page = val
@@ -152,24 +161,24 @@ const psize = (val: number) => {
 }
 
 // 日期
-const handleChange = (val: any) => {
+const handleChange = (val: any[]) => {
     if (Array.isArray(val) && val.length === 2) {
         formInline.beginDate = val[0];
         formInline.endDate = val[1];
         console.log(123, val);
     } else {
-        console.warn('接收到的日期范围不正确:', val);
+        // 如果接收到的值无效，可以清空日期字段，或者显示警告信息
+        formInline.beginDate = '';
+        formInline.endDate = '';
+        // ElMessage.warning('请选择有效的日期范围');
     }
+};
+// 获取床位列表
+const bedlist = async () => {
+    data.beddata = await getUserInfo.getBuildListData()
 }
-
 // 床位
-const BuildRoom = ref([])
-const BuildList = async () => {
-    let res: any = await useBuild.getBuildListData()
-    BuildRoom.value = res
-}
-//选择的房间
-const RommId = (val: any) => {
+const bedselect = (val: any) => {
     formInline.begId = val
 }
 </script>

@@ -1,14 +1,14 @@
 <template>
     <!-- 资讯登记 -->
     <el-card style="margin-top: 15px" class="section">
-        <el-form :model="states" label-width="100px" style="display: flex;align-items: center;">
-            <el-form-item label="咨询人姓名：">
+        <el-form ref="Refquestion" :model="states" label-width="100px" style="display: flex;align-items: center;">
+            <el-form-item label="咨询人姓名：" prop="name">
                 <el-input v-model="states.name" style="width: 180px" placeholder="请输入咨询人姓名" />
             </el-form-item>
-            <el-form-item label="老人姓名：">
+            <el-form-item label="老人姓名：" prop="customerName">
                 <el-input v-model="states.customerName" style="width: 180px" placeholder="请输入老人姓名" />
             </el-form-item>
-            <el-form-item label="回访状态：">
+            <el-form-item label="回访状态：" prop="state">
                 <el-select v-model="states.state" style="width: 180px" placeholder="请选择">
                     <el-option label="待回访" :value="0"></el-option>
                     <el-option label="已回访" :value="1"></el-option>
@@ -16,6 +16,7 @@
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click='inquire'>查询</el-button>
+                <el-button @click="reset">重置</el-button>
             </el-form-item>
         </el-form>
     </el-card>
@@ -25,14 +26,14 @@
         </div>
         <!-- 表格 -->
         <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
-            <template #operate="{data}">
+            <template #operate="{ data }">
                 <el-button type="primary" text @click="edit(data.id)">编辑</el-button>
                 <el-button type="primary" text @click="del(data.id)">删除</el-button>
                 <el-button type="primary" text @click="particulars(data.id)">详情</el-button>
                 <el-button type="primary" text @click="record(data.id)">回访记录</el-button>
             </template>
         </MayTable>
-        <Pagination @page="holedpage" @pszie="holedpsize"  :total="total"></Pagination>
+        <Pagination @page="holedpage" @pszie="holedpsize" :total="total"></Pagination>
 
     </el-card>
     <div class="title-btn">
@@ -46,13 +47,13 @@
 import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
-import { useRoute,useRouter } from 'vue-router'
-import { getMarketList,deleteMarket} from '@/service/market/marketApi'
+import { useRoute, useRouter } from 'vue-router'
+import { getMarketList, deleteMarket } from '@/service/market/marketApi'
 import type { market } from '@/service/market/marketType'
 const route = useRoute()
-const customerId=ref<any>(null)
-customerId.value =route.query.id
-
+const customerId = ref<any>(null)
+customerId.value = route.query.id
+const Refquestion = ref()
 const router = useRouter()
 const AddRelation = defineAsyncComponent(() => import('@/components/dialog/consult/AddConsult.vue'))
 const Particulars = defineAsyncComponent(() => import('@/components/dialog/consult/particulars.vue'))
@@ -73,7 +74,6 @@ const data = reactive({
             prop: 'customerName',
             label: '老人姓名'
         },
-        
         {
             prop: 'source',
             label: '咨询渠道'
@@ -97,14 +97,12 @@ const data = reactive({
         {
             prop: 'visitTime',
             label: '计划回访日期',
-            width:'160px'
+            width: '160px'
         },
         {
             prop: 'stateName',
             label: '回访状态'
         },
-
-
     ]
 })
 
@@ -117,9 +115,15 @@ const states = reactive<market>({
     state: null, //0:待回访,1:已回访
     customerId: null//潜在客户id
 })
+// 重置
+const reset = () => {
+    states.page = 1
+    Refquestion.value?.resetFields()
+    getlist()
+}
 // 查询
-const inquire=()=>{
-    states.page=1
+const inquire = () => {
+    states.page = 1
     getlist()
 }
 const total = ref(0)
@@ -139,7 +143,7 @@ const addRelation = () => {
 
 //编辑咨询
 const ids = ref<any>(null)
-const edit = (id:number)=>{
+const edit = (id: number) => {
     dialogVisible.value = true
     ids.value = id
 }
@@ -147,7 +151,7 @@ const edit = (id:number)=>{
 const Holedclose = (val: any) => {
     dialogVisible.value = val
     ids.value = 0
-    if(val){
+    if (val) {
         dialogVisible.value = false
         getlist()
     }
@@ -157,7 +161,7 @@ const Holedclose = (val: any) => {
 //资讯详情
 const editId = ref<any>(0)
 const dialogVisibles = ref(false)
-const particulars = (id:number) => {
+const particulars = (id: number) => {
     dialogVisibles.value = true
     editId.value = id
 }
@@ -169,11 +173,11 @@ const Holedcloses = (val: any) => {
 
 
 //删除资讯
-const del = async (id:number) => {
+const del = async (id: number) => {
     let res = await getMessageBox('是否确认删除该咨询', '删除后将不可恢复')
     if (res) {
-        let res:any = await deleteMarket(id).catch(()=>{})
-        if(res?.code==10000){
+        let res: any = await deleteMarket(id).catch(() => { })
+        if (res?.code == 10000) {
             getlist()
             ElMessage.success('删除成功')
         }
@@ -183,22 +187,22 @@ const del = async (id:number) => {
 }
 
 //回访记录
-const record =(id:number)=>{
+const record = (id: number) => {
     router.push({
-        path:'/market/question/callback',
-        query:{
-            id:id
+        path: '/market/question/callback',
+        query: {
+            id: id
         }
     })
 }
 
 // 分页
-const holedpage =(val:any)=>{
-    states.page=val
+const holedpage = (val: any) => {
+    states.page = val
     getlist()
 }
-const holedpsize =(val:any)=>{
-    states.pageSize=val
+const holedpsize = (val: any) => {
+    states.pageSize = val
     getlist()
 }
 

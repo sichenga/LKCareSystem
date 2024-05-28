@@ -6,12 +6,15 @@
         <el-input v-model="formInline.name" placeholder="请输入" clearable />
       </el-form-item>
       <el-form-item label="登记时间：">
-        <MayDateTimePicker></MayDateTimePicker>
+        <MayDateTimePicker
+          :statetime="formInline.beginDate"
+          :endtime="formInline.endDate"
+          @change="timechange"
+        ></MayDateTimePicker>
       </el-form-item>
-
       <el-form-item>
-        <el-button type="primary">查询</el-button>
-        <el-button>重置</el-button>
+        <el-button type="primary" @click="getquery">查询</el-button>
+        <el-button @click="reset">重置</el-button>
       </el-form-item>
     </el-form>
   </el-card>
@@ -25,7 +28,7 @@
     <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
       <template #operate="{ data }">
         <el-button type="primary" text @click="details(data.elderlyId)">查看详情</el-button>
-        <el-button type="primary" text @click="project(data.id)">用药计划</el-button>
+        <el-button type="primary" text @click="project(data.elderlyId)">用药计划</el-button>
       </template>
     </MayTable>
     <Pagination
@@ -54,6 +57,7 @@ const isdialog = ref(false)
 const formInline = reactive<DrugsParams>({
   begId: '',
   beginDate: '',
+  endDate: '',
   name: '',
   page: 1,
   pageSize: 5
@@ -115,6 +119,23 @@ const project = (id: number) => {
       id
     }
   })
+}
+// 查询时间
+const timechange = (val: any) => {
+  formInline.beginDate = val[0]
+  formInline.endDate = val[1]
+}
+// 查询
+const getquery = () => {
+  formInline.page = 1
+  getlist()
+}
+// 重置
+const reset = () => {
+  formInline.begId = ''
+  formInline.beginDate = ''
+  formInline.name = ''
+  getlist()
 }
 // 分页
 const getpage = (page: number) => {

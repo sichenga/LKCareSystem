@@ -2,42 +2,55 @@
   <!-- 院内活动 -->
   <el-card>
     <ActDialog v-if="isdialog" @close="close"></ActDialog>
-    <el-form :inline="true" :model="formInline" class="demo-form-inline">
+    <el-form :inline="true" :model="params" class="demo-form-inline">
+      <el-form-item label="分类" style="width: 250px;">
+        <el-select v-model="params.type" placeholder="请选择">
+          <el-option v-for="item in TypeList" :key="item.id" :label="item.name" :value="item.id" />
+        </el-select>
+      </el-form-item>
       <el-form-item label="老人姓名：">
-        <el-input v-model="formInline.user" placeholder="请输入" clearable />
+        <el-input v-model="params.name" placeholder="请输入" clearable />
+      </el-form-item>
+      <el-form-item label="关键字：">
+        <el-input v-model="params.key" placeholder="请输入标题" clearable />
       </el-form-item>
       <el-form-item label="上报时间：">
-        <TimePicker></TimePicker>
+        <MayDateTimePicker @change="handChange"></MayDateTimePicker>
       </el-form-item>
-
       <el-form-item>
-        <el-button type="primary">查询</el-button>
+        <el-button type="primary" @click="search">查询</el-button>
         <el-button>重置</el-button>
       </el-form-item>
     </el-form>
   </el-card>
+  <el-button type="primary" style="margin-top: 10px;" @click="add">添加老人活动</el-button>
+
+  <ActivityDialog v-if="dialogVisible" @close="handClose"></ActivityDialog>
   <el-card style="margin-top: 15px">
     <!-- 表格 -->
     <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
-      <template #operate>
+      <template #operate="{ data }">
         <el-button type="primary" text @click="getinfo">查看详情</el-button>
+        <el-button type="primary" text @click="del(data.id)">修改</el-button>
+        <el-button type="primary" text @click="del(data.id)">删除</el-button>
       </template>
     </MayTable>
-    <Pagination :total="50"></Pagination>
+    <Pagination :total="counts" @page="handPage" @psize="handPsize" :page='params.page' :psize="params.pageSize">
+    </Pagination>
   </el-card>
 </template>
 <script lang="ts" setup>
 import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
-import AffiliatedView from '@/database/AffiliatedView.json'
+import { getPlayList, getPlayTypeList, getDeleteList } from '@/service/care/gooutApi'
+import type { playList } from '@/service/care/gooutType'
+import { getMessageBox } from '@/utils/utils'
+import { ElMessage } from 'element-plus'
+import ActivityDialog from '@/components/dialog/care/ActivityDialog.vue'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
-const TimePicker = defineAsyncComponent(() => import('@/components/timepicker/MayTimePicker.vue'))
+const MayDateTimePicker = defineAsyncComponent(() => import('@/components/timepicker/MayDateTimePicker.vue'))
 const ActDialog = defineAsyncComponent(() => import('@/components/dialog/care/ActDialog.vue'))
-const formInline = reactive({
-  user: '',
-  region: '',
-  date: ''
-})
+
 const isdialog = ref(false)
 const data = reactive({
   tableData: [] as any,
@@ -47,40 +60,120 @@ const data = reactive({
       label: '序号'
     },
     {
-      prop: 'name',
+      prop: 'title',
+      label: '标题'
+    },
+    {
+      prop: 'addTime',
       label: '上报时间'
     },
     {
-      prop: 'address',
+      prop: 'typeName',
+      label: '分类'
+    },
+    {
+      prop: 'addAccountName',
       label: '上报人'
     },
     {
-      prop: 'manager',
+      prop: 'elderly',
       label: '老人姓名'
     },
-    {
-      prop: 'phone',
-      label: '床位号'
-    }
   ]
 })
-const getlist = () => {
-  setTimeout(() => {
-    data.tableData = AffiliatedView
-  }, 1000)
+
+
+const params = reactive<playList>({
+  page: 1,
+  pageSize: 10,
+  name: '',//老人姓名
+  beginDate: '',//开始时间yyyy-MM-dd
+  endDate: '',//结束时间yyyy-MM-dd
+  type: null, //分类ID
+  key: '',//关键子
+})
+//院内活动列表
+const counts = ref(0)
+const getlist = async () => {
+  let res: any = await getPlayList(params).catch(() => { })
+  console.log(res);
+
+  if (res?.code == 10000) {
+    data.tableData = res.data.list
+    counts.value = res.data.counts
+  }
+
+}
+// 分页
+const handPage = (val: any) => {
+  params.page = val
+  getlist()
+}
+const handPsize = (val: any) => {
+  params.pageSize = val
+  getlist()
+}
+// 时间
+const handChange = (val: any) => {
+
+  params.beginDate = val[0]
+  params.endDate = val[1]
 }
 // 关闭弹窗
 const close = () => {
   isdialog.value = false
+}
+// 搜索
+const search = () => {
+  params.page = 1
+  getlist()
 }
 
 // 查看详情
 const getinfo = () => {
   isdialog.value = true
 }
+//活动分类列表
+const TypeList = ref<any>([])
+const getPlayType = async () => {
+  let res: any = await getPlayTypeList().catch(() => { })
+  if (res?.code == 10000) {
+    console.log(res);
+    TypeList.value = res.data.list
+  }
+}
 
+const dialogVisible = ref(false)
+// 添加
+const add = () => {
+  dialogVisible.value=true
+}
+
+const handClose = (val:any)=>{
+  dialogVisible.value=val
+  if(val==true){
+    dialogVisible.value=false
+    getlist() //院内活动列表
+  }
+}
+// 删除
+const del = async (id: number) => {
+  let res = await getMessageBox('是否确认删除此院内活动信息', '删除后将不可恢复')
+  if (res) {
+    let _res: any = await getDeleteList(id)
+    if (_res.code == 10000) {
+      getlist() //院内活动列表
+      ElMessage.success('删除成功')
+    }
+
+  } else {
+    ElMessage.info('取消删除')
+  }
+}
 onMounted(() => {
-  getlist()
+  getlist() //院内活动列表
+  getPlayType()//活动分类
+
 })
 </script>
 <style lang="less" scoped>

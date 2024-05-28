@@ -27,7 +27,7 @@
           :isrange="true"
           @change="timechange"
           style="width: 200px"
-          :startTime="props.startTime"
+          :start-placeholder="props.startTime"
         ></MayTimeSelect>
       </el-form-item>
     </el-form>

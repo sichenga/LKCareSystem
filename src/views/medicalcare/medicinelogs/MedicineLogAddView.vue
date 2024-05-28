@@ -1,7 +1,12 @@
 <template>
   <!-- 新增用药登记 -->
   <el-card style="margin-top: 15px">
-    <AddRegInfoDialog v-if="isdialog" @close="close" :remdata="remdata"></AddRegInfoDialog>
+    <AddRegInfoDialog
+      v-if="isdialog"
+      @close="close"
+      :remdata="remdata"
+      @regdata="regdata"
+    ></AddRegInfoDialog>
     <el-form :model="formInline" class="demo-form-inline" :rules="rules" ref="ruleFormRef">
       <el-form-item label="登记日期：" prop="addTime">
         <TimePicker
@@ -111,6 +116,9 @@ const selectTime = (val: string) => {
 }
 // 关闭弹窗
 const close = () => {
+  if (remdata.value) {
+    remdata.value = {}
+  }
   isdialog.value = false
 }
 
@@ -139,6 +147,15 @@ const del = async (index: number) => {
 // 返回
 const getback = () => {
   router.push('/medicalcare/medicinelogs')
+}
+// 添加数据
+const regdata = (val: any) => {
+  if (!val?.id) {
+    val.id = data.tableData.length + 1
+    data.tableData.push(val)
+  } else {
+    data.tableData.splice(val.id - 1, 1, val)
+  }
 }
 // 提交表单
 const submitForm = async (formEl: FormInstance | undefined) => {

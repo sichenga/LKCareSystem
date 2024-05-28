@@ -8,6 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     ActDialog: typeof import('./src/components/dialog/care/ActDialog.vue')['default']
+    ActivityDialog: typeof import('./src/components/dialog/care/ActivityDialog.vue')['default']
     AddAccountDialog: typeof import('./src/components/dialog/AddAccountDialog.vue')['default']
     AddClothesDialog: typeof import('./src/components/dialog/care/AddClothesDialog.vue')['default']
     AddConsult: typeof import('./src/components/dialog/consult/AddConsult.vue')['default']
@@ -45,7 +46,6 @@ declare module 'vue' {
     ElContainer: typeof import('element-plus/es')['ElContainer']
     ElDatePicker: typeof import('element-plus/es')['ElDatePicker']
     ElDialog: typeof import('element-plus/es')['ElDialog']
-    ElFooter: typeof import('element-plus/es')['ElFooter']
     ElForm: typeof import('element-plus/es')['ElForm']
     ElFormItem: typeof import('element-plus/es')['ElFormItem']
     ElHeader: typeof import('element-plus/es')['ElHeader']
