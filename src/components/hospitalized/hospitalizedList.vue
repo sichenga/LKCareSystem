@@ -183,7 +183,7 @@ const Image = import.meta.env.VITE_BASE_URL + '/'
 const router = useRouter()
 const route = useRoute()
 const ruleForm = inject<orderAdds>('ruleForm')!
-console.log(11111, ruleForm)
+
 
 const emits = defineEmits(['isshou'])
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
@@ -278,7 +278,7 @@ const handlChange = (val: any) => {
 // 获取老人单挑信息
 const DataElder = ref<any>([])
 const getElderlyL = async () => {
-  let id = Number(route.query.id)
+  let id = Number(route.query.oldId)
   let res: any = await getElderly(id)
   if (res?.code == 10000) {
     DataElder.value = res.data

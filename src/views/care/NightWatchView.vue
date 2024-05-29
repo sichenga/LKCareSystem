@@ -30,19 +30,8 @@
         ></MayDateTimePicker>
       </el-form-item>
       <el-form-item label="巡检状态：" prop="state">
-        <el-select
-          v-model="formInline.state"
-          clearable
-          placeholder="请选择"
-          style="width: 240px"
-          size="large"
-        >
-          <el-option
-            v-for="item in data.statelist"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
+        <el-select v-model="formInline.state" clearable placeholder="请选择" style="width: 240px" size="large">
+          <el-option v-for="item in data.statelist" :key="item.id" :label="item.state" :value="item.state" />
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -138,6 +127,7 @@ const getlist = async () => {
   console.log('夜巡列表', res)
   if (res?.code === 10000) {
     data.tableData = res.data.list
+    data.statelist=res.data.list
     data.total = res.data.counts
   }
 }
@@ -172,9 +162,9 @@ const add = () => {
 }
 // 重置
 const reset = () => {
-  formInline.page = 1
   formInline.endDate = ''
   Refnight.value?.resetFields()
+  formInline.page = 1
   getlist()
 }
 

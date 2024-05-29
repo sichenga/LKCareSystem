@@ -16,11 +16,8 @@
           :emitid="Number(formInline.begId)"
         ></MayCascader>
       </el-form-item>
-      <el-form-item label="预定状态" prop="mobile">
-        <el-select v-model="formInline.mobile" placeholder="请选择" clearable>
-          <el-option label="Zone one" value="shanghai" />
-          <el-option label="Zone two" value="beijing" />
-        </el-select>
+      <el-form-item label="手机号：" prop="mobile">
+        <el-input v-model="formInline.mobile" placeholder="请输入" clearable />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="search">查询</el-button>
@@ -30,8 +27,7 @@
   </el-card>
   <el-card style="max-width: 100%; margin-top: 20px">
     <el-button type="primary" style="margin-bottom: 20px" @click="isdialog = true">新增</el-button>
-    <ReserveDialog @close="close" v-if="isdialog"></ReserveDialog>
-
+      <OldSelectDialog @close="close" v-if="isdialog" :toPath="'/market/reserve/add'"></OldSelectDialog>
     <!-- 表格 -->
     <MayTable
       :tableData="data.tableData"
@@ -68,6 +64,7 @@ import ReserveDialog from '@/components/dialog/market/ReserveDialog.vue'
 import { useRouter } from 'vue-router'
 import MayCascader from '@/components/cascader/MayCascader.vue'
 import { useBuildStroke } from '@/stores/mobule/build'
+import OldSelectDialog from "@/components/dialog/OldSelect/OldSelectDialog.vue"
 const Refreserve = ref()
 const getUserInfo = useBuildStroke()
 const router = useRouter()

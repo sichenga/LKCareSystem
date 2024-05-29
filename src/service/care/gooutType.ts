@@ -26,16 +26,23 @@ export interface playList {
   pageSize: number
   name: string //老人姓名
   beginDate: string //开始时间yyyy-MM-dd
-  endDate: string //结束时间yyyy-MM-dd
+  endDate: string  //结束时间yyyy-MM-dd
   type: number | null //分类ID
   key: string //关键子
 }
 
 // 添加院内活动
+interface Pictures {
+    picture:string
+}
+interface Elderly{
+    elderlyId:number
+}
 export interface AddplayList {
+    id:number
   title: string
   type: number|null
   content: string
-  elderly: number[]
-  pictures: string[]
+  elderly: Elderly[]
+  pictures: Pictures[]
 }

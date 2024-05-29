@@ -18,8 +18,10 @@
         <MayTimeSelect
           @change="tiemchange"
           :isrange="true"
-          :startTime="params.beginDate"
-          :endTime="params.endDate"
+          :statetime="params.beginDate"
+          :endtime="params.endDate"
+          :format="'YYYY-MM-DD HH:mm'"
+          :valueformat="'YYYY-MM-DD'"
         ></MayTimeSelect>
       </el-form-item>
       <el-form-item>
@@ -59,7 +61,7 @@ import { CheckRoomList, CheckRoomDelete } from '@/service/medicalcare/Medicalcar
 import type { CheckRoomParams } from '@/service/medicalcare/MedicalcareType'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
-import MayTimeSelect from '@/components/timepicker/MayTimeSelect.vue'
+import MayTimeSelect from '@/components/timepicker/MayDateTimePicker.vue'
 import MayCascader from '@/components/cascader/MayCascader.vue'
 import { useRouter } from 'vue-router'
 import { useBuildStroke } from '@/stores'
@@ -148,12 +150,15 @@ const getCheckRoomList = () => {
 const reset = () => {
   params.page = 1
   RefChedkRoom.value?.resetFields()
+  params.beginDate=''
   params.endDate = ''
   getlist()
 }
 // 获取床位列表
 const bedlist = async () => {
   data.beddata = await getUserInfo.getBuildListData()
+  console.log(333333,data.beddata);
+  
 }
 
 // 选择时间
@@ -184,6 +189,8 @@ const del = async (id: number) => {
 }
 // 选择床位
 const bedselect = (val: any) => {
+  console.log(333,val);
+  
   params.begId = val
 }
 onMounted(() => {

@@ -46,7 +46,3 @@ export const AddPlayAdd =(params:AddplayList)=>{
 export const PlayList =(id:number)=>{
     return get('/api/play/get/'+id)
 }
-// 修改院内活动列表  
-export const AddPlayUpdate =(params:AddplayList)=>{
-    return put('/api/play/update',params)
-}

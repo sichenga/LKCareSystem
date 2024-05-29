@@ -10,7 +10,7 @@
         </MayDateTimePicker>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary">查询</el-button>
+        <el-button type="primary" @click="sond">查询</el-button>
         <el-button @click="reset">重置</el-button>
       </el-form-item>
     </el-form>
@@ -84,9 +84,11 @@ const data = reactive({
 
 // 重置
 const reset = () => {
-  formInline.page = 1
+
   Refmedicinelogs.value?.resetFields()
+  formInline.beginDate = ''
   formInline.endDate = ''
+  formInline.page = 1
   getlist()
 }
 // 用药登记列表
@@ -106,6 +108,11 @@ const registerinfo = (id: number) => {
   //   query:{id}
   // })
   isdialog.value = true
+}
+// 查询
+const sond=()=>{
+  formInline.page = 1
+  getlist()
 }
 // 查看详情
 const details = (id: number) => {

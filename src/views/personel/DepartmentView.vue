@@ -92,42 +92,6 @@ const remove = async (data: DepartmentListParams) => {
     ElMessage.info('取消删除')
   }
 }
-// 删除部门
-// const remove = async (data: DepartmentListParams) => {
-//   console.log(`尝试删除部门: ${data.name}`);
-
-//   let messageObj = {
-//     title: '',
-//     subTitle: ''
-//   };
-
-//   if (!data.children) {
-//     messageObj.title = '是否确认删除该部门';
-//     messageObj.subTitle = '删除后将不可恢复';
-//   } else {
-//     ElMessage.warning('该部门关联了若干员工，不支持删除操作');
-//     return;
-//   }
-
-//   const confirmResult = await getMessageBox(messageObj.title, messageObj.subTitle, '删除确认');
-
-//   if (confirmResult) {
-//     try {
-//       const deleteResult: any = await delDepartment(data.id);
-//       if (deleteResult.code === 10000) {
-//         await getlist(); // 假设getlist也是异步的，如果是同步则去掉await
-//         ElMessage.success('部门删除成功');
-//       } else {
-//         ElMessage.error(deleteResult.msg || '删除部门时发生错误');
-//       }
-//     } catch (error) {
-//       ElMessage.error('网络错误或其他问题导致删除失败');
-//       console.error('删除部门请求出错:', error);
-//     }
-//   } else {
-//     ElMessage.info('已取消删除操作');
-//   }
-// }
 // 关闭弹窗
 const close = (isrefresh: boolean) => {
   if (isrefresh === true) {
