@@ -9,11 +9,7 @@
         <el-input v-model="states.idCard" placeholder="请输入" clearable />
       </el-form-item>
       <el-form-item label="床位" prop="begId">
-        <MayCascades
-          :options="data.beddata"
-          @change="bedselect"
-          :emitid="Number(states.begId)"
-        ></MayCascades>
+        <MayCascader :options="data.beddata" @change="bedselect" :emitid="Number(states.begId)"></MayCascader>
       </el-form-item>
       <el-form-item label="状态" prop="state">
         <el-select v-model="states.state" placeholder="请选择" clearable>
@@ -47,13 +43,7 @@
         <el-button type="primary" v-else @click="cancel" text>取消入院</el-button>
       </template>
     </MayTable>
-    <Pagination
-      @page="handPage"
-      @psize="handPsize"
-      :page="states.page"
-      :psize="states.pageSize"
-      :total="counts"
-    >
+    <Pagination @page="handPage" @psize="handPsize" :page="states.page" :psize="states.pageSize" :total="counts">
     </Pagination>
   </el-card>
 </template>
@@ -75,7 +65,7 @@ import { useBuildStroke } from '@/stores'
 import { useRouter } from 'vue-router'
 const identifier = 'Hospitalized'
 const router = useRouter()
-const Refhospitalized = ref()
+const Hospitalised = ref()
 const isdialog = ref(false)
 const getUserInfo = useBuildStroke()
 const data = reactive({
@@ -137,6 +127,8 @@ const states = reactive<order>({
 const counts = ref(0)
 const getlist = async () => {
   let res: any = await orderList(states)
+  console.log('老人列表', res);
+  
   if (res?.code == 10000) {
     data.tableData = res.data.list
     counts.value = res.data.counts
@@ -145,7 +137,7 @@ const getlist = async () => {
 // 重置
 const reset = () => {
   states.page = 1
-  Refhospitalized.value?.resetFields()
+  Hospitalised.value?.resetFields()
   getlist()
 }
 // 查询

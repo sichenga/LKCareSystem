@@ -14,7 +14,7 @@ const router = createRouter({
         isHide: true
       },
       component: () => import('@/views/error/Error-404.vue')
-    },
+    }
 
     // {
     //   path: '/',

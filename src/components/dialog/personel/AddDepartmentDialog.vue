@@ -5,6 +5,7 @@
     width="500"
     @close="handleClose"
   >
+    {{ ruleForm }}
     <el-form
       ref="ruleFormRef"
       style="max-width: 600px"

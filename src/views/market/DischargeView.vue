@@ -8,12 +8,6 @@
          <el-form-item label="身份证号码" prop="idCard">
             <el-input v-model="formInline.idCard" placeholder="请输入" clearable />
          </el-form-item>
-         <!-- <el-form-item label="性别">
-            <el-select v-model="formInline.region" placeholder="请选择" clearable>
-               <el-option label="Zone one" value="shanghai" />
-               <el-option label="Zone two" value="beijing" />
-            </el-select>
-         </el-form-item> -->
          <el-form-item label="状态" prop="state">
             <el-select v-model="formInline.state" placeholder="请选择" clearable>
                <el-option :label="'待出院'" :value="0" />

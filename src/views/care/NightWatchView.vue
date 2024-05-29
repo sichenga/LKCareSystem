@@ -7,8 +7,19 @@
         <el-input v-model="formInline.name" placeholder="请输入" clearable />
       </el-form-item>
       <el-form-item label="巡检地址：" prop="address">
-        <el-select v-model="formInline.address" clearable placeholder="请选择" style="width: 240px" size="large">
-          <el-option v-for="item in data.sitelist" :key="item.id" :label="item.name" :value="item.id" />
+        <el-select
+          v-model="formInline.address"
+          clearable
+          placeholder="请选择"
+          style="width: 240px"
+          size="large"
+        >
+          <el-option
+            v-for="item in data.sitelist"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
+          />
         </el-select>
       </el-form-item>
       <el-form-item label="巡检上报时间：" prop="beginDate">
@@ -32,7 +43,7 @@
   <el-card style="margin-top: 15px">
     <div style="margin: 10px 0">
       <el-button type="primary">EXCEL导出</el-button>
-      <el-button type="primary" @click="add">增加</el-button>
+      <el-button type="primary" @click="add" v-debounce>增加</el-button>
       <el-button @click="location">地址管理</el-button>
     </div>
     <!-- 表格 -->
@@ -41,7 +52,13 @@
         <el-button text type="primary" @click="del(data.id)">删除</el-button>
       </template>
     </MayTable>
-    <Pagination :total="data.total" @page="page" @psize="psize" :page="formInline.page" :pszie="formInline.page">
+    <Pagination
+      :total="data.total"
+      @page="page"
+      @psize="psize"
+      :page="formInline.page"
+      :pszie="formInline.page"
+    >
     </Pagination>
   </el-card>
 </template>
@@ -59,7 +76,9 @@ const router = useRouter()
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
 
-const AddNightDialog = defineAsyncComponent(() => import('@/components/dialog/care/AddNightDialog.vue'))
+const AddNightDialog = defineAsyncComponent(
+  () => import('@/components/dialog/care/AddNightDialog.vue')
+)
 const formInline = reactive<PatrolList>({
   page: 1,
   pageSize: 5,
@@ -104,7 +123,7 @@ const data = reactive({
 })
 // 获取列表
 const getlist = async () => {
-  let res: any = await patrolList(formInline).catch(() => { })
+  let res: any = await patrolList(formInline).catch(() => {})
   console.log('夜巡列表', res)
   if (res?.code === 10000) {
     data.tableData = res.data.list
@@ -162,7 +181,7 @@ const del = async (id: number) => {
   let box = await getMessageBox('是否确认删除该条记录', '删除后将不可恢复')
 
   if (box) {
-    let res: any = await patrolDelete(id).catch(() => { })
+    let res: any = await patrolDelete(id).catch(() => {})
     console.log('删除', res)
     if (res?.code === 10000) {
       ElMessage.success('删除成功')

@@ -67,6 +67,7 @@ const goOutListData = async () => {
     let res: any = await goOutList(id)
     if (res?.code == 10000) {
       times.value.push(res.data.startTime, res.data.endTime)
+
       Object.assign(ruleForm, res.data)
       data.oldlist=res.data.elderlyName
     }
