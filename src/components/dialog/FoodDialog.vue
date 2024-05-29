@@ -60,7 +60,7 @@ watch(
       console.log('编辑', res)
       if (res?.code === 10000) {
         Object.assign(ruleForm, res.data)
-        // ruleForm.supplierId = res.data.supplier.i
+        // ruleForm.supplierId = res.oldName.supplier.i
       }
     }
   },

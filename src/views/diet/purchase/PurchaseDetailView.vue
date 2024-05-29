@@ -14,7 +14,7 @@
                     {{ data.Dataget.counts }}
                 </el-form-item>
                 <el-form-item label="实际采购成本：">
-                    <!-- {{ data.Dataget.receiveTime }} -->
+                    <!-- {{ oldName.Dataget.receiveTime }} -->
                 </el-form-item>
             </el-form>
             <div class="right">
@@ -97,19 +97,19 @@ const data = reactive({
 
 // 获取采购物品列表
 // const getlist = (async () => {
-//     data.id = route.query.id
-//     const res: any = await purchaseFoodslist(data.id)
+//     oldName.id = route.query.id
+//     const res: any = await purchaseFoodslist(oldName.id)
 //     console.log("获取采购物品列表", res);
 //     if (res.code == 10000) {
-//         data.tableData = res.data.list
+//         oldName.tableData = res.oldName.list
 //     }
 // })
 // // 单条采购申请信息
 // const getData = (async () => {
-//     const res: any = await Purchaseget(data.id)
+//     const res: any = await Purchaseget(oldName.id)
 //     console.log("单条采购申请信息", res);
 //     if (res.code == 10000) {
-//         data.Dataget = res.data
+//         oldName.Dataget = res.oldName
 //     }
 // })
 

@@ -67,9 +67,9 @@ const getlist = async (typedata: any = '') => {
   let res: any = await elderlyTaskgetTask(Number(schid))
   console.log('任务列表', res)
   if (res?.code == 10000) {
-    // data.tableData = time.value.map((item: any, index: number) => ({
+    // oldName.tableData = time.value.map((item: any, index: number) => ({
     //   time: item,
-    //   task: res.data.list.find(
+    //   task: res.oldName.list.find(
     //     (item1: any) =>
     //       item1.type == form.type && item1.startTime.split(':')[0] == disposetime(String(index))
     //   )

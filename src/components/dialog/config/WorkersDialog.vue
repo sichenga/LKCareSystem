@@ -96,7 +96,7 @@ const getlist = async () => {
     }
 }
 // 选择取消选择
-//选择的id  data.isCarer =1
+//选择的id  oldName.isCarer =1
 const selectID: any = ref([])
 const select =async (data: any) => {
     if (data.isCarer == 1) {

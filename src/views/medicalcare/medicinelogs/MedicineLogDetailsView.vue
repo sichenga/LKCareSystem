@@ -119,7 +119,7 @@ const getlist = async () => {
       (params.page - 1) * params.pageSize,
       params.page * params.pageSize
     )
-    // getPagination(res.data.list)
+    // getPagination(res.oldName.list)
   }
 }
 // 分页

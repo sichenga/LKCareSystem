@@ -31,7 +31,7 @@ instance.interceptors.request.use(async (config: any) => {
   }
   ;(config.headers as any)['Authorization'] = userStore.token || ''
   if (config.url === '/api/upload/add') {
-    ;(config.headers as any)['Content-Type'] = 'multipart/form-data'
+    ;(config.headers as any)['Content-Type'] = 'multipart/form-oldName'
   }
   userAppStore.isLoading = true
   return config

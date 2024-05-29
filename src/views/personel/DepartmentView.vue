@@ -4,7 +4,7 @@
     <el-button type="primary" @click="add">添加部门</el-button>
     <DepartmentTree v-if="isdialog" @close="close" :deppid="deppid" :depid="depid" :depname="depname"></DepartmentTree>
     <el-tree class="tree" style="max-width: 400px" :data="dataSource" show-checkbox node-key="id"
-      :expand-on-click-node="false" :props="{ children: 'children', label: 'name' }">
+             :expand-on-click-node="false" :props="{ children: 'children', label: 'name' }">
       <template #default="{ node, data }">
         <span class="custom-tree-node">
           <span>{{ node.label }}</span>
@@ -27,6 +27,7 @@ import { ElMessage } from 'element-plus'
 import { getMessageBox } from '@/utils/utils'
 import { departmentList, delDepartment } from '@/service/staff/StaffApi'
 import type { DepartmentListParams } from '@/service/staff/StaffType'
+
 const DepartmentTree = defineAsyncComponent(
   () => import('@/components/dialog/personel/AddDepartmentDialog.vue')
 )
@@ -37,7 +38,8 @@ const isdialog = ref(false)
 // 部门列表
 const dataSource = ref<DepartmentListParams[]>([])
 const getlist = async () => {
-  let res: any = await departmentList().catch(() => { })
+  let res: any = await departmentList().catch(() => {
+  })
   console.log('部门列表', res)
   if (res?.code === 10000) {
     dataSource.value = TreeData(res.data.list)
@@ -79,17 +81,16 @@ const remove = async (data: DepartmentListParams) => {
     obj.text1 = '该部门关联了若干员工'
     obj.text2 = '不支持删除操作'
   }
-  let res: any = getMessageBox(obj.text1, obj.text2, '删除确认')
-  if (res) {
-    // const res:any =await delDepartment(data.id)
-    // if(res.code === 10000){
-    //   getlist()
-    //   ElMessage.success('删除成功')
-    // }else{
-    //   ElMessage.error(res.msg)
-    // }
-  } else {
-    ElMessage.info('取消删除')
+  let res: any = await getMessageBox(obj.text1, obj.text2, '删除确认')
+  console.log(res)
+  if (res && !data.children) {
+    const res: any = await delDepartment(data.id)
+    if (res.code === 10000) {
+      await getlist()
+      ElMessage.success('删除成功')
+    } else {
+      ElMessage.error(res.msg)
+    }
   }
 }
 // 关闭弹窗

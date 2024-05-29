@@ -65,6 +65,7 @@ declare module 'vue' {
     ElTable: typeof import('element-plus/es')['ElTable']
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
     ElTimePicker: typeof import('element-plus/es')['ElTimePicker']
+    ElTree: typeof import('element-plus/es')['ElTree']
     FloorDialog: typeof import('./src/components/dialog/config/FloorDialog.vue')['default']
     FoodDialog: typeof import('./src/components/dialog/FoodDialog.vue')['default']
     HospitalDialog: typeof import('./src/components/dialog/financial/HospitalDialog.vue')['default']
