@@ -165,11 +165,9 @@ const getData = async () => {
     if (!id) return false
     const res: any = await reservationget(Number(id)).catch(() => { })
     if (res.code === 10000) {
-        console.log('单条数据', res);
         Object.assign(params, res.data)
         // 上传协议回显
         if (res.data.files) {
-
             getUploadPictures.value = res.data.files.map((item: any) => {
                 return {
                     url: item.file,
@@ -187,7 +185,7 @@ const getData = async () => {
 
 // 老人id
 const elderlyId = () => {
-    let elderlyId = route.query.id
+    let elderlyId = route.query.oldId
     if (elderlyId) {
         params.elderlyId = Number(elderlyId)
         params.id = 0
@@ -315,5 +313,8 @@ onMounted(() => {
     text-align: center;
     margin-top: 50px;
     margin-bottom: 50px;
+}
+.uploadpic{
+    margin-left: 5px;
 }
 </style>

@@ -142,7 +142,6 @@ const getData = async () => {
       OldName.value = res.data.elderlyName
       Object.assign(ruleForm, res.data)
       console.log('单挑数据', res);
-      console.log(ruleForm);
       if (ruleForm.pictures) {
         getUploadPictures.value = res.data.pictures.map((item: any) => {
           return {

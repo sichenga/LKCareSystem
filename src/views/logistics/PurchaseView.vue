@@ -8,10 +8,9 @@
     <MayTable :tableData="data.tableData" :tableItem="data.tableItem" autoWidth="350px">
       <template #operate="{ data }">
         <el-button type="primary" text @click="del">删除</el-button>
-        <el-button type="primary" text @click="edit">编辑</el-button>
-        <el-button type="primary" text v-if="data.state === '待提交'">提交</el-button>
-        <el-button type="primary" text @click="delivery(data.id)">收货验货</el-button>
-        <el-button type="primary" text @click="getifno(data.id)">查看详情</el-button>
+        <el-button type="primary" text v-if="data.state === '待提交'" @click="delivery(data.id)">提交</el-button>
+        <el-button type="primary" text v-if="data.state!=='已经发货'" @click="delivery(data.id)">收货验货</el-button>
+        <el-button type="primary" text v-if="data.state==='已经发货'" @click="getifno(data.id)">查看详情</el-button>
       </template>
     </MayTable>
     <Pagination
@@ -97,10 +96,6 @@ const del = async () => {
 // 创建采购申请
 const sond = () => {
   reteor.push('/logistics/purchase/add')
-}
-// 编辑采购申请
-const edit = () => {
-  sond()
 }
 //收货验货
 const delivery = (id: number) => {

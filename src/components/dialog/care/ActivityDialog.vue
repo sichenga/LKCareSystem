@@ -1,5 +1,5 @@
 <template>
-    <el-dialog v-model="dialogVisible" :title="porpos.id?'修改院内活动':'增加院内活动'" width="700" @close="close">
+    <el-dialog v-model="dialogVisible" :title="porpos.id?'修改院内活动':'增加院内活动'" width="900" @close="close">
         <OldSelectDialog v-if="diaVisible" @close="closes" :isMultiple="isMultiple" :isoperate="isoperate"
             @serveList="serveList"></OldSelectDialog>
         <el-form ref="ruleFormRef" style="max-width: 600px" :model="ruleForm" :rules="rules" label-width="auto"
@@ -7,7 +7,7 @@
             <el-form-item label="标题：" prop="title">
                 <el-input v-model="ruleForm.title" />
             </el-form-item>
-            <el-form-item label="分类" prop="type" style="width: 250px;">
+            <el-form-item label="分类：" prop="type" style="width: 410px;">
                 <el-select v-model="ruleForm.type" placeholder="请选择">
                     <el-option v-for="item in TypeList" :key="item.id" :label="item.name" :value="item.id" />
                 </el-select>
@@ -22,9 +22,11 @@
             </el-form-item>
             <el-form-item label="精神慰藉内容：">
                 <!-- <el-input v-model="ruleForm.content" /> -->
-                <MyEditor @change="change" :content="content"></MyEditor>
+                <div class="Editor">
+                    <MyEditor @change="change" :content="content"></MyEditor>
+                </div>
             </el-form-item>
-            <el-form-item label="上传图片：">
+            <el-form-item label="上传图片：" class="top">
                 <UploadPictures @upload="upload" @uploadFile="uploadFile" :files="files"></UploadPictures>
             </el-form-item>
         </el-form>
@@ -188,5 +190,15 @@ onMounted(async() => {
 <style lang="less" scoped>
 .el-input {
     width: 300px;
+}
+:deep(.el-form-item){
+    align-items: flex-start
+}
+.Editor{
+    width: 800px;
+    height: 400px;
+}
+.top{
+    margin-top: 50px;
 }
 </style>

@@ -30,7 +30,7 @@
       <!-- 新增 -->
       <el-button type="primary" @click="add" style="margin-bottom: 20px;">新增出院申请</el-button>
       <!-- 表格 -->
-      <MayTable :identifier="'Diagnosis'" :tableData="data.tableData" :tableItem="data.tableItem">
+      <MayTable :identifier="identifier" :tableData="data.tableData" :tableItem="data.tableItem" >
          <template #operate="{ data }">
             <el-button type="primary" text @click="edit(data.id)">编辑</el-button>
             <el-button type="primary" text @click="del(data.id)">删除</el-button>
@@ -54,6 +54,7 @@ const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
 const DischargeDialog = defineAsyncComponent(() => import('@/components/dialog/market/DischargeDialog.vue'))
 import { getMessageBox } from '@/utils/utils'
+const identifier = 'Discharge'
 const formInline = reactive<dischargeListParams>({
    page: 1,
    pageSize: 5,

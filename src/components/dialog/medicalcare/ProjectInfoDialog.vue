@@ -17,7 +17,11 @@
       status-icon
     >
       <template v-if="props.isinfo">
-        <MayTable :tableData="ruleForm.plans" :tableItem="data.tableItem" :auto-width="'100px'"
+        <MayTable
+          :tableData="ruleForm.plans"
+          :tableItem="data.tableItem"
+          :auto-width="'100px'"
+          :identifier="'planset'"
           ><template #header>
             <el-button type="primary" @click="add">
               <el-icon><Plus /></el-icon>

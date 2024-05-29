@@ -38,7 +38,7 @@
         <el-button type="primary" text @click="record(data.id)">回访记录</el-button>
       </template>
     </MayTable>
-    <Pagination @page="holedpage" @pszie="holedpsize" :total="total"></Pagination>
+    <Pagination @page="holedpage" @pszie="holedpsize" :total="total" :page='states.page' :psize="states.pageSize"></Pagination>
   </el-card>
   <div class="title-btn">
     <el-button>返回</el-button>

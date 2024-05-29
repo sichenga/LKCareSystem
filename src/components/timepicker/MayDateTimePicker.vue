@@ -52,7 +52,7 @@ watch(
 )
 // 选择日期时间
 const handleChange = (value: string) => {
-  console.log(value)
+  console.log(6666,value)
   emits('change', value)
 }
 </script>

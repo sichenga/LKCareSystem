@@ -14,8 +14,9 @@
       </el-form-item>
       <el-form-item label="入住状况:" prop="state">
         <el-select v-model="formInline.state">
-          <el-option label="Zone one" value="shanghai" />
-          <el-option label="Zone two" value="beijing" />
+          <el-option label="未签约" :value="1" />
+          <el-option label="预定中" :value="2" />
+          <el-option label="已出院" :value="3" />
         </el-select>
       </el-form-item>
       <el-form-item>

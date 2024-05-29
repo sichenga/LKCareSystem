@@ -26,7 +26,7 @@ export interface playList {
   pageSize: number
   name: string //老人姓名
   beginDate: string //开始时间yyyy-MM-dd
-  endDate: string //结束时间yyyy-MM-dd
+  endDate: string  //结束时间yyyy-MM-dd
   type: number | null //分类ID
   key: string //关键子
 }

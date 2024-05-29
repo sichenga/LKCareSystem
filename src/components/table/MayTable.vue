@@ -23,38 +23,75 @@
     @selection-change="handleSelectionChange"
   >
     <el-table-column type="selection" width="55" v-if="isMultiple" />
-    <el-table-column v-for="(item, index) in props.tableItem" :key="index" :prop="item.prop" :label="item.label"
-      :width="item.width">
-      <template v-if="item.prop == 'photo' || item.prop == 'qrcode' || item.prop == 'elderlyPhoto'" v-slot="{ row }">
-        <el-image style="width: 50px; height: 50px" v-if="row.photo || row.qrcode || row.elderlyPhoto"
-          :src="upload + (row.photo || row.qrcode || row.elderlyPhoto)" />
+    <el-table-column
+      v-for="(item, index) in props.tableItem"
+      :key="index"
+      :prop="item.prop"
+      :label="item.label"
+      :width="item.width"
+    >
+      <template
+        v-if="item.prop == 'photo' || item.prop == 'qrcode' || item.prop == 'elderlyPhoto'"
+        v-slot="{ row }"
+      >
+        <el-image
+          style="width: 50px; height: 50px"
+          v-if="row.photo || row.qrcode || row.elderlyPhoto"
+          :src="upload + (row.photo || row.qrcode || row.elderlyPhoto)"
+        />
       </template>
 
       <!-- 所属岗位      角色数据 -->
       <template v-else-if="item.prop == 'roles'" v-slot="{ row }">
         <span v-if="row.roles.length > 0">
-          {{ row.roles.map((item: any) => item?.name).toString() }}</span>
+          {{ row.roles.map((item: any) => item?.name).toString() }}</span
+        >
       </template>
 
-      <template v-else-if="props.identifier == 'administration' && item.prop == 'image'" v-slot="{ row }">
+      <template
+        v-else-if="props.identifier == 'administration' && item.prop == 'image'"
+        v-slot="{ row }"
+      >
         <el-image style="width: 50px; height: 50px" :src="upload + row.image" fit="cover" />
       </template>
       <!-- 入院管理 -->
-      <template v-else-if="props.identifier == 'Hospitalized' && item.prop === 'elderlyPhoto'" v-slot="{ row }">
+      <template
+        v-else-if="props.identifier == 'Hospitalized' && item.prop === 'elderlyPhoto'"
+        v-slot="{ row }"
+      >
         <el-image style="width: 50px; height: 50px" :src="upload + row.elderlyPhoto" fit="cover" />
       </template>
 
       <!-- 出入院管理>老人管理>新增>健康信息 -->
-      <template v-else-if="props.identifier == 'oldphysical' && item.prop == 'image'" v-slot="{ row }">
-        <el-image v-for="item in row.image" :key="item" style="width: 40px; height: 40px" :src="item" fit="cover" />
+      <template
+        v-else-if="props.identifier == 'oldphysical' && item.prop == 'image'"
+        v-slot="{ row }"
+      >
+        <el-image
+          v-for="item in row.image"
+          :key="item"
+          style="width: 40px; height: 40px"
+          :src="item"
+          fit="cover"
+        />
       </template>
       <!-- 入院老人订单合计 -->
       <template v-else-if="item.prop === 'price'" v-slot="{ row }">
         <span>{{ row.price }}</span>
       </template>
       <!-- 入院状态 -->
-      <template v-else-if="item.prop === 'state' && props.identifier == 'Hospitalized'" v-slot="{ row }">
+      <template
+        v-else-if="item.prop === 'state' && props.identifier == 'Hospitalized'"
+        v-slot="{ row }"
+      >
         <span>{{ row.state ? '已入院' : '未入院' }}</span>
+      </template>
+   <!-- 出院管理 -->
+   <template
+        v-else-if="item.prop === 'state' && props.identifier == 'Discharge'"
+        v-slot="{ row }"
+      >
+        <span>{{ row.state ? '已出院' : '待出院' }}</span>
       </template>
 
       <!-- 外出状态 -->
@@ -65,12 +102,15 @@
       </template>
       <!-- 院内活动 -->
       <template v-else-if="item.prop === 'elderly'" v-slot="{ row }">
-        {{ row.elderly.map((item:any)=>(item.elderlyName)).toString() }}
+        {{ row.elderly.map((item: any) => item.elderlyName).toString() }}
       </template>
       <!-- 日期格式 -->
-      <template v-else-if="
+      <template
+        v-else-if="
           item.prop === 'updateTime' || item.prop === 'visitTime' || item.prop === 'addTime'
-        " v-slot="{ row }">
+        "
+        v-slot="{ row }"
+      >
         <span>{{ mons(row.updateTime || row.visitTime).format('YYYY-MM-DD') }}</span>
       </template>
 
@@ -83,10 +123,18 @@
         {{ row.gender == '1' ? '男' : '女' }}
       </template>
       <template v-else-if="item.prop == 'picture'" v-slot="{ row }">
-        <el-image class="picture" v-for="(pic, index) in row?.picture" :key="index" :src="upload + pic" />
+        <el-image
+          class="picture"
+          v-for="(pic, index) in row?.picture"
+          :key="index"
+          :src="upload + pic"
+        />
       </template>
       <!-- 排班管理 -->
-      <template v-else-if="weekdata.includes(item.prop) && props.identifier == 'word'" v-slot="{ row }">
+      <template
+        v-else-if="weekdata.includes(item.prop) && props.identifier == 'word'"
+        v-slot="{ row }"
+      >
         <div v-if="row[item.prop]" @click="changetab(row, item.prop)" class="week">
           <div class="item" v-for="item in row[item.prop]" :key="item.id">
             <el-avatar :size="30" :src="upload + item.staffPhoto" />
@@ -101,10 +149,13 @@
         </div>
       </template>
       <!-- 任务管理 -->
-      <template v-else-if="
+      <template
+        v-else-if="
           (monthdata.includes(item.prop) || weekdata.includes(item.prop) || item.prop == 'task') &&
           props.identifier == 'schedule'
-        " v-slot="{ row }">
+        "
+        v-slot="{ row }"
+      >
         <div v-if="row[item.prop]" class="schitem" :style="getstyle(row[item.prop])">
           <span>{{ row[item.prop].startTime }}~{{ row[item.prop].endTime }}</span>
           <span>{{ row[item.prop].serviceName }}</span>
@@ -117,16 +168,21 @@
         <span>{{ row.state == 1 ? '已入住' : '未入住' }}</span>
       </template>
       <!-- 用药时间 -->
-      <template v-else-if="item.prop === 'time'" v-slot="{ row }">
-        {{ row }}
-        <MayTimeSelect @change="
+      <template v-else-if="item.prop === 'time' && props.identifier === 'planset'" v-slot="{ row }">
+        <MayTimeSelect
+          @change="
             (val) => {
               row.time = val
             }
-          " style="width: 100%"></MayTimeSelect>
+          "
+          style="width: 100%"
+        ></MayTimeSelect>
       </template>
       <!-- 用药剂量 -->
-      <template v-else-if="item.prop === 'content'" v-slot="{ row }">
+      <template
+        v-else-if="item.prop === 'content' && props.identifier === 'planset'"
+        v-slot="{ row }"
+      >
         <el-input v-model="row.content" />
       </template>
       <template v-else-if="item.prop === 'plans'" v-slot="{ row }">
@@ -163,7 +219,7 @@ const mons = moment
 // 周
 const weekdata = week
 const monthdata = month
-import {useApperStore} from'@/stores'
+import { useApperStore } from '@/stores'
 const appStore = useApperStore()
 import { CloseBold } from '@element-plus/icons-vue'
 import AddWork from '@/components/dialog/old/elderly/AddWork.vue'
