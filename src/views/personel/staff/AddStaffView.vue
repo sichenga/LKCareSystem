@@ -18,7 +18,7 @@
       <el-form-item label="所属部门:" prop="departmentId">
         <el-select v-model="ruleForm.departmentId" placeholder="请选择">
           <el-option v-for="item in departmentData" :key="item.id" :label="item.name" :value="item.id" />
-        </el-select>{{ ruleForm }}
+        </el-select>
       </el-form-item>
       <el-form-item label="所属岗位:">
         <el-select v-model="ruleForm.roles" multiple placeholder="请选择所属岗位" style="width: 240px">

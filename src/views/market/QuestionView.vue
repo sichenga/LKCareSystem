@@ -33,7 +33,7 @@
         <el-button type="primary" text @click="record(data.id)">回访记录</el-button>
       </template>
     </MayTable>
-    <Pagination @page="holedpage" @pszie="holedpsize" :total="total"></Pagination>
+    <Pagination @page="holedpage" @pszie="holedpsize" :total="total" :page='states.page' :psize="states.pageSize"></Pagination>
   </el-card>
   <div class="title-btn">
     <el-button>返回</el-button>
@@ -56,7 +56,7 @@ const Refquestion = ref()
 const router = useRouter()
 const AddRelation = defineAsyncComponent(() => import('@/components/dialog/consult/AddConsult.vue'))
 const Particulars = defineAsyncComponent(
-  () => import('@/components/dialog/consult/partiCulars.vue')
+  () => import('@/components/dialog/consult/ParTivulars.vue')
 )
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))

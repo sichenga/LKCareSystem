@@ -7,7 +7,7 @@
           {{ OldName }}
         </div>
         <el-button v-else type="primary" @click="select">选择老人</el-button>
-        <OldDialog v-if="idOld" @id="oldid"></OldDialog>
+        <OldSelectDialog v-if="idOld" @id="oldid"></OldSelectDialog>
       </el-form-item>
       <el-form-item label="精神：" prop="spirit">
         <el-input v-model="ruleForm.spirit" placeholder="请输入精神" />
@@ -61,7 +61,7 @@ import {getElderly} from '@/service/old/OldApi'
 import { ElMessage } from 'element-plus'
 import { CheckRoomAdd, CheckRoomGet, CheckRoomUpdate } from '@/service/medicalcare/MedicalcareApi'
 import type { CheckRoomAddParams } from '@/service/medicalcare/MedicalcareType'
-
+import OldSelectDialog from '@/components/dialog/OldSelect/OldSelectDialog.vue'
 const formSize = ref<ComponentSize>('default')
 const ruleFormRef = ref<FormInstance>()
 const ruleForm = reactive<CheckRoomAddParams>({

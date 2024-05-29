@@ -24,9 +24,17 @@
     </el-form>
   </el-card>
   <el-card style="max-width: 100%" class="card">
-    <el-button type="primary" @click="isdialog = true" style="margin-bottom: 20px">新增入院申请</el-button>
-    <ToHospitalDialog v-if="isdialog" @close="close"></ToHospitalDialog>
-    <MayTable :tableData="data.tableData" :tableItem="data.tableItem" :identifier="identifier" autoWidth="400px">
+    <el-button type="primary" @click="isdialog = true" style="margin-bottom: 20px"
+      >新增入院申请</el-button
+    >
+    <!-- <ToHospitalDialog v-if="isdialog" @close="close"></ToHospitalDialog> -->
+    <OldSelectDialog v-if="isdialog" @close="close" :toPath="'/market/hospitalized/order'"></OldSelectDialog>
+    <MayTable
+      :tableData="data.tableData"
+      :tableItem="data.tableItem"
+      :identifier="identifier"
+      autoWidth="400px"
+    >
       <template #operate="{ data }">
         <el-button type="primary" text @click="compile(data.id)">编辑</el-button>
         <el-button type="primary" text @click="del(data.id)">删除</el-button>
@@ -47,10 +55,11 @@ import { orderList, orderDelete, orderGet } from '@/service/market/marketApi'
 import type { order } from '@/service/market/marketType'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
-const ToHospitalDialog = defineAsyncComponent(
-  () => import('@/components/dialog/market/ToHospitalDialog.vue')
-)
-import MayCascader from '@/components/cascader/MayCascader.vue'
+// const ToHospitalDialog = defineAsyncComponent(
+//   () => import('@/components/dialog/market/ToHospitalDialog.vue')
+// )
+import OldSelectDialog from '@/components/dialog/OldSelect/OldSelectDialog.vue'
+const MayCascades = defineAsyncComponent(() => import('@/components/cascader/MayCascader.vue'))
 import { getMessageBox } from '@/utils/utils'
 import { useBuildStroke } from '@/stores'
 import { useRouter } from 'vue-router'
@@ -163,12 +172,13 @@ const del = async (id: number) => {
 //编辑入院老人
 const compile = async (id: number) => {
   let res: any = await orderGet(id)
-
+  console.log(res);
+  
   if (res?.code == 10000) {
     await router.push({
       path: '/market/hospitalized/order',
       query: {
-        id: res.data.elderlyId,
+        oldId: res.data.elderlyId,
         ids: id
       }
     })

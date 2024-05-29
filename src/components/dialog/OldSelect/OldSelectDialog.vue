@@ -123,7 +123,6 @@ const handlPsize = (val: any) => {
 //选择老人
 const select = (id: number) => {
   if (!porps.toPath) {
-    console.log(111)
     close(false)
     emit('id', id)
   } else {

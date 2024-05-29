@@ -7,7 +7,7 @@
         <el-input v-model="data.oldlist" disabled />
       </el-form-item>
       <el-form-item label="外出时间">
-        <DateTimePicke style="width: 300px" @change="handlChange" :times="times"></DateTimePicke>
+        <DateTimePicke style="width: 300px" @change="handlChange" :statetime="times[0]" :endtime="times[1]"></DateTimePicke>
       </el-form-item>
       <el-form-item label="陪同人员类型">
         <el-select v-model="ruleForm.relation" clearable placeholder="请选择" style="width: 300px">
@@ -65,11 +65,9 @@ const goOutListData = async () => {
   if (route.query.id) {
     let id = Number(route.query.id)
     let res: any = await goOutList(id)
-    console.log('单条数据',res);
     if (res?.code == 10000) {
       times.value.push(res.data.startTime, res.data.endTime)
-      console.log(times.value);
-      
+
       Object.assign(ruleForm, res.data)
       data.oldlist=res.data.elderlyName
     }

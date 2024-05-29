@@ -18,7 +18,6 @@
   </el-container>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, onMounted } from 'vue'
 import { RouterView } from 'vue-router'
 import { useApperStore } from '@/stores'
 const apperStore = useApperStore()

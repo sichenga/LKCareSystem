@@ -1,6 +1,6 @@
 <template>
   <el-dialog v-model="dialogVisible" :title="ruleForm.id == 0 ? '添加洗衣错衣' : '编辑洗衣错衣'" width="500" @close="close">
-
+    <OldDialog v-if="idOld" @closes="closes" @id="oldid"></OldDialog>
     <el-form ref="ruleFormRef" style="max-width: 600px" :model="ruleForm" :rules="rules" label-width="auto"
       class="demo-ruleForm" :size="formSize" status-icon>
       <el-form-item label="老人姓名：" prop="elderlyId">
@@ -8,7 +8,7 @@
           {{ OldName }}
         </div>
         <el-button v-else type="primary" @click="select">选择老人</el-button>
-        <OldDialog v-if="idOld" @closes="closes" @id="oldid"></OldDialog>
+     
       </el-form-item>
 
       <el-form-item label="标题" prop="title">
@@ -142,7 +142,6 @@ const getData = async () => {
       OldName.value = res.data.elderlyName
       Object.assign(ruleForm, res.data)
       console.log('单挑数据', res);
-      console.log(ruleForm);
       if (ruleForm.pictures) {
         getUploadPictures.value = res.data.pictures.map((item: any) => {
           return {

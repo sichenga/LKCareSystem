@@ -8,12 +8,6 @@
          <el-form-item label="身份证号码" prop="idCard">
             <el-input v-model="formInline.idCard" placeholder="请输入" clearable />
          </el-form-item>
-         <!-- <el-form-item label="性别">
-            <el-select v-model="formInline.region" placeholder="请选择" clearable>
-               <el-option label="Zone one" value="shanghai" />
-               <el-option label="Zone two" value="beijing" />
-            </el-select>
-         </el-form-item> -->
          <el-form-item label="状态" prop="state">
             <el-select v-model="formInline.state" placeholder="请选择" clearable>
                <el-option :label="'待出院'" :value="0" />
@@ -30,7 +24,7 @@
       <!-- 新增 -->
       <el-button type="primary" @click="add" style="margin-bottom: 20px;">新增出院申请</el-button>
       <!-- 表格 -->
-      <MayTable :identifier="'Diagnosis'" :tableData="data.tableData" :tableItem="data.tableItem">
+      <MayTable :identifier="identifier" :tableData="data.tableData" :tableItem="data.tableItem" >
          <template #operate="{ data }">
             <el-button type="primary" text @click="edit(data.id)">编辑</el-button>
             <el-button type="primary" text @click="del(data.id)">删除</el-button>
@@ -54,6 +48,7 @@ const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
 const DischargeDialog = defineAsyncComponent(() => import('@/components/dialog/market/DischargeDialog.vue'))
 import { getMessageBox } from '@/utils/utils'
+const identifier = 'Discharge'
 const formInline = reactive<dischargeListParams>({
    page: 1,
    pageSize: 5,

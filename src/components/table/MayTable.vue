@@ -86,6 +86,13 @@
       >
         <span>{{ row.state ? '已入院' : '未入院' }}</span>
       </template>
+   <!-- 出院管理 -->
+   <template
+        v-else-if="item.prop === 'state' && props.identifier == 'Discharge'"
+        v-slot="{ row }"
+      >
+        <span>{{ row.state ? '已出院' : '待出院' }}</span>
+      </template>
 
       <!-- 外出状态 -->
       <template v-else-if="item.prop === 'state' && props.identifier == 'GoOut'" v-slot="{ row }">

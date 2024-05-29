@@ -30,7 +30,7 @@ const houseShou=(val:any)=>{
    isShou.value=val
 }
 let ruleForm = reactive<orderAdds>({
-    elderlyId: Number(route.query.id), //老人Id
+    elderlyId: Number(route.query.oldId), //老人Id
     begId: null, //床位ID
     begPrice: null, //床位单价
     days: null, //入住天数

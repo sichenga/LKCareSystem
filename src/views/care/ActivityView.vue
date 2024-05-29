@@ -1,11 +1,11 @@
 <template>
   <!-- 院内活动 -->
   <el-card>
-    <ActDialog v-if="isdialog" @close="close"></ActDialog>
-    <el-form :inline="true" :model="params" class="demo-form-inline">
+    <ActDialog v-if="isdialog" @close="close" :id="infoId"></ActDialog>
+    <el-form   :inline="true" :model="params" class="demo-form-inline">
       <el-form-item label="分类" style="width: 250px;">
-        <el-select v-model="params.type" placeholder="请选择">
-          <el-option v-for="item in TypeList" :key="item.id" :label="item.name" :value="item.id" />
+        <el-select v-model="params.type" placeholder="请选择" clearable>
+          <el-option v-for="item in TypeList" :key="item.id" :label="item.name" :value="item.id"  />
         </el-select>
       </el-form-item>
       <el-form-item label="老人姓名：">
@@ -15,22 +15,24 @@
         <el-input v-model="params.key" placeholder="请输入标题" clearable />
       </el-form-item>
       <el-form-item label="上报时间：">
-        <MayDateTimePicker @change="handChange"></MayDateTimePicker>
+        <MayDateTimePicker @change="handChange" :statetime="params.beginDate" :endtime="params.endDate"></MayDateTimePicker>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="search">查询</el-button>
-        <el-button>重置</el-button>
+        <el-button @click="delde">重置</el-button>
       </el-form-item>
     </el-form>
   </el-card>
-  <el-button type="primary" style="margin-top: 10px;" @click="add">添加老人活动</el-button>
 
   <ActivityDialog v-if="dialogVisible" @close="handClose" :id="ids"></ActivityDialog>
   <el-card style="margin-top: 15px">
+    
+    <el-button type="primary" style="margin-top: 10px;margin-bottom: 10px;" @click="add">添加老人活动</el-button>
+
     <!-- 表格 -->
     <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
       <template #operate="{ data }">
-        <el-button type="primary" text @click="getinfo">查看详情</el-button>
+        <el-button type="primary" text @click="getinfo(data.id)">查看详情</el-button>
         <el-button type="primary" text @click="compile(data.id)">编辑</el-button>
         <el-button type="primary" text @click="del(data.id)">删除</el-button>
       </template>
@@ -130,7 +132,9 @@ const search = () => {
 }
 
 // 查看详情
-const getinfo = () => {
+const infoId=ref(0)
+const getinfo = (id:number) => {
+  infoId.value = id
   isdialog.value = true
 }
 //活动分类列表
@@ -177,6 +181,18 @@ const del = async (id: number) => {
     ElMessage.info('取消删除')
   }
 }
+// 重置
+
+const delde=()=>{
+  params.page=1
+  params.name=''
+  params.beginDate=''
+  params.endDate=''
+  params.type= null
+  params.key=''
+  getlist() //院内活动列表
+}
+
 onMounted(() => {
   getlist() //院内活动列表
   getPlayType()//活动分类
