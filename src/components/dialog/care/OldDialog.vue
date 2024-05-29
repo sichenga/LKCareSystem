@@ -88,6 +88,7 @@ const select = (id: number) => {
 const resetForm = (() => {
     states.name = ''
     states.idCard = undefined
+    getlist()
 })
 
 onMounted(() => {

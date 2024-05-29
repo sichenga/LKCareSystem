@@ -65,9 +65,11 @@ const goOutListData = async () => {
   if (route.query.id) {
     let id = Number(route.query.id)
     let res: any = await goOutList(id)
-    console.log(res);
+    console.log('单条数据',res);
     if (res?.code == 10000) {
       times.value.push(res.data.startTime, res.data.endTime)
+      console.log(times.value);
+      
       Object.assign(ruleForm, res.data)
       data.oldlist=res.data.elderlyName
     }

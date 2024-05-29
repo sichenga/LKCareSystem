@@ -143,6 +143,7 @@ const search = ()=>{
 const reset = () => {
     states.name = ''
     states.idCard = ''
+    getlist()
 }
 // 勾选老人的值
 let serve = ref([])
