@@ -1,51 +1,58 @@
 <template>
   <!-- 详情资讯 -->
   <el-dialog v-model="dialogVisibles" title="详情" width="500" @close="close">
-    <el-form ref="ruleFormRef" style="max-width: 600px" :model="ruleForm" label-width="auto"
-      class="demo-ruleForm" size status-icon>
+    <el-form
+      ref="ruleFormRef"
+      style="max-width: 600px"
+      :model="ruleForm"
+      label-width="auto"
+      class="demo-ruleForm"
+      size
+      status-icon
+    >
       <el-form-item label="咨询类型:" prop="name">
-            <div>
-              {{ruleForm.type}}
-            </div>
+        <div>
+          {{ ruleForm.type }}
+        </div>
       </el-form-item>
       <el-form-item label="咨询渠道:" prop="name">
         <div>
-          {{ruleForm.source}}
+          {{ ruleForm.source }}
         </div>
       </el-form-item>
       <el-form-item label="咨询人:" prop="name">
         <div>
-          {{ruleForm.name}}
+          {{ ruleForm.name }}
         </div>
       </el-form-item>
       <el-form-item label="联系电话：" prop="name">
         <div>
-          {{ruleForm.mobile}}
+          {{ ruleForm.mobile }}
         </div>
       </el-form-item>
       <el-form-item label="与老人关系:" prop="name">
         <div>
-          {{ruleForm.relation}}
+          {{ ruleForm.relation }}
         </div>
       </el-form-item>
       <el-form-item label="策划回访日期:" prop="name">
         <div>
-          {{mons(ruleForm.visitTime).format('YYYY-MM-DD HH:mm')}}
+          {{ mons(ruleForm.visitTime).format('YYYY-MM-DD HH:mm') }}
         </div>
       </el-form-item>
       <el-form-item label="咨询内容:">
         <div>
-          {{ruleForm.content}}
+          {{ ruleForm.content }}
         </div>
       </el-form-item>
       <el-form-item label="登记人:">
         <div>
-          {{ruleForm.addAccountName}}
+          {{ ruleForm.addAccountName }}
         </div>
       </el-form-item>
       <el-form-item label="登记时间:">
         <div>
-          {{mons(ruleForm.addTime).format('YYYY-MM-DD HH:mm')}}
+          {{ mons(ruleForm.addTime).format('YYYY-MM-DD HH:mm') }}
         </div>
       </el-form-item>
     </el-form>
@@ -58,9 +65,9 @@
   </el-dialog>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, onMounted, defineEmits,defineProps } from 'vue'
+import { ref, reactive, onMounted, defineEmits, defineProps } from 'vue'
 import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
-import {  getquestionlist } from '@/service/market/marketApi'
+import { getquestionlist } from '@/service/market/marketApi'
 import moment from 'moment'
 const mons = moment
 const ruleFormRef = ref<FormInstance>()
@@ -70,8 +77,8 @@ const dialogVisibles = ref(true)
 const props = defineProps({
   editId: {
     type: Number,
-    default: 0,
-  },
+    default: 0
+  }
 })
 const emit = defineEmits(['close'])
 
@@ -83,14 +90,14 @@ const close = (close: boolean = false) => {
 const Questionlist = async () => {
   if (props.editId) {
     let res: any = await getquestionlist(props.editId)
-    console.log(res);
-    
+    console.log(res)
+
     if (res?.code == 10000) {
       Object.assign(ruleForm, res.data)
     }
   }
 }
-onMounted(()=>{
+onMounted(() => {
   Questionlist() //获取单挑咨询   详情
 })
 </script>
@@ -98,8 +105,8 @@ onMounted(()=>{
 .el-input {
   width: 300px;
 }
-.el-form-item{
-  div{
+.el-form-item {
+  div {
     margin-left: 58px;
   }
 }
