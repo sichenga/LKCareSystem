@@ -7,7 +7,7 @@
           {{ OldName }}
         </div>
         <el-button v-else type="primary" @click="select">选择老人</el-button>
-        <OldDialog v-if="idOld"  @id="oldid"></OldDialog>
+        <OldSelectDialog v-if="idOld"  @id="oldid" @close="oldclose"></OldSelectDialog>
       </el-form-item>
       <el-form-item label="血压：" prop="bloodPressure">
         <el-input v-model="ruleForm.bloodPressure" placeholder="请输入血压" />
@@ -29,7 +29,7 @@ import { ref, reactive, defineEmits, defineProps, onMounted } from 'vue'
 import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
 
 import { ElMessage } from 'element-plus'
-import OldDialog from "@/components/dialog/care/OldDialog.vue"
+import OldSelectDialog from '@/components/dialog/OldSelect/OldSelectDialog.vue'
 import {
   BloodPressureAdd,
   BloodPressureUpdate
@@ -108,14 +108,17 @@ const oldid = async(id: number) => {
     if (id) {
         let res: any = await getElderly(id)
         if (res?.code == 10000) {
-            idOld.value = false
+
             OldName.value = res.data.name
         }
         ruleForm.elderlyId = id
         ElMessage.success('选择老人成功')
     }
 }
-
+// 关闭老人弹窗
+const oldclose=()=>{
+  idOld.value = false
+}
 // 数据回显
 const Editold = async () => {
   if (props.data) {

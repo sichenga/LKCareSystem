@@ -87,7 +87,6 @@ const add = async () => {
       },
       selfCares: ruleForm.selfCares.filter((item: any) => item !== null)
     }
-    // ruleForm.
     let res: any
     if (!ruleForm.id) {
       res = await addElderly(obj)

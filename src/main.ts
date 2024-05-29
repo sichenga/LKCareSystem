@@ -10,6 +10,7 @@ import 'element-plus/dist/index.css'
 import '@/utils/browserPatch'
 import '@/permission'
 export const app = createApp(App)
+
 app.use(ElementPlus, {
   locale
 })

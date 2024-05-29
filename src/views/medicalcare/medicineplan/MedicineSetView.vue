@@ -11,7 +11,7 @@
       <el-form-item label="老人"> {{ data.oldinfo?.name }} </el-form-item>
       <el-form-item label="床位">{{ data.oldinfo?.begName }} </el-form-item>
       <el-form-item>
-        <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
+        <MayTable :tableData="data.tableData" :tableItem="data.tableItem" >
           <template #operate="{ data }">
             <el-button type="primary" text @click="getinfo(data.id)">设置</el-button>
             <el-button type="primary" text @click="stop(data.id)">停止用药</el-button>

@@ -1,8 +1,16 @@
 import router from '@/router'
 import { useUserStore } from '@/stores'
 import { AddMenu } from '@/utils/common'
-// 路由守卫
+// 进度条
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css' //这个样式必须引入
+NProgress.configure({
+  // 是否显示右上角螺旋加载提示
+  showSpinner: false
+})
+// 全局前置路由守卫
 router.beforeEach((to) => {
+  NProgress.start()
   const userStore = useUserStore()
   if (userStore.token) {
     // console.log('token', userStore.token)
@@ -42,4 +50,9 @@ router.beforeEach((to) => {
       return '/login'
     }
   }
+})
+
+// 全局后置路由守卫
+router.afterEach(() => {
+  NProgress.done()
 })
