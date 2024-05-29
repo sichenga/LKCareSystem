@@ -66,7 +66,7 @@ const Refquestion = ref()
 const router = useRouter()
 const AddRelation = defineAsyncComponent(() => import('@/components/dialog/consult/AddConsult.vue'))
 const Particulars = defineAsyncComponent(
-  () => import('@/components/dialog/consult/particulars.vue')
+  () => import('@/components/dialog/consult/Particulars.vue')
 )
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))

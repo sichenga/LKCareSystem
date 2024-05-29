@@ -106,7 +106,7 @@ declare module 'vue' {
     OrderList: typeof import('./src/components/hospitalized/orderList.vue')['default']
     OrganizationDialog: typeof import('./src/components/dialog/company/organizationDialog.vue')['default']
     OutRecord: typeof import('./src/components/Record/OutRecord.vue')['default']
-    Particulars: typeof import('./src/components/dialog/consult/particulars.vue')['default']
+    Particulars: typeof import('./src/components/dialog/consult/Particulars.vue')['default']
     PassDialog: typeof import('./src/components/dialog/config/PassDialog.vue')['default']
     PfleGestufeDialog: typeof import('./src/components/dialog/market/PfleGestufeDialog.vue')['default']
     PriceDialog: typeof import('./src/components/dialog/diet/PriceDialog.vue')['default']
