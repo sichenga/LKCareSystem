@@ -31,7 +31,8 @@
                 <el-button type="primary" text @click="del(data.id)">删除</el-button>
             </template>
         </MayTable>
-        <Pagination :total="50"></Pagination>
+        <Pagination :total="data.total" :page="states.page" :psize="states.pageSize" @page="getpage" @psize="getpsize">
+        </Pagination>
     </el-card>
 </template>
 
@@ -52,7 +53,7 @@ const Refcarer = ref()
 //岗位 角色
 const options: any = ref('')
 const data = reactive({
-
+    total: undefined,
     tableData: [] as any,
     tableItem: [
         {
@@ -103,13 +104,14 @@ const reset = () => {
     Refcarer.value?.resetFields()
     getlist()
 }
+// 护工列表
 const getlist = async () => {
     let res: any = await staffList(states)
+    console.log('列表', res);
     if (res.code === 10000) {
         data.tableData = res.data.list
-
+        data.total = res.data.counts
     }
-
 }
 //角色
 const getRoleList = async () => {
@@ -142,6 +144,16 @@ const del = async (id: number) => {
         ElMessage.info('取消删除')
     }
 }
+// 分页
+const getpage = (page: number) => {
+    states.page = page
+    getlist()
+}
+const getpsize = (pageSize: number) => {
+    states.pageSize = pageSize
+    getlist()
+}
+
 onMounted(() => {
     getlist() //护工
     getRoleList() //角色
