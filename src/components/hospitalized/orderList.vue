@@ -195,7 +195,7 @@ const sond = () => {
 // 获取老人信息
 const DataElder = ref<any>([])
 const getElderlyList = async () => {
-  let id = Number(route.query.id)
+  let id = Number(route.query.oldId)
   let res: any = await getElderly(id)
 
   if (res?.code == 10000) {

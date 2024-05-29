@@ -31,7 +31,8 @@
     <el-button type="primary" @click="isdialog = true" style="margin-bottom: 20px"
       >新增入院申请</el-button
     >
-    <ToHospitalDialog v-if="isdialog" @close="close"></ToHospitalDialog>
+    <!-- <ToHospitalDialog v-if="isdialog" @close="close"></ToHospitalDialog> -->
+    <OldSelectDialog v-if="isdialog" @close="close" :toPath="'/market/hospitalized/order'"></OldSelectDialog>
     <MayTable
       :tableData="data.tableData"
       :tableItem="data.tableItem"
@@ -64,9 +65,10 @@ import { orderList, orderDelete, orderGet } from '@/service/market/marketApi'
 import type { order } from '@/service/market/marketType'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
-const ToHospitalDialog = defineAsyncComponent(
-  () => import('@/components/dialog/market/ToHospitalDialog.vue')
-)
+// const ToHospitalDialog = defineAsyncComponent(
+//   () => import('@/components/dialog/market/ToHospitalDialog.vue')
+// )
+import OldSelectDialog from '@/components/dialog/OldSelect/OldSelectDialog.vue'
 const MayCascades = defineAsyncComponent(() => import('@/components/cascader/MayCascader.vue'))
 import { getMessageBox } from '@/utils/utils'
 import { useBuildStroke } from '@/stores'
@@ -178,12 +180,13 @@ const del = async (id: number) => {
 //编辑入院老人
 const compile = async (id: number) => {
   let res: any = await orderGet(id)
-
+  console.log(res);
+  
   if (res?.code == 10000) {
     await router.push({
       path: '/market/hospitalized/order',
       query: {
-        id: res.data.elderlyId,
+        oldId: res.data.elderlyId,
         ids: id
       }
     })
