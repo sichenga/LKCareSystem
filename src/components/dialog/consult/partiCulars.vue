@@ -59,14 +59,14 @@
     <template #footer>
       <div class="dialog-footer">
         <el-button @click="close(false)">取消</el-button>
-        <el-button type="primary" @click="close"> 确定 </el-button>
+        <el-button type="primary" @click="close(false)"> 确定 </el-button>
       </div>
     </template>
   </el-dialog>
 </template>
 <script lang="ts" setup>
 import { ref, reactive, onMounted, defineEmits, defineProps } from 'vue'
-import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
+import type { FormInstance } from 'element-plus'
 import { getquestionlist } from '@/service/market/marketApi'
 import moment from 'moment'
 const mons = moment
@@ -90,6 +90,7 @@ const close = (close: boolean = false) => {
 const Questionlist = async () => {
   if (props.editId) {
     let res: any = await getquestionlist(props.editId)
+    console.log(res)
     console.log(res)
 
     if (res?.code == 10000) {

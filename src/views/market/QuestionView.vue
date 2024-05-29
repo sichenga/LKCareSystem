@@ -1,12 +1,7 @@
 <template>
   <!-- 资讯登记 -->
   <el-card style="margin-top: 15px" class="section">
-    <el-form
-      ref="Refquestion"
-      :model="states"
-      label-width="100px"
-      style="display: flex; align-items: center"
-    >
+    <el-form ref="Refquestion" :model="states" label-width="100px" style="display: flex; align-items: center">
       <el-form-item label="咨询人姓名：" prop="name">
         <el-input v-model="states.name" style="width: 180px" placeholder="请输入咨询人姓名" />
       </el-form-item>
@@ -43,12 +38,7 @@
   <div class="title-btn">
     <el-button>返回</el-button>
   </div>
-  <AddRelation
-    v-if="dialogVisible"
-    @close="Holedclose"
-    :ids="ids"
-    :customerId="customerId"
-  ></AddRelation>
+  <AddRelation v-if="dialogVisible" @close="Holedclose" :ids="ids" :customerId="customerId"></AddRelation>
 
   <Particulars v-if="dialogVisibles" @close="Holedcloses" :editId="editId"></Particulars>
 </template>
@@ -66,7 +56,7 @@ const Refquestion = ref()
 const router = useRouter()
 const AddRelation = defineAsyncComponent(() => import('@/components/dialog/consult/AddConsult.vue'))
 const Particulars = defineAsyncComponent(
-  () => import('@/components/dialog/consult/PartiCulars.vue')
+  () => import('@/components/dialog/consult/partiCulars.vue')
 )
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
@@ -183,7 +173,7 @@ const Holedcloses = (val: any) => {
 const del = async (id: number) => {
   let res = await getMessageBox('是否确认删除该咨询', '删除后将不可恢复')
   if (res) {
-    let res: any = await deleteMarket(id).catch(() => {})
+    let res: any = await deleteMarket(id).catch(() => { })
     if (res?.code == 10000) {
       getlist()
       ElMessage.success('删除成功')

@@ -175,7 +175,7 @@ const reset = () => {
   formInline.page = 1
   formInline.endDate = ''
   Refnight.value?.resetFields()
-  getaddresslist()
+  getlist()
 }
 
 // 关闭弹窗
