@@ -60,6 +60,8 @@ onMounted(() => {
 })
 // 增加部门
 const add = (data: DepartmentListParams) => {
+  console.log(1111, data)
+
   if (data?.id) {
     deppid.value = data.id
   }
@@ -67,9 +69,12 @@ const add = (data: DepartmentListParams) => {
 }
 // 修改部门
 const emit = (data: DepartmentListParams) => {
-  console.log(data)
+  console.log(22222, data)
   depid.value = data.id
   depname.value = data.name
+  if (data.pid) {
+    deppid.value = data.pid
+  }
   isdialog.value = true
 }
 // 删除部门
@@ -98,6 +103,7 @@ const close = (isrefresh: boolean) => {
   }
   depid.value = 0
   depname.value = ''
+  deppid.value = 0
   isdialog.value = false
 }
 </script>

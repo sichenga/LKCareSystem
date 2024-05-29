@@ -105,8 +105,6 @@ const add = async () => {
 // 数据回显
 const getedit = async () => {
   let id = route.params?.id
-  console.log(11, id)
-
   if (id) {
     let res: any = await getElderly(Number(id))
     console.log('编辑', res)
