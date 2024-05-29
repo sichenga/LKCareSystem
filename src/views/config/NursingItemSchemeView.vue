@@ -44,7 +44,7 @@
       <div class="grade">护理等级：<span>重度</span></div>
       <div class="btn">
         <el-button type="primary" @click="isdialog = true">新增</el-button>
-        <IndustryDialog @close="close" v-if="isdialog"></IndustryDialog>
+        <!-- <IndustryDialog @close="close" v-if="isdialog"></IndustryDialog> -->
       </div>
       <div class="grid">
         <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
@@ -68,7 +68,7 @@ import { ref, onMounted, reactive, defineAsyncComponent } from 'vue'
 import IndustryView from '@/database/IndustryView.json'
 import IndustryDialog from '@/components/dialog/config/IndustryDialog.vue'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
-const ProjectDialog = defineAsyncComponent(() => import('@/components/dialog/ProjectDialog.vue'))
+// const ProjectDialog = defineAsyncComponent(() => import('@/components/dialog/ProjectDialog.vue'))
 import { useRouter } from 'vue-router'
 const router = useRouter()
 // do not use same name with ref

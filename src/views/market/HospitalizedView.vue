@@ -67,7 +67,7 @@ const Pagination = defineAsyncComponent(() => import('@/components/pagination/Ma
 const ToHospitalDialog = defineAsyncComponent(
   () => import('@/components/dialog/market/ToHospitalDialog.vue')
 )
-const MayCascades = defineAsyncComponent(() => import('@/components/cascade/MayCascade.vue'))
+const MayCascades = defineAsyncComponent(() => import('@/components/cascader/MayCascader.vue'))
 import { getMessageBox } from '@/utils/utils'
 import { useBuildStroke } from '@/stores'
 import { useRouter } from 'vue-router'
