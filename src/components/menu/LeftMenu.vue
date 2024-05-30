@@ -39,11 +39,12 @@
   </el-menu>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, onMounted, computed } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { House } from '@element-plus/icons-vue'
 import type { Permission } from '@/Type/pinia/user'
 import { homelogin } from '@/utils/images'
 import { useApperStore, useUserStore } from '@/stores'
+
 const userStore = useUserStore()
 const apperStore = useApperStore()
 const url = homelogin
@@ -92,39 +93,33 @@ const istype = computed(() => {
   }
 }
 
-.el-menu--collapse {
-  width: 93px;
-  // animation: hide 0.2s linear !important;
-
-  :deep(.el-sub-menu__title) {
-    justify-content: center;
-  }
-}
-
 @keyframes hide {
   from {
-    width: 180px;
+    width: 90px;
     filter: blur(3px);
   }
 
   to {
-    // width: 2.5vw;
-    width: 93px;
+    width: 180px;
     filter: blur(5px);
   }
+}
+
+:deep(.el-menu-item-group__title) {
+  padding: 0;
+}
+
+.el-menu--collapse {
+  width: 90px !important;
+  :deep(.el-sub-menu__title) {
+    justify-content: center;
+  }
+  //animation: hide 0.5s linear !important;
 }
 
 .el-menu {
   width: 100%;
   border-right: none;
-}
-
-:deep(.el-menu-tooltip__trigger) {
-  justify-content: center;
-}
-
-:deep(.el-menu-item-group__title) {
-  padding: 0 !important;
 }
 
 .iconfont {

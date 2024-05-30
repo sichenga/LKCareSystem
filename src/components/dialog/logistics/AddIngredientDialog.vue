@@ -22,7 +22,7 @@
     </el-dialog>
   </template>
 <script lang="ts" setup>
-import { ref, reactive, defineEmits, onMounted, defineProps, defineAsyncComponent } from 'vue'
+import { ref, reactive, defineEmits, onMounted, defineAsyncComponent } from 'vue'
 import type { ComponentSize, FormInstance } from 'element-plus'
 import { FoodList } from '@/service/food/FoodApi'
 import type { Supplier } from '@/service/food/FoodType'

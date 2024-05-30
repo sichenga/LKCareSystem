@@ -39,7 +39,7 @@
   </el-dialog>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, onMounted, defineEmits, defineProps, watch } from 'vue'
+import { ref, reactive, defineEmits, defineProps } from 'vue'
 import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
 const formSize = ref<ComponentSize>('default')
 const props = defineProps(['formData', 'sign'])

@@ -39,7 +39,7 @@
   </el-card>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, onMounted, defineAsyncComponent, provide } from 'vue'
+import { ref, reactive, defineAsyncComponent, provide } from 'vue'
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
 import type { FormRules, FormInstance } from 'element-plus'

@@ -52,13 +52,6 @@ const handleCurrentChange = (val: number) => {
 }
 </script>
 <style lang="less" scoped>
-.demo-pagination-block+.demo-pagination-block {
-  margin-top: 10px;
-}
-
-.demo-pagination-block .demonstration {
-  margin-bottom: 16px;
-}
 
 .el-pagination {
   margin-top: 20px;

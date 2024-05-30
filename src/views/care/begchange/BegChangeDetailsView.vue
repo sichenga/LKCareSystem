@@ -68,8 +68,8 @@
   </el-card>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, onMounted } from 'vue'
-import { Edit, Picture, UploadFilled } from '@element-plus/icons-vue'
+import { ref, reactive } from 'vue'
+import { Picture } from '@element-plus/icons-vue'
 const form = reactive({
   name: '',
   region: '',
@@ -110,40 +110,15 @@ const circleUrl = ref('https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726
   margin-top: 100px;
 }
 
-.el-steps {
-  background-color: #fff;
-}
-
-:deep(.el-step__title) {
-  max-width: 100% !important;
-  color: black;
-  font-weight: bold;
-}
-
 .steps {
-  .el-step {
-    flex-basis: 8% !important;
-  }
 
   padding: 0 !important;
   max-width: 100% !important;
 
-  :deep(.el-step__icon) {
-    width: 40px !important;
-    height: 40px !important;
-  }
 }
 
 .stp {
   margin-top: 30px;
 
-  .el-step {
-    height: 100px !important;
-    flex-basis: initial !important;
-  }
-
-  :deep(.el-step__title) {
-    padding: 0;
-  }
 }
 </style>

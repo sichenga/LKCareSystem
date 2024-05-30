@@ -59,7 +59,7 @@
     </el-card>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import { reservationget } from "@/service/market/ReserveApi"
 import { useRouter, useRoute } from 'vue-router'
 const router = useRouter()

@@ -44,7 +44,7 @@ import MayTable from '@/components/table/MayTable.vue'
 import { getScheduleList } from '@/service/old/schedule/ScheduleApi'
 import { getElderly } from '@/service/old/OldApi'
 import type { ElderlyInfo } from '@/service/old/schedule/ScheduleType'
-import type {} from '@/service/old/schedule/ScheduleType'
+
 const upload = import.meta.env.VITE_BASE_URL + '/'
 const route = useRoute()
 const oldid = ref(route.query?.id)

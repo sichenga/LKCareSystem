@@ -160,11 +160,5 @@ const getpsize = (val: number) => {
     margin-top: 40px;
   }
 
-  .pages {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 30px;
-    margin-bottom: 20px;
-  }
 }
 </style>

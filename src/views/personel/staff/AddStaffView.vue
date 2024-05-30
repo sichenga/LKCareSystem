@@ -45,7 +45,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { reactive, toRefs, ref, onMounted, defineAsyncComponent } from 'vue'
+import { reactive, ref, onMounted, defineAsyncComponent } from 'vue'
 import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
 import { ElMessage } from 'element-plus'
 import { useRoute, useRouter } from 'vue-router'
@@ -215,11 +215,4 @@ onMounted(() => {
   border-color: var(--el-color-primary);
 }
 
-.el-icon.avatar-uploader-icon {
-  font-size: 28px;
-  color: #8c939d;
-  width: 50px;
-  height: 50px;
-  text-align: center;
-}
 </style>

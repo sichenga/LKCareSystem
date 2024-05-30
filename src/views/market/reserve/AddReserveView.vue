@@ -243,9 +243,9 @@ const reserve = async () => {
             children: convertToTree(flatData, node.id)
         }));
     }
-    let tree = convertToTree(building, 0)
+    // let tree =
     // console.log('数据', tree);
-    options.value = tree
+    options.value = convertToTree(building, 0)
 }
 
 // 楼栋列表

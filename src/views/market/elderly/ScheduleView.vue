@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, toRefs, ref, onMounted, provide } from 'vue'
+import { reactive, ref, onMounted, provide } from 'vue'
 import { useRoute } from 'vue-router'
 import { elderlyTaskgetTask } from '@/service/old/elderlytask/ElderlyTaskApi'
 import MayTable from '@/components/table/MayTable.vue'

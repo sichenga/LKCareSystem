@@ -159,7 +159,6 @@
 </template>
 
 <script lang='ts' setup>
-import { reactive, toRefs, ref, onMounted } from 'vue'
 
 </script>
 
@@ -225,7 +224,6 @@ import { reactive, toRefs, ref, onMounted } from 'vue'
 .btn {
    width: 200px;
    height: 50px;
-   margin:0 auto;
-   margin-top: 100px;
+  margin: 100px auto 0;
 }
 </style>

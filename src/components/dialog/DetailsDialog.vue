@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, defineAsyncComponent, onMounted } from 'vue'
+import { ref, defineAsyncComponent } from 'vue'
 const MassUpload = defineAsyncComponent(() => import('@/components/upload/MassUpload.vue'))
 //弹框
 const dialogVisible = ref(true)

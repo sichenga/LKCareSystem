@@ -110,9 +110,6 @@ const close = (isrefresh: boolean) => {
   width: 100%;
   height: 100%;
 
-  :deep(.el-card__body) {
-    height: 100%;
-  }
 }
 
 .tree {
@@ -130,8 +127,4 @@ const close = (isrefresh: boolean) => {
   }
 }
 
-:deep(.el-tree-node__content) {
-  margin-bottom: 15px;
-  height: 35px;
-}
 </style>

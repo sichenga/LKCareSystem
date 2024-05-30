@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, defineAsyncComponent, onMounted } from 'vue'
+import { reactive, defineAsyncComponent, onMounted } from 'vue'
 import ApproveView from '@/database/ApproveView.json'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))

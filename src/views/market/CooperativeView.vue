@@ -40,7 +40,7 @@
 </template>
 
 <script lang='ts' setup>
-import { reactive, toRefs, ref, onMounted, defineAsyncComponent } from 'vue'
+import { reactive, ref, onMounted, defineAsyncComponent } from 'vue'
 import CooperativeView from '@/database/CooperativeView.json'
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'

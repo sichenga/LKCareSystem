@@ -16,16 +16,10 @@
   </el-tabs>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, toRefs, onMounted, defineAsyncComponent } from 'vue'
+import { defineAsyncComponent } from 'vue'
 const RecordAdmin = defineAsyncComponent(() => import('@/components/Record/RecordAdmin.vue'))
 const OutRecord = defineAsyncComponent(() => import('@/components/Record/OutRecord.vue'))
 const MedicalInfo = defineAsyncComponent(() => import('../MedicalViews.vue'))
 </script>
 <style lang="less" scoped>
-.demo-tabs > .el-tabs__content {
-  padding: 32px;
-  color: #6b778c;
-  font-size: 32px;
-  font-weight: 600;
-}
 </style>

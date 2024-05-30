@@ -106,10 +106,6 @@
   content: "\e767";
 }
 
-.iocn-floor:before {
-  content: "\e768";
-}
-
 .icon-nursingitem:before {
   content: "\e86c";
 }
@@ -132,10 +128,6 @@
 
 .icon-pflapproval:before {
   content: "\e6b2";
-}
-
-.incn-toapproval:before {
-  content: "\e6c2";
 }
 
 .icon-approval:before {
@@ -206,10 +198,6 @@
   content: "\e603";
 }
 
-.incon-tohospital:before {
-  content: "\e638";
-}
-
 .icon-hospitalized:before {
   content: "\e602";
 }
@@ -252,10 +240,6 @@
 
 .icon-medicalcare:before {
   content: "\e6e2";
-}
-
-.inco-laundry:before {
-  content: "\e660";
 }
 
 .icon-morning:before {

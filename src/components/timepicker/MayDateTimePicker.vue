@@ -4,7 +4,7 @@
     @change="handleChange" />
 </template>
 <script lang="ts" setup>
-import { ref, reactive, onMounted, defineEmits, defineProps, watch } from 'vue'
+import { ref, defineEmits, defineProps, watch } from 'vue'
 const params = defineProps({
   statetime: {
     type: String,
@@ -68,10 +68,4 @@ const handleChange = (value: string) => {
   border-right: none;
 }
 
-.block .demonstration {
-  display: block;
-  color: var(--el-text-color-secondary);
-  font-size: 14px;
-  margin-bottom: 20px;
-}
 </style>

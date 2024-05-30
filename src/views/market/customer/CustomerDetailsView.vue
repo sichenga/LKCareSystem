@@ -47,8 +47,7 @@
 </template>
 
 <script lang='ts' setup>
-import { reactive, toRefs, ref, onMounted, defineAsyncComponent } from 'vue'
-import { ElMessage } from 'element-plus'
+import { reactive, onMounted, defineAsyncComponent } from 'vue'
 import { Customerget } from "@/service/market/CustomerApi"
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 import { useRouter, useRoute } from 'vue-router'

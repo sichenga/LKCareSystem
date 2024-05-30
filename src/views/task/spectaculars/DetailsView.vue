@@ -48,7 +48,7 @@
   </el-card>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref } from 'vue'
 const circleUrl = ref('https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png')
 const checkedCities = ref([])
 const cities = ref(['辅助起床', '辅助洗漱', '辅助如厕', '辅助穿衣'])
@@ -59,9 +59,6 @@ const cities = ref(['辅助起床', '辅助洗漱', '辅助如厕', '辅助穿�
   margin-bottom: 20px;
 }
 .task-info {
-  :deep(.el-form-item__content) {
-    color: #ccc;
-  }
 }
 
 .title {
@@ -77,9 +74,4 @@ const cities = ref(['辅助起床', '辅助洗漱', '辅助如厕', '辅助穿�
   margin-bottom: 0;
 }
 
-.el-checkbox-group {
-  display: flex;
-  flex-direction: column;
-  margin-top: 20px;
-}
 </style>

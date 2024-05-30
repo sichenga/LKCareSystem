@@ -82,8 +82,8 @@
    </el-card>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, onMounted } from 'vue'
-import { Edit, Picture, UploadFilled } from '@element-plus/icons-vue'
+import { ref, reactive } from 'vue'
+import { Picture } from '@element-plus/icons-vue'
 
 const form = reactive({
    name: '',

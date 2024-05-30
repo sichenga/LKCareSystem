@@ -155,7 +155,6 @@ const getData = async () => {
 }
 const listold = async (id: any) => {
   console.log(id);
-
   const res = await getElderly(id)
   console.log('单挑老人', res);
 

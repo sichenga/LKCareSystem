@@ -25,13 +25,13 @@ import LeftMenu from '@/components/menu/LeftMenu.vue'
 import TopMenu from '@/components/menu/TopMenu.vue'
 </script>
 <style lang="less" scoped>
-.el-container {
+
+
+.el-container{
   width: 100%;
   height: 100%;
 }
-
-.el-aside {
-  width: 100%;
+.el-aside{
   height: 100%;
   box-sizing: border-box;
   background-color: #333333;
@@ -42,19 +42,10 @@ import TopMenu from '@/components/menu/TopMenu.vue'
   -moz-transition: width 0.5s;
   -o-transition: width 0.5s;
   animation: 0.5s linear !important;
-}
-
-.el-header {
-  width: 100%;
-  display: flex;
-  align-items: center;
-}
-
-.el-main {
-  width: 100%;
-  height: 100%;
-  background-color: #eef2fa;
-  overflow: hidden;
+  :deep(.el-scrollbar__wrap--hidden-default){
+    height: 100%;
+    background-color: #333333;
+  }
 }
 
 // 收缩
@@ -87,9 +78,5 @@ import TopMenu from '@/components/menu/TopMenu.vue'
   to {
     filter: blur(5px);
   }
-}
-:deep(.el-scrollbar__view) {
-  width: 100%;
-  height: 100%;
 }
 </style>

@@ -98,26 +98,6 @@ const close = () => {
   margin-bottom: 20px !important;
 }
 
-:deep .custom-input .el-input__inner {
-  color: #c3c3c3;
-}
-
-:deep .custom-inputtel .el-input__inner {
-  color: #c3c3c3;
-}
-
-:deep .custom-inputrole .el-input__inner {
-  color: #c3c3c3;
-}
-
-:deep .asterisk-left .el-form-item__label-wrap {
-  margin-left: 0 !important;
-}
-
-:deep .custom-pass .el-input__inner {
-  color: #c3c3c3;
-}
-
 .custom-inputtel {
   margin-left: 10px;
 }
@@ -131,7 +111,4 @@ const close = () => {
   margin-left: 25px;
 }
 
-.is-error {
-  margin-bottom: 20px;
-}
 </style>

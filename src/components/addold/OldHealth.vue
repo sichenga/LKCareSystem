@@ -7,7 +7,6 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { defineAsyncComponent } from 'vue'
 // const Oldcase = defineAsyncComponent(() => import('@/components/addold/condition/OldCase.vue'))
 import Oldcase from '@/components/addold/condition/OldCase.vue'
 // const Oldcondition = defineAsyncComponent(

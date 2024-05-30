@@ -54,11 +54,6 @@ const change = () => {
       font-size: 24px;
     }
 
-    .el-breadcrumb {
-      height: 40px;
-      line-height: 40px;
-      margin-left: 15px;
-    }
   }
 
   .right {

@@ -62,13 +62,5 @@ onMounted(() => {
   width: 680px;
   margin: 10px 0 20px 0;
 
-  :deep(.el-checkbox) {
-    margin-bottom: 10px;
-  }
-}
-:deep(.el-textarea__inner) {
-  margin-top: 10px;
-  width: 750px;
-  height: 160px;
 }
 </style>

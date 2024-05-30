@@ -51,7 +51,6 @@ const route = useRoute()
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
 import { getElderly } from '@/service/old/OldApi'
-import type {} from '@/service/medicalcare/MedicalcareType'
 import { DrugsListForElderly, DrugsUpdate, DrugsDelete } from '@/service/medicalcare/MedicalcareApi'
 const AddRegInfoDialog = defineAsyncComponent(
   () => import('@/components/dialog/medicalcare/AddRegInfoDialog.vue')

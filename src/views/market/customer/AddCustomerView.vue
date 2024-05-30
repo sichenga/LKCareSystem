@@ -301,7 +301,6 @@ onMounted(() => {
 .btn {
     width: 200px;
     height: 50px;
-    margin: 0 auto;
-    margin-top: 30px;
+  margin: 30px auto 0;
 }
 </style>

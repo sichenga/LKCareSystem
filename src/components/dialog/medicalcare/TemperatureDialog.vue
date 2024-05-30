@@ -26,7 +26,7 @@
 import { ref, reactive, onMounted, defineEmits,defineProps } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import {getElderly} from '@/service/old/OldApi'
-import { TemperatureAdd,GetTemperature,TemperatureUpdate } from '@/service/medicalcare/MedicalcareApi'
+import { TemperatureAdd,TemperatureUpdate } from '@/service/medicalcare/MedicalcareApi'
 import { ElMessage } from 'element-plus'
 import OldSelectDialog from '@/components/dialog/OldSelect/OldSelectDialog.vue'
 

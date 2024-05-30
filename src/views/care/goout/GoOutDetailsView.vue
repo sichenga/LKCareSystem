@@ -124,41 +124,16 @@ onMounted(async ()=>{
   margin-top: 100px;
 }
 
-.el-steps {
-  background-color: #fff;
-}
-
-:deep(.el-step__title) {
-  max-width: 100% !important;
-  color: black;
-  font-weight: bold;
-}
-
 .steps {
-  .el-step {
-    flex-basis: 8% !important;
-  }
 
   padding: 0 !important;
   max-width: 100% !important;
 
-  :deep(.el-step__icon) {
-    width: 40px !important;
-    height: 40px !important;
-  }
 }
 
 .stp {
   margin-top: 30px;
 
-  .el-step {
-    height: 100px !important;
-    flex-basis: initial !important;
-  }
-
-  :deep(.el-step__title) {
-    padding: 0;
-  }
 }
 
 .s {

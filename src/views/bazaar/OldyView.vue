@@ -45,7 +45,7 @@
     </el-card>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
+import { reactive, onMounted, defineAsyncComponent } from 'vue'
 import AffiliatedView from '@/database/AffiliatedView.json'
 import { useRouter } from 'vue-router'
 import { getMessageBox } from '@/utils/utils'

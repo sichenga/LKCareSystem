@@ -14,7 +14,7 @@
   />
 </template>
 <script lang="ts" setup>
-import { ref, reactive, onMounted, defineProps, defineEmits, watch } from 'vue'
+import { ref, defineProps, defineEmits, watch } from 'vue'
 // 父传子 传递参数
 const props = defineProps({
   size: {
@@ -59,12 +59,6 @@ const handleChange = (val: any) => {
 }
 </script>
 <style lang="less" scoped>
-.demo-datetime-picker {
-  display: flex;
-  width: 100%;
-  padding: 0;
-  flex-wrap: wrap;
-}
 
 .demo-datetime-picker .block {
   padding: 30px 0;
@@ -77,10 +71,4 @@ const handleChange = (val: any) => {
   border-right: none;
 }
 
-.demo-datetime-picker .demonstration {
-  display: block;
-  color: var(--el-text-color-secondary);
-  font-size: 14px;
-  margin-bottom: 20px;
-}
 </style>

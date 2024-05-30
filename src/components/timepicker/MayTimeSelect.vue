@@ -4,7 +4,7 @@
     :value-format="props.valueformat" :format="props.valueformat" placeholder="选择时间" @change="timeselect" />
 </template>
 <script lang="ts" setup>
-import { ref, reactive, onMounted, defineProps, defineEmits, watch } from 'vue'
+import { ref, defineProps, defineEmits, watch } from 'vue'
 const emit = defineEmits(['change'])
 const props = defineProps({
   isrange: {
@@ -57,11 +57,5 @@ watch(
 )
 </script>
 <style lang="less" scoped>
-.demo-range .el-date-editor {
-  margin: 8px;
-}
 
-.demo-range .el-range-separator {
-  box-sizing: content-box;
-}
 </style>

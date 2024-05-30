@@ -29,7 +29,7 @@
   </el-dialog>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, onMounted, defineEmits, defineProps, watch } from 'vue'
+import { ref, reactive, defineEmits, defineProps, watch } from 'vue'
 import { ElMessage } from 'element-plus'
 import { addBeds, updateBeds } from '@/service/config/ConfigApi'
 import type { BedsAdd } from '@/service/config/ConfigType'

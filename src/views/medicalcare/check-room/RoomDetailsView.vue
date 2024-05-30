@@ -49,7 +49,7 @@
   </el-card>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { CheckRoomGet } from '@/service/medicalcare/MedicalcareApi'
 import { getElderly } from '@/service/old/OldApi'

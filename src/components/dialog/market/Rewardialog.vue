@@ -15,7 +15,7 @@
     </el-dialog>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, defineEmits, onMounted } from 'vue'
+import { ref, reactive, defineEmits } from 'vue'
 import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
 interface RuleForm {
     name: string

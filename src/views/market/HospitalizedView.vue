@@ -63,6 +63,7 @@ const MayCascades = defineAsyncComponent(() => import('@/components/cascader/May
 import { getMessageBox } from '@/utils/utils'
 import { useBuildStroke } from '@/stores'
 import { useRouter } from 'vue-router'
+import MayCascader from '@/components/cascader/MayCascader.vue'
 const identifier = 'Hospitalized'
 const router = useRouter()
 const Hospitalised = ref()

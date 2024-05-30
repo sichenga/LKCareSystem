@@ -29,8 +29,8 @@
     </el-dialog>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, onMounted, defineEmits } from 'vue'
-import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
+import { ref, reactive, defineEmits } from 'vue'
+
 const form = reactive({
     name: '',
     region: '',

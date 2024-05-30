@@ -12,7 +12,7 @@
   </el-card>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, onMounted, defineEmits, defineAsyncComponent } from 'vue'
+import { reactive, onMounted, defineAsyncComponent } from 'vue'
 
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 import AffiliatedView from '@/database/AffiliatedView.json'

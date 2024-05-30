@@ -63,12 +63,6 @@ const close = (close: boolean = false) => {
 }
 </script>
 <style lang="less" scoped>
-.top_text {
-  :deep(.el-form-item__content) {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-}
 
 .el-image {
   margin-right: 10px;

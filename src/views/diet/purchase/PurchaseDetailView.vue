@@ -38,8 +38,8 @@
 </template>
 
 <script lang='ts' setup>
-import { reactive, toRefs, ref, onMounted, defineAsyncComponent } from 'vue'
-import { purchaseFoodslist, Purchaseget, purchase } from "@/service/food/FoodApi"
+import { reactive, onMounted, defineAsyncComponent } from 'vue'
+import { purchase } from "@/service/food/FoodApi"
 import type { ImageProps } from 'element-plus'
 import { useRouter } from 'vue-router'
 const router = useRouter();

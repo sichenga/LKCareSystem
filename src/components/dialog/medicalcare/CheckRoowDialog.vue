@@ -59,7 +59,7 @@ import { ref, reactive, defineEmits, defineProps, onMounted } from 'vue'
 import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
 import {getElderly} from '@/service/old/OldApi'
 import { ElMessage } from 'element-plus'
-import { CheckRoomAdd, CheckRoomGet, CheckRoomUpdate } from '@/service/medicalcare/MedicalcareApi'
+import { CheckRoomAdd, CheckRoomUpdate } from '@/service/medicalcare/MedicalcareApi'
 import type { CheckRoomAddParams } from '@/service/medicalcare/MedicalcareType'
 import OldSelectDialog from '@/components/dialog/OldSelect/OldSelectDialog.vue'
 const formSize = ref<ComponentSize>('default')

@@ -41,7 +41,7 @@
 </template>
 
 <script lang='ts' setup>
-import { reactive, toRefs, ref, onMounted, defineAsyncComponent } from 'vue'
+import { reactive, ref, onMounted, defineAsyncComponent } from 'vue'
 import { BloodSugarList, BloodSugarDelete } from "@/service/medicalcare/MedicalcareApi"
 import type { bloodSugarlistParams } from "@/service/medicalcare/MedicalcareType"
 import { getMessageBox } from '@/utils/utils'

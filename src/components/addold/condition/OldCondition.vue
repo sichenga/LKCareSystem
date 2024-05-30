@@ -22,10 +22,12 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, onMounted, defineAsyncComponent, inject } from 'vue'
+import { reactive, onMounted, defineAsyncComponent, inject } from 'vue'
+
 const MatTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 import { getSelfcareList } from '@/service/old/OldApi'
 import type { AddElderlyRequest } from '@/service/old/OldType'
+
 const ruleForm: any = inject<AddElderlyRequest>('ruleForm')!
 const state: any = reactive({
   LableData: [
@@ -71,8 +73,8 @@ const getlist = async () => {
 // 选择老人自理情况
 const change = (data: any, index: number) => {
   console.log(data)
-  let obj: any = { name: data.name, val: data.val }
-  ruleForm.selfCares[index] = obj
+
+  ruleForm.selfCares[index] = { name: data.name, val: data.val }
 }
 onMounted(() => {
   getlist()
@@ -89,22 +91,8 @@ onMounted(() => {
   }
 }
 
-:deep(.el-table--border .el-table__inner-wrapper) {
-  margin-top: 30px;
-}
-:deep(.el-checkbox__input) {
-  border-radius: 50%;
-  .el-checkbox__inner {
-    border-radius: 50%;
-  }
-}
-
 .titles {
   margin-top: 20px;
 }
-:deep(.el-textarea__inner) {
-  margin-top: 10px;
-  width: 750px;
-  height: 160px;
-}
+
 </style>

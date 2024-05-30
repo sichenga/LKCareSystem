@@ -159,7 +159,6 @@ const confirm = () => {
 .btn {
     height: 50px;
     width: 200px;
-    margin: 0 auto;
-    margin-top: 100px;
+  margin: 100px auto 0;
 }
 </style>

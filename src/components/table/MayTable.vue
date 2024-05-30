@@ -388,10 +388,6 @@ const handleSelectionChange = (val: any[]) => {
   color: black;
 }
 
-:deep(.el-table__cell) {
-  position: relative;
-}
-
 .schitem {
   width: 100%;
   height: 100%;
