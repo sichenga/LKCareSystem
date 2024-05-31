@@ -40,7 +40,7 @@
 </template>
 
 <script lang='ts' setup>
-import { reactive, toRefs, ref, onMounted, defineAsyncComponent } from 'vue'
+import { reactive, ref, onMounted, defineAsyncComponent } from 'vue'
 import { useRouter } from 'vue-router'
 import CollectionDialog from "@/components/dialog/financial/CollectionDialog.vue"
 const router = useRouter();

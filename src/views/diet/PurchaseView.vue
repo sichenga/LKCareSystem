@@ -44,7 +44,7 @@ w
 </template>
 
 <script lang="ts" setup>
-import { reactive, toRefs, ref, onMounted, defineAsyncComponent } from 'vue'
+import { reactive, onMounted, defineAsyncComponent } from 'vue'
 import { useRouter } from 'vue-router'
 import { PurchaseList } from '@/service/food/FoodApi'
 import type { Purchase } from '@/service/food/FoodType'

@@ -54,12 +54,12 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, toRefs, ref, onMounted, defineAsyncComponent } from 'vue'
+import { reactive, ref, onMounted, defineAsyncComponent } from 'vue'
 import { useRouter } from 'vue-router'
 import { getMessageBox } from '@/utils/utils'
 import { ElMessage } from 'element-plus'
 import { staffList, delstaff, departmentList, updateList } from '@/service/staff/StaffApi'
-import type { StaffListParams, RuleForm } from '@/service/staff/StaffType'
+import type { StaffListParams } from '@/service/staff/StaffType'
 import { RoleList } from '@/service/role/RoleApi'
 const router = useRouter()
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
@@ -175,7 +175,7 @@ const enable = async (data: any, isenble: number) => {
 
     }
   }
-  // if(data.enable){
+  // if(oldName.enable){
 
   // }
 }

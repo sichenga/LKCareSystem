@@ -11,7 +11,7 @@
     </el-dialog>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, defineEmits, onMounted } from 'vue'
+import { ref, defineEmits } from 'vue'
 const dialogVisible = ref(true)
 const emit = defineEmits(['close'])
 const close = (close: boolean = false) => {

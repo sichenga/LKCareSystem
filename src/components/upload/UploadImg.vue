@@ -7,7 +7,7 @@
   </el-upload>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, onMounted, defineProps, defineEmits, watch } from 'vue'
+import { ref, defineProps, defineEmits, watch } from 'vue'
 const action = import.meta.env.VITE_BASE_UPLOAD_ADD || ''
 
 import { genFileId } from 'element-plus'

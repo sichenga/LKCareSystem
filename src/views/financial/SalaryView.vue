@@ -47,7 +47,7 @@
 </template>
 
 <script lang='ts' setup>
-import { reactive, toRefs, ref, onMounted, defineAsyncComponent } from 'vue'
+import { reactive, ref, onMounted, defineAsyncComponent } from 'vue'
 import { useRouter } from 'vue-router'
 import WelfareDialog from "@/components/dialog/financial/WelfareDialog.vue"
 const router = useRouter();

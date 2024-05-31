@@ -13,7 +13,7 @@
 </template>
 
 <script lang='ts' setup>
-import { reactive, toRefs, ref, onMounted, defineAsyncComponent } from 'vue'
+import { reactive, onMounted, defineAsyncComponent } from 'vue'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 import TaskView from '@/database/TaskView.json'
 const data = reactive({

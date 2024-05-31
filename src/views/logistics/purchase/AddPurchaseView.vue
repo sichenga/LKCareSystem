@@ -191,7 +191,6 @@ onMounted(() => {})
 
 .quantity {
   position: relative;
-  font-family: Helvetica, Arial;
   width: 14px;
   height: 14px;
   top: -50px;

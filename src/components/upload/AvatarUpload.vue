@@ -78,16 +78,6 @@ const handleAvatarSuccess: UploadProps['onSuccess'] = (response, uploadFile) => 
   border-color: var(--el-color-primary);
 }
 
-.el-icon.avatar-uploader-icon {
-  font-size: 28px;
-  color: #8c939d;
-  /* width: 65px;
-  height: 65px; */
-  width: 100%;
-  height: 100%;
-  text-align: center;
-}
-
 .el-upload {
   width: 100%;
   height: 100%;

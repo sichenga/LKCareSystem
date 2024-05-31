@@ -94,8 +94,8 @@ const submitForm = async (formEl: FormInstance | undefined) => {
   if (!formEl) return
   const valid = await formEl.validate()
   if (valid) {
-    const tree: any = treeRef.value && treeRef.value.getCheckedKeys()
-    ruleForm.menuIds = tree
+
+    ruleForm.menuIds =treeRef.value && treeRef.value?.getCheckedKeys() as any
     let res: any = await Addroles(ruleForm).catch(() => {})
     console.log('增加岗位', res)
     if (res?.code == 10000) {

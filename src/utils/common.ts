@@ -24,11 +24,11 @@ export const firstUpperCase = (str: string) => {
 }
 
 // 生成路由
-// const getRouter = (data?: any) => {
-//   // console.log(1111, data)
+// const getRouter = (oldName?: any) => {
+//   // console.log(1111, oldName)
 //   const tree: any = []
 //   let menu: any = {}
-//   data.forEach((item: any) => {
+//   oldName.forEach((item: any) => {
 //     if (item.children && item.url) {
 //       // console.log(item.url)
 
@@ -78,7 +78,7 @@ export const firstUpperCase = (str: string) => {
 // }
 // const tree: any = []
 const getRouter = (data?: any, tree: any = [], url: string = '') => {
-  // console.log(1111, data)
+  // console.log(1111, oldName)
   data.forEach((item: any) => {
     if (item.url && item.children) {
       item.children.forEach((child: any) => {

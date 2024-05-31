@@ -80,14 +80,14 @@
 </template>
 <script lang="ts" setup>
 
-import { ref, reactive, onMounted } from 'vue'
+import { onMounted } from 'vue'
 import * as echarts from 'echarts';
 const getEcharts = () => {
   type EChartsOption = echarts.EChartsOption;
 
-  var chartDom = document.getElementById('main')!;
-  var myChart = echarts.init(chartDom);
-  var option: EChartsOption;
+  const chartDom = document.getElementById('main')!
+  const myChart = echarts.init(chartDom)
+  let option: EChartsOption
 
   option = {
     title: {

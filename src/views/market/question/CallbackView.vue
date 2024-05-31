@@ -54,7 +54,7 @@
     <CallbackDlalog v-if="dialogVisible" @close="handlClose" :datas="datas"></CallbackDlalog>
 </template>
 <script lang="ts" setup>
-import { onMounted, reactive, defineAsyncComponent, ref, nextTick } from 'vue'
+import { onMounted, reactive, defineAsyncComponent, ref } from 'vue'
 import { getquestionlist, followupList,followupdelete } from '@/service/market/marketApi'
 import type { followup } from '@/service/market/marketType'
 import { getMessageBox } from '@/utils/utils'
@@ -174,15 +174,6 @@ const returnold = () => {
     }
 }
 
-:deep(.el-timeline-item__dot) {
-    margin: -15px !important;
-}
-
-:deep(.el-timeline-item__wrapper) {
-    top: -20px;
-    left: 30px;
-}
-
 .title {
     margin: 30px;
     display: flex;
@@ -191,10 +182,6 @@ const returnold = () => {
     span {
         color: #409eff;
     }
-}
-
-.el-timeline {
-    margin-top: 20px;
 }
 
 .title-btn {

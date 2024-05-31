@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, onMounted, defineEmits,defineProps } from 'vue'
+import { ref, onMounted, defineEmits,defineProps } from 'vue'
 import {PlayList} from '@/service/care/gooutApi'
 const props = defineProps(['id'])
 const emit = defineEmits(['close'])

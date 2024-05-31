@@ -27,7 +27,7 @@
 
 </template>
 <script lang='ts' setup>
-import { reactive, toRefs, ref, onMounted, defineAsyncComponent } from 'vue'
+import { reactive, onMounted, defineAsyncComponent } from 'vue'
 import WardRoundView from '@/database/WardRoundView.json'
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const MayTimePicker = defineAsyncComponent(() => import('@/components/timepicker/MayTimePicker.vue'))

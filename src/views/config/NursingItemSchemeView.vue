@@ -66,10 +66,11 @@
 <script lang="ts" setup>
 import { ref, onMounted, reactive, defineAsyncComponent } from 'vue'
 import IndustryView from '@/database/IndustryView.json'
-import IndustryDialog from '@/components/dialog/config/IndustryDialog.vue'
+
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 // const ProjectDialog = defineAsyncComponent(() => import('@/components/dialog/ProjectDialog.vue'))
 import { useRouter } from 'vue-router'
+import ProjectDialog from '@/components/dialog/config/ProjectDialog.vue'
 const router = useRouter()
 // do not use same name with ref
 const form = reactive({
@@ -135,7 +136,6 @@ const save = () => {
 .btns {
   width: 200px;
   height: 100px;
-  margin: 0 auto;
-  margin-top: 50px;
+  margin: 50px auto 0;
 }
 </style>

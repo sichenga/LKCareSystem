@@ -34,7 +34,7 @@ const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.
 import { getElderly } from '@/service/old/OldApi'
 import type { ElderlyItem } from '@/service/old/OldType'
 import { DrugsListForPlan } from '@/service/medicalcare/MedicalcareApi'
-import type {} from '@/service/medicalcare/MedicalcareType'
+
 const isdialog = ref(false)
 const isinfo = ref(true)
 const route = useRoute()

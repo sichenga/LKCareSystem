@@ -83,7 +83,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, computed, onMounted, defineAsyncComponent, defineEmits, inject } from 'vue'
+import { ref, reactive, onMounted, defineAsyncComponent, defineEmits, inject } from 'vue'
 import type { FormInstance } from 'element-plus'
 import { useRouter, useRoute } from 'vue-router'
 import { getElderly } from '@/service/old/OldApi'

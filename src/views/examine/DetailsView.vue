@@ -85,8 +85,8 @@
     </el-card>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, onMounted } from 'vue'
-import { Edit, Picture, UploadFilled } from '@element-plus/icons-vue'
+import { ref, reactive } from 'vue'
+import { Picture } from '@element-plus/icons-vue'
 import DetailsDialog from '@/components/dialog/DetailsDialog.vue';
 import RefuseDialog from '@/components/dialog/examine/RefuseDialog.vue';
 const form = reactive({
@@ -138,41 +138,16 @@ const closes = () => {
     margin-top: 100px;
 }
 
-.el-steps {
-    background-color: #fff;
-}
-
-:deep(.el-step__title) {
-    max-width: 100% !important;
-    color: black;
-    font-weight: bold;
-}
-
 .steps {
-    .el-step {
-        flex-basis: 8% !important;
-    }
 
-    padding: 0 !important;
+  padding: 0 !important;
     max-width: 100% !important;
 
-    :deep(.el-step__icon) {
-        width: 40px !important;
-        height: 40px !important;
-    }
 }
 
 .stp {
     margin-top: 30px;
 
-    .el-step {
-        height: 100px !important;
-        flex-basis: initial !important;
-    }
-
-    :deep(.el-step__title) {
-        padding: 0;
-    }
 }
 
 .btn {
@@ -185,9 +160,4 @@ const closes = () => {
     display: flex;
 }
 
-:deep .el-upload--picture-card {
-    width: 100px;
-    height: 100px;
-    margin-top: 20px
-}
 </style>

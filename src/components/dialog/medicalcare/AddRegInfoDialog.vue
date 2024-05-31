@@ -67,15 +67,12 @@
 import {
   ref,
   reactive,
-  inject,
   defineEmits,
   defineAsyncComponent,
   defineProps,
   onMounted
 } from 'vue'
 import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
-import { ElMessage } from 'element-plus'
-import {} from '@/service/medicalcare/MedicalcareApi'
 import type { DrugsAddDrugsParams } from '@/service/medicalcare/MedicalcareType'
 // 日期格式
 const format = 'YYYY-MM-DD'
@@ -139,14 +136,5 @@ onMounted(() => {
   width: 300px;
 }
 .Special_line {
-  :deep(.el-form-item__content) {
-    justify-content: space-between;
-    .el-input {
-      width: 140px;
-    }
-    .el-select {
-      width: 140px;
-    }
-  }
 }
 </style>

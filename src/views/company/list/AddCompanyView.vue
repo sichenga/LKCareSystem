@@ -287,9 +287,6 @@ onMounted(() => {
     left: 100px;
     top: -100px;
 
-    .el-upload-list__item {
-      margin-right: 10px !important;
-    }
   }
 }
 </style>

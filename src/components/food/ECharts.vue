@@ -4,7 +4,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, toRefs, ref, onMounted, defineProps, watch } from 'vue'
+import { ref, onMounted, defineProps, watch } from 'vue'
 import * as echarts from 'echarts'
 const props = defineProps({
   sellPricelist: {

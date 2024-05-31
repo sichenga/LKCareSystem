@@ -1,4 +1,4 @@
-import { get, post, del, put } from '@/utils/request'
+import { get, post, del } from '@/utils/request'
 import type { AddElderlyTaskDto } from './ElderlyTaskType'
 // 获取老人任务列表  /api/elderlyTask/getTask/20
 export const elderlyTaskgetTask = (id: number) => get(`/api/elderlyTask/getTask/${id}`)

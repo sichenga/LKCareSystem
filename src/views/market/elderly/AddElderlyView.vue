@@ -122,18 +122,6 @@ onMounted(() => {
 })
 </script>
 <style lang="less" scoped>
-:deep(.el-tabs__header) {
-  margin: 0 0 0.3px;
-}
-
-:deep(.el-tabs--card > .el-tabs__header .el-tabs__nav) {
-  border: none;
-}
-
-:deep(.el-tabs--card > .el-tabs__header .el-tabs__item) {
-  border-top-right-radius: 18px;
-  background-color: #fff;
-}
 
 .submit {
   width: 100%;

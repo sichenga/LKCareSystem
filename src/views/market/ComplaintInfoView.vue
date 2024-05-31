@@ -49,7 +49,6 @@
 </template>
 
 <script lang='ts' setup>
-import { reactive, toRefs, ref, onMounted } from 'vue'
 
 </script>
 
@@ -86,12 +85,6 @@ import { reactive, toRefs, ref, onMounted } from 'vue'
 
 .complaint-info ul li .r {
    padding-left: 65px;
-}
-
-.complaint-content {
-   font-weight: bold;
-   margin-top: 20px;
-   text-align: center;
 }
 
 .suggest {

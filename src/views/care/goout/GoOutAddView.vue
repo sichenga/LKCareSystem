@@ -35,7 +35,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
-import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
+import type { ComponentSize, FormInstance } from 'element-plus'
 import { ElMessage } from 'element-plus'
 import { useRouter, useRoute } from 'vue-router'
 import { AddGooutList, goOutList, UpdateGoout } from '@/service/care/gooutApi'

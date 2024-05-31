@@ -120,10 +120,5 @@ onMounted(() => {
   width: 300px;
 }
 .reset {
-  .el-form-item__content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
 }
 </style>

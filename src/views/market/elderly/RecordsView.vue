@@ -38,7 +38,7 @@
   </el-card>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, onMounted, defineAsyncComponent } from 'vue'
+import { reactive, onMounted, defineAsyncComponent } from 'vue'
 import { useRoute } from 'vue-router'
 import { getFileItemsList, getElderly } from '@/service/old/OldApi'
 import type { ElderlyItem } from '@/service/old/OldType'

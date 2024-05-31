@@ -44,8 +44,11 @@ declare module 'vue' {
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCard: typeof import('element-plus/es')['ElCard']
     ElCascader: typeof import('element-plus/es')['ElCascader']
+<<<<<<< HEAD
     ElCheckbox: typeof import('element-plus/es')['ElCheckbox']
     ElCheckboxGroup: typeof import('element-plus/es')['ElCheckboxGroup']
+=======
+>>>>>>> 9e1d1f1a9a52161943682fcc8afc5588dc91838f
     ElContainer: typeof import('element-plus/es')['ElContainer']
     ElDatePicker: typeof import('element-plus/es')['ElDatePicker']
     ElDialog: typeof import('element-plus/es')['ElDialog']
@@ -63,7 +66,10 @@ declare module 'vue' {
     ElMenuItemGroup: typeof import('element-plus/es')['ElMenuItemGroup']
     ElOption: typeof import('element-plus/es')['ElOption']
     ElPagination: typeof import('element-plus/es')['ElPagination']
+<<<<<<< HEAD
     ElProgress: typeof import('element-plus/es')['ElProgress']
+=======
+>>>>>>> 9e1d1f1a9a52161943682fcc8afc5588dc91838f
     ElRadio: typeof import('element-plus/es')['ElRadio']
     ElRadioGroup: typeof import('element-plus/es')['ElRadioGroup']
     ElScrollbar: typeof import('element-plus/es')['ElScrollbar']
@@ -110,7 +116,6 @@ declare module 'vue' {
     OrderList: typeof import('./src/components/hospitalized/orderList.vue')['default']
     OrganizationDialog: typeof import('./src/components/dialog/company/organizationDialog.vue')['default']
     OutRecord: typeof import('./src/components/Record/OutRecord.vue')['default']
-    PartiCulars: typeof import('./src/components/dialog/consult/partiCulars.vue')['default']
     ParTivulars: typeof import('./src/components/dialog/consult/ParTivulars.vue')['default']
     PassDialog: typeof import('./src/components/dialog/config/PassDialog.vue')['default']
     PfleGestufeDialog: typeof import('./src/components/dialog/market/PfleGestufeDialog.vue')['default']

@@ -1,4 +1,4 @@
-import { get, post, del, put } from '@/utils/request'
+import { get, post, del } from '@/utils/request'
 
 // 获取老人排班列表 /api/schedule/list/20
 export const getScheduleList = (id: number) => get(`/api/schedule/list/${id}`)

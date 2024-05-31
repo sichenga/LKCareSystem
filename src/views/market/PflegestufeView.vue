@@ -39,7 +39,7 @@
 </template>
 
 <script lang='ts' setup>
-import { reactive, toRefs, ref, onMounted, defineAsyncComponent } from 'vue'
+import { reactive, ref, onMounted, defineAsyncComponent } from 'vue'
 import PflegestufeView from '@/database/PflegestufeView.json'
 const TimePicker = defineAsyncComponent(() => import('@/components/timepicker/MayTimePicker.vue'))
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))

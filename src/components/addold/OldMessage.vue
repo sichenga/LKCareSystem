@@ -107,7 +107,7 @@
   </el-form>
 </template>
 <script lang="ts" setup>
-import { ref, reactive, toRefs, onMounted, defineAsyncComponent, defineExpose, inject } from 'vue'
+import { ref, reactive, onMounted, defineAsyncComponent, defineExpose, inject } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 const UploadPictures = defineAsyncComponent(() => import('@/components/upload/AvatarUpload.vue'))
 const MayTimePicker = defineAsyncComponent(
@@ -226,8 +226,8 @@ const data = reactive({
 // 表单验证
 const submitForm = async () => {
   if (!ruleFormRef.value) return
-  const valid = await ruleFormRef.value.validate().catch(() => {})
-  return valid
+ return  await ruleFormRef.value.validate().catch(() => {})
+
 }
 // 处理数据
 const disposenation = () => {

@@ -34,7 +34,7 @@
 </template>
 
 <script lang='ts' setup>
-import { reactive, toRefs, ref, onMounted, defineAsyncComponent } from 'vue'
+import { reactive, ref, onMounted, defineAsyncComponent } from 'vue'
 import { useRouter } from 'vue-router'
 import AdmissionDialog from "@/components/dialog/financial/AdmissionDialog.vue"
 const router = useRouter();

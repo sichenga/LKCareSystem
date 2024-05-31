@@ -24,14 +24,6 @@
       align-items: center;
     }
 
-    .main .logo .sub-title {
-      margin-left: 0.5em;
-      font-size: 22px;
-      color: #fff;
-      background: linear-gradient(-45deg, #3967FF, #B500FE);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
   </style>
 </head>
 <body>
@@ -423,8 +415,8 @@
       $('.tab-container .content:first').show()
 
       $('#tabs li').click(function (e) {
-        var tabContent = $('.tab-container .content')
-        var index = $(this).index()
+        const tabContent = $('.tab-container .content')
+        const index = $(this).index()
 
         if ($(this).hasClass('active')) {
           return

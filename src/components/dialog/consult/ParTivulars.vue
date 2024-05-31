@@ -59,7 +59,7 @@
   </template>
   <script lang="ts" setup>
   import { ref, reactive, onMounted, defineEmits,defineProps } from 'vue'
-  import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
+  import type { FormInstance } from 'element-plus'
   import {  getquestionlist } from '@/service/market/marketApi'
   import moment from 'moment'
   const mons = moment

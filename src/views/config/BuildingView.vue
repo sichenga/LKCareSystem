@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import FloorDialog from '@/components/dialog/config/FloorDialog.vue'
 import { Plus, Delete, Edit } from '@element-plus/icons-vue'
 import { getMessageBox } from '@/utils/utils'
@@ -105,8 +105,4 @@ onMounted(() => {
   padding-right: 8px;
 }
 
-:deep(.el-tree-node__content) {
-  margin-bottom: 5px;
-  height: 35px;
-}
 </style>
