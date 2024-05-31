@@ -28,7 +28,7 @@
       >新增入院申请</el-button
     >
     <!-- <ToHospitalDialog v-if="isdialog" @close="close"></ToHospitalDialog> -->
-    <OldSelectDialog v-if="isdialog" @close="close" :toPath="'/market/hospitalized/order'"></OldSelectDialog>
+    <OldSelectDialog v-if="isdialog" @close="close" :toPath="'/market/hospital-add'"></OldSelectDialog>
     <MayTable
       :tableData="data.tableData"
       :tableItem="data.tableItem"

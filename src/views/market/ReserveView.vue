@@ -10,11 +10,7 @@
         <el-input v-model="formInline.idCard" placeholder="请输入" clearable />
       </el-form-item>
       <el-form-item label="预定床位" prop="begId">
-        <MayCascader
-          :options="data.beddata"
-          @change="bedselect"
-          :emitid="Number(formInline.begId)"
-        ></MayCascader>
+        <MayCascader :options="data.beddata" @change="bedselect" :emitid="Number(formInline.begId)"></MayCascader>
       </el-form-item>
       <el-form-item label="手机号：" prop="mobile">
         <el-input v-model="formInline.mobile" placeholder="请输入" clearable />
@@ -27,14 +23,9 @@
   </el-card>
   <el-card style="max-width: 100%; margin-top: 20px">
     <el-button type="primary" style="margin-bottom: 20px" @click="isdialog = true">新增</el-button>
-      <OldSelectDialog @close="close" v-if="isdialog" :toPath="'/market/reserve/add'"></OldSelectDialog>
+    <OldSelectDialog @close="close" v-if="isdialog" :toPath="'/market/reserve-add'"></OldSelectDialog>
     <!-- 表格 -->
-    <MayTable
-      :tableData="data.tableData"
-      :tableItem="data.tableItem"
-      :identifier="identifier"
-      :autoWidth="'530px'"
-    >
+    <MayTable :tableData="data.tableData" :tableItem="data.tableItem" :identifier="identifier" :autoWidth="'530px'">
       <template #operate="{ data }">
         <el-button type="primary" text @click="edit(data.id)">编辑</el-button>
         <el-button type="primary" text>提交预定</el-button>
@@ -44,13 +35,7 @@
         <el-button type="primary" text>转入院</el-button>
       </template>
     </MayTable>
-    <Pagination
-      :total="data.token"
-      @page="page"
-      @psize="psize"
-      :page="formInline.page"
-      :pszie="formInline.pageSize"
-    >
+    <Pagination :total="data.token" @page="page" @psize="psize" :page="formInline.page" :pszie="formInline.pageSize">
     </Pagination>
   </el-card>
 </template>
@@ -167,7 +152,7 @@ const close = (val: boolean) => {
 // 编辑
 const edit = (id: any) => {
   console.log(id)
-  router.push(`/market/reserve/edit/${id}`)
+  router.push(`/market/reserve-edit/${id}`)
 }
 
 // 删除
@@ -196,7 +181,7 @@ const getList = async () => {
 
 // 详情
 const details = (id: number) => {
-  router.push(`/market/reserve/details/${id}`)
+  router.push(`/market/reserve-details/${id}`)
 }
 // 查询
 const search = () => {

@@ -146,7 +146,7 @@ const Holdepage = (val: any) => {
 }
 // 添加
 const add = (() => {
-  router.push("/personel/staff/add")
+  router.push("/staff/add")
 })
 // 编辑
 const handleEdit = ((data: any) => {

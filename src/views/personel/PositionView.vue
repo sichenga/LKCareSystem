@@ -66,13 +66,13 @@ const getlist = async () => {
 // 新增
 const add = () => {
   console.log('新增')
-  router.push('/personel/position/add')
+  router.push('/personel/add')
 }
 // 编辑
 const handleEdit = (id: number) => {
   console.log('编辑', id)
   router.push({
-    path: `/personel/position/edit/${id}`
+    path: `/personel/edit/${id}`
   })
 }
 // 删除

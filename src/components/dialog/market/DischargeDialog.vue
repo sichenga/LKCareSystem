@@ -6,7 +6,7 @@
              class="demo-ruleForm" :size="formSize" status-icon>
       <el-form-item label="老人：">
 
-        <div v-if="oldName" @click="select">{{ oldName }}1111</div>
+        <div v-if="oldName" @click="select">{{ oldName }}</div>
         <div v-else>
           <el-button type="primary" @click="select" style="margin-right: 30px;">请选择</el-button>
         </div>
@@ -119,7 +119,7 @@ const listold = async (id: any) => {
   const res: any = await getElderly(id)
   console.log('单条老人', res)
   if (res.code == 10000) {
-    oldName.value = res.data
+    oldName.value = res.data.name
   }
 }
 

@@ -144,12 +144,12 @@ const del = async (id: number) => {
 }
 // 新增老人
 const add = () => {
-  router.push('/market/elderly/add')
+  router.push('/market/elderly-add')
 }
 // 编辑
 const edit = (id: number) => {
   router.push({
-    path: `/market/elderly/edit/${id}`
+    path: `/market/elderly-edit/${id}`
   })
 }
 // 分页

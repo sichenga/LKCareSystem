@@ -94,7 +94,7 @@ const search = () => {
 }
 // 详情
 const details = (id: any) => {
-  router.push(`/market/customer/details/${id}`)
+  router.push(`/market/customer-details/${id}`)
 }
 const isdialog = ref(false)
 const data = reactive({
@@ -156,11 +156,11 @@ const close = () => {
 }
 // 新增
 const add = () => {
-  router.push('/market/AddCustomer')
+  router.push('/market/customer-add')
 }
 // 编辑
 const handleedit = (id: any) => {
-  router.push(`/market/customer/edit/${id}`)
+  router.push(`/market/customer-edit/${id}`)
 }
 // 删除
 const handleDelete = async (id: any) => {

@@ -186,7 +186,7 @@ const del = async (id: number) => {
 //回访记录
 const record = (id: number) => {
   router.push({
-    path: '/market/question/callback',
+    path: '/market/callback',
     query: {
       id: id
     }
