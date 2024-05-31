@@ -2,63 +2,106 @@
   <!-- 账号设置 -->
   <el-card style="max-width: 100%">
     <div class="headbox">
-      <el-form-item label="头像">
+      <el-form-item label="头像" class="title">
         <div class="header">
-          <img src="../../assets/image/1000.jpg" alt="" />
+          <div>
+            <img :src="Image + img" alt="" />
+          </div>
+          <div class="image-title">
+            <UploadImg
+              :texts="true"
+              @upload="Imgupload"
+              :istip="false"
+              :text="'更换头像'"
+            />
+          </div>
         </div>
-        <div class="replece">更换头像</div>
       </el-form-item>
     </div>
-    <el-form ref="ruleFormRef" :model="ruleForm" label-width="auto" class="demo-ruleForm" :size="formSize"
-      style="width: 300px" status-icon>
+    <el-form
+      ref="ruleFormRef"
+      :model="ruleForm"
+      label-width="auto"
+      class="demo-ruleForm"
+      style="width: 300px"
+      status-icon
+    >
       <el-form-item label="姓名">
         <el-input class="custom-input" v-model="ruleForm.name" />
       </el-form-item>
       <el-form-item label="手机号">
-        <el-input class="custom-inputtel" v-model="ruleForm.tel" />
+        <el-input class="custom-input" v-model="ruleForm.mobile" />
       </el-form-item>
       <el-form-item label="账号">
-        <el-input class="custom-input" v-model="ruleForm.account" />
+        <el-input class="custom-input" v-model="ruleForm.username" />
       </el-form-item>
       <el-form-item label="密码">
-        <el-input class="custom-pass" v-model="ruleForm.pass" />
-        <span style="color: #75a5ea; font-size: 12px; padding-left: 20px" @click="isdialog = true">修改密码</span>
-        <PassDialog @close="close" v-if="isdialog"></PassDialog>
+        <el-input class="custom-pass" v-model="ruleForm.pwd" />
+        <span
+          style="color: #75a5ea; font-size: 12px; padding-left: 20px"
+          @click="isdialog = true"
+          >修改密码</span
+        >
+        <PassDialog @close="close" v-if="isdialog" />
       </el-form-item>
       <el-form-item label="所属角色">
-        <el-input class="custom-inputrole" v-model="ruleForm.role" />
+        <el-input class="custom-input" v-model="ruleForm.roleIds" />
       </el-form-item>
     </el-form>
   </el-card>
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from 'vue'
-import type { ComponentSize, FormInstance } from 'element-plus'
-import PassDialog from '@/components/dialog/config/PassDialog.vue'
-interface RuleForm {
-  name: string
-  tel: string
-  account: string
-  pass: string
-  role: string
-}
+import { reactive, ref,onMounted } from "vue";
+import type { ComponentSize, FormInstance } from "element-plus";
+import PassDialog from "@/components/dialog/config/PassDialog.vue";
+import type { RuleForm } from "@/service/system/SystemType";
+import { getUserInfo, updatePhoto } from "@/service/system/SystemApi";
+import UploadImg from "@/components/upload/UploadPictures.vue";
+import { ElMessage } from "element-plus";
+const Image = import.meta.env.VITE_BASE_URL + "/";
 
-const formSize = ref<ComponentSize>('default')
-const ruleFormRef = ref<FormInstance>()
+const ruleFormRef = ref<FormInstance>();
 const ruleForm = reactive<RuleForm>({
-  name: '张三',
-  tel: '17768089870',
-  account: 'zhangsan',
-  pass: '123456',
-  role: '机构管理员'
-})
+  name: "",
+  mobile: "",
+  username: "",
+  pwd: "",
+  roleIds: "",
+});
 
 //弹出框
-const isdialog = ref(false)
-const close = () => {
-  isdialog.value = false
-}
+const isdialog = ref(false);
+const close = (val: any) => {
+  isdialog.value = val;
+  if (val == true) {
+    isdialog.value = false;
+    getList();
+  }
+};
+const img = ref("");
+const getList = async () => {
+  let res: any = await getUserInfo().catch(() => {});
+  console.log(res);
+  if (res?.code == 10000) {
+    img.value = res.data.photo;
+    Object.assign(ruleForm, res.data);
+  }
+};
+//更改头像
+const Imgupload = async (val: any) => {
+  if (val) {
+    let res: any = await updatePhoto(val.url);
+    if (res?.code == 10000) {
+      getList();
+      ElMessage.success("更改头像成功");
+    }
+  }
+};
+
+onMounted(async () => {
+  await getList(); //获取登录用户信息
+});
 </script>
 
 <style lang="less" scoped>
@@ -67,10 +110,6 @@ const close = () => {
   height: 50px;
   display: flex;
   margin-top: 30px;
-  // .head {
-  //     line-height: 50px;
-  //     font-size: 12px;
-  // }
 
   .header {
     width: 50px;
@@ -98,26 +137,6 @@ const close = () => {
   margin-bottom: 20px !important;
 }
 
-:deep .custom-input .el-input__inner {
-  color: #c3c3c3;
-}
-
-:deep .custom-inputtel .el-input__inner {
-  color: #c3c3c3;
-}
-
-:deep .custom-inputrole .el-input__inner {
-  color: #c3c3c3;
-}
-
-:deep .asterisk-left .el-form-item__label-wrap {
-  margin-left: 0 !important;
-}
-
-:deep .custom-pass .el-input__inner {
-  color: #c3c3c3;
-}
-
 .custom-inputtel {
   margin-left: 10px;
 }
@@ -131,7 +150,12 @@ const close = () => {
   margin-left: 25px;
 }
 
-.is-error {
-  margin-bottom: 20px;
+.title {
+  margin-left: 30px;
+}
+
+.image-title {
+  margin-top: -55px;
+  margin-left: 60px;
 }
 </style>

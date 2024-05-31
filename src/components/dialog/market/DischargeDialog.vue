@@ -34,6 +34,7 @@ import { ElMessage } from 'element-plus'
 import type { dischargeAddParams } from '@/service/market/DischargeType'
 import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
 import OldDischarge from "./OldDischarge.vue"
+
 const formSize = ref<ComponentSize>('default')
 const props = defineProps(['id'])
 const ruleFormRef = ref<FormInstance>()

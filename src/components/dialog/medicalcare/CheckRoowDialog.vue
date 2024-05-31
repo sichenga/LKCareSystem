@@ -7,7 +7,7 @@
           {{ OldName }}
         </div>
         <el-button v-else type="primary" @click="select">选择老人</el-button>
-        <OldSelectDialog v-if="idOld" @id="oldid"></OldSelectDialog>
+        <OldSelectDialog v-if="idOld" @id="oldid" @close="closes"></OldSelectDialog>
       </el-form-item>
       <el-form-item label="精神：" prop="spirit">
         <el-input v-model="ruleForm.spirit" placeholder="请输入精神" />
@@ -205,6 +205,9 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 const idOld = ref(false)
 const select = () => {
   idOld.value = true
+}
+const closes=(val:any)=>{
+  idOld.value = val
 }
 const OldName = ref('')
 const oldid = async(id: number) => {
