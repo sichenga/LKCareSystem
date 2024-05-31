@@ -8,8 +8,12 @@
       <el-form-item label="身份证号：" prop="idCard">
         <el-input v-model="formInline.idCard" placeholder="请输入身份证号" clearable />
       </el-form-item>
-      <el-form-item label="创建日期:"  prop="beginDate">
-        <MayDateTimePicker @change="timeSelect" :statetime="formInline.beginDate" :endtime="formInline.endDate">
+      <el-form-item label="创建日期:" prop="beginDate">
+        <MayDateTimePicker
+          @change="timeSelect"
+          :statetime="formInline.beginDate"
+          :endtime="formInline.endDate"
+        >
         </MayDateTimePicker>
       </el-form-item>
       <el-form-item label="状态:" style="width: 240px" prop="state">
@@ -152,7 +156,7 @@ const close = () => {
 }
 // 新增
 const add = () => {
-  router.push('/market/customer/add')
+  router.push('/market/AddCustomer')
 }
 // 编辑
 const handleedit = (id: any) => {

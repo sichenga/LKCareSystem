@@ -95,16 +95,16 @@ const del = async () => {
 }
 // 创建采购申请
 const sond = () => {
-  reteor.push('/logistics/purchase/add')
+  reteor.push('/logistics/add')
 }
 //收货验货
 const delivery = (id: number) => {
-  reteor.push('/logistics/purchase/details/' + id)
+  reteor.push('/logistics/details/' + id)
 }
 // 查看详情
 const getifno = (id: any) => {
   reteor.push({
-    path: '/logistics/purchase/check',
+    path: '/logistics/check',
     query: {
       id: id
     }

@@ -7,7 +7,12 @@
       </el-form-item>
       <el-form-item label="审批状态：" prop="state">
         <el-select v-model="params.state" placeholder="请选择" size="large" style="width: 240px">
-          <el-option v-for="item in statelist" :key="item.value" :label="item.label" :value="item.value" />
+          <el-option
+            v-for="item in statelist"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
         </el-select>
       </el-form-item>
       <el-form-item label="创建时间：" prop="beginDate">
@@ -26,7 +31,7 @@
   <el-card style="margin-top: 15px">
     <div style="margin: 10px 0">
       <el-button type="primary" @click="add">新增外出</el-button>
-      <OldSelectDialog v-if="dialogVisible" @close="handClose" :toPath="'/care/goout/add'"></OldSelectDialog>
+      <OldSelectDialog v-if="dialogVisible" @close="handClose" :toPath="topath"></OldSelectDialog>
       <AffDialog @close="close" v-if="isdialog"></AffDialog>
     </div>
     <!-- 表格 -->
@@ -37,7 +42,13 @@
         <el-button type="primary" text @click="btn(data.id)">查看详情</el-button>
       </template>
     </MayTable>
-    <Pagination @page="handlPage" @pszie="handlPsize" :page="params.page" :psize="params.pageSize" :total="total">
+    <Pagination
+      @page="handlPage"
+      @pszie="handlPsize"
+      :page="params.page"
+      :psize="params.pageSize"
+      :total="total"
+    >
     </Pagination>
   </el-card>
 </template>
@@ -53,6 +64,7 @@ import OldSelectDialog from '@/components/dialog/OldSelect/OldSelectDialog.vue'
 const router = useRouter()
 const MayTable = defineAsyncComponent(() => import('@/components/table/MayTable.vue'))
 const Pagination = defineAsyncComponent(() => import('@/components/pagination/MayPagination.vue'))
+const topath = ref('')
 import MayDateTimePicker from '@/components/timepicker/MayDateTimePicker.vue'
 const Refgoout = ref()
 const identifier = 'GoOut'
@@ -88,18 +100,22 @@ const data = reactive({
       prop: 'state',
       label: '审批状态'
     }
-  ],
+  ]
 })
 //审批状态
-const statelist = [{ value: 0, label: '待审批' }, { value: 1, label: '审批通过' }, { value: 2, label: '审批拒绝' },] as any
+const statelist = [
+  { value: 0, label: '待审批' },
+  { value: 1, label: '审批通过' },
+  { value: 2, label: '审批拒绝' }
+] as any
 const params = reactive<Goout>({
   page: 1,
   pageSize: 5,
-  name: '',//老人姓名
-  accountId: null,//登记人iD
+  name: '', //老人姓名
+  accountId: null, //登记人iD
   state: null, //状态
-  beginDate: '',//开始时间yyyy-MM-dd
-  endDate: '',//结束时间yyyy-MM-dd
+  beginDate: '', //开始时间yyyy-MM-dd
+  endDate: '' //结束时间yyyy-MM-dd
 })
 // 重置
 const reset = () => {
@@ -126,21 +142,18 @@ const close = () => {
 
 // 新增外出
 const dialogVisible = ref(false)
-const handClose = (val:any)=>{
-  dialogVisible.value=val
-
+const handClose = (val: any) => {
+  dialogVisible.value = val
+  topath.value = '/care/add'
 }
 const add = () => {
   // router.push('/care/goout/add')
-  dialogVisible.value=true
+  dialogVisible.value = true
 }
 //编辑外出
 const compile = (id: number) => {
   router.push({
-    path: '/care/goout/add',
-    query: {
-      id: id
-    }
+    path: `/care/edit/${id}`
   })
 }
 // 详情
@@ -175,7 +188,6 @@ const del = async (id: number) => {
       getlistData() //外出登记列表
       ElMessage.success('删除成功')
     }
-
   } else {
     ElMessage.info('取消删除')
   }
@@ -187,7 +199,6 @@ const sond = () => {
 }
 
 onMounted(() => {
-
   getlistData() //外出登记列表
 })
 </script>

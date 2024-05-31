@@ -35,6 +35,7 @@ router.beforeEach((to) => {
       router.addRoute(rou)
       return to.fullPath
     }
+    console.log(router.getRoutes())
 
     // return true
   } else {

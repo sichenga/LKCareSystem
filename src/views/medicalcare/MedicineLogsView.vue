@@ -6,7 +6,11 @@
         <el-input v-model="formInline.name" placeholder="请输入" clearable />
       </el-form-item>
       <el-form-item label="登记时间：">
-        <MayDateTimePicker @change="timeSelect" :statetime="formInline.beginDate" :endtime="formInline.endDate">
+        <MayDateTimePicker
+          @change="timeSelect"
+          :statetime="formInline.beginDate"
+          :endtime="formInline.endDate"
+        >
         </MayDateTimePicker>
       </el-form-item>
       <el-form-item>
@@ -18,8 +22,11 @@
   <el-card style="margin-top: 15px">
     <div style="margin: 15px 0">
       <el-button type="primary" @click="registerinfo">用药登记</el-button>
-      <OldSelectDialog v-if="isdialog" @close="close" :toPath="'/medicalcare/medicinelogs/add'"></OldSelectDialog>
-
+      <OldSelectDialog
+        v-if="isdialog"
+        @close="close"
+        :toPath="'/medicalcare/add'"
+      ></OldSelectDialog>
     </div>
     <!-- 表格 -->
     <MayTable :tableData="data.tableData" :tableItem="data.tableItem">
@@ -28,8 +35,13 @@
         <el-button type="primary" text @click="project(data.elderlyId)">用药计划</el-button>
       </template>
     </MayTable>
-    <Pagination :total="total" :page="formInline.page" :pageSize="formInline.pageSize" @page="getpage"
-      @psize="getpsize">
+    <Pagination
+      :total="total"
+      :page="formInline.page"
+      :pageSize="formInline.pageSize"
+      @page="getpage"
+      @psize="getpsize"
+    >
     </Pagination>
   </el-card>
 </template>
@@ -84,7 +96,6 @@ const data = reactive({
 
 // 重置
 const reset = () => {
-
   Refmedicinelogs.value?.resetFields()
   formInline.beginDate = ''
   formInline.endDate = ''
@@ -110,20 +121,20 @@ const registerinfo = (id: number) => {
   isdialog.value = true
 }
 // 查询
-const sond=()=>{
+const sond = () => {
   formInline.page = 1
   getlist()
 }
 // 查看详情
 const details = (id: number) => {
   router.push({
-    path: `/medicalcare/medicinelogs/details/${id}`
+    path: `/medicalcare/details/${id}`
   })
 }
 // 用药计划
 const project = (id: number) => {
   router.push({
-    path: '/medicalcare/medicineplan/planset',
+    path: '/medicalcare/planset',
     query: {
       id
     }
