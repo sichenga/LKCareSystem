@@ -36,6 +36,9 @@ export function TreeData<T>(data: Array<T>, pid: number = 0) {
 
 //将base64转换为file文件
 export const dataURLtoFile = (dataurl: any, filename: any) => {
+  console.log(dataurl);
+  console.log(filename);
+  
   const arr = dataurl.split(',')
   const mime = arr[0].match(/:(.*?);/)[1],
     bstr = atob(arr[1])

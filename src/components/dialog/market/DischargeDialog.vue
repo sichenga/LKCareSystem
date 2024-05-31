@@ -37,9 +37,7 @@ import { dischargeAdd, dischargeGet, dischargeUpdate } from '@/service/market/Di
 import { ElMessage } from 'element-plus'
 import type { dischargeAddParams } from '@/service/market/DischargeType'
 import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
-
 import OldSelectDialog from '@/components/dialog/OldSelect/OldSelectDialog.vue'
-
 const formSize = ref<ComponentSize>('default')
 const props = defineProps(['id'])
 const ruleFormRef = ref<FormInstance>()
